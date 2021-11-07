@@ -2,7 +2,7 @@
 ### Names
 
 ## Team Roles and Responsibilities
-
+ 
  * Team Member #1
 
  * Team Member #2

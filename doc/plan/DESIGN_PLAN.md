@@ -216,3 +216,39 @@ the ones that the interface requires them to implement.
 - That means that beyond just implementing the needed classes for each category, we need to figure
   out a way with Data to correctly instantiate each class depending on what the parsed data is. 
 
+
+### Data API Description
+
+### Overview 
+Classes that read configuration files, assets, and preferences to error check and assemble the
+correct combination of engine classes.
+
+### Classes:
+EngineAssembler - responsible for instantiating the correct combination of engine classes
+public void startGame(File file)
+This will call jsonParser’s add consumer methods and then its uploadFile method, which will then update all of the consumers so that EngineAssembler has all of the required information to set up the Game model
+jsonParser - responsible for parsing json game files (for all game types) into a usable format to set up a game
+public void addPlayerConsumer(Consumer<String> consumer)
+public void addNumLivesConsumer(Consumer<Integer> consumer)
+public void addDifficultyLevelConsumer(Consumer<Integer> consumer)
+public void addWallMapConsumer(Consumer<List<List<String>>> consumer)
+public void addOriginalFileConsumer(Consumer<File> file)
+public void uploadFile(File file)
+jsonGenerator - responsible for saving the states of an existing (paused) game as a json file that can be used to start a new game with those states
+Public void saveGame(Game game)
+scoreTracker - keeps track of scores, lives, and other stats and offers access to these stats by saving them to json file
+public void eatableObjectEaten(EatableObject eatableObject)
+public void playerDied()
+playerController - listens for user keystrokes and controls player’s movements/actions accordingly
+public void movePlayer() 
+
+### Considerations 
+Which states users are allowed to change (if files are inputted with changes to these states then this will lead to exceptions)
+States that users cannot change:
+Number of rows and columns in a map
+….
+Indicators of certain game types (such as whether player is Pac Man or ghost) 
+
+###Example
+Parse in example3.json, set up Vanilla Pac Man game according to configuration. Play game. Save 
+final game score and states as json files.

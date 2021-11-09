@@ -13,8 +13,8 @@ TEST: implement the team's planned first release features, focusing on a simple,
 
 * GOAL FEATURES: Basic pacman with functioning score counter, and maze with dots, a single ghost, win and loss
   conditions.
-* Evan
-* Dania
+* Evan: keyTracker module - functioning user control of Pac Man, Instatiator module
+* Dania: IO module- functioning parser 
 * Kat: Make button panel and event handlers for all buttons
 * Dane: Make the Board, with Pac Man, walls, dots, and ghosts
 * Asher
@@ -26,8 +26,8 @@ TEST: implement the team's planned first release features, focusing on a simple,
 BASIC: implement the team's planned second release features, implementing most of the basic features
 
 * GOAL FEATURES: Features from TEST + all 4 ghosts, user preferences, save and load game, multiple games at once.
-* Evan
-* Dania
+* Evan: gameTracker module - ability to customize game settings
+* Dania: IO module- generator (save functionality)
 * Kat: Make languages and view themes/modes
 * Dane: Add dots of different values, fruit, and ghosts changing from non-consumable to consumable.
   Make user control Ghosts instead of Pac Man and add view items for Super Pac Man.
@@ -41,8 +41,8 @@ COMPLETE: implement the team's complete functionality, focusing on the challenge
 
 * GOAL FEATURES: Features from BASIC + settings for ARTIFICIAL PLAYERS (ghost algorithm/hardness) + start GAME DATA
   PRODUCER AND VIEWER (game stats)
-* Evan
-* Dania
+* Evan: process game scores into stats
+* Dania: statSaver module - save game scores
 * Kat
 * Dane: Create Popup for statistics tracking for different methods.
 * Asher
@@ -56,8 +56,8 @@ design's flexibility
 
 * GOAL FEATURES: Debug, finalize, previous code + create additional example data files for mods, Ghost player mode,
   and Super Pacman mode.
-* Evan
-* Dania
+* Evan: build in exceptions to catch errors for possible edge cases, faulty user input files 
+* Dania: add example files that highlight design's flexibility; more edge cases
 * Kat
 * Dane: Finish debugging and add pop ups for errors in data files
 * Asher

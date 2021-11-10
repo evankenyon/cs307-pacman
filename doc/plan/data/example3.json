@@ -1,0 +1,11 @@
+{
+  "Title": "Vanilla Pac Man",
+  "Player": "Pac Man",
+  "RequiredPellets": ["Dot"],
+  "OptionalPellets": [],
+  "PowerUps": [],
+  "NumberOfLives": 3,
+  "OpponentTypes": ["Clyde", "Inky", "Pinky"],
+  "Difficulty-Level": 1,
+  "WallMap": ["Wall", "Wall", "Wall", "Wall", "Wall"]
+}

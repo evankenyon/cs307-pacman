@@ -1,5 +1,31 @@
 package ooga.model.agents.consumables;
 
-public class pellet {
+import ooga.model.Consumable;
 
+public class pellet implements Consumable {
+
+  @Override
+  public void setCoordinates() {
+
+  }
+
+  @Override
+  public void getCoordinates() {
+
+  }
+
+  @Override
+  public void consume() {
+
+  }
+
+  @Override
+  public void agentReact() {
+
+  }
+
+  @Override
+  public void applyEffects() {
+
+  }
 }

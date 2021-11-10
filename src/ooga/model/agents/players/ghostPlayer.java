@@ -1,5 +1,21 @@
 package ooga.model.agents.players;
 
-public class ghostPlayer {
+import ooga.model.Controllable;
 
+public class ghostPlayer implements Controllable {
+
+  @Override
+  public void setCoordinates() {
+
+  }
+
+  @Override
+  public void getCoordinates() {
+
+  }
+
+  @Override
+  public void setDirection() {
+
+  }
 }

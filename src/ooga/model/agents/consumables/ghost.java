@@ -2,7 +2,7 @@ package ooga.model.agents.consumables;
 
 import ooga.model.Consumable;
 
-public class fruit implements Consumable {
+public class ghost implements Consumable {
 
   @Override
   public void setCoordinates() {

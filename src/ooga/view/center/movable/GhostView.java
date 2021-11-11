@@ -18,7 +18,17 @@ public class GhostView extends PlayerView {
   }
 
   @Override
-  protected void move(int x, int y) {
+  protected void moveX(int x) {
+
+  }
+
+  @Override
+  protected void moveY(int y) {
+
+  }
+
+  @Override
+  protected void updateState(int state) {
 
   }
 

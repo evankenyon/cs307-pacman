@@ -13,7 +13,7 @@
 3. Super Pac Man
     1. Pacman eats keys, keys open doors with fruits behind them.
     2. There are no regular pellets.
-    3. "Super” pellet which makes pacman invincible, he can eat doors, he’s bigger and faster (for
+    3. “Super” pellet which makes pacman invincible, he can eat doors, he’s bigger and faster (for
        some predefined amount of time)
     4. Everything else is the same as Vanilla Pacman
 

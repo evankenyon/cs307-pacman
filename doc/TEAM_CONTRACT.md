@@ -50,7 +50,7 @@ When handling a disagreement, we should get input from all involved parties. The
 * Focus on implementing your own tasks then look for ways to help/support others
 
 ### Commitments
-* What does it mean to work to the "best of your ability”
+* What does it mean to work to the “best of your ability”
 * Constantly work to improve and grow as a coder
 * how to set internal deadlines
 * Set internal deadlines at weekly meetings that relate to class deadlines. Individuals will be expected to make personal deadlines as well.

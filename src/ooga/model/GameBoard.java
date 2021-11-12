@@ -31,7 +31,7 @@ public class GameBoard {
         agentType = initialStates.get(row).get(col);
         if (agentType.equals("player")) tempRow.add(myPlayer);
         else {
-          Agent agent = null;//use reflection to instantiate the right agent types (wall, ghost, pacman...) This means initialState strings have to equal class names.
+          Agent agent = //use reflection to instantiate the right agent types (wall, ghost, pacman...) This means initialState strings have to equal class names.
           tempRow.add(agent);
         }
       }

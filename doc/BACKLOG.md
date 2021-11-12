@@ -21,7 +21,7 @@
    1. Player presses a key corresponding to a directional movement 
    2. Corresponding direction of movement is a power cell 
    3. Model and view update pacmans position to that cell, power dot is removed from that cell 
-   4. Ghost agents change to "can be eaten mode”, view is updated correspondingly 
+   4. Ghost agents change to “can be eaten mode”, view is updated correspondingly 
 7. Player moves pacman successfully to a fruit cell 
    1. Player presses a key corresponding to a directional movement 
    2. Corresponding direction of movement is a power cell 
@@ -35,13 +35,13 @@
    1. Player presses a key corresponding to a directional movement 
    2. Corresponding direction of movement is a wall 
    3. Model and view update pacmans orientation to face the wall, pacman is not moved 
-10. Player moves pacman successfully to a "consumable” ghost 
+10. Player moves pacman successfully to a “consumable” ghost 
     1. Player presses a key corresponding to a directional movement 
-    2. Corresponding direction of movement is a "consumable” ghost 
+    2. Corresponding direction of movement is a “consumable” ghost 
     3. Model and view update pacmans position to that cell, ghost is set to home 
-11. Player moves successfully to an "non consumable” ghost and loses a life 
+11. Player moves successfully to an “non consumable” ghost and loses a life 
     1. Player presses a key corresponding to a directional movement 
-    2. Corresponding direction of movement is a "non consumable” ghost 
+    2. Corresponding direction of movement is a “non consumable” ghost 
     3. Model updates to reflect a lost life, resets pacman/ghost positions, reflected on the front end 
     4. Some visual signal that the player has died, like blinking or turning into a skeleton 
     5. The player’s lifecount to decrement and the lifecount display to decrement 
@@ -57,10 +57,10 @@
 14. Player increases difficulty 
     1. After player wins, they may select to repeat the same difficulty, which makes a new game (with new or same layout) OR 
     2. Player increases difficulty, which creates a larger board with more walls/dead ends to make it harder to win 
-15. Ghost moves in "easy” mode 
+15. Ghost moves in “easy” mode 
     1. Ghost initially chooses a random direction and continues moving in the same direction until it kills Pac Man, hits a wall, or hits another ghost. 
     2. Then it chooses a random direction (usually backwards) to start traveling and continues until another obstacle reached 
-16. Ghost moves in "hard” mode 
+16. Ghost moves in “hard” mode 
     1. Ghosts become intelligent and constantly move towards Pac Man instead of moving randomly 
     2. Ghosts no longer bounce off each other and can all move along same optimized path towards Pac Man 
 17. Load game 
@@ -86,7 +86,7 @@
     1. After the game is finished and the score is final, the program checks the number of ghosts eaten and compares it to the max number of ghosts eaten. If number is lower or the same, nothing. If higher:
     2. Stats window is updated to show new max ghosts eaten if user clicks on the stats button 
 24. Instructions 
-    1. If the player presses a button that says "About” or something, it pops up with instructions for how to play the game type they are playing. 
+    1. If the player presses a button that says “About” or something, it pops up with instructions for how to play the game type they are playing. 
     2. Game should pause if running. 
 25. Language switch 
     1. If the player selects a different language, the view should update to display all text in that language 
@@ -115,12 +115,12 @@ No modifications from the general cases are required at this time.
     2. Computer controls all Pac Men on screen
 
 ## Super Pac Man
-33. The player "eats” a power up. 
+33. The player “eats” a power up. 
     1. Pacman becomes faster. 
     2. Pacman cannot be hurt by ghosts for a limited period of time. 
 34. Pacman eats a key 
     1. Nearby door/s disappear (i.e. if two doors block a pathway to fruit/s, then both doors disappear). 
-35. Pacman eats a "super pellet” 
+35. Pacman eats a “super pellet” 
     1. Pacman becomes invincible to ghosts. 
     2. Pacman becomes larger. 
     3. Pacman can eat doors. 

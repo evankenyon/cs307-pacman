@@ -1,5 +1,4 @@
 {
-  "Title":"Pacman with Super Power Up",
   "Player":"Pacman",
   "RequiredPellets":["Dot", "Super", "Energizer"],
   "OptionalPellets":["Fruit"],
@@ -9,7 +8,7 @@
   "Difficulty-Level":2,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall"],
-    ["Wall","Pacman","Inky","Pinky", "Clyde” “Wall"],
+    ["Wall","Pacman","Inky","Pinky", "Clyde", "Wall"],
     ["Wall","Dot","Dot","Energizer","Super","Wall"],
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
   ]

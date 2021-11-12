@@ -1,11 +1,11 @@
 {
-“Title”: “Reverse Pac Man: Ghost Player”,
-“Player”: “PlayerGhost”,
-“RequiredPellets” : [“Dot”],
-“OptionalPellets” : [],
-“PowerUps”: [“Energizer”],
-“NumberOfLives”: 3,
-“OpponentTypes”: [“PacMan”],
-“Difficulty-Level”: 2,
-“WallMap”: [[“Wall”, “Wall”, “Wall”, “Wall”, “Wall”, “Wall”], [“Wall”, “Pacman”, “Inky”, “Pinky”, “Clyde” “Wall”], [“Wall”, “Dot”, “Dot”, “Energizer”, “Super”, “Wall”], [“Wall”, “Wall”, “Wall”, “Wall”, “Wall”, “Wall” ]]
+"Title”: "Reverse Pac Man: Ghost Player”,
+"Player”: "PlayerGhost”,
+"RequiredPellets” : ["Dot”],
+"OptionalPellets” : [],
+"PowerUps”: ["Energizer”],
+"NumberOfLives”: 3,
+"OpponentTypes”: ["PacMan”],
+"Difficulty-Level”: 2,
+"WallMap”: [["Wall”, "Wall”, "Wall”, "Wall”, "Wall”, "Wall”], ["Wall”, "Pacman”, "Inky”, "Pinky”, "Clyde” "Wall”], ["Wall”, "Dot”, "Dot”, "Energizer”, "Super”, "Wall”], ["Wall”, "Wall”, "Wall”, "Wall”, "Wall”, "Wall” ]]
 }

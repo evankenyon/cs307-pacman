@@ -11,7 +11,7 @@
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall"],
     ["Wall","Pacman","Inky","Pinky", "Clyde", "Wall"],
-    ["Wall","Dot","Dot","Energizer","Super","Wall"],
+    ["Wall","Wall","Wall","Energizer","Super","Wall"],
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
   ]
 }

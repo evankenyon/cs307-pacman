@@ -31,4 +31,22 @@ class JsonParserTest {
   void uploadBadFile() {
     Assertions.assertThrows(IOException.class, () -> jsonParser.uploadFile(new File("./doc/plan/data/example1.json")));
   }
+
+  @Test
+  void uploadFileTwoPlayers() {
+    Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.uploadFile(
+        new File("tests/twoPlayers.json")));
+  }
+
+  @Test
+  void uploadFileDuplicateGhosts() {
+    Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.uploadFile(
+        new File("tests/duplicateGhosts.json")));
+  }
+
+  @Test
+  void uploadFileMissingRequiredPellet() {
+    Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.uploadFile(
+        new File("tests/missingRequiredPellet.json")));
+  }
 }

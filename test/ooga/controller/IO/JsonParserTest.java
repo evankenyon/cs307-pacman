@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class JsonParserTest {
+
   private JsonParser jsonParser;
 
   @BeforeEach
@@ -29,7 +30,8 @@ class JsonParserTest {
 
   @Test
   void uploadBadFile() {
-    Assertions.assertThrows(IOException.class, () -> jsonParser.uploadFile(new File("./doc/plan/data/example1.json")));
+    Assertions.assertThrows(IOException.class,
+        () -> jsonParser.uploadFile(new File("./doc/plan/data/example1.json")));
   }
 
   @Test

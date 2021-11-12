@@ -11,7 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class AgentFactoryTest {
+
   AgentFactory agentFactory;
+
   @BeforeEach
   void setUp() {
     agentFactory = new AgentFactory();

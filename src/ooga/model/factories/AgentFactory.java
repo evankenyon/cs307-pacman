@@ -6,6 +6,7 @@ import ooga.controller.IO.JsonParser;
 import ooga.model.Agent;
 
 public class AgentFactory {
+
   private static final String DEFAULT_RESOURCE_PACKAGE =
       AgentFactory.class.getPackageName() + ".resources.";
   private static final String PACKAGES_FILENAME = "Packages";
@@ -18,7 +19,8 @@ public class AgentFactory {
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, PACKAGES_FILENAME));
     for (String aPackage : packages.keySet()) {
       try {
-        createdAgent = (Agent) Class.forName(String.format("%s%s", packages.getString(aPackage), agent)).getConstructor()
+        createdAgent = (Agent) Class.forName(
+                String.format("%s%s", packages.getString(aPackage), agent)).getConstructor()
             .newInstance();
       } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
         numNot++;

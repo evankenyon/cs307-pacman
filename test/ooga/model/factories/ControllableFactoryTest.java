@@ -3,29 +3,30 @@ package ooga.model.factories;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.InvocationTargetException;
-import ooga.model.agents.consumables.ghost;
+import ooga.model.agents.players.ghostPlayer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ConsumableFactoryTest {
+class ControllableFactoryTest {
 
-  private ConsumableFactory consumableFactory;
+  private ControllableFactory controllableFactory;
 
   @BeforeEach
   void setUp() {
-    consumableFactory = new ConsumableFactory();
+    controllableFactory = new ControllableFactory();
   }
 
   @Test
-  void createConsumableWorking()
+  void createControllableCorrect()
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    Assertions.assertTrue(consumableFactory.createConsumable("ghost") instanceof ghost);
+    Assertions.assertTrue(
+        controllableFactory.createControllable("ghostPlayer") instanceof ghostPlayer);
   }
 
   @Test
-  void createConsumableBad() {
+  void createControllableBad() {
     Assertions.assertThrows(ClassNotFoundException.class,
-        () -> consumableFactory.createConsumable("bad"));
+        () -> controllableFactory.createControllable("bad"));
   }
 }

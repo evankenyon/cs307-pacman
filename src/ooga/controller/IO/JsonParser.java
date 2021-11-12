@@ -140,8 +140,8 @@ public class JsonParser implements JsonParserInterface {
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, REQUIRED_VALUES_FILENAME));
     List<String> ghosts = List.of(requiredValues.getString("Ghosts").split(","));
     for (String key : wallMap.keySet()) {
-      if(ghosts.contains(key)) {
-        if(wallMap.get(key).size() > 1) {
+      if (ghosts.contains(key)) {
+        if (wallMap.get(key).size() > 1) {
           throw new InputMismatchException("Game cannot have more than one of each type of ghost");
         }
       }
@@ -149,13 +149,13 @@ public class JsonParser implements JsonParserInterface {
   }
 
   private void updateConsumers() {
-    for(Consumer<Map<String, Boolean>> consumer : pelletsConsumers) {
+    for (Consumer<Map<String, Boolean>> consumer : pelletsConsumers) {
       consumer.accept(pelletInfo);
     }
-    for(Consumer<String> consumer : playerConsumers) {
+    for (Consumer<String> consumer : playerConsumers) {
       consumer.accept(player);
     }
-    for(Consumer<Map<String, List<Position>>> consumer : wallMapConsumers) {
+    for (Consumer<Map<String, List<Position>>> consumer : wallMapConsumers) {
       consumer.accept(wallMap);
     }
   }

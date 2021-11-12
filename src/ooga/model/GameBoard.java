@@ -9,6 +9,8 @@ public class GameBoard {
   private int myCols;
   private List<List<Agent>> myGrid;
   private Controllable myPlayer;
+  private List<Consumable> myConsumables;
+  private List<Moveable> myMoveables;
 
   public GameBoard(int rows, int cols, List<List<String>> initialStates, Controllable player){
     myRows = rows;

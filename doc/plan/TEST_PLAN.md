@@ -31,10 +31,10 @@
       count to see if it decrements after he runs into a ghost, and by checking the pac man’s
       location to see if he is moved back to center position when he regenerates
 - The game type is vanilla, and the pac man runs into a ghost, with no lives left
-    - The expected outcome is that the pac man loses a life, dies, and the game ends with the “You
+    - The expected outcome is that the pac man loses a life, dies, and the game ends with the "You
       Lose” popup.
     - Our design supports testing for it by checking if the remaining lives left decrements to zero
-      when the pac man runs into a ghost, and if the game ends, and if the “You Lose” popup occurs
+      when the pac man runs into a ghost, and if the game ends, and if the "You Lose” popup occurs
 - The game type is the version where the user controls the ghost
     - The expected outcome is that the user gains points by eating pacmen or eating pacmen quickly (
       more points for shorter pac man lives)

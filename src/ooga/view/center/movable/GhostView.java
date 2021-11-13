@@ -1,14 +1,17 @@
 package ooga.view.center.movable;
 
 import javafx.scene.image.ImageView;
+import ooga.model.VanillaGame;
 
 public class GhostView extends PlayerView {
 
   public static final String GHOST_COLORS[] = {"blue","light_blue","pink","red","yellow"};
 
   private ImageView ghostImage;
+  private VanillaGame myGame;
 
-  public GhostView (int ghostNum) {
+  public GhostView (VanillaGame game, int ghostNum) {
+    myGame = game;
     ghostImage = makeGhostImage(ghostNum);
   }
 

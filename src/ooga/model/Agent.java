@@ -9,4 +9,6 @@ public interface Agent {
   /** get the coordinates of a given agent **/
   void getCoordinates();
 
+  /** get the type of given agent **/
+  String getAgentType();
 }

@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 import javafx.scene.image.ImageView;
 import ooga.controller.IO.JsonParser;
 import ooga.model.VanillaGame;
+import ooga.model.util.AgentInfo;
 
 public class PacView extends PlayerView {
 
@@ -13,7 +14,7 @@ public class PacView extends PlayerView {
   private VanillaGame myGame;
   private JsonParser myParser;
 //  private Consumer<Integer[]> updatePacMan = newInfo -> updatePlayer(newInfo);
-  private Consumer<String> updatePacMan = newInfo -> updatePlayerString(newInfo);
+  private Consumer<AgentInfo> updatePacMan = newInfo -> updatePlayer(newInfo);
 
 //  private Consumer<Integer> updateX = x -> moveX(x);
 //  private Consumer<Integer> updateY = y -> moveY(y);
@@ -24,8 +25,8 @@ public class PacView extends PlayerView {
     myParser = parser;
     pacImage = new ImageView(String.format("%s%s", IMAGE_PATH, PAC_IMAGE));
     // add the Consumers to the List<Consumer<Integer>> in the model
-    myParser.addPlayerConsumer(updatePacMan); // This should be from the model instead
-//    game.addConsumers(updateX, updateY, updateState);
+//    myParser.addPlayerConsumer(updatePacMan); // This should be from the model instead
+//    game.addConsumers(agentInfo, updatePacMan); // TODO: make addConsumers functionality in Game
   }
 
 

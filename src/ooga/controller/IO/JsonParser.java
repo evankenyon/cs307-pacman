@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Consumer;
-import ooga.model.util.Position;
+import ooga.model.util.AgentInfo;
 import org.apache.commons.io.IOUtils;
 // Decided to use this library after reading article from
 // https://coderolls.com/parse-json-in-java/
@@ -23,12 +23,13 @@ public class JsonParser implements JsonParserInterface {
 
   private static final String DEFAULT_RESOURCE_PACKAGE =
       JsonParser.class.getPackageName() + ".resources.";
+  public static final int WALL_STATE = 0;
   private static final String REQUIRED_KEYS_FILENAME = "RequiredKeys";
   private static final String REQUIRED_VALUES_FILENAME = "RequiredValues";
-  private List<Consumer<Map<String, List<Position>>>> wallMapConsumers;
+  private List<Consumer<Map<String, List<AgentInfo>>>> wallMapConsumers;
   private List<Consumer<String>> playerConsumers;
   private List<Consumer<Map<String, Boolean>>> pelletsConsumers;
-  private Map<String, List<Position>> wallMap;
+  private Map<String, List<AgentInfo>> wallMap;
   private Map<String, Boolean> pelletInfo;
   private String player;
 
@@ -65,7 +66,7 @@ public class JsonParser implements JsonParserInterface {
   }
 
   @Override
-  public void addWallMapConsumer(Consumer<Map<String, List<Position>>> consumer) {
+  public void addWallMapConsumer(Consumer<Map<String, List<AgentInfo>>> consumer) {
     wallMapConsumers.add(consumer);
   }
 
@@ -107,7 +108,7 @@ public class JsonParser implements JsonParserInterface {
     for (int row = 0; row < wallMapArr.length(); row++) {
       for (int col = 0; col < wallMapArr.getJSONArray(row).length(); col++) {
         wallMap.putIfAbsent(wallMapArr.getJSONArray(row).getString(col), new ArrayList<>());
-        wallMap.get(wallMapArr.getJSONArray(row).getString(col)).add(new Position(col, row));
+        wallMap.get(wallMapArr.getJSONArray(row).getString(col)).add(new AgentInfo(col, row, WALL_STATE));
       }
     }
   }
@@ -155,7 +156,7 @@ public class JsonParser implements JsonParserInterface {
     for (Consumer<String> consumer : playerConsumers) {
       consumer.accept(player);
     }
-    for (Consumer<Map<String, List<Position>>> consumer : wallMapConsumers) {
+    for (Consumer<Map<String, List<AgentInfo>>> consumer : wallMapConsumers) {
       consumer.accept(wallMap);
     }
   }

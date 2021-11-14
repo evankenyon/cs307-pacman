@@ -1,14 +1,25 @@
 package ooga.view.center;
 
-import java.awt.Canvas;
 import java.util.List;
+import javafx.geometry.Insets;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import ooga.controller.IO.JsonParser;
 import ooga.model.VanillaGame;
-import ooga.model.util.Position;
+import ooga.model.util.AgentInfo;
 
 public class BoardView {
+
+  public static final int BOARD_WIDTH = 500;
+  public static final int BOARD_HEIGHT = 700;
+  public static final int GRID_SIZE = 1;
+  public static final Paint BOARD_COLOR = Color.BLACK;
+
 
   private VanillaGame myGame;
   private JsonParser myParser;
@@ -18,17 +29,17 @@ public class BoardView {
     myGame = game;
     myParser = parser;
     myBoardPane = new GridPane();
+    myBoardPane.setBackground(new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     initiateBoard();
   }
 
   private void initiateBoard() {
-    Rectangle board = new Rectangle();
 //    makeWalls(myParser.getWallMapPositions());
   }
 
-  private void makeWalls(List<Position> positions) {
-    for (Position p : positions) {
-      myBoardPane.add(new Rectangle(p.getX(), p.getY()), p.getX(), p.getY()); //TODO: input height,width
+  private void makeWalls(List<AgentInfo> positions) {
+    for (AgentInfo p : positions) {
+      myBoardPane.add(new Rectangle(p.getX(), p.getY(), GRID_SIZE, GRID_SIZE), p.getX(), p.getY());
     }
   }
 

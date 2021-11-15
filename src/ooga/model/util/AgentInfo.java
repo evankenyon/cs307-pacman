@@ -1,22 +1,14 @@
 package ooga.model.util;
 
 public class AgentInfo {
-  private int myX;
-  private int myY;
   private int[] myCoords;
   private int myState;
 
   public AgentInfo(int x, int y, int state){
+    myCoords = new int[2];
     myCoords[0] = x;
     myCoords [1] = y;
     myState = state;
-  }
-
-  public boolean equals(int[] agentOneCoords, int[] agentTwoCoords){
-    if(agentOneCoords.length == agentTwoCoords.length){
-      return (agentOneCoords[0] == agentTwoCoords[0] && agentOneCoords[1] == agentTwoCoords[1]);
-    }
-    else return false;
   }
 
   public int getX(){
@@ -36,5 +28,18 @@ public class AgentInfo {
 
   public void setState(int newState) {
     myState = newState;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    // Borrowed from cell society code written by Tarun Amasa
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AgentInfo other = (AgentInfo) o;
+    return other.getState() == this.getState() && other.getX() == this.getX() && other.getY() == this.getY();
   }
 }

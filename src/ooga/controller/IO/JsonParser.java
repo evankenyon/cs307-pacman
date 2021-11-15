@@ -23,7 +23,7 @@ public class JsonParser implements JsonParserInterface {
 
   private static final String DEFAULT_RESOURCE_PACKAGE =
       JsonParser.class.getPackageName() + ".resources.";
-  public static final int WALL_STATE = 0;
+  public static final int DEFAULT_STATE = 1;
   private static final String REQUIRED_KEYS_FILENAME = "RequiredKeys";
   private static final String REQUIRED_VALUES_FILENAME = "RequiredValues";
   private List<Consumer<Map<String, List<AgentInfo>>>> wallMapConsumers;
@@ -108,7 +108,8 @@ public class JsonParser implements JsonParserInterface {
     for (int row = 0; row < wallMapArr.length(); row++) {
       for (int col = 0; col < wallMapArr.getJSONArray(row).length(); col++) {
         wallMap.putIfAbsent(wallMapArr.getJSONArray(row).getString(col), new ArrayList<>());
-        wallMap.get(wallMapArr.getJSONArray(row).getString(col)).add(new AgentInfo(col, row, WALL_STATE));
+        wallMap.get(wallMapArr.getJSONArray(row).getString(col)).add(new AgentInfo(col, row,
+            DEFAULT_STATE));
       }
     }
   }

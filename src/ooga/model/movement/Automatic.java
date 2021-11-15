@@ -1,7 +1,7 @@
 package ooga.model.movement;
 
 import ooga.model.interfaces.Movable;
-import ooga.model.util.AgentInfo;
+import ooga.model.util.Position;
 
 /**
  * Implements one type of automatic movement for agent.
@@ -9,7 +9,7 @@ import ooga.model.util.AgentInfo;
 public class Automatic implements Movable {
 
   @Override
-  public AgentInfo move(AgentInfo info) {
+  public Position move(Position pos) {
     //some movement algorithm?
     return null;
   }

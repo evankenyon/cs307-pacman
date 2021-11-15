@@ -2,35 +2,22 @@ package ooga.model.interfaces;
 
 
 import java.util.function.Consumer;
-import ooga.model.util.AgentInfo;
 
 /**
  * Interface to set/retrieve agents coords.
  **/
 public interface Agent {
-
-  /**
-   * set the coordinates of a given agent
-   **/
-  void setData(AgentInfo data);
-
-  /**
-   * get the coordinates of a given agent
-   *
-   * @return*/
-  AgentInfo getData();
-
   /**
    * add consumer to link to view
    *
    * @param consumer
    */
-  void addConsumer(Consumer<AgentInfo> consumer);
+  void addConsumer(Consumer<Agent> consumer);
 
   /**
-   * update view consumers
+   * updates consumer linked to view
    */
-  void updateConsumer(AgentInfo info);
+  void updateConsumer();
 
   /**
    * Moves agent.

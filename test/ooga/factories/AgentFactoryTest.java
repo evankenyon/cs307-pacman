@@ -1,4 +1,4 @@
-package ooga.model.factories;
+package ooga.factories;
 
 import ooga.model.agents.consumables.fruit;
 import ooga.model.agents.players.ghostPlayer;

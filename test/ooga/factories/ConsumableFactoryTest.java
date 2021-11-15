@@ -1,6 +1,4 @@
-package ooga.model.factories;
-
-import static org.junit.jupiter.api.Assertions.*;
+package ooga.factories;
 
 import java.lang.reflect.InvocationTargetException;
 import ooga.model.agents.consumables.ghost;

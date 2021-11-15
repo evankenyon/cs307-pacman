@@ -1,12 +1,15 @@
 package ooga.model.agents;
 
 import ooga.model.Agent;
+import ooga.model.util.AgentInfo;
 
 public class wall implements Agent {
 
-  @Override
-  public void setCoordinates() {
+  private AgentInfo myData;
 
+  @Override
+  public void setCoordinates(AgentInfo data) {
+    myData = data;
   }
 
   @Override

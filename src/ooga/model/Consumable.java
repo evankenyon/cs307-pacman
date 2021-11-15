@@ -9,7 +9,7 @@ public interface Consumable extends Agent {
   /** implemenrts the logic for how an agent reacts after being consumed **/
   void agentReact();
 
-  /** implements the external effects of that consumable being consumed; fruits and dots increase point values, super-dots set pacman into super mode, ghosts increase the score**/
+  /** implements the external effects of that consumable being consumed; fruits and dots increase point values, super-dots set Pacman into super mode, ghosts increase the score**/
   void applyEffects();
 
 }

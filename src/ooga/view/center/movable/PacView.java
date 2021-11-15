@@ -8,7 +8,7 @@ import ooga.model.util.AgentInfo;
 
 public class PacView extends PlayerView {
 
-  public static final String PAC_IMAGE = "pacman.png";
+  public static final String PAC_IMAGE = "Pacman.png";
 
   private ImageView pacImage;
   private VanillaGame myGame;

@@ -1,6 +1,7 @@
 package ooga.model;
 
 
+import java.util.function.Consumer;
 import ooga.model.util.AgentInfo;
 
 /**
@@ -11,11 +12,28 @@ public interface Agent {
   /**
    * set the coordinates of a given agent
    **/
-  void setCoordinates(AgentInfo data);
+  void setData(AgentInfo data);
 
   /**
    * get the coordinates of a given agent
-   **/
-  void getCoordinates();
+   *
+   * @return*/
+  AgentInfo getData();
 
+  /**
+   * add consumer to link to view
+   *
+   * @param consumer
+   */
+  void addConsumer(Consumer<AgentInfo> consumer);
+
+  /**
+   * update view consumers
+   */
+  void updateConsumer();
+
+  /**
+   * Moves agent.
+   */
+  void step();
 }

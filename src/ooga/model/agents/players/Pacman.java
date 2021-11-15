@@ -1,20 +1,23 @@
-package ooga.model.agents.consumables;
+package ooga.model.agents.players;
 
 import java.util.function.Consumer;
-import ooga.model.Consumable;
-import ooga.model.movement.MovementStrategyContext;
-import ooga.model.movement.Static;
+import ooga.model.Agent;
+import ooga.model.movement.Controllable;
 import ooga.model.util.AgentInfo;
+import ooga.model.movement.MovementStrategyContext;
 
-public class pellet implements Consumable {
+public class Pacman implements Agent {
 
   private AgentInfo myData;
   private MovementStrategyContext myMover;
 
+  public Pacman() {
+    myMover = new MovementStrategyContext(new Controllable());
+  }
+
   @Override
   public void setData(AgentInfo data) {
     myData = data;
-    myMover = new MovementStrategyContext(new Static());
   }
 
   @Override
@@ -32,23 +35,8 @@ public class pellet implements Consumable {
 
   }
 
-  @Override
   public void step() {
-
-  }
-
-  @Override
-  public void consume() {
-
-  }
-
-  @Override
-  public void agentReact() {
-
-  }
-
-  @Override
-  public void applyEffects() {
-
+    AgentInfo oldData = myData;
+    myData = myMover.move(oldData);
   }
 }

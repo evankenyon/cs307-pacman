@@ -9,11 +9,11 @@ public class ghost implements Consumable {
   private AgentInfo myData;
 
   @Override
-  public void setCoordinates(AgentInfo data) {
+  public void setData(AgentInfo data) {
     myData = data;
   }
   @Override
-  public void getCoordinates() {
+  public AgentInfo getData() {
 
   }
 

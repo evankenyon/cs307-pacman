@@ -2,8 +2,7 @@ package ooga.model.factories;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
-import ooga.controller.IO.JsonParser;
-import ooga.model.Agent;
+import ooga.model.interfaces.Agent;
 
 public class AgentFactory {
 

@@ -2,8 +2,7 @@ package ooga.model.factories;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
-import ooga.model.Agent;
-import ooga.model.Consumable;
+import ooga.model.interfaces.Consumable;
 
 public class ConsumableFactory {
 

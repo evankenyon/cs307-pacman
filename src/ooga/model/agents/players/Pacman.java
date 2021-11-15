@@ -1,19 +1,19 @@
-package ooga.model.agents;
+package ooga.model.agents.players;
 
 import java.util.function.Consumer;
 import ooga.model.interfaces.Agent;
+import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
-import ooga.model.movement.Static;
 import ooga.model.util.AgentInfo;
 
-public class wall implements Agent {
+public class Pacman implements Agent {
 
   private AgentInfo myData;
   private MovementStrategyContext myMover;
   private Consumer<AgentInfo> myConsumer;
 
-  public wall() {
-    myMover = new MovementStrategyContext(new Static());
+  public Pacman() {
+    myMover = new MovementStrategyContext(new Controllable());
   }
 
   @Override
@@ -36,8 +36,8 @@ public class wall implements Agent {
     myConsumer.accept(info);
   }
 
-  @Override
   public void step() {
-    myMover.move(myData);
+    AgentInfo oldData = myData;
+    myData = myMover.move(oldData);
   }
 }

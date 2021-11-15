@@ -1,14 +1,13 @@
 package ooga.model.agents.consumables;
 
-import java.util.function.Consumer;
 import ooga.model.interfaces.AbstractAgent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
-import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
 public class pellet extends AbstractAgent implements Consumable {
 
+  private final static String TYPE = "PELLET";
   private final static int EATEN_STATE = 0;
   private final static int UNEATEN_STATE = 1;
 
@@ -24,7 +23,7 @@ public class pellet extends AbstractAgent implements Consumable {
    * @param state int cell state
    */
   public pellet(int x, int y, int state) {
-    super(x, y);
+    super(x, y, "PELLET");
     myState = UNEATEN_STATE;
   }
 
@@ -46,5 +45,10 @@ public class pellet extends AbstractAgent implements Consumable {
   @Override
   public void applyEffects() {
 
+  }
+
+  @Override
+  public String getType() {
+    return TYPE;
   }
 }

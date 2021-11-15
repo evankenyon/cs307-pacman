@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.function.Consumer;
 import ooga.model.util.Position;
 
-public abstract class AbstractAgent implements Agent{
+public abstract class AbstractAgent implements Agent {
 
   /*** cell list of consumers*/
   protected List<Consumer<Agent>> stateConsumers;
 
+  private String TYPE;
   private Position myPosition;
 
   /**
@@ -18,9 +19,10 @@ public abstract class AbstractAgent implements Agent{
    * @param x int x position
    * @param y int y position
    */
-  public AbstractAgent(int x, int y) {
-    myPosition = new Position(x,y);
+  public AbstractAgent(int x, int y, String type) {
+    myPosition = new Position(x, y);
     stateConsumers = new ArrayList<Consumer<Agent>>();
+    TYPE = type;
   }
 
 
@@ -33,10 +35,14 @@ public abstract class AbstractAgent implements Agent{
     stateConsumers.add(consumer);
   }
 
-  public void updateConsumer(){
+  public void updateConsumer() {
     for (Consumer<Agent> consumer : stateConsumers) {
       consumer.accept(this);
     }
+  }
+
+  public String getType() {
+    return TYPE;
   }
 
 }

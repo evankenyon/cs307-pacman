@@ -1,8 +1,6 @@
 package ooga.model.agents.players;
 
-import java.util.function.Consumer;
 import ooga.model.interfaces.AbstractAgent;
-import ooga.model.interfaces.Agent;
 import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
@@ -17,8 +15,8 @@ public class Pacman extends AbstractAgent {
   private Position myPosition;
   private MovementStrategyContext myMover;
 
-  public Pacman(int x, int y){
-    super(x,y);
+  public Pacman(int x, int y) {
+    super(x, y, "PACMAN");
     myState = ALIVE_STATE;
     myMover = new MovementStrategyContext(new Controllable());
   }
@@ -27,4 +25,5 @@ public class Pacman extends AbstractAgent {
     Position oldPosition = myPosition;
     myPosition = myMover.move(oldPosition);
   }
+
 }

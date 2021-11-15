@@ -1,8 +1,5 @@
 package ooga.model.factories;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import ooga.model.Agent;
 import ooga.model.agents.consumables.fruit;
 import ooga.model.agents.players.ghostPlayer;
 import ooga.model.agents.wall;

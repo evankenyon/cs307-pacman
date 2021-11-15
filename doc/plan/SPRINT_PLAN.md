@@ -13,8 +13,8 @@ TEST: implement the team's planned first release features, focusing on a simple,
 
 * GOAL FEATURES: Basic pacman with functioning score counter, and maze with dots, a single ghost, win and loss
   conditions.
-* Evan: keyTracker module - functioning user control of Pac Man, Instatiator module
-* Dania: IO module- functioning parser 
+* Evan: Controller, basic start game (parser and assembling engine classes)
+* Dania: keyTracker module - functioning user control of Pac Man, Controller
 * Kat: Make button panel and event handlers for all buttons
 * Dane: Make the Board, with Pac Man, walls, dots, and ghosts
 * Asher: Implement classes concerning ghosts as well as AI subclasses for ghosts
@@ -26,8 +26,8 @@ TEST: implement the team's planned first release features, focusing on a simple,
 BASIC: implement the team's planned second release features, implementing most of the basic features
 
 * GOAL FEATURES: Features from TEST + all 4 ghosts, user preferences, save and load game, multiple games at once.
-* Evan: gameTracker module - ability to customize game settings
-* Dania: IO module- generator (save functionality)
+* Evan: IO module- generator (save functionality), gameTracker module - ability to customize game settings
+* Dania: gameTracker module - ability to customize game settings
 * Kat: Make languages and view themes/modes
 * Dane: Add dots of different values, fruit, and ghosts changing from non-consumable to consumable. Make user control Ghosts instead of Pac Man and add view items for Super Pac Man.
 * Asher: Add functionality to accomodate implementation of GhostPlayer and Super pacman game

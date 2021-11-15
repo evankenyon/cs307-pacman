@@ -1,7 +1,5 @@
 package ooga.model.factories;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.lang.reflect.InvocationTargetException;
 import ooga.model.agents.players.ghostPlayer;
 import org.junit.jupiter.api.Assertions;

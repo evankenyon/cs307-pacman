@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.interfaces;
 
 /**Interface to allow controller to translate keystrokes into movement for an agent**/
 public interface Controllable extends Agent {

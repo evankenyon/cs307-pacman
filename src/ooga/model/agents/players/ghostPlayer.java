@@ -1,21 +1,36 @@
-package ooga.model.agents.players;
-
-import ooga.model.Controllable;
-
-public class ghostPlayer implements Controllable {
-
-  @Override
-  public void setCoordinates() {
-
-  }
-
-  @Override
-  public void getCoordinates() {
-
-  }
-
-  @Override
-  public void setDirection() {
-
-  }
-}
+//package ooga.model.agents.players;
+//
+//import java.util.function.Consumer;
+//import ooga.model.interfaces.Agent;
+//import ooga.model.util.AgentInfo;
+//
+//public class ghostPlayer implements Agent {
+//
+//  private AgentInfo myData;
+//
+//  @Override
+//  public void setData(AgentInfo data) {
+//    myData = data;
+//  }
+//
+//  @Override
+//  public AgentInfo getData() {
+//
+//  }
+//
+//  @Override
+//  public void addConsumer(Consumer<AgentInfo> consumer) {
+//
+//  }
+//
+//  @Override
+//  public void updateConsumer(AgentInfo info) {
+//
+//  }
+//
+//  @Override
+//  public void step() {
+//
+//  }
+//
+//}

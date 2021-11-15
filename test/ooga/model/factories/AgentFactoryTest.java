@@ -17,7 +17,7 @@ class AgentFactoryTest {
 
   @Test
   void createAgentConsumable() {
-    Assertions.assertTrue(agentFactory.createAgent("pellet") instanceof pellet);
+    Assertions.assertTrue(agentFactory.createAgent("pellet", 0, 0) instanceof pellet);
   }
 
   // TODO: uncomment when we implement ghostPlayer
@@ -28,11 +28,11 @@ class AgentFactoryTest {
 
   @Test
   void createAgentWall() {
-    Assertions.assertTrue(agentFactory.createAgent("wall") instanceof wall);
+    Assertions.assertTrue(agentFactory.createAgent("wall", 0, 0) instanceof wall);
   }
 
   @Test
   void createAgentBad() {
-    Assertions.assertThrows(IllegalArgumentException.class, () -> agentFactory.createAgent("bad"));
+    Assertions.assertThrows(IllegalArgumentException.class, () -> agentFactory.createAgent("bad", 0, 0));
   }
 }

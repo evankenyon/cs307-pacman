@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Consumer;
+import ooga.model.VanillaGameData;
+import ooga.model.VanillaGameDataInterface;
 import ooga.model.util.AgentInfo;
 import org.apache.commons.io.IOUtils;
 // Decided to use this library after reading article from
@@ -26,21 +28,17 @@ public class JsonParser implements JsonParserInterface {
   public static final int DEFAULT_STATE = 1;
   private static final String REQUIRED_KEYS_FILENAME = "RequiredKeys";
   private static final String REQUIRED_VALUES_FILENAME = "RequiredValues";
-  private List<Consumer<Map<String, List<AgentInfo>>>> wallMapConsumers;
-  private List<Consumer<String>> playerConsumers;
-  private List<Consumer<Map<String, Boolean>>> pelletsConsumers;
+
   private Map<String, List<AgentInfo>> wallMap;
   private Map<String, Boolean> pelletInfo;
   private String player;
+  private Consumer<VanillaGameDataInterface> vanillaGameDataConsumer;
 
   private ResourceBundle requiredKeys;
 
   public JsonParser() {
     wallMap = new HashMap<>();
     pelletInfo = new HashMap<>();
-    wallMapConsumers = new ArrayList<>();
-    playerConsumers = new ArrayList<>();
-    pelletsConsumers = new ArrayList<>();
     requiredKeys = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, REQUIRED_KEYS_FILENAME));
   }
@@ -62,22 +60,12 @@ public class JsonParser implements JsonParserInterface {
     setupPelletInfo(json.getJSONArray("RequiredPellets"), json.getJSONArray("OptionalPellets"));
     setupWallMap(json.getJSONArray("WallMap"));
     checkWallMapForRequirements();
-    updateConsumers();
+    updateConsumers(new VanillaGameData(wallMap, player, pelletInfo));
   }
 
   @Override
-  public void addWallMapConsumer(Consumer<Map<String, List<AgentInfo>>> consumer) {
-    wallMapConsumers.add(consumer);
-  }
-
-  @Override
-  public void addPlayerConsumer(Consumer<String> consumer) {
-    playerConsumers.add(consumer);
-  }
-
-  @Override
-  public void addPelletsConsumer(Consumer<Map<String, Boolean>> consumer) {
-    pelletsConsumers.add(consumer);
+  public void addVanillaGameDataConsumer(Consumer<VanillaGameDataInterface> consumer) {
+    vanillaGameDataConsumer = consumer;
   }
 
   private void checkForRequiredKeys(Set<String> keySet) throws InputMismatchException {
@@ -150,15 +138,7 @@ public class JsonParser implements JsonParserInterface {
     }
   }
 
-  private void updateConsumers() {
-    for (Consumer<Map<String, Boolean>> consumer : pelletsConsumers) {
-      consumer.accept(pelletInfo);
-    }
-    for (Consumer<String> consumer : playerConsumers) {
-      consumer.accept(player);
-    }
-    for (Consumer<Map<String, List<AgentInfo>>> consumer : wallMapConsumers) {
-      consumer.accept(wallMap);
-    }
+  private void updateConsumers(VanillaGameDataInterface vanillaGameData) {
+    vanillaGameDataConsumer.accept(vanillaGameData);
   }
 }

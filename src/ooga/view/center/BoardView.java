@@ -1,22 +1,46 @@
 package ooga.view.center;
 
-import java.awt.Canvas;
-import java.awt.Rectangle;
+import java.util.List;
+import javafx.geometry.Insets;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
+import ooga.controller.IO.JsonParser;
 import ooga.model.VanillaGame;
+import ooga.model.util.AgentInfo;
 
 public class BoardView {
 
-  private VanillaGame myGame;
-  private Canvas myBoardCanvas;
+  public static final int BOARD_WIDTH = 500;
+  public static final int BOARD_HEIGHT = 700;
+  public static final int GRID_SIZE = 1;
+  public static final Paint BOARD_COLOR = Color.BLACK;
 
-  public BoardView (VanillaGame game) {
+
+  private VanillaGame myGame;
+  private JsonParser myParser;
+  private GridPane myBoardPane;
+
+  public BoardView (VanillaGame game, JsonParser parser) {
     myGame = game;
-    myBoardCanvas = new Canvas();
+    myParser = parser;
+    myBoardPane = new GridPane();
+    myBoardPane.setBackground(new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     initiateBoard();
   }
 
   private void initiateBoard() {
-    Rectangle board = new Rectangle();
+//    makeWalls(myParser.getWallMapPositions());
+  }
+
+  private void makeWalls(List<AgentInfo> positions) {
+    for (AgentInfo p : positions) {
+      myBoardPane.add(new Rectangle(p.getX(), p.getY(), GRID_SIZE, GRID_SIZE), p.getX(), p.getY());
+    }
   }
 
 }

@@ -33,5 +33,4 @@ public class Controller implements ControllerInterface {
     keyTracker.getPressedKey(event);
   }
 
-
 }

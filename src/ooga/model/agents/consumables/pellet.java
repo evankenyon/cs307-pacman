@@ -7,7 +7,6 @@ import ooga.model.util.Position;
 
 public class pellet extends AbstractAgent implements Consumable {
 
-  private final static String TYPE = "PELLET";
   private final static int EATEN_STATE = 0;
   private final static int UNEATEN_STATE = 1;
 
@@ -45,10 +44,5 @@ public class pellet extends AbstractAgent implements Consumable {
   @Override
   public void applyEffects() {
 
-  }
-
-  @Override
-  public String getType() {
-    return TYPE;
   }
 }

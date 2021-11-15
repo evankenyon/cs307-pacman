@@ -27,6 +27,12 @@ public class VanillaGame implements Game {
 
   }
 
+  /**
+   * Sets player direction.
+   */
+  public void setPlayerDirection(String direction) {
+    myBoard.setPlayerDirection(direction);
+  }
 
   public void step() {
     //make every single move on the backend

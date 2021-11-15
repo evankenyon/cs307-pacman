@@ -2,21 +2,21 @@ package ooga.model;
 
 import java.util.List;
 import java.util.Map;
-import ooga.model.util.AgentInfo;
+import ooga.model.util.Position;
 
 public class VanillaGameData implements VanillaGameDataInterface {
-  private Map<String, List<AgentInfo>> wallMap;
+  private Map<String, List<Position>> wallMap;
   private String player;
   private Map<String, Boolean> pelletInfo;
 
-  public VanillaGameData (Map<String, List<AgentInfo>> wallMap, String player, Map<String, Boolean> pelletInfo) {
+  public VanillaGameData (Map<String, List<Position>> wallMap, String player, Map<String, Boolean> pelletInfo) {
     this.wallMap = wallMap;
     this.player = player;
     this.pelletInfo = pelletInfo;
   }
 
   @Override
-  public Map<String, List<AgentInfo>> getWallMap() {
+  public Map<String, List<Position>> getWallMap() {
     return wallMap;
   }
 

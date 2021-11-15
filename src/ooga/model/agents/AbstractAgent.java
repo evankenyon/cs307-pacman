@@ -1,11 +1,12 @@
-package ooga.model.interfaces;
+package ooga.model.agents;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 
-public abstract class AbstractAgent implements Agent{
+public abstract class AbstractAgent implements Agent {
 
   /*** cell list of consumers*/
   protected List<Consumer<Agent>> stateConsumers;

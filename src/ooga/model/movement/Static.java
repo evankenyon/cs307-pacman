@@ -9,8 +9,8 @@ import ooga.model.util.Position;
 public class Static implements Movable {
 
   @Override
-  public Position move(Position info) {
-    return null;
+  public Position move(Position pos) {
+    return pos;
   }
 
   @Override

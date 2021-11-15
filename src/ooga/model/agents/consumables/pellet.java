@@ -1,10 +1,8 @@
 package ooga.model.agents.consumables;
 
-import java.util.function.Consumer;
-import ooga.model.interfaces.AbstractAgent;
+import ooga.model.agents.AbstractAgent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
-import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
 public class pellet extends AbstractAgent implements Consumable {
@@ -40,7 +38,6 @@ public class pellet extends AbstractAgent implements Consumable {
 
   @Override
   public void agentReact() {
-
   }
 
   @Override

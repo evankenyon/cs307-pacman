@@ -1,8 +1,6 @@
 package ooga.model.agents.players;
 
-import java.util.function.Consumer;
-import ooga.model.interfaces.AbstractAgent;
-import ooga.model.interfaces.Agent;
+import ooga.model.agents.AbstractAgent;
 import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;

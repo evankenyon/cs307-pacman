@@ -11,7 +11,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import ooga.controller.IO.JsonParser;
 import ooga.model.VanillaGame;
-import ooga.model.util.AgentInfo;
+import ooga.model.util.Position;
 
 public class BoardView {
 
@@ -37,9 +37,9 @@ public class BoardView {
 //    makeWalls(myParser.getWallMapPositions());
   }
 
-  private void makeWalls(List<AgentInfo> positions) {
-    for (AgentInfo p : positions) {
-      myBoardPane.add(new Rectangle(p.getX(), p.getY(), GRID_SIZE, GRID_SIZE), p.getX(), p.getY());
+  private void makeWalls(List<Position> positions) {
+    for (Position p : positions) {
+      myBoardPane.add(new Rectangle(p.getCoords()[0], p.getCoords()[1], GRID_SIZE, GRID_SIZE), p.getCoords()[0], p.getCoords()[1]);
     }
   }
 

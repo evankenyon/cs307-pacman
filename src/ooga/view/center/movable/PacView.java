@@ -4,7 +4,6 @@ import java.util.function.Consumer;
 import javafx.scene.image.ImageView;
 import ooga.controller.IO.JsonParser;
 import ooga.model.VanillaGame;
-import ooga.model.util.AgentInfo;
 
 public class PacView extends PlayerView {
 
@@ -14,7 +13,7 @@ public class PacView extends PlayerView {
   private VanillaGame myGame;
   private JsonParser myParser;
 //  private Consumer<Integer[]> updatePacMan = newInfo -> updatePlayer(newInfo);
-  private Consumer<AgentInfo> updatePacMan = newInfo -> updatePlayer(newInfo);
+  //private Consumer<AgentInfo> updatePacMan = newInfo -> updatePlayer(newInfo);
 
 //  private Consumer<Integer> updateX = x -> moveX(x);
 //  private Consumer<Integer> updateY = y -> moveY(y);

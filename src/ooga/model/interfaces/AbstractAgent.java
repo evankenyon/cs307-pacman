@@ -11,6 +11,7 @@ public abstract class AbstractAgent implements Agent{
   protected List<Consumer<Agent>> stateConsumers;
 
   private Position myPosition;
+  private int myState;
 
   /**
    * abstract constructor for cell
@@ -37,6 +38,8 @@ public abstract class AbstractAgent implements Agent{
     for (Consumer<Agent> consumer : stateConsumers) {
       consumer.accept(this);
     }
-  }
+
+
+
 
 }

@@ -1,7 +1,5 @@
 package ooga.view.center.movable;
 
-import ooga.model.util.AgentInfo;
-
 public abstract class PlayerView {
 
   public static final String IMAGE_PATH = "ooga.view.center.images.";
@@ -21,7 +19,7 @@ public abstract class PlayerView {
 //  }
 
 
-  protected void updatePlayer(AgentInfo newInfo) {
-  }
+ // protected void updatePlayer(AgentInfo newInfo) {
+//  }
 
 }

@@ -42,7 +42,8 @@ class JsonParserTest {
     expected.put("Pinky", new ArrayList<>());
     expected.get("Pinky").add(new AgentInfo(3, 1, 1));
 
-    jsonParser.addWallMapConsumer(wallMap -> compareWallMaps(wallMap, expected));
+    jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> compareWallMaps(vanillaGameDataInterface.getWallMap(), expected));
+
     jsonParser.uploadFile(new File("tests/basicWallMap.json"));
   }
 
@@ -57,7 +58,7 @@ class JsonParserTest {
   @Test
   void properPlayerCreation() throws IOException {
     String expected = "Pacman";
-    jsonParser.addPlayerConsumer(player -> comparePlayers(player, expected));
+    jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> comparePlayers(vanillaGameDataInterface.getPlayer(), expected));
     jsonParser.uploadFile(new File("tests/basicWallMap.json"));
   }
 
@@ -70,7 +71,7 @@ class JsonParserTest {
     Map<String, Boolean> expected = new HashMap<>();
     expected.put("Dot", Boolean.TRUE);
     expected.put("Fruit", Boolean.FALSE);
-    jsonParser.addPelletsConsumer(pelletsMap -> comparePelletMaps(pelletsMap, expected));
+    jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> comparePelletMaps(vanillaGameDataInterface.getPelletInfo(), expected));
     jsonParser.uploadFile(new File("tests/basicWallMap.json"));
   }
 

@@ -3,7 +3,7 @@ package ooga.model.factories;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.InvocationTargetException;
-import ooga.model.agents.consumables.ghost;
+import ooga.model.agents.consumables.pellet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ class ConsumableFactoryTest {
   @Test
   void createConsumableWorking()
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    Assertions.assertTrue(consumableFactory.createConsumable("ghost") instanceof ghost);
+    Assertions.assertTrue(consumableFactory.createConsumable("pellet") instanceof pellet);
   }
 
   @Test

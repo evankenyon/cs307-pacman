@@ -5,15 +5,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import ooga.model.VanillaGameData;
+import ooga.model.VanillaGameDataInterface;
 import ooga.model.util.AgentInfo;
 
 public interface JsonParserInterface {
 
   public void uploadFile(File file) throws IOException;
 
-  public void addWallMapConsumer(Consumer<Map<String, List<AgentInfo>>> consumer);
-
-  public void addPlayerConsumer(Consumer<String> consumer);
-
-  public void addPelletsConsumer(Consumer<Map<String, Boolean>> consumer);
+  public void addVanillaGameDataConsumer(Consumer<VanillaGameDataInterface> consumer);
 }

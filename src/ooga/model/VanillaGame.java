@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Controllable;
 import ooga.model.interfaces.Game;
-import ooga.model.util.AgentInfo;
 
 public class VanillaGame implements Game {
 
@@ -34,11 +33,6 @@ public class VanillaGame implements Game {
     myBoard.moveAll();
     //update all view handlers
     updateHandlers();
-  }
-
-  public void addConsumer(AgentInfo agentInfo, Consumer<AgentInfo> consumer) {
-    Agent agent = myBoard.findAgent(agentInfo);
-    agent.addConsumer(consumer);
   }
 
   public boolean isWin() {

@@ -2,6 +2,8 @@ package ooga.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import ooga.model.interfaces.Agent;
+import ooga.model.interfaces.Controllable;
 import ooga.model.util.AgentInfo;
 
 public class GameBoard {

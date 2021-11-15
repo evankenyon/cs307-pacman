@@ -3,6 +3,9 @@ package ooga.model;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import ooga.model.interfaces.Agent;
+import ooga.model.interfaces.Controllable;
+import ooga.model.interfaces.Game;
 import ooga.model.util.AgentInfo;
 
 public class VanillaGame implements Game {

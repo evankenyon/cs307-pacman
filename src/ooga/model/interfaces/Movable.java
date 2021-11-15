@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.interfaces;
 
 import ooga.model.util.AgentInfo;
 

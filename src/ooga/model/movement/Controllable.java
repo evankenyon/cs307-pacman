@@ -1,7 +1,7 @@
 package ooga.model.movement;
 
 import ooga.controller.IO.keyTracker;
-import ooga.model.Movable;
+import ooga.model.interfaces.Movable;
 import ooga.model.util.AgentInfo;
 
 /**

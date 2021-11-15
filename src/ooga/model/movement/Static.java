@@ -1,6 +1,6 @@
 package ooga.model.movement;
 
-import ooga.model.Movable;
+import ooga.model.interfaces.Movable;
 import ooga.model.util.AgentInfo;
 
 /**

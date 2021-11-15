@@ -1,7 +1,7 @@
 package ooga.model.agents;
 
 import java.util.function.Consumer;
-import ooga.model.Agent;
+import ooga.model.interfaces.Agent;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
 import ooga.model.util.AgentInfo;
@@ -10,6 +10,7 @@ public class wall implements Agent {
 
   private AgentInfo myData;
   private MovementStrategyContext myMover;
+  private Consumer<AgentInfo> myConsumer;
 
   public wall() {
     myMover = new MovementStrategyContext(new Static());
@@ -27,12 +28,12 @@ public class wall implements Agent {
 
   @Override
   public void addConsumer(Consumer<AgentInfo> consumer) {
-
+    myConsumer = consumer;
   }
 
   @Override
-  public void updateConsumer() {
-
+  public void updateConsumer(AgentInfo info) {
+    myConsumer.accept(info);
   }
 
   @Override

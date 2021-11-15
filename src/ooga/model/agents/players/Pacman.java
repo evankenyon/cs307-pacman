@@ -1,15 +1,16 @@
 package ooga.model.agents.players;
 
 import java.util.function.Consumer;
-import ooga.model.Agent;
+import ooga.model.interfaces.Agent;
 import ooga.model.movement.Controllable;
-import ooga.model.util.AgentInfo;
 import ooga.model.movement.MovementStrategyContext;
+import ooga.model.util.AgentInfo;
 
 public class Pacman implements Agent {
 
   private AgentInfo myData;
   private MovementStrategyContext myMover;
+  private Consumer<AgentInfo> myConsumer;
 
   public Pacman() {
     myMover = new MovementStrategyContext(new Controllable());
@@ -27,12 +28,12 @@ public class Pacman implements Agent {
 
   @Override
   public void addConsumer(Consumer<AgentInfo> consumer) {
-
+    myConsumer = consumer;
   }
 
   @Override
-  public void updateConsumer() {
-
+  public void updateConsumer(AgentInfo info) {
+    myConsumer.accept(info);
   }
 
   public void step() {

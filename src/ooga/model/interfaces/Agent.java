@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.interfaces;
 
 
 import java.util.function.Consumer;
@@ -30,7 +30,7 @@ public interface Agent {
   /**
    * update view consumers
    */
-  void updateConsumer();
+  void updateConsumer(AgentInfo info);
 
   /**
    * Moves agent.

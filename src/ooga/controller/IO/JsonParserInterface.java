@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import ooga.model.VanillaGameData;
 import ooga.model.VanillaGameDataInterface;
-import ooga.model.util.AgentInfo;
 
 public interface JsonParserInterface {
 

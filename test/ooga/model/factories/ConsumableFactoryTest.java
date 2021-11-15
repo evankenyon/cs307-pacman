@@ -20,12 +20,12 @@ class ConsumableFactoryTest {
   @Test
   void createConsumableWorking()
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    Assertions.assertTrue(consumableFactory.createConsumable("pellet") instanceof pellet);
+    Assertions.assertTrue(consumableFactory.createConsumable("pellet", 0, 0) instanceof pellet);
   }
 
   @Test
   void createConsumableBad() {
     Assertions.assertThrows(ClassNotFoundException.class,
-        () -> consumableFactory.createConsumable("bad"));
+        () -> consumableFactory.createConsumable("bad", 0, 0));
   }
 }

@@ -16,7 +16,7 @@ public class wall extends AbstractAgent {
   private Position myPosition;
   private MovementStrategyContext myMover;
 
-  public wall(int x, int y, int state) {
+  public wall(int x, int y) {
     super( x, y);
     myState = PASSABLE;
     myMover = new MovementStrategyContext(new Static());

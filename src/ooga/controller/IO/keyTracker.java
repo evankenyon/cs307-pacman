@@ -8,7 +8,7 @@ public class keyTracker {
   private int dx;
   private int dy;
 
-  private void getPressedKey(KeyEvent event) {
+  public void getPressedKey(KeyEvent event) {
     if (event.getCode() == KeyCode.LEFT) {
       dx = -1;
     } else if (event.getCode() == KeyCode.RIGHT) {

@@ -2,6 +2,7 @@ package ooga.controller;
 
 import java.io.File;
 import java.io.IOException;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
@@ -31,4 +32,5 @@ public class Controller implements ControllerInterface {
   public void updatePressedKey(KeyEvent event) {
     keyTracker.getPressedKey(event);
   }
+
 }

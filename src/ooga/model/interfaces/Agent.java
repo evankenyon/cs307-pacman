@@ -28,11 +28,6 @@ public interface Agent {
   void addConsumer(Consumer<AgentInfo> consumer);
 
   /**
-   * update view consumers
-   */
-  void updateConsumer(AgentInfo info);
-
-  /**
    * Moves agent.
    */
   void step();

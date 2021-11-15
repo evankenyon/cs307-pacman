@@ -42,11 +42,11 @@ class JsonParserTest {
     expected.put("Pinky", new ArrayList<>());
     expected.get("Pinky").add(new AgentInfo(3, 1, 1));
 
-    jsonParser.addWallMapConsumer(wallMap -> compareMaps(wallMap, expected));
+    jsonParser.addWallMapConsumer(wallMap -> compareWallMaps(wallMap, expected));
     jsonParser.uploadFile(new File("tests/basicWallMap.json"));
   }
 
-  private void compareMaps(Map<String, List<AgentInfo>> actual, Map<String, List<AgentInfo>> expected) {
+  private void compareWallMaps(Map<String, List<AgentInfo>> actual, Map<String, List<AgentInfo>> expected) {
     for (String key : actual.keySet()) {
       for (AgentInfo agentInfo : actual.get(key)) {
         Assertions.assertTrue(expected.get(key).contains(agentInfo));
@@ -55,13 +55,29 @@ class JsonParserTest {
   }
 
   @Test
-  void properPlayerCreation() {
-//    String expected = "Pacman";
-//    jsonParser.addPlayerConsumer(wallMap -> );
+  void properPlayerCreation() throws IOException {
+    String expected = "Pacman";
+    jsonParser.addPlayerConsumer(player -> comparePlayers(player, expected));
+    jsonParser.uploadFile(new File("tests/basicWallMap.json"));
   }
 
   private void comparePlayers(String actual, String expected) {
+    Assertions.assertEquals(expected, actual);
+  }
 
+  @Test
+  void properRequirePelletCreation() throws IOException {
+    Map<String, Boolean> expected = new HashMap<>();
+    expected.put("Dot", Boolean.TRUE);
+    expected.put("Fruit", Boolean.FALSE);
+    jsonParser.addPelletsConsumer(pelletsMap -> comparePelletMaps(pelletsMap, expected));
+    jsonParser.uploadFile(new File("tests/basicWallMap.json"));
+  }
+
+  private void comparePelletMaps(Map<String, Boolean> actual, Map<String, Boolean> expected) {
+    for (String pellet : actual.keySet()) {
+      Assertions.assertEquals(actual.get(pellet), expected.get(pellet));
+    }
   }
 
   @Test

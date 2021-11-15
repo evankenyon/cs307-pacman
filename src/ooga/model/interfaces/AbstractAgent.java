@@ -3,52 +3,40 @@ package ooga.model.interfaces;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import ooga.model.util.AgentInfo;
+import ooga.model.util.Position;
 
 public abstract class AbstractAgent implements Agent{
 
   /*** cell list of consumers*/
-  protected List<Consumer<AgentInfo>> stateConsumers;
+  protected List<Consumer<Agent>> stateConsumers;
 
-  private AgentInfo myInfo;
+  private Position myPosition;
 
   /**
    * abstract constructor for cell
    *
    * @param x int x position
    * @param y int y position
-   * @param state int cell state
    */
-  public AbstractAgent(int x, int y, int state) {
-    myInfo = new AgentInfo(x,y,state);
-    stateConsumers = new ArrayList<Consumer<AgentInfo>>();
+  public AbstractAgent(int x, int y) {
+    myPosition = new Position(x,y);
+    stateConsumers = new ArrayList<Consumer<Agent>>();
   }
 
-  /**
-   * get the cell x position
-   *
-   * @return int x position
-   */
-  public int getX() {
-    return myInfo.getX();
-  }
-
-  /**
-   * get the y position
-   *
-   * @return int y position
-   */
-  public int getY() {
-    return myInfo.getY();
-  }
 
   /**
    * add consumers
    *
    * @param consumer consumer objects
    */
-  public void addConsumer(Consumer<AgentInfo> consumer) {
+  public void addConsumer(Consumer<Agent> consumer) {
     stateConsumers.add(consumer);
+  }
+
+  public void updateConsumer(){
+    for (Consumer<Agent> consumer : stateConsumers) {
+      consumer.accept(this);
+    }
   }
 
 }

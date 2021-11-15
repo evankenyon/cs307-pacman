@@ -59,4 +59,8 @@ public class GameBoard {
       myGrid.add(tempRow);
     }
   }
+
+  public List<List<Agent>> getMyGrid() {
+    return myGrid;
+  }
 }

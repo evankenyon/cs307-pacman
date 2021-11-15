@@ -14,6 +14,9 @@ public class VanillaGame implements Game {
   private List<Consumer<String>> myObservers;
 
   //private GameScore myScore; potential data structure to hold score, highscore, time played, etc.?
+  public VanillaGame(VanillaGameDataInterface vanillaGameData) {
+
+  }
 
   public VanillaGame(Map<String, String> properties, List<List<String>> boardLayout) {
     //Use reflection and properties.get(MY_PLAYER)to initialize myPlayer to either a ghostPlayer or Pacman

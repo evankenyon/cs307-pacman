@@ -22,7 +22,7 @@ class JsonParserTest {
   }
 
   @Test
-  void properWallMapCreation() {
+  void properWallMapCreation() throws IOException {
     Map<String, List<AgentInfo>> expected  = new HashMap<>();
 
     expected.put("Wall", new ArrayList<>());
@@ -31,7 +31,7 @@ class JsonParserTest {
       expected.get("Wall").add(new AgentInfo(x, 2, 1));
     }
     expected.get("Wall").add(new AgentInfo(0, 1, 1));
-    expected.get("Wall").add(new AgentInfo(0, 4, 1));
+    expected.get("Wall").add(new AgentInfo(4, 1, 1));
 
     expected.put("Pacman", new ArrayList<>());
     expected.get("Pacman").add(new AgentInfo(1, 1, 1));
@@ -43,6 +43,7 @@ class JsonParserTest {
     expected.get("Pinky").add(new AgentInfo(3, 1, 1));
 
     jsonParser.addWallMapConsumer(wallMap -> compareMaps(wallMap, expected));
+    jsonParser.uploadFile(new File("tests/basicWallMap.json"));
   }
 
   private void compareMaps(Map<String, List<AgentInfo>> actual, Map<String, List<AgentInfo>> expected) {
@@ -51,6 +52,16 @@ class JsonParserTest {
         Assertions.assertTrue(expected.get(key).contains(agentInfo));
       }
     }
+  }
+
+  @Test
+  void properPlayerCreation() {
+//    String expected = "Pacman";
+//    jsonParser.addPlayerConsumer(wallMap -> );
+  }
+
+  private void comparePlayers(String actual, String expected) {
+
   }
 
   @Test

@@ -1,6 +1,5 @@
 {
   "Title":"Test",
-  "BadKey": "BadKey",
   "Player":"Pacman",
   "RequiredPellets":["Dot"],
   "OptionalPellets":["Fruit"],

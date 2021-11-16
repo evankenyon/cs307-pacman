@@ -18,7 +18,7 @@ public class VanillaGame implements Game {
 
   public VanillaGame(VanillaGameDataInterface vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    myBoard = new GameBoard(vanillaGameData.getWallMap(), vanillaGameData.getPlayer());
+    myBoard = new GameBoard(vanillaGameData);
   }
 
   public void initializeGame() {

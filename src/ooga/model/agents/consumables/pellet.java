@@ -1,4 +1,5 @@
 package ooga.model.agents.consumables;
+
 import ooga.model.agents.AbstractAgent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
@@ -26,8 +27,8 @@ public class pellet extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public void step() {
-    myMover.move(myPosition);
+  public Position step() {
+    return myMover.move(myPosition);
   }
 
   @Override

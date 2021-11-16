@@ -86,7 +86,7 @@ public class BoardView {
           .newInstance(agent);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       //TODO: remove stack trace
-      e.printStackTrace();
+//      e.printStackTrace();
       return new WallView(new wall(0,0));
     }
   }

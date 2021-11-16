@@ -1,6 +1,10 @@
 package ooga.view.center.agents;
 
+import static ooga.controller.Controller.cols;
+import static ooga.controller.Controller.rows;
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
+import static ooga.view.center.BoardView.BOARD_HEIGHT;
+import static ooga.view.center.BoardView.BOARD_WIDTH;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -29,6 +33,8 @@ public class PelletView extends StationaryView {
     setImage(myCircle);
     setX(myAgent.getPosition()[0]);
     setY(myAgent.getPosition()[1]);
+    myCircle.setCenterX(BOARD_WIDTH/cols*myAgent.getPosition()[0]);
+    myCircle.setCenterY(BOARD_HEIGHT/rows*myAgent.getPosition()[1]);
     myAgent.addConsumer(updatePellet);
   }
 

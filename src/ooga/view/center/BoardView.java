@@ -1,6 +1,8 @@
 package ooga.view.center;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -9,9 +11,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import ooga.controller.Controller;
 import ooga.controller.IO.JsonParser;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
+import ooga.model.interfaces.Agent;
+import ooga.view.center.agents.AgentView;
 
 public class BoardView {
 
@@ -20,21 +25,48 @@ public class BoardView {
   public static final int GRID_SIZE = 1;
   public static final Paint BOARD_COLOR = Color.BLACK;
 
-
   private VanillaGame myGame;
-  private JsonParser myParser;
+  private Controller myController;
   private GridPane myBoardPane;
 
-  public BoardView (VanillaGame game, JsonParser parser) {
+  public BoardView (VanillaGame game, Controller controller) {
     myGame = game;
-    myParser = parser;
+    myController = controller;
     myBoardPane = new GridPane();
     myBoardPane.setBackground(new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     initiateBoard();
   }
 
   private void initiateBoard() {
-    makeWalls(myParser.getWallMapPositions());
+//    makeWalls(myParser.getWallMapPositions());
+//    int rows = myController.getRows();
+//    int cols = myController.getCols();
+//    for (int r=0; r<rows; r++) {
+//      for (int c=0; c<cols; c++) {
+//        Agent agent = myController.getAgent(x,y);
+//        String agentType = agent.getType();
+//        //TODO: reflection to create ItemView
+//        makeAgentView(agentType);
+//      }
+//    }
+    Map<String, List<Position>> agentMap = myController.getWallMap();
+    for (String type : agentMap.keySet()) {
+      for (Position p : agentMap.get(type)) {
+        makeAgentView(type, p);
+      }
+    }
+  }
+
+  private void makeAgentView(String type, Position position) {
+    try {
+      Class<?> clazz = Class.forName(type);
+      AgentView agentView;
+      agentView = (AgentView) clazz.getDeclaredConstructor(String.class, Position.class)
+          .newInstance(type, position);
+    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+      //TODO: remove stack trace
+      e.printStackTrace();
+    }
   }
 
   private void makeWalls(List<Position> positions) {

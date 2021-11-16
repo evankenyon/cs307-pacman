@@ -1,7 +1,6 @@
 package ooga.model.factories;
 
-import ooga.model.agents.consumables.fruit;
-import ooga.model.agents.players.ghostPlayer;
+import ooga.model.agents.consumables.pellet;
 import ooga.model.agents.wall;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,21 +17,22 @@ class AgentFactoryTest {
 
   @Test
   void createAgentConsumable() {
-    Assertions.assertTrue(agentFactory.createAgent("fruit") instanceof fruit);
+    Assertions.assertTrue(agentFactory.createAgent("pellet", 0, 0) instanceof pellet);
   }
 
-  @Test
-  void createAgentPlayer() {
-    Assertions.assertTrue(agentFactory.createAgent("ghostPlayer") instanceof ghostPlayer);
-  }
+  // TODO: uncomment when we implement ghostPlayer
+//  @Test
+//  void createAgentPlayer() {
+//    Assertions.assertTrue(agentFactory.createAgent("ghostPlayer") instanceof ghostPlayer);
+//  }
 
   @Test
   void createAgentWall() {
-    Assertions.assertTrue(agentFactory.createAgent("wall") instanceof wall);
+    Assertions.assertTrue(agentFactory.createAgent("wall", 0, 0) instanceof wall);
   }
 
   @Test
   void createAgentBad() {
-    Assertions.assertThrows(IllegalArgumentException.class, () -> agentFactory.createAgent("bad"));
+    Assertions.assertThrows(IllegalArgumentException.class, () -> agentFactory.createAgent("bad", 0, 0));
   }
 }

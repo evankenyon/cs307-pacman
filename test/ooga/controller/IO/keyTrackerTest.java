@@ -1,20 +1,20 @@
 package ooga.controller.IO;
 
-import java.awt.AWTException;
 import java.awt.Component;
-import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.sql.Driver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testfx.robot.impl.KeyboardRobotImpl;
 
 public class keyTrackerTest {
 
   private keyTracker tracker;
   private Component c;
-  private KeyEvent e;
+  private KeyEvent left;
+  private KeyEvent right;
+  private KeyEvent up;
+  private KeyEvent down;
+  private KeyEvent nonArrow;
 
   @BeforeEach
   void setUp() {
@@ -25,12 +25,24 @@ public class keyTrackerTest {
         return super.getName();
       }
     };
-    e = new KeyEvent(c, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), KeyEvent.VK_LEFT, 0, 'S');
   }
 
   @Test
   void testForCorrectKey() {
-    Assertions.assertEquals("left", tracker.getPressedKey(e);
+    left = new KeyEvent(c, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), KeyEvent.VK_LEFT, 37);
+    right = new KeyEvent(c, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), KeyEvent.VK_RIGHT, 27);
+    up = new KeyEvent(c, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), KeyEvent.VK_UP, 26);
+    down = new KeyEvent(c, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), KeyEvent.VK_DOWN, 28);
+    Assertions.assertEquals("left", tracker.getPressedKey(left));
+    Assertions.assertEquals("right", tracker.getPressedKey(right));
+    Assertions.assertEquals("up", tracker.getPressedKey(up));
+    Assertions.assertEquals("down", tracker.getPressedKey(down));
+  }
+
+  @Test
+  void testForNonArrowKey() {
+    nonArrow = new KeyEvent(c, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), KeyEvent.VK_N, 78);
+    Assertions.assertEquals("not-arrow", tracker.getPressedKey(nonArrow));
   }
 
 }

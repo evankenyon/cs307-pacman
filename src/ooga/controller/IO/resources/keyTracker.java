@@ -1,13 +1,9 @@
-package ooga.controller.IO;
+package ooga.controller.IO.resources;
 
 import java.awt.event.KeyEvent;
 
 
 public class keyTracker {
-  private final int leftCode = 37;
-  private final int rightCode = 27;
-  private final int upCode = 26;
-  private final int downCode = 28;
 
   /**
    * Communicates the key pressed by user to the model so that it can move the player avatar
@@ -15,23 +11,25 @@ public class keyTracker {
    * @return String indicating which arrow key was pressed, or that the key was not an arrow key
    */
   public String getPressedKey(KeyEvent event) {
-    int keyCode = event.getKeyCode();
-    if (keyCode == leftCode) {
+    if (event.getKeyCode() == KeyEvent.VK_LEFT) {
       return "left";
     }
-    else if (keyCode == rightCode) {
+    else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
       return "right";
     }
-    else if (keyCode == upCode) {
-      return "up";
-    }
-    else if (keyCode == downCode) {
+    else if (event.getKeyCode() == KeyEvent.VK_DOWN) {
       return "down";
+    }
+    else if (event.getKeyCode() == KeyEvent.VK_UP) {
+     return "up";
     }
     else {
       return "not-arrow";
     }
-    //return event.getKeyCode();
   }
+
+
+
+
 
 }

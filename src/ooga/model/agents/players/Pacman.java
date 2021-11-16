@@ -1,43 +1,30 @@
 package ooga.model.agents.players;
 
-import java.util.function.Consumer;
-import ooga.model.interfaces.Agent;
-import ooga.model.movement.Controllable;
-import ooga.model.movement.MovementStrategyContext;
-import ooga.model.util.AgentInfo;
+import ooga.model.interfaces.AbstractAgent;
+import ooga.model.interfaces.Controllable;
+import ooga.model.util.Position;
 
-public class Pacman implements Agent {
+public class Pacman extends AbstractAgent implements Controllable {
 
-  private AgentInfo myData;
-  private MovementStrategyContext myMover;
-  private Consumer<AgentInfo> myConsumer;
+  private final static int DEAD_STATE = 0;
+  private final static int ALIVE_STATE = 1;
+  private final static int SUPER_STATE = 2;
 
-  public Pacman() {
-    myMover = new MovementStrategyContext(new Controllable());
-  }
+  private String currentDirection;
+  private int myState;
+  private Position myPosition;
 
-  @Override
-  public void setData(AgentInfo data) {
-    myData = data;
-  }
-
-  @Override
-  public AgentInfo getData() {
-    return myData;
-  }
-
-  @Override
-  public void addConsumer(Consumer<AgentInfo> consumer) {
-    myConsumer = consumer;
-  }
-
-  @Override
-  public void updateConsumer(AgentInfo info) {
-    myConsumer.accept(info);
+  public Pacman(int x, int y) {
+    super(x, y, "PACMAN");
+    myState = ALIVE_STATE;
   }
 
   public void step() {
-    AgentInfo oldData = myData;
-    myData = myMover.move(oldData);
+    Position oldPosition = myPosition;
+  }
+
+  @Override
+  public void setDirection(String direction) {
+    currentDirection = direction;
   }
 }

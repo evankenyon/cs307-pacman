@@ -1,7 +1,7 @@
 package ooga.model.movement;
 
 import ooga.model.interfaces.Movable;
-import ooga.model.util.AgentInfo;
+import ooga.model.util.Position;
 
 /**
  * Implementing the strategy design pattern to decide how agents are going to move.
@@ -22,10 +22,10 @@ public class MovementStrategyContext {
   /**
    * Move one step for the given agent with the given strategy.
    *
-   * @param info old agentInfo state
+   * @param pos old agent position
    * @return new agentInfo state
    */
-  public AgentInfo move(AgentInfo info) {
-    return strategy.move(info);
+  public Position move(Position pos) {
+    return strategy.move(pos);
   }
 }

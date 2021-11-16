@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Controllable;
-import ooga.model.util.AgentInfo;
+import ooga.model.interfaces.Movable;
+import ooga.model.util.Position;
 
 public class GameBoard {
 
@@ -12,6 +13,7 @@ public class GameBoard {
   private int myCols;
   private List<List<Agent>> myGrid;
   private Controllable myPlayer;
+  private List<Movable> myMoveables;
 
   public GameBoard(int rows, int cols, List<List<String>> initialStates, Controllable player) {
     myRows = rows;
@@ -32,11 +34,15 @@ public class GameBoard {
   /**
    * Finds agent in the grid with the same given agent info.
    *
-   * @param info
+   * @param pos
    * @return
    */
-  public Agent findAgent(AgentInfo info) {
-    return myGrid.get(info.getY()).get(info.getX());
+  public Agent findAgent(Position pos) {
+    return myGrid.get(pos.getCoords()[1]).get(pos.getCoords()[0]);
+  }
+
+  public void setPlayerDirection(String direction) {
+    myPlayer.setDirection(direction);
   }
 
   /**

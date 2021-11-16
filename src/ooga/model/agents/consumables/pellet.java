@@ -1,41 +1,34 @@
 package ooga.model.agents.consumables;
 
-import java.util.function.Consumer;
+import ooga.model.interfaces.AbstractAgent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
-import ooga.model.movement.Static;
-import ooga.model.util.AgentInfo;
+import ooga.model.util.Position;
 
-public class pellet implements Consumable {
+public class pellet extends AbstractAgent implements Consumable {
 
-  private AgentInfo myData;
+  private final static int EATEN_STATE = 0;
+  private final static int UNEATEN_STATE = 1;
+
+  private int myState;
+  private Position myPosition;
   private MovementStrategyContext myMover;
-  private Consumer myConsumer;
 
-  @Override
-  public void setData(AgentInfo data) {
-    myData = data;
-    myMover = new MovementStrategyContext(new Static());
-  }
-
-  @Override
-  public AgentInfo getData() {
-    return myData;
-  }
-
-  @Override
-  public void addConsumer(Consumer<AgentInfo> consumer) {
-    myConsumer = consumer;
-  }
-
-  @Override
-  public void updateConsumer(AgentInfo info) {
-    myConsumer.accept(info);
+  /**
+   * abstract constructor for cell
+   *
+   * @param x     int x position
+   * @param y     int y position
+   * @param state int cell state
+   */
+  public pellet(int x, int y, int state) {
+    super(x, y, "PELLET");
+    myState = UNEATEN_STATE;
   }
 
   @Override
   public void step() {
-    myMover.move(myData);
+    myMover.move(myPosition);
   }
 
   @Override

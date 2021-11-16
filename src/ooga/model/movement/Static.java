@@ -1,7 +1,7 @@
 package ooga.model.movement;
 
 import ooga.model.interfaces.Movable;
-import ooga.model.util.AgentInfo;
+import ooga.model.util.Position;
 
 /**
  * Implements not moving for agents.
@@ -9,7 +9,7 @@ import ooga.model.util.AgentInfo;
 public class Static implements Movable {
 
   @Override
-  public AgentInfo move(AgentInfo info) {
+  public Position move(Position info) {
     return null;
   }
 

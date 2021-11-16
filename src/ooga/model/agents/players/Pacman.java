@@ -54,9 +54,10 @@ public class Pacman extends AbstractAgent implements Controllable {
     return currentDirection;
   }
 
-  public void consume(Consumable agent){
+  public int consume(Consumable agent){
     agent.agentReact();
     agent.applyEffects();
+    return agent.applyPoints();
   }
 
 }

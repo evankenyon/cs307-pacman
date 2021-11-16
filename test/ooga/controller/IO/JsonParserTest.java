@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
-import ooga.model.util.AgentInfo;
+import ooga.model.util.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,36 +23,45 @@ class JsonParserTest {
 
   @Test
   void properWallMapCreation() throws IOException {
-    Map<String, List<AgentInfo>> expected  = new HashMap<>();
+    Map<String, List<Position>> expected  = new HashMap<>();
 
     expected.put("Wall", new ArrayList<>());
     for(int x = 0; x < 5; x++) {
-      expected.get("Wall").add(new AgentInfo(x, 0, 1));
-      expected.get("Wall").add(new AgentInfo(x, 2, 1));
+      expected.get("Wall").add(new Position(x, 0));
+      expected.get("Wall").add(new Position(x, 2));
     }
-    expected.get("Wall").add(new AgentInfo(0, 1, 1));
-    expected.get("Wall").add(new AgentInfo(4, 1, 1));
+    expected.get("Wall").add(new Position(0, 1));
+    expected.get("Wall").add(new Position(4,  1));
 
     expected.put("Pacman", new ArrayList<>());
-    expected.get("Pacman").add(new AgentInfo(1, 1, 1));
+    expected.get("Pacman").add(new Position(1, 1));
 
     expected.put("Dot", new ArrayList<>());
-    expected.get("Dot").add(new AgentInfo(2, 1, 1));
+    expected.get("Dot").add(new Position(2, 1));
 
     expected.put("Pinky", new ArrayList<>());
-    expected.get("Pinky").add(new AgentInfo(3, 1, 1));
+    expected.get("Pinky").add(new Position(3, 1));
 
     jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> compareWallMaps(vanillaGameDataInterface.getWallMap(), expected));
 
     jsonParser.uploadFile(new File("tests/basicWallMap.json"));
   }
 
-  private void compareWallMaps(Map<String, List<AgentInfo>> actual, Map<String, List<AgentInfo>> expected) {
+  private void compareWallMaps(Map<String, List<Position>> actual, Map<String, List<Position>> expected) {
     for (String key : actual.keySet()) {
-      for (AgentInfo agentInfo : actual.get(key)) {
-        Assertions.assertTrue(expected.get(key).contains(agentInfo));
+      for (Position position : actual.get(key)) {
+        Assertions.assertTrue(containsPosition(position, expected.get(key)));
       }
     }
+  }
+
+  private boolean containsPosition(Position a, List<Position> list) {
+    for(Position position : list) {
+      if(a.getCoords()[0] == position.getCoords()[0] && a.getCoords()[1] == position.getCoords()[1]) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Test

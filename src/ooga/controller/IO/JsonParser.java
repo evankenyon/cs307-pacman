@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import ooga.model.VanillaGameData;
 import ooga.model.VanillaGameDataInterface;
-import ooga.model.util.AgentInfo;
+import ooga.model.util.Position;
 import org.apache.commons.io.IOUtils;
 // Decided to use this library after reading article from
 // https://coderolls.com/parse-json-in-java/
@@ -29,7 +29,7 @@ public class JsonParser implements JsonParserInterface {
   private static final String REQUIRED_KEYS_FILENAME = "RequiredKeys";
   private static final String REQUIRED_VALUES_FILENAME = "RequiredValues";
 
-  private Map<String, List<AgentInfo>> wallMap;
+  private Map<String, List<Position>> wallMap;
   private Map<String, Boolean> pelletInfo;
   private String player;
   private Consumer<VanillaGameDataInterface> vanillaGameDataConsumer;
@@ -96,8 +96,7 @@ public class JsonParser implements JsonParserInterface {
     for (int row = 0; row < wallMapArr.length(); row++) {
       for (int col = 0; col < wallMapArr.getJSONArray(row).length(); col++) {
         wallMap.putIfAbsent(wallMapArr.getJSONArray(row).getString(col), new ArrayList<>());
-        wallMap.get(wallMapArr.getJSONArray(row).getString(col)).add(new AgentInfo(col, row,
-            DEFAULT_STATE));
+        wallMap.get(wallMapArr.getJSONArray(row).getString(col)).add(new Position(col, row));
       }
     }
   }

@@ -17,5 +17,4 @@ public class Position {
     myCoords[0] = x;
     myCoords[1] = y;
   }
-
 }

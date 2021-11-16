@@ -1,10 +1,10 @@
-package ooga.view.center.agents.movable;
+package ooga.view.center.agents;
 
-import ooga.model.interfaces.Agent;
-import ooga.model.util.Position;
-import ooga.view.center.agents.AgentView;
+    import ooga.model.interfaces.Agent;
+    import ooga.model.util.Position;
+    import ooga.view.center.agents.AgentView;
 
-public abstract class PlayerView extends AgentView {
+public abstract class MovableView extends AgentView {
 
   public static final String IMAGE_PATH = "ooga.view.center.images.";
 
@@ -16,7 +16,8 @@ public abstract class PlayerView extends AgentView {
 
 //  protected abstract void consume(PlayerView prey);
 
-  protected void updatePlayer(Agent agent) {
+  @Override
+  public void updateAgent(Agent agent) {
     int newX = agent.getPosition()[0];
     int newY = agent.getPosition()[1];
     int newState = agent.getState();

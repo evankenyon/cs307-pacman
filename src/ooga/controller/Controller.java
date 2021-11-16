@@ -30,8 +30,8 @@ public class Controller implements ControllerInterface {
   private Timeline myAnimation;
   private double secondDelay;
   private GameStartupPanel panel;
-  public final int rows = 4;
-  public final int cols = 6;
+  public static final int rows = 4;
+  public static final int cols = 6;
 
 
   public Controller(String language, Stage stage) {

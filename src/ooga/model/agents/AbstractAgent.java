@@ -13,7 +13,6 @@ public abstract class AbstractAgent implements Agent {
 
   private Position myPosition;
   private int myState;
-  private String myString;
 
   /**
    * abstract constructor for cell

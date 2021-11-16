@@ -28,7 +28,12 @@ class GameBoardTest {
     initialStates.put("Pacman", new ArrayList<>());
     initialStates.get("Pacman").add(new Position(0, 0));
 
-    gameBoard = new GameBoard(initialStates, "Pacman");
+    Map<String, Boolean> pelletInfo = new HashMap<>();
+    pelletInfo.put("Dot", Boolean.TRUE);
+
+    VanillaGameDataInterface vanillaGame = new VanillaGameData(initialStates, "Pacman", pelletInfo);
+
+    gameBoard = new GameBoard(vanillaGame);
     Assertions.assertTrue(gameBoard.findAgent(new Position(0, 0)) instanceof Pacman);
   }
 }

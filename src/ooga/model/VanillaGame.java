@@ -1,6 +1,7 @@
 package ooga.model;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -18,7 +19,7 @@ public class VanillaGame implements Game {
 
   public VanillaGame(VanillaGameDataInterface vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    myBoard = new GameBoard(vanillaGameData.getWallMap(), vanillaGameData.getPlayer());
+    myBoard = new GameBoard(vanillaGameData);
   }
 
   public void initializeGame() {
@@ -40,7 +41,7 @@ public class VanillaGame implements Game {
   }
 
   public boolean isWin() {
-    return false;
+    return myBoard.checkWin();
   }
 
   public boolean isLoss() {
@@ -49,6 +50,10 @@ public class VanillaGame implements Game {
 
   private void updateHandlers() {
     //update all view handlers
+  }
+
+  public GameBoard getBoard(){
+    return myBoard;
   }
 }
 

@@ -1,25 +1,41 @@
 package ooga.model;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import javafx.geometry.Pos;
+import ooga.model.factories.AgentFactory;
+import ooga.model.factories.ControllableFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Controllable;
 import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
 
 public class GameBoard {
-
   private int myRows;
   private int myCols;
   private List<List<Agent>> myGrid;
   private Controllable myPlayer;
   private List<Movable> myMoveables;
 
-  public GameBoard(int rows, int cols, List<List<String>> initialStates, Controllable player) {
-    myRows = rows;
-    myCols = cols;
+  // TODO: handle exceptions
+  public GameBoard(Map<String, List<Position>> initialStates, String player)
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    myPlayer = new ControllableFactory().createControllable(player, initialStates.get(player).get(0).getCoords()[1], initialStates.get(player).get(0).getCoords()[0]);
+    myRows = calculateDimension(initialStates, 1) + 1;
+    myCols = calculateDimension(initialStates, 0) + 1;
     createGrid(initialStates);
-    myPlayer = player;
+  }
+
+  private int calculateDimension(Map<String, List<Position>> initialStates, int dim) {
+    int maxCol = 0;
+    for(String key : initialStates.keySet()) {
+      for(Position position : initialStates.get(key)) {
+        maxCol = Math.max(position.getCoords()[dim], maxCol);
+      }
+    }
+    return maxCol;
   }
 
   //move every agent in the board by one step
@@ -45,20 +61,16 @@ public class GameBoard {
    * Example List<List<String>> <<wall,wall,wall,wall,wall> <wall,dot,dot,dot,wall>
    * <wall,dot,player,dot,wall> <wall,dot,dot,dot,wall> <wall,wall,wall,wall,wall>>
    **/
-  private void createGrid(List<List<String>> initialStates) {
-    String agentType;
-    for (int row = 0; row < myRows; row++) {
-      ArrayList<Agent> tempRow = new ArrayList<>();
-      for (int col = 0; col < myCols; col++) {
-        agentType = initialStates.get(row).get(col);
-        if (agentType.equals("player")) {
-          tempRow.add(myPlayer);
-        } else {
-          Agent agent = null;//use reflection to instantiate the right agent types (wall, ghost, Pacman...) This means initialState strings have to equal class names.
-          tempRow.add(agent);
-        }
+  private void createGrid(Map<String, List<Position>> initialStates) {
+    Agent[][] myGridArr = new Agent[myRows][myCols];
+    for (String state : initialStates.keySet()) {
+      for (Position position : initialStates.get(state)) {
+        myGridArr[position.getCoords()[1]][position.getCoords()[0]] = new AgentFactory().createAgent(state, position.getCoords()[0], position.getCoords()[1]);
       }
-      myGrid.add(tempRow);
+    }
+    myGrid = new ArrayList<>();
+    for(Agent[] myGridArrRow : myGridArr) {
+      myGrid.add(List.of(myGridArrRow));
     }
   }
 

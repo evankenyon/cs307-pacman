@@ -6,13 +6,14 @@ import static ooga.model.agents.players.Pacman.ALIVE_STATE;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 
+import java.net.URL;
 import java.util.function.Consumer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 
-public class PacmanView extends MovableView {
+public class PacView extends MovableView {
 
   public static final String PAC_IMAGE = "pacman.png";
 
@@ -20,7 +21,7 @@ public class PacmanView extends MovableView {
   private Agent myAgent; //TODO: change to subclass of Agent
   private Consumer<Agent> updatePacMan = newInfo -> updateAgent(newInfo);
 
-  public PacmanView(Agent pac) {
+  public PacView(Agent pac) {
     myAgent = pac;
     pacImage = new ImageView(String.format("%s%s", IMAGE_PATH, PAC_IMAGE));
     setImage(pacImage);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -26,7 +27,9 @@ import ooga.view.center.agents.AgentView;
 import ooga.view.center.agents.WallView;
 
 public class BoardView {
-
+  private static final String DEFAULT_RESOURCE_PACKAGE =
+      BoardView.class.getPackageName() + ".resources.";
+  private static final String TYPE_FILENAME = "types";
   public static final int BOARD_WIDTH = 500;
   public static final int BOARD_HEIGHT = 700;
   public static final int GRID_SIZE = 1;
@@ -77,7 +80,9 @@ public class BoardView {
   }
 
   private AgentView makeAgentView(String type, Position position) {
-    String camelType = String.format("%s%s",type.substring(0,1).toUpperCase(),type.substring(1));
+    ResourceBundle types = ResourceBundle.getBundle("ooga.view.center.resources.types");
+    String realType = types.getString(type);
+    String camelType = String.format("%s%s",realType.substring(0,1).toUpperCase(),realType.substring(1));
     String className = String.format("ooga.view.center.agents.%sView",camelType);
     Agent agent = myGame.getBoard().findAgent(position);
     try {
@@ -86,7 +91,7 @@ public class BoardView {
           .newInstance(agent);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       //TODO: remove stack trace
-//      e.printStackTrace();
+      e.printStackTrace();
       return new WallView(new wall(0,0));
     }
   }

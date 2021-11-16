@@ -6,7 +6,7 @@ package ooga.view.center.agents;
 
 public abstract class MovableView extends AgentView {
 
-  public static final String IMAGE_PATH = "images.";
+  public static final String IMAGE_PATH = "images/";
 
   protected abstract void moveX(int x);
 

@@ -9,7 +9,7 @@
   "Difficulty-Level":1,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall"],
-    ["Wall","Pacman","Wall","Dot", "Dot” “Wall"],
+    ["Wall","Pacman","Wall","Dot", "Dot", "Wall"],
     ["Wall","Dot","Dot","Dot","Dot","Wall"],
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
   ]

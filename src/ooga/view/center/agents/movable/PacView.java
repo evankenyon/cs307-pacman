@@ -1,10 +1,8 @@
 package ooga.view.center.agents.movable;
 
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
-import static ooga.view.center.agents.movable.PlayerView.IMAGE_PATH;
 import java.util.function.Consumer;
 import javafx.scene.image.ImageView;
-import ooga.model.VanillaGame;
 import ooga.model.interfaces.Agent;
 
 public class PacView extends PlayerView {

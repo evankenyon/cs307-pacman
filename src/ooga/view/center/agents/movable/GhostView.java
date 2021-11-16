@@ -1,5 +1,4 @@
 package ooga.view.center.agents.movable;
-import static ooga.view.center.agents.movable.PlayerView.IMAGE_PATH;
 import java.util.function.Consumer;
 import javafx.scene.image.ImageView;
 import ooga.model.interfaces.Agent;

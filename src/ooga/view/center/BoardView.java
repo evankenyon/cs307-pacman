@@ -67,10 +67,10 @@ public class BoardView {
     }
   }
 
-  private void updateBoard(AgentView newInfo) {
-    GridPane.setColumnIndex(newInfo.getImage(), newInfo.getX());
-    GridPane.setColumnIndex(newInfo.getImage(), newInfo.getX());
-  }
+//  private void updateBoard(AgentView newInfo) {
+//    GridPane.setColumnIndex(newInfo.getImage(), newInfo.getX());
+//    GridPane.setColumnIndex(newInfo.getImage(), newInfo.getX());
+//  }
 
   private void attachAgent(AgentView agentView) {
     myBoardPane.getChildren().add(agentView.getImage());

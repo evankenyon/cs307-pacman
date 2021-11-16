@@ -17,7 +17,8 @@ import ooga.model.interfaces.Agent;
 public class WallView extends StationaryView {
 
   public static final Paint WALL_COLOR = Color.BLUE;
-  public static final int WALL_SIZE = 50;
+  public static final int WALL_HEIGHT = BOARD_HEIGHT/rows;
+  public static final int WALL_WIDTH = BOARD_WIDTH/cols;
 
   private wall myAgent;
   private Rectangle myWallShape;
@@ -25,19 +26,13 @@ public class WallView extends StationaryView {
 
   public WallView (wall w) {
     myAgent = w;
-    myWallShape = makeWall(myAgent);
+    myWallShape = new Rectangle(WALL_WIDTH, WALL_HEIGHT, WALL_COLOR);
     setImage(myWallShape);
     setX(myAgent.getPosition()[0]);
     setY(myAgent.getPosition()[1]);
     myWallShape.setX(BOARD_WIDTH/cols*myAgent.getPosition()[0]);
     myWallShape.setY(BOARD_HEIGHT/rows*myAgent.getPosition()[1]);
     myAgent.addConsumer(updateWall);
-  }
-
-  private Rectangle makeWall(wall myAgent) {
-    int x = myAgent.getPosition()[0];
-    int y = myAgent.getPosition()[1];
-    return new Rectangle(WALL_SIZE, WALL_SIZE, WALL_COLOR);
   }
 
   @Override

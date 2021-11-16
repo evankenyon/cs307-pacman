@@ -19,17 +19,18 @@ public class GameStartupPanel {
     ComboBox<String> selectViewMode;
 
     public GameStartupPanel(Stage stage) {
-        createStartupPanelView(stage);
+        this.stage = stage;
+        stage.setScene(createStartupScene());
+        stage.setTitle("Game Startup");
         stage.show();
     }
 
-    public void createStartupPanelView(Stage stage) {
-        this.stage = stage;
-        stage.setTitle("Game Startup");
+    public Scene createStartupScene() {
         GridPane root = new GridPane();
         addStartupOptions(root);
         addStartButton(root);
-        Scene myScene = new Scene(root);
+        Scene myScene = new Scene(root, 400, 400);
+        return myScene;
     }
 
     private void addStartupOptions(GridPane root) {
@@ -57,6 +58,7 @@ public class GameStartupPanel {
 
     private void addStartButton(GridPane root){
         Button startButton = new Button();
+        startButton.setId("startButton");
         startButton.setDefaultButton(true);
         startButton.setText("PLAY");
         startButton.setOnAction(e -> {
@@ -83,6 +85,7 @@ public class GameStartupPanel {
             newComboBox.getItems().add(option);
         }
         newComboBox.setMinWidth(150);
+        newComboBox.setId(category);
         return newComboBox;
     }
 

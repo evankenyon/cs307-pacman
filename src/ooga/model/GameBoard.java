@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 import ooga.factories.AgentFactory;
 import ooga.factories.ControllableFactory;
+import ooga.model.agents.wall;
 import ooga.model.interfaces.Agent;
+import ooga.model.interfaces.Consumable;
 import ooga.model.interfaces.Controllable;
 import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
@@ -17,18 +19,24 @@ public class GameBoard {
   private int myCols;
   private List<List<Agent>> myGrid;
   private Controllable myPlayer;
-  private List<Movable> myMoveables;
+  private List<wall> myWalls;
+  private List<Consumable> myConsumables;
+  private List<Movable> myMovables;
+  //Instantiiate a list containing the instantiated agents for each respective type.
   private List<String> requiredPellets;
   private int pelletsLeftToEat;
 
   // TODO: handle exceptions
-  public GameBoard(VanillaGameDataInterface vanillaGameData)
+  public GameBoard(DataInterface vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     myPlayer = new ControllableFactory().createControllable(vanillaGameData.getPlayer(),
         vanillaGameData.getWallMap().get(vanillaGameData.getPlayer()).get(0).getCoords()[1],
         vanillaGameData.getWallMap().get(vanillaGameData.getPlayer()).get(0).getCoords()[0]);
     myRows = calculateDimension(vanillaGameData.getWallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.getWallMap(), 0) + 1;
+    createRequiredPellets(vanillaGameData.getPelletInfo());
+    myWalls = new ArrayList<>();
+    myMovables = new ArrayList<>();
     createGrid(vanillaGameData.getWallMap());
     createRequiredPellets(vanillaGameData.getPelletInfo());
   }
@@ -41,6 +49,8 @@ public class GameBoard {
       }
     }
   }
+
+ // private void createWallList();
 
   private int calculateDimension(Map<String, List<Position>> initialStates, int dim) {
     int maxCol = 0;
@@ -75,8 +85,8 @@ public class GameBoard {
 
   private boolean checkMoveValidity(Position newPosition) {
     //TODO: add cases for walls, other overlaps, etc
-    int x = newPosition.getCoords()[1];
-    int y = newPosition.getCoords()[0];
+    int x = newPosition.getCoords()[0];
+    int y = newPosition.getCoords()[1];
     return checkGridBounds(x, y);
   }
 
@@ -116,8 +126,9 @@ public class GameBoard {
     Agent[][] myGridArr = new Agent[myRows][myCols];
     for (String state : initialStates.keySet()) {
       for (Position position : initialStates.get(state)) {
-        myGridArr[position.getCoords()[1]][position.getCoords()[0]] = new AgentFactory().createAgent(
+        Agent newAgent = new AgentFactory().createAgent(
             state, position.getCoords()[0], position.getCoords()[1]);
+        myGridArr[position.getCoords()[1]][position.getCoords()[0]] = newAgent;
         if (requiredPellets.contains(state)) {
           pelletsLeftToEat++;
         }

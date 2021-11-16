@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import ooga.model.util.Position;
 
-public interface VanillaGameDataInterface {
+public interface DataInterface {
   public Map<String, List<Position>> getWallMap();
 
   public String getPlayer();

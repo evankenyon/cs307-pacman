@@ -16,6 +16,7 @@ import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.keyTracker;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
+import ooga.view.GameStartupPanel;
 import ooga.view.mainView.MainView;
 
 public class Controller implements ControllerInterface {
@@ -28,13 +29,13 @@ public class Controller implements ControllerInterface {
   private MainView mainView;
   private Timeline myAnimation;
   private double secondDelay;
-  private Stage stage;
+  private GameStartupPanel panel;
 
 
   public Controller(String language, Stage stage) {
     myAnimation = new Timeline();
     myAnimation.setCycleCount(Timeline.INDEFINITE);
-    mainView = new MainView(stage, this, vanillaGame);
+    panel = new GameStartupPanel(stage);
     secondDelay = SECONDS_ANIMATION_BASE;
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();
@@ -59,11 +60,7 @@ public class Controller implements ControllerInterface {
     return wallMap;
   }
 
-  public void setMainView(MainView mainView) {
-    Scene scene = mainView.makeScene(SCENE_WIDTH, SCENE_HEIGHT);
-    stage.setScene(scene);
-    stage.show();
-  }
+
 
   @Override
   public void updatePressedKey(KeyEvent event) {

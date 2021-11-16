@@ -7,6 +7,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import javafx.animation.Timeline;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import ooga.Main;
@@ -27,12 +28,13 @@ public class Controller implements ControllerInterface {
   private MainView mainView;
   private Timeline myAnimation;
   private double secondDelay;
+  private Stage stage;
 
 
   public Controller(String language, Stage stage) {
     myAnimation = new Timeline();
     myAnimation.setCycleCount(Timeline.INDEFINITE);
-    mainView = new MainView();
+    mainView = new MainView(stage, this, vanillaGame);
     secondDelay = SECONDS_ANIMATION_BASE;
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();
@@ -55,6 +57,12 @@ public class Controller implements ControllerInterface {
 
   public Map<String, List<Position>> getWallMap() {
     return wallMap;
+  }
+
+  public void setMainView(MainView mainView) {
+    Scene scene = mainView.makeScene(SCENE_WIDTH, SCENE_HEIGHT);
+    stage.setScene(scene);
+    stage.show();
   }
 
   @Override

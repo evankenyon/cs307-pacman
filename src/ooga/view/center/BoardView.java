@@ -34,7 +34,7 @@ public class BoardView {
   }
 
   private void initiateBoard() {
-//    makeWalls(myParser.getWallMapPositions());
+    makeWalls(myParser.getWallMapPositions());
   }
 
   private void makeWalls(List<AgentInfo> positions) {

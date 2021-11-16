@@ -14,11 +14,11 @@ public abstract class PlayerView {
 
   protected abstract void consume(PlayerView prey);
 
-//  protected void updatePlayer(Integer[] newInfo) {
-//    moveX(newInfo[0]);
-//    moveY(newInfo[1]);
-//    updateState(newInfo[2]);
-//  }
+  protected void updatePlayer(Integer[] newInfo) {
+    moveX(newInfo[0]);
+    moveY(newInfo[1]);
+    updateState(newInfo[2]);
+  }
 
 
   protected void updatePlayer(AgentInfo newInfo) {

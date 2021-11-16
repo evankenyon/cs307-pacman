@@ -1,4 +1,4 @@
-package ooga;
+package ooga.controller.IO.resources;
 
 import java.awt.event.KeyEvent;
 

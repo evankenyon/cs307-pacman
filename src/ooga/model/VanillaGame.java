@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Controllable;
 import ooga.model.interfaces.Game;
 
@@ -22,12 +21,16 @@ public class VanillaGame implements Game {
     myBoard = new GameBoard(vanillaGameData.getWallMap(), vanillaGameData.getPlayer());
   }
 
-  //get board layout from controller, then controller (?) needs to access the map again to see if the keystroke is valid, and then return the coordinate Pacman should be at again.
-
   public void initializeGame() {
 
   }
 
+  /**
+   * Sets player direction.
+   */
+  public void setPlayerDirection(String direction) {
+    myBoard.setPlayerDirection(direction);
+  }
 
   public void step() {
     //make every single move on the backend

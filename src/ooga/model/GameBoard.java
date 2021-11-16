@@ -57,6 +57,10 @@ public class GameBoard {
     return myGrid.get(pos.getCoords()[1]).get(pos.getCoords()[0]);
   }
 
+  public void setPlayerDirection(String direction) {
+    myPlayer.setDirection(direction);
+  }
+
   /**
    * Example List<List<String>> <<wall,wall,wall,wall,wall> <wall,dot,dot,dot,wall>
    * <wall,dot,player,dot,wall> <wall,dot,dot,dot,wall> <wall,wall,wall,wall,wall>>

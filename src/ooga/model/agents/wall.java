@@ -34,4 +34,9 @@ public class wall extends AbstractAgent {
   public int getState() {
     return myState;
   }
+
+  @Override
+  public void setCoords(Position newPosition) {
+    myPosition = newPosition;
+  }
 }

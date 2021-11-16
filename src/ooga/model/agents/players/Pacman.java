@@ -7,9 +7,9 @@ import ooga.model.util.Position;
 
 public class Pacman extends AbstractAgent implements Controllable {
 
-  private final static int DEAD_STATE = 0;
-  private final static int ALIVE_STATE = 1;
-  private final static int SUPER_STATE = 2;
+  public final static int DEAD_STATE = 0;
+  public final static int ALIVE_STATE = 1;
+  public final static int SUPER_STATE = 2;
 
   private String currentDirection;
   private int myState;

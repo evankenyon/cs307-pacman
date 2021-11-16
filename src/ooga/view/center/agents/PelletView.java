@@ -21,12 +21,12 @@ public class PelletView extends StationaryView {
 
 //  private VanillaGame myGame;
 //  private Position myInfo;
-  private pellet myAgent; //TODO: change to correct agent subclass
+  private Agent myAgent; //TODO: change to correct agent subclass
   private Circle myCircle;
   private Consumer<Agent> updatePellet = newInfo -> updateAgent(newInfo);
 
 
-  public PelletView (pellet pelletAgent) {
+  public PelletView (Agent pelletAgent) {
     myAgent = pelletAgent;
 //    myInfo = agentInfo;
     myCircle = makeCircle();

@@ -20,11 +20,11 @@ public class WallView extends StationaryView {
   public static final int WALL_HEIGHT = BOARD_HEIGHT/rows;
   public static final int WALL_WIDTH = BOARD_WIDTH/cols;
 
-  private wall myAgent;
+  private Agent myAgent;
   private Rectangle myWallShape;
   private Consumer<Agent> updateWall = newInfo -> updateAgent(newInfo);
 
-  public WallView (wall w) {
+  public WallView (Agent w) {
     myAgent = w;
     myWallShape = new Rectangle(WALL_WIDTH, WALL_HEIGHT, WALL_COLOR);
     setImage(myWallShape);

@@ -11,7 +11,6 @@ public class wall extends AbstractAgent {
   private static final int PASSABLE = 1;
 
   private int myState;
-  private Position myPosition;
   private MovementStrategyContext myMover;
 
   public wall(int x, int y) {
@@ -22,12 +21,12 @@ public class wall extends AbstractAgent {
 
   @Override
   public Position step() {
-    return myMover.move(myPosition);
+    return myMover.move(new Position(getPosition()[0], getPosition()[1]));
   }
 
   @Override
-  public int[] getPosition() {
-    return myPosition.getCoords();
+  public void setCoords(Position newPosition) {
+    setPosition(newPosition.getCoords());
   }
 
   @Override
@@ -35,8 +34,4 @@ public class wall extends AbstractAgent {
     return myState;
   }
 
-  @Override
-  public void setCoords(Position newPosition) {
-    myPosition = newPosition;
-  }
 }

@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 public class BottomView {
+    GridPane bottomGrid;
 
     public void BottomView () {
         initiateBottomView();
@@ -18,7 +19,7 @@ public class BottomView {
         Button statsButton   = makeButton("Stats", e -> showStats());
         Button newGameButton = makeButton("New Game", e -> resetGame());
 
-        GridPane bottomGrid = new GridPane();
+        bottomGrid = new GridPane();
         bottomGrid.add(easyButton, 1, 1);
         bottomGrid.add(hardButton, 2, 1);
         bottomGrid.add(statsButton, 3, 1);
@@ -55,5 +56,9 @@ public class BottomView {
         Button myButton = new Button(name);
         myButton.setOnAction(handler);
         return myButton;
+    }
+
+    public GridPane getBottomViewGP() {
+        return this.bottomGrid;
     }
 }

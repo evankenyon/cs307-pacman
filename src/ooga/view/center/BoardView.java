@@ -1,22 +1,29 @@
 package ooga.view.center;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.function.Consumer;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import ooga.controller.Controller;
 import ooga.controller.IO.JsonParser;
 import ooga.model.VanillaGame;
+import ooga.model.agents.wall;
 import ooga.model.util.Position;
 import ooga.model.interfaces.Agent;
 import ooga.view.center.agents.AgentView;
+import ooga.view.center.agents.WallView;
 
 public class BoardView {
 
@@ -27,12 +34,14 @@ public class BoardView {
 
   private VanillaGame myGame;
   private Controller myController;
-  private GridPane myBoardPane;
+  private Pane myBoardPane;
+  private List<Consumer<AgentView>> boardConsumerList;
 
   public BoardView (VanillaGame game, Controller controller) {
     myGame = game;
     myController = controller;
-    myBoardPane = new GridPane();
+    myBoardPane = new Pane();
+    boardConsumerList = new ArrayList<>();
     myBoardPane.setBackground(new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     initiateBoard();
   }
@@ -52,27 +61,36 @@ public class BoardView {
     Map<String, List<Position>> agentMap = myController.getWallMap();
     for (String type : agentMap.keySet()) {
       for (Position p : agentMap.get(type)) {
-        makeAgentView(type, p);
+        AgentView agentView = makeAgentView(type, p);
+        attachAgent(agentView);
       }
     }
   }
 
-  private void makeAgentView(String type, Position position) {
+  private void updateBoard(AgentView newInfo) {
+    GridPane.setColumnIndex(newInfo.getImage(), newInfo.getX());
+    GridPane.setColumnIndex(newInfo.getImage(), newInfo.getX());
+  }
+
+  private void attachAgent(AgentView agentView) {
+    myBoardPane.getChildren().add(agentView.getImage());
+  }
+
+  private AgentView makeAgentView(String type, Position position) {
+    String camelType = String.format("%s%s",type.substring(0,1).toUpperCase(),type.substring(1));
+    String className = String.format("ooga.view.center.agents.%sView",camelType);
+    Agent agent = myGame.getBoard().findAgent(position);
     try {
-      Class<?> clazz = Class.forName(type);
-      AgentView agentView;
-      agentView = (AgentView) clazz.getDeclaredConstructor(String.class, Position.class)
-          .newInstance(type, position);
+      Class<?> clazz = Class.forName(className);
+      return (AgentView) clazz.getDeclaredConstructor(Agent.class)
+          .newInstance(agent);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       //TODO: remove stack trace
       e.printStackTrace();
+      return new WallView(new wall(0,0));
     }
   }
 
-  private void makeWalls(List<Position> positions) {
-    for (Position p : positions) {
-      myBoardPane.add(new Rectangle(p.getCoords()[0], p.getCoords()[1], GRID_SIZE, GRID_SIZE), p.getCoords()[0], p.getCoords()[1]);
-    }
-  }
+  public Node getGridPane() { return myBoardPane; }
 
 }

@@ -1,14 +1,13 @@
-package ooga.view.center.agents.stationary;
+package ooga.view.center.agents;
 
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
-import static ooga.view.center.agents.movable.PlayerView.IMAGE_PATH;
+import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 
 import java.util.function.Consumer;
 import javafx.scene.image.ImageView;
-import ooga.model.VanillaGame;
 import ooga.model.interfaces.Agent;
 
-public class FruitView extends FoodView {
+public class FruitView extends StationaryView {
 
   public static final String CHERRIES_IMAGE = "cherries.png";
 
@@ -16,7 +15,7 @@ public class FruitView extends FoodView {
 //  private AgentInfo myInfo;
   private Agent myAgent; //TODO: change to correct agent subclass
   private ImageView myImage;
-  private Consumer<Agent> updatePellet = newInfo -> updateFood(newInfo);
+  private Consumer<Agent> updatePellet = newInfo -> updateAgent(newInfo);
 
 
   public FruitView (Agent fruit) {
@@ -24,6 +23,9 @@ public class FruitView extends FoodView {
 //    myInfo = agentInfo;
     myAgent.addConsumer(updatePellet);
     myImage = new ImageView(String.format("%s%s", IMAGE_PATH, CHERRIES_IMAGE));
+    setX(myAgent.getPosition()[0]);
+    setY(myAgent.getPosition()[1]);
+    setImage(myImage);
   }
 
 

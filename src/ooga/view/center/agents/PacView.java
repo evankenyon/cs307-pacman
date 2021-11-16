@@ -1,35 +1,38 @@
-package ooga.view.center.agents.movable;
+package ooga.view.center.agents;
 
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
+
 import java.util.function.Consumer;
 import javafx.scene.image.ImageView;
+import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 
-public class PacView extends PlayerView {
+public class PacView extends MovableView {
 
   public static final String PAC_IMAGE = "pacman.png";
 
   private ImageView pacImage;
-  private Agent myAgent; //TODO: change to subclass of Agent
-  private Consumer<Agent> updatePacMan = newInfo -> updatePlayer(newInfo);
+  private Pacman myAgent; //TODO: change to subclass of Agent
+  private Consumer<Agent> updatePacMan = newInfo -> updateAgent(newInfo);
 
-  public PacView(Agent pac) {
+  public PacView(Pacman pac) {
     myAgent = pac;
-//    myInfo = agentInfo;
     pacImage = new ImageView(String.format("%s%s", IMAGE_PATH, PAC_IMAGE));
-    // add the Consumers to the List<Consumer<Integer>> in the model
+    setImage(pacImage);
+    setX(myAgent.getPosition()[0]);
+    setY(myAgent.getPosition()[1]);
+// add the Consumers to the List<Consumer<Integer>> in the model
     myAgent.addConsumer(updatePacMan);
   }
 
-
   @Override
   protected void moveX(int x) {
-    pacImage.setX(x);
+    setX(x);
   }
 
   @Override
   protected void moveY(int y) {
-    pacImage.setY(y);
+    setY(y);
   }
 
   @Override

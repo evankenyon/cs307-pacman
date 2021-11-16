@@ -1,5 +1,6 @@
 package ooga.model.agents.players;
 
+import java.util.Arrays;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.interfaces.Controllable;
@@ -14,32 +15,31 @@ public class Pacman extends AbstractAgent implements Controllable {
 
   private String currentDirection;
   private int myState;
-  private Position myPosition;
   private MovementStrategyContext myMover;
 
   public Pacman(int x, int y) {
-    super(x, y, "PACMAN");
+    super(x, y);
     myState = ALIVE_STATE;
   }
 
   public void setCoords(Position newPosition) {
-    myPosition = newPosition;
+    setPosition(newPosition.getCoords());
   }
 
   public Position step() {
-    int[] coords = myPosition.getCoords();
+    int[] coords = getPosition();
+    System.out.println(Arrays.toString(coords));
     return handleMovement(coords, currentDirection);
   }
-
 
   private Position handleMovement(int[] coordinates, String currentDirection) {
     //refactor this to not use switch case statements potentially?
     //also argument that we never really need it to recognize other keys to move so it doesn't need to be flexible
     return switch (currentDirection) {
-      case "left" -> new Position(coordinates[0], coordinates[1] - 1);
-      case "right" -> new Position(coordinates[0], coordinates[1] + 1);
-      case "up" -> new Position(coordinates[0] - 1, coordinates[1]);
-      case "down" -> new Position(coordinates[0] + 1, coordinates[1]);
+      case "left" -> new Position((coordinates[0] - 1), coordinates[1]);
+      case "right" -> new Position((coordinates[0] + 1), coordinates[1]);
+      case "up" -> new Position(coordinates[0], (coordinates[1] + 1));
+      case "down" -> new Position(coordinates[0], (coordinates[1] - 1));
       default -> null;
     };
   }
@@ -54,7 +54,7 @@ public class Pacman extends AbstractAgent implements Controllable {
     return currentDirection;
   }
 
-  public void consume(Consumable agent){
+  public void consume(Consumable agent) {
     agent.agentReact();
     agent.applyEffects();
   }

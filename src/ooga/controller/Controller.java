@@ -40,6 +40,7 @@ public class Controller implements ControllerInterface {
     secondDelay = SECONDS_ANIMATION_BASE;
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();
+//    mainView = new MainView(this, vanillaGame, stage);
   }
 
   // TODO: properly handle exception
@@ -50,16 +51,22 @@ public class Controller implements ControllerInterface {
     vanillaGameDataInterface -> {
       try {
         vanillaGame = new VanillaGame(vanillaGameDataInterface);
-        mainView = new MainView(this, vanillaGame);
+//
       } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
         throw new InputMismatchException("Error occurred in backend reflection");
       }
     });
     jsonParser.uploadFile(file);
+
+    System.out.println(wallMap);
   }
 
   public Map<String, List<Position>> getWallMap() {
     return wallMap;
+  }
+
+  public VanillaGame getVanillaGame() {
+    return vanillaGame;
   }
 
 

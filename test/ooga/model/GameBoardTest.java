@@ -75,4 +75,26 @@ class GameBoardTest {
     gameBoard = new GameBoard(vanillaGame);
     Assertions.assertTrue(gameBoard.findAgent(new Position(0, 1)) instanceof wall);
   }
+
+  @Test
+  void mappingWorks()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    Map<String, List<Position>> initialStates = new HashMap<>();
+    initialStates.put("Pacman", new ArrayList<>());
+    initialStates.get("Pacman").add(new Position(0, 0));
+
+    initialStates.put("Wall", new ArrayList<>());
+    initialStates.get("Wall").add(new Position(0, 1));
+    initialStates.put("Dot", new ArrayList<>());
+    initialStates.get("Dot").add(new Position(0, 2));
+
+    Map<String, Boolean> pelletInfo = new HashMap<>();
+    pelletInfo.put("Dot", Boolean.TRUE);
+
+    DataInterface vanillaGame = new Data(initialStates, "Pacman", pelletInfo);
+
+    gameBoard = new GameBoard(vanillaGame);
+    Assertions.assertTrue(gameBoard.findAgent(new Position(0, 1)) instanceof wall);
+    Assertions.assertTrue(gameBoard.findAgent(new Position(0, 2)) instanceof pellet);
+  }
 }

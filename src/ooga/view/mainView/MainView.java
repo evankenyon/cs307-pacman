@@ -5,6 +5,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.model.VanillaGame;
+import ooga.view.GameStartupPanel;
 import ooga.view.bottomView.BottomView;
 import ooga.view.center.BoardView;
 import ooga.view.topView.TopView;
@@ -22,16 +23,20 @@ public class MainView {
   private Scene myScene;
   private VanillaGame myGame;
   private BorderPane root;
+  private GameStartupPanel gameStartupPanel;
 
-  public MainView (Controller controller, VanillaGame game) {
+  public MainView (Controller controller, VanillaGame game, Stage stage) {
     myController = controller;
     myGame = game;
-    myScene = makeScene(SCENE_WIDTH, SCENE_HEIGHT);
-    myStage.setScene(myScene);
-    myStage.show();
     myBottomView = new BottomView();
+//    gameStartupPanel = new GameStartupPanel(myStage);
+    myStage = stage;
     myBoardView = new BoardView(myGame, myController);
     myTopView = new TopView();
+    myScene = makeScene(SCENE_WIDTH, SCENE_HEIGHT);
+    myStage.hide();
+    myStage.setScene(myScene);
+    myStage.show();
   }
 
   private Scene makeScene(int width, int height) {

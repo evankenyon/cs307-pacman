@@ -10,6 +10,8 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.model.VanillaGame;
+import ooga.view.center.BoardView;
 import ooga.view.mainView.MainView;
 
 import java.io.File;
@@ -28,9 +30,9 @@ public class GameStartupPanel {
 
     public GameStartupPanel(Stage stage) {
         this.stage = stage;
-        stage.setScene(createStartupScene());
-        stage.setTitle("Game Startup");
-        stage.show();
+        this.stage.setScene(createStartupScene());
+        this.stage.setTitle("Game Startup");
+        this.stage.show();
     }
 
     public Scene createStartupScene() {
@@ -99,8 +101,9 @@ public class GameStartupPanel {
                 // TODO: Fix exception:
                 try {
                     application.uploadFile(gameFile);
+                    MainView mainView = new MainView(application, application.getVanillaGame(), stage);
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+//                    ex.printStackTrace();
                 }
                 //MainView newMainView = new MainView();
                 selectGameType.setValue(null);
@@ -108,6 +111,7 @@ public class GameStartupPanel {
                 selectViewMode.setValue(null);
             } else {
                 //notEnoughInfo();
+                System.out.println("whoops");
             }
         });
         root.add(startButton, 1, 9);

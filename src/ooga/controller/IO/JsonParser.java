@@ -32,13 +32,14 @@ public class JsonParser implements JsonParserInterface {
   private Map<String, List<Position>> wallMap;
   private Map<String, Boolean> pelletInfo;
   private String player;
-  private Consumer<DataInterface> vanillaGameDataConsumer;
+  private List<Consumer<DataInterface>> vanillaGameDataConsumers;
 
   private ResourceBundle requiredKeys;
 
   public JsonParser() {
     wallMap = new HashMap<>();
     pelletInfo = new HashMap<>();
+    vanillaGameDataConsumers = new ArrayList<>();
     requiredKeys = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, REQUIRED_KEYS_FILENAME));
   }
@@ -47,9 +48,15 @@ public class JsonParser implements JsonParserInterface {
   public void uploadFile(File file) throws IOException, InputMismatchException {
     // Borrowed code to read in a json file from
     // https://stackoverflow.com/questions/7463414/what-s-the-best-way-to-load-a-jsonobject-from-a-json-text-file
+    File currFile = file;
+    StringBuilder pathName = new StringBuilder(file.getName());
+    while (!currFile.getParentFile().getName().equals("data")) {
+      pathName.insert(0, String.format("%s/", currFile.getParentFile().getName()));
+      currFile = currFile.getParentFile();
+    }
 
     InputStream is = this.getClass().getClassLoader()
-        .getResourceAsStream(file.getPath());
+        .getResourceAsStream(String.valueOf(pathName));
     if (is == null) {
       throw new FileNotFoundException();
     }
@@ -65,7 +72,7 @@ public class JsonParser implements JsonParserInterface {
 
   @Override
   public void addVanillaGameDataConsumer(Consumer<DataInterface> consumer) {
-    vanillaGameDataConsumer = consumer;
+    vanillaGameDataConsumers.add(consumer);
   }
 
   private void checkForRequiredKeys(Set<String> keySet) throws InputMismatchException {
@@ -138,7 +145,9 @@ public class JsonParser implements JsonParserInterface {
   }
 
   private void updateConsumers(DataInterface vanillaGameData) {
-    vanillaGameDataConsumer.accept(vanillaGameData);
+    for (Consumer<DataInterface> consumer : vanillaGameDataConsumers) {
+      consumer.accept(vanillaGameData);
+    }
   }
 
 }

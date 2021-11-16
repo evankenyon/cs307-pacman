@@ -1,7 +1,7 @@
 {
   "Title":"Pacman with Super Power Up",
   "Player":"Pacman",
-  "RequiredPellets":["Dot", "Super", "Energizer"],
+  "RequiredPellets":["Dot"],
   "OptionalPellets":["Fruit"],
   "PowerUps":["Super", "Energizer"],
   "NumberOfLives":3,
@@ -9,8 +9,8 @@
   "Difficulty-Level":2,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall"],
-    ["Wall","Pacman","Inky","Pinky", "Clyde” “Wall"],
-    ["Wall","Dot","Dot","Energizer","Super","Wall"],
+    ["Wall","Pacman", "Dot", "Wall", "Wall", "Wall"],
+    ["Wall","Dot","Dot","Dot","Dot","Wall"],
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
   ]
 }

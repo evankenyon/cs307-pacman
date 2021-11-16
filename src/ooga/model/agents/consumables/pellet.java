@@ -23,7 +23,7 @@ public class pellet extends AbstractAgent implements Consumable {
    * @param y     int y position
    */
   public pellet(int x, int y) {
-    super(x, y, "PELLET");
+    super(x, y);
     myState = UNEATEN_STATE;
     myMover = new MovementStrategyContext(new Static());
   }

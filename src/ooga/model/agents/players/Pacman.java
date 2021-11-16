@@ -1,6 +1,5 @@
 package ooga.model.agents.players;
 
-import java.util.Arrays;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.interfaces.Controllable;
@@ -28,9 +27,9 @@ public class Pacman extends AbstractAgent implements Controllable {
 
   public Position step() {
     int[] coords = getPosition();
-    System.out.println(Arrays.toString(coords));
     return handleMovement(coords, currentDirection);
   }
+
 
   private Position handleMovement(int[] coordinates, String currentDirection) {
     //refactor this to not use switch case statements potentially?
@@ -55,8 +54,10 @@ public class Pacman extends AbstractAgent implements Controllable {
   }
 
   public void consume(Consumable agent) {
+  public int consume(Consumable agent){
     agent.agentReact();
     agent.applyEffects();
+    return agent.applyPoints();
   }
 
 }

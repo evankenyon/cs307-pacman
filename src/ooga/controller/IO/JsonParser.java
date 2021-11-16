@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Consumer;
-import ooga.model.VanillaGameData;
-import ooga.model.VanillaGameDataInterface;
+import ooga.model.Data;
+import ooga.model.DataInterface;
 import ooga.model.util.Position;
 import org.apache.commons.io.IOUtils;
 // Decided to use this library after reading article from
@@ -32,7 +32,7 @@ public class JsonParser implements JsonParserInterface {
   private Map<String, List<Position>> wallMap;
   private Map<String, Boolean> pelletInfo;
   private String player;
-  private Consumer<VanillaGameDataInterface> vanillaGameDataConsumer;
+  private Consumer<DataInterface> vanillaGameDataConsumer;
 
   private ResourceBundle requiredKeys;
 
@@ -60,11 +60,11 @@ public class JsonParser implements JsonParserInterface {
     setupPelletInfo(json.getJSONArray("RequiredPellets"), json.getJSONArray("OptionalPellets"));
     setupWallMap(json.getJSONArray("WallMap"));
     checkWallMapForRequirements();
-    updateConsumers(new VanillaGameData(wallMap, player, pelletInfo));
+    updateConsumers(new Data(wallMap, player, pelletInfo));
   }
 
   @Override
-  public void addVanillaGameDataConsumer(Consumer<VanillaGameDataInterface> consumer) {
+  public void addVanillaGameDataConsumer(Consumer<DataInterface> consumer) {
     vanillaGameDataConsumer = consumer;
   }
 
@@ -137,7 +137,7 @@ public class JsonParser implements JsonParserInterface {
     }
   }
 
-  private void updateConsumers(VanillaGameDataInterface vanillaGameData) {
+  private void updateConsumers(DataInterface vanillaGameData) {
     vanillaGameDataConsumer.accept(vanillaGameData);
   }
 }

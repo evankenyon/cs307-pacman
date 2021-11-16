@@ -30,7 +30,7 @@ class GameBoardTest {
     Map<String, Boolean> pelletInfo = new HashMap<>();
     pelletInfo.put("Dot", Boolean.TRUE);
 
-    VanillaGameDataInterface vanillaGame = new VanillaGameData(initialStates, "Pacman", pelletInfo);
+    DataInterface vanillaGame = new Data(initialStates, "Pacman", pelletInfo);
 
     gameBoard = new GameBoard(vanillaGame);
     Assertions.assertTrue(gameBoard.findAgent(new Position(0, 0)) instanceof Pacman);

@@ -29,4 +29,9 @@ public class Pacman extends AbstractAgent implements Controllable {
   public void setDirection(String direction) {
     currentDirection = direction;
   }
+
+  @Override
+  public String getDirection() {
+    return myDirection;
+  }
 }

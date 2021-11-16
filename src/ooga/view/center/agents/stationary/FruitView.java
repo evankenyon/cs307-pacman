@@ -1,7 +1,7 @@
 package ooga.view.center.agents.stationary;
 
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
-import static ooga.view.center.movable.PlayerView.IMAGE_PATH;
+import static ooga.view.center.agents.movable.PlayerView.IMAGE_PATH;
 
 import java.util.function.Consumer;
 import javafx.scene.image.ImageView;

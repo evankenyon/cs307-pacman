@@ -24,4 +24,8 @@ public interface Agent {
    * Moves agent.
    */
   void step();
+
+  int[] getPosition();
+
+  int getState();
 }

@@ -1,15 +1,18 @@
 package ooga.view.center;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Consumer;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -31,12 +34,14 @@ public class BoardView {
 
   private VanillaGame myGame;
   private Controller myController;
-  private GridPane myBoardPane;
+  private Pane myBoardPane;
+  private List<Consumer<AgentView>> boardConsumerList;
 
   public BoardView (VanillaGame game, Controller controller) {
     myGame = game;
     myController = controller;
-    myBoardPane = new GridPane();
+    myBoardPane = new Pane();
+    boardConsumerList = new ArrayList<>();
     myBoardPane.setBackground(new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     initiateBoard();
   }
@@ -62,14 +67,13 @@ public class BoardView {
     }
   }
 
-//  private void updateBoard(Agent newInfo) {
-//    myAgentView.updateAgent(newInfo);
-//    GridPane.setColumnIndex(myAgentView.getImage(), myAgentView.getX());
-//    GridPane.setColumnIndex(myAgentView.getImage(), myAgentView.getX());
-//  }
+  private void updateBoard(AgentView newInfo) {
+    GridPane.setColumnIndex(newInfo.getImage(), newInfo.getX());
+    GridPane.setColumnIndex(newInfo.getImage(), newInfo.getX());
+  }
 
   private void attachAgent(AgentView agentView) {
-    myBoardPane.add(agentView.getImage(), agentView.getX(), agentView.getY());
+    myBoardPane.getChildren().add(agentView.getImage());
   }
 
   private AgentView makeAgentView(String type, Position position) {

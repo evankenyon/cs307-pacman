@@ -32,7 +32,7 @@ public class Controller implements ControllerInterface {
   public Controller(String language, Stage stage) {
     myAnimation = new Timeline();
     myAnimation.setCycleCount(Timeline.INDEFINITE);
-    mainView = new MainView(stage, this, vanillaGame);
+//    mainView = new MainView(stage, this, vanillaGame);
     secondDelay = SECONDS_ANIMATION_BASE;
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();

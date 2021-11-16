@@ -40,8 +40,8 @@ public class GameBoard {
 
   private int calculateDimension(Map<String, List<Position>> initialStates, int dim) {
     int maxCol = 0;
-    for(String key : initialStates.keySet()) {
-      for(Position position : initialStates.get(key)) {
+    for (String key : initialStates.keySet()) {
+      for (Position position : initialStates.get(key)) {
         maxCol = Math.max(position.getCoords()[dim], maxCol);
       }
     }
@@ -52,9 +52,28 @@ public class GameBoard {
   public void moveAll() {
     for (List<Agent> row : myGrid) {
       for (Agent agent : row) {
-        agent.step();
+        Position newPosition = agent.step();
+        if (checkMoveValidity(newPosition)) {
+          agent.setCoords(newPosition);
+        }
       }
     }
+  }
+
+  private boolean checkMoveValidity(Position newPosition) {
+    //TODO: add cases for walls, other overlaps, etc
+    int x = newPosition.getCoords()[1];
+    int y = newPosition.getCoords()[0];
+    return checkGridBounds(x, y);
+  }
+
+  private boolean checkGridBounds(int x, int y) {
+    if (x > myRows || y > myCols) {
+      return false;
+    } else if (x < 0 || y < 0) {
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -67,6 +86,11 @@ public class GameBoard {
     return myGrid.get(pos.getCoords()[1]).get(pos.getCoords()[0]);
   }
 
+  /**
+   * Set pacman direction for movement and display
+   *
+   * @param direction string
+   */
   public void setPlayerDirection(String direction) {
     myPlayer.setDirection(direction);
   }
@@ -79,11 +103,12 @@ public class GameBoard {
     Agent[][] myGridArr = new Agent[myRows][myCols];
     for (String state : initialStates.keySet()) {
       for (Position position : initialStates.get(state)) {
-        myGridArr[position.getCoords()[1]][position.getCoords()[0]] = new AgentFactory().createAgent(state, position.getCoords()[0], position.getCoords()[1]);
+        myGridArr[position.getCoords()[1]][position.getCoords()[0]] = new AgentFactory().createAgent(
+            state, position.getCoords()[0], position.getCoords()[1]);
       }
     }
     myGrid = new ArrayList<>();
-    for(Agent[] myGridArrRow : myGridArr) {
+    for (Agent[] myGridArrRow : myGridArr) {
       myGrid.add(List.of(myGridArrRow));
     }
   }

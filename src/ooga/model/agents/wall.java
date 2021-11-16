@@ -21,8 +21,8 @@ public class wall extends AbstractAgent {
   }
 
   @Override
-  public void step() {
-    myMover.move(myPosition);
+  public Position step() {
+    return myMover.move(myPosition);
   }
 
   @Override

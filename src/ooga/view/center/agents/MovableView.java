@@ -1,13 +1,13 @@
-package ooga.view.center.agents.movable;
+package ooga.view.center.agents;
 
-import ooga.model.interfaces.Agent;
-import ooga.model.util.Position;
-import ooga.view.center.agents.AgentView;
+    import ooga.model.interfaces.Agent;
+    import ooga.model.util.Position;
+    import ooga.view.center.agents.AgentView;
 
-public abstract class PlayerView extends AgentView {
+public abstract class MovableView extends AgentView {
 
   public static final String IMAGE_PATH = "ooga.view.center.images.";
-  protected int test;
+
   protected abstract void moveX(int x);
 
   protected abstract void moveY(int y);

@@ -1,11 +1,10 @@
-package ooga.view.center.agents.movable;
-import static ooga.view.center.agents.movable.PlayerView.IMAGE_PATH;
+package ooga.view.center.agents;
 
 import java.util.function.Consumer;
 import javafx.scene.image.ImageView;
 import ooga.model.interfaces.Agent;
 
-public class GhostView extends PlayerView {
+public class GhostView extends MovableView {
 
   public static final String GHOST_COLORS[] = {"blue","light_blue","pink","red","yellow"};
 
@@ -18,6 +17,7 @@ public class GhostView extends PlayerView {
   public GhostView (Agent ghost) { // make just 1 ghost (not 4) for first test?
     myAgent = ghost;
     ghostImage = makeGhostImage(0); //TODO: fix Ghost Number
+    setImage(ghostImage);
     myAgent.addConsumer(updateGhost);
   }
 

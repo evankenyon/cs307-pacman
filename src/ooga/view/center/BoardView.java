@@ -2,6 +2,7 @@ package ooga.view.center;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
@@ -14,9 +15,11 @@ import javafx.scene.shape.Rectangle;
 import ooga.controller.Controller;
 import ooga.controller.IO.JsonParser;
 import ooga.model.VanillaGame;
+import ooga.model.agents.wall;
 import ooga.model.util.Position;
 import ooga.model.interfaces.Agent;
 import ooga.view.center.agents.AgentView;
+import ooga.view.center.agents.WallView;
 
 public class BoardView {
 
@@ -52,27 +55,34 @@ public class BoardView {
     Map<String, List<Position>> agentMap = myController.getWallMap();
     for (String type : agentMap.keySet()) {
       for (Position p : agentMap.get(type)) {
-        makeAgentView(type, p);
+        AgentView agentView = makeAgentView(type, p);
+        attachAgent(agentView, p);
       }
     }
   }
 
-  private void makeAgentView(String type, Position position) {
+  private void attachAgent(AgentView agentView, Position p) {
+    myBoardPane.add(agentView.getImage(), p.getCoords()[0], p.getCoords()[1]);
+  }
+
+  private AgentView makeAgentView(String type, Position position) {
+    String camelType = String.format("%s%s",type.substring(0,1).toUpperCase(),type.substring(1));
+    String className = String.format("ooga.view.center.agents.%sView",camelType);
     try {
-      Class<?> clazz = Class.forName(type);
-      AgentView agentView;
-      agentView = (AgentView) clazz.getDeclaredConstructor(String.class, Position.class)
+      Class<?> clazz = Class.forName(className);
+      return (AgentView) clazz.getDeclaredConstructor(Agent.class, Position.class)
           .newInstance(type, position);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       //TODO: remove stack trace
       e.printStackTrace();
+      return new WallView(new wall(0,0,0));
     }
   }
 
-  private void makeWalls(List<Position> positions) {
-    for (Position p : positions) {
-      myBoardPane.add(new Rectangle(p.getCoords()[0], p.getCoords()[1], GRID_SIZE, GRID_SIZE), p.getCoords()[0], p.getCoords()[1]);
-    }
-  }
+//  private void makeWalls(List<Position> positions) {
+//    for (Position p : positions) {
+//      myBoardPane.add(new Rectangle(p.getCoords()[0], p.getCoords()[1], GRID_SIZE, GRID_SIZE), p.getCoords()[0], p.getCoords()[1]);
+//    }
+//  }
 
 }

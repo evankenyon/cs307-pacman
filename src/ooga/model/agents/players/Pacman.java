@@ -15,6 +15,7 @@ public class Pacman extends AbstractAgent {
 
   private int myState;
   private Position myPosition;
+  private String myDirection;
   private MovementStrategyContext myMover;
 
   public Pacman(int x, int y){

@@ -8,6 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import ooga.view.mainView.MainView;
 
 import static java.util.Objects.isNull;
 
@@ -67,6 +68,7 @@ public class GameStartupPanel {
             String selectedViewMode = selectViewMode.getValue();
             if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
                 //newGame(selectedGameType, selectedLanguage, selectedViewMode);
+                MainView newMainView = new MainView();
                 selectGameType.setValue(null);
                 selectLanguage.setValue(null);
                 selectViewMode.setValue(null);

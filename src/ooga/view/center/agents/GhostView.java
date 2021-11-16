@@ -1,5 +1,10 @@
 package ooga.view.center.agents;
 
+import static ooga.controller.Controller.cols;
+import static ooga.controller.Controller.rows;
+import static ooga.view.center.BoardView.BOARD_HEIGHT;
+import static ooga.view.center.BoardView.BOARD_WIDTH;
+
 import java.util.function.Consumer;
 import javafx.scene.image.ImageView;
 import ooga.model.interfaces.Agent;
@@ -20,6 +25,8 @@ public class GhostView extends MovableView {
     setImage(ghostImage);
     setX(myAgent.getPosition()[0]);
     setY(myAgent.getPosition()[1]);
+    ghostImage.setX(BOARD_WIDTH/cols*myAgent.getPosition()[0]);
+    ghostImage.setY(BOARD_HEIGHT/rows*myAgent.getPosition()[1]);
     myAgent.addConsumer(updateGhost);
   }
 
@@ -31,11 +38,13 @@ public class GhostView extends MovableView {
   @Override
   protected void moveX(int x) {
     setX(x);
+    ghostImage.setX(BOARD_WIDTH/cols*x);
   }
 
   @Override
   protected void moveY(int y) {
     setY(y);
+    ghostImage.setY(BOARD_HEIGHT/rows*y);
   }
 
   @Override

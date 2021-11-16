@@ -8,6 +8,7 @@ import ooga.factories.AgentFactory;
 import ooga.factories.ControllableFactory;
 import ooga.model.agents.wall;
 import ooga.model.interfaces.Agent;
+import ooga.model.interfaces.Consumable;
 import ooga.model.interfaces.Controllable;
 import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
@@ -17,9 +18,12 @@ public class GameBoard {
   private int myCols;
   private List<List<Agent>> myGrid;
   private Controllable myPlayer;
-  private List<Agent> myWalls;
-  private List<String> requiredPellets;
+
+  private List<wall> myWalls;
+  private List<Consumable> myConsumables;
   private List<Movable> myMovables;
+  //Instantiiate a list containing the instantiated agents for each respective type.
+  private List<String> requiredPellets;
 
   // TODO: handle exceptions
   public GameBoard(DataInterface vanillaGameData)

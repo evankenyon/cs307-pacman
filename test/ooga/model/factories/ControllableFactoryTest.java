@@ -27,6 +27,6 @@ class ControllableFactoryTest {
   @Test
   void createControllableBad() {
     Assertions.assertThrows(ClassNotFoundException.class,
-        () -> controllableFactory.createControllable("bad"));
+        () -> controllableFactory.createControllable("bad", 0, 0));
   }
 }

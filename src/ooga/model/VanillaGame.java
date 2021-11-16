@@ -1,5 +1,6 @@
 package ooga.model;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -14,13 +15,10 @@ public class VanillaGame implements Game {
   private List<Consumer<String>> myObservers;
 
   //private GameScore myScore; potential data structure to hold score, highscore, time played, etc.?
-  public VanillaGame(VanillaGameDataInterface vanillaGameData) {
 
-  }
-
-  public VanillaGame(Map<String, String> properties, List<List<String>> boardLayout) {
-    //Use reflection and properties.get(MY_PLAYER)to initialize myPlayer to either a ghostPlayer or Pacman
-    myBoard = new GameBoard(boardLayout.get(0).size(), boardLayout.size(), boardLayout, myPlayer);
+  public VanillaGame(VanillaGameDataInterface vanillaGameData)
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    myBoard = new GameBoard(vanillaGameData.getWallMap(), vanillaGameData.getPlayer());
   }
 
   public void initializeGame() {

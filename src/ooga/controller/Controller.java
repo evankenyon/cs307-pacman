@@ -51,6 +51,7 @@ public class Controller implements ControllerInterface {
     vanillaGameDataInterface -> {
       try {
         vanillaGame = new VanillaGame(vanillaGameDataInterface);
+        mainView = new MainView(this, vanillaGame);
       } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
         throw new InputMismatchException("Error occurred in backend reflection");
       }

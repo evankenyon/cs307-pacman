@@ -12,7 +12,6 @@ public abstract class AbstractAgent implements Agent {
   protected List<Consumer<Agent>> stateConsumers;
 
   private Position myPosition;
-  private int myState;
 
   /**
    * abstract constructor for cell
@@ -49,7 +48,5 @@ public abstract class AbstractAgent implements Agent {
     myPosition.setCoords(newPosition[0], newPosition[1]);
   }
 
-  public int getState() {
-    return myState;
-  }
+  public abstract int getState();
 }

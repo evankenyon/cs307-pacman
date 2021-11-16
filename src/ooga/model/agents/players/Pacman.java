@@ -21,6 +21,11 @@ public class Pacman extends AbstractAgent implements Controllable {
     myState = ALIVE_STATE;
   }
 
+  @Override
+  public int getState() {
+    return myState;
+  }
+
   public void setCoords(Position newPosition) {
     setPosition(newPosition.getCoords());
   }

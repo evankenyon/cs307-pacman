@@ -29,6 +29,11 @@ public class pellet extends AbstractAgent implements Consumable {
   }
 
   @Override
+  public int getState() {
+    return myState;
+  }
+
+  @Override
   public Position step() {
     return myMover.move(new Position(getPosition()[0], getPosition()[1]));
   }

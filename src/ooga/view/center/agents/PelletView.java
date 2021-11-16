@@ -19,7 +19,7 @@ public class PelletView extends StationaryView {
 //  private Position myInfo;
   private pellet myAgent; //TODO: change to correct agent subclass
   private Circle myCircle;
-  private Consumer<Agent> updatePellet = newInfo -> updateStationary(newInfo);
+  private Consumer<Agent> updatePellet = newInfo -> updateAgent(newInfo);
 
 
   public PelletView (pellet pelletAgent) {
@@ -27,6 +27,8 @@ public class PelletView extends StationaryView {
 //    myInfo = agentInfo;
     myCircle = makeCircle();
     setImage(myCircle);
+    setX(myAgent.getPosition()[0]);
+    setY(myAgent.getPosition()[1]);
     myAgent.addConsumer(updatePellet);
   }
 

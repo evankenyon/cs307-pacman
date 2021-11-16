@@ -17,12 +17,14 @@ public class WallView extends StationaryView {
 
   private wall myAgent;
   private Rectangle myWallShape;
-  private Consumer<Agent> updateWall = newInfo -> updateStationary(newInfo);
+  private Consumer<Agent> updateWall = newInfo -> updateAgent(newInfo);
 
   public WallView (wall w) {
     myAgent = w;
     myWallShape = makeWall(myAgent);
     setImage(myWallShape);
+    setX(myAgent.getPosition()[0]);
+    setY(myAgent.getPosition()[1]);
     myAgent.addConsumer(updateWall);
   }
 

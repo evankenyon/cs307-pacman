@@ -12,12 +12,14 @@ public class GhostView extends MovableView {
 
   private ImageView ghostImage;
   private Agent myAgent;
-  private Consumer<Agent> updateGhost = newInfo -> updatePlayer(newInfo);
+  private Consumer<Agent> updateGhost = newInfo -> updateAgent(newInfo);
 
   public GhostView (Agent ghost) { // make just 1 ghost (not 4) for first test?
     myAgent = ghost;
     ghostImage = makeGhostImage(0); //TODO: fix Ghost Number
     setImage(ghostImage);
+    setX(myAgent.getPosition()[0]);
+    setY(myAgent.getPosition()[1]);
     myAgent.addConsumer(updateGhost);
   }
 
@@ -28,12 +30,12 @@ public class GhostView extends MovableView {
 
   @Override
   protected void moveX(int x) {
-    ghostImage.setX(x);
+    setX(x);
   }
 
   @Override
   protected void moveY(int y) {
-    ghostImage.setY(y);
+    setY(y);
   }
 
   @Override

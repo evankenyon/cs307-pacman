@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -56,22 +57,29 @@ public class BoardView {
     for (String type : agentMap.keySet()) {
       for (Position p : agentMap.get(type)) {
         AgentView agentView = makeAgentView(type, p);
-        attachAgent(agentView, p);
+        attachAgent(agentView);
       }
     }
   }
 
-  private void attachAgent(AgentView agentView, Position p) {
-    myBoardPane.add(agentView.getImage(), p.getCoords()[0], p.getCoords()[1]);
+//  private void updateBoard(Agent newInfo) {
+//    myAgentView.updateAgent(newInfo);
+//    GridPane.setColumnIndex(myAgentView.getImage(), myAgentView.getX());
+//    GridPane.setColumnIndex(myAgentView.getImage(), myAgentView.getX());
+//  }
+
+  private void attachAgent(AgentView agentView) {
+    myBoardPane.add(agentView.getImage(), agentView.getX(), agentView.getY());
   }
 
   private AgentView makeAgentView(String type, Position position) {
     String camelType = String.format("%s%s",type.substring(0,1).toUpperCase(),type.substring(1));
     String className = String.format("ooga.view.center.agents.%sView",camelType);
+    Agent agent = myGame.getBoard().findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);
-      return (AgentView) clazz.getDeclaredConstructor(Agent.class, Position.class)
-          .newInstance(type, position);
+      return (AgentView) clazz.getDeclaredConstructor(Agent.class)
+          .newInstance(agent);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       //TODO: remove stack trace
       e.printStackTrace();
@@ -79,10 +87,6 @@ public class BoardView {
     }
   }
 
-//  private void makeWalls(List<Position> positions) {
-//    for (Position p : positions) {
-//      myBoardPane.add(new Rectangle(p.getCoords()[0], p.getCoords()[1], GRID_SIZE, GRID_SIZE), p.getCoords()[0], p.getCoords()[1]);
-//    }
-//  }
+  public Node getGridPane() { return myBoardPane; }
 
 }

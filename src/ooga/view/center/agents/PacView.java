@@ -13,26 +13,26 @@ public class PacView extends MovableView {
 
   private ImageView pacImage;
   private Pacman myAgent; //TODO: change to subclass of Agent
-  private Consumer<Agent> updatePacMan = newInfo -> updatePlayer(newInfo);
+  private Consumer<Agent> updatePacMan = newInfo -> updateAgent(newInfo);
 
   public PacView(Pacman pac) {
     myAgent = pac;
-//    myInfo = agentInfo;
     pacImage = new ImageView(String.format("%s%s", IMAGE_PATH, PAC_IMAGE));
     setImage(pacImage);
-    // add the Consumers to the List<Consumer<Integer>> in the model
+    setX(myAgent.getPosition()[0]);
+    setY(myAgent.getPosition()[1]);
+// add the Consumers to the List<Consumer<Integer>> in the model
     myAgent.addConsumer(updatePacMan);
   }
 
-
   @Override
   protected void moveX(int x) {
-    pacImage.setX(x);
+    setX(x);
   }
 
   @Override
   protected void moveY(int y) {
-    pacImage.setY(y);
+    setY(y);
   }
 
   @Override

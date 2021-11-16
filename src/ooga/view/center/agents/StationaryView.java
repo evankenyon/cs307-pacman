@@ -7,7 +7,8 @@ public abstract class StationaryView extends AgentView {
 
   protected abstract void updateState(int newState);
 
-  protected void updateStationary(Agent newAgent) {
+  @Override
+  public void updateAgent(Agent newAgent) {
     updateState(newAgent.getState());
   }
 }

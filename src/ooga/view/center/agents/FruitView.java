@@ -15,7 +15,7 @@ public class FruitView extends StationaryView {
 //  private AgentInfo myInfo;
   private Agent myAgent; //TODO: change to correct agent subclass
   private ImageView myImage;
-  private Consumer<Agent> updatePellet = newInfo -> updateStationary(newInfo);
+  private Consumer<Agent> updatePellet = newInfo -> updateAgent(newInfo);
 
 
   public FruitView (Agent fruit) {
@@ -23,6 +23,8 @@ public class FruitView extends StationaryView {
 //    myInfo = agentInfo;
     myAgent.addConsumer(updatePellet);
     myImage = new ImageView(String.format("%s%s", IMAGE_PATH, CHERRIES_IMAGE));
+    setX(myAgent.getPosition()[0]);
+    setY(myAgent.getPosition()[1]);
     setImage(myImage);
   }
 

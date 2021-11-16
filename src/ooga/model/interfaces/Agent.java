@@ -7,6 +7,7 @@ import java.util.function.Consumer;
  * Interface to set/retrieve agents coords.
  **/
 public interface Agent {
+
   /**
    * add consumer to link to view
    *

@@ -6,4 +6,5 @@ interface settingsTracker {
    * @param inputStream, HashMap of user setting selections
    */
   public void setSettings(HashMap inputStream)
+
 }

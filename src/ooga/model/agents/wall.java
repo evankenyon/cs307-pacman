@@ -1,5 +1,7 @@
 package ooga.model.agents;
 
+
+import ooga.model.agents.AbstractAgent;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
@@ -14,7 +16,7 @@ public class wall extends AbstractAgent {
   private MovementStrategyContext myMover;
 
   public wall(int x, int y, int state) {
-    super( x, y);
+    super(x, y, "WALL");
     myState = PASSABLE;
     myMover = new MovementStrategyContext(new Static());
   }

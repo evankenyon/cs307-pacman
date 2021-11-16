@@ -1,5 +1,4 @@
 package ooga.model.agents.consumables;
-
 import ooga.model.agents.AbstractAgent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
@@ -22,7 +21,7 @@ public class pellet extends AbstractAgent implements Consumable {
    * @param state int cell state
    */
   public pellet(int x, int y, int state) {
-    super(x, y);
+    super(x, y, "PELLET");
     myState = UNEATEN_STATE;
   }
 

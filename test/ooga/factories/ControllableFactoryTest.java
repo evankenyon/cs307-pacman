@@ -1,7 +1,7 @@
 package ooga.factories;
 
 import java.lang.reflect.InvocationTargetException;
-import ooga.model.agents.players.ghostPlayer;
+import ooga.model.agents.players.Pacman;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,12 +15,14 @@ class ControllableFactoryTest {
     controllableFactory = new ControllableFactory();
   }
 
-  @Test
-  void createControllableCorrect()
-      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    Assertions.assertTrue(
-        controllableFactory.createControllable("ghostPlayer") instanceof ghostPlayer);
-  }
+//  TODO: delete if controllables are no longer used at end of project, uncomment if they are
+
+//  @Test
+//  void createControllableCorrect()
+//      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+//    Assertions.assertTrue(
+//        controllableFactory.createControllable("Pacman") instanceof Pacman);
+//  }
 
   @Test
   void createControllableBad() {

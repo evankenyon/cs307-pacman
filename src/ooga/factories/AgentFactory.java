@@ -10,7 +10,7 @@ public class AgentFactory {
       AgentFactory.class.getPackageName() + ".resources.";
   private static final String PACKAGES_FILENAME = "Packages";
 
-  public Agent createAgent(String agent)
+  public Agent createAgent(String agent, int x, int y)
       throws IllegalArgumentException {
     Agent createdAgent = null;
     int numNot = 0;
@@ -19,8 +19,8 @@ public class AgentFactory {
     for (String aPackage : packages.keySet()) {
       try {
         createdAgent = (Agent) Class.forName(
-                String.format("%s%s", packages.getString(aPackage), agent)).getConstructor()
-            .newInstance();
+                String.format("%s%s", packages.getString(aPackage), agent)).getConstructor(int.class, int.class)
+            .newInstance(x, y);
       } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
         numNot++;
       }

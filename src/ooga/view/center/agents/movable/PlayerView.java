@@ -1,6 +1,7 @@
 package ooga.view.center.agents.movable;
 
 import ooga.model.interfaces.Agent;
+import ooga.model.util.Position;
 import ooga.view.center.agents.AgentView;
 
 public abstract class PlayerView extends AgentView {
@@ -15,10 +16,10 @@ public abstract class PlayerView extends AgentView {
 
 //  protected abstract void consume(PlayerView prey);
 
-  protected void updatePlayer(Agent newInfo) {
-    int newX = newInfo.getX();
-    int newY = newInfo.getY();
-    int newState = newInfo.getState();
+  protected void updatePlayer(Agent agent) {
+    int newX = agent.getPosition()[0];
+    int newY = agent.getPosition()[1];
+    int newState = agent.getState();
     moveX(newX);
     moveY(newY);
     updateState(newState);

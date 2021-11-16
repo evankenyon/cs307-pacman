@@ -31,8 +31,8 @@ public class PelletView extends FoodView {
   }
 
   private Circle makeCircle(Agent agent) {
-    int x = agent.getCoords()[0];
-    int y = agent.getCoords()[1];
+    int x = agent.getPosition()[0];
+    int y = agent.getPosition()[1];
     int size = SMALL_PELLET_SIZE;
     if (agent.getState() == 1) size = LARGE_PELLET_SIZE;
     return new Circle(x, y, size, PELLET_COLOR);

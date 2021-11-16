@@ -1,8 +1,9 @@
-package ooga.model.interfaces;
+package ooga.model.agents;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 
 public abstract class AbstractAgent implements Agent {
@@ -10,9 +11,9 @@ public abstract class AbstractAgent implements Agent {
   /*** cell list of consumers*/
   protected List<Consumer<Agent>> stateConsumers;
 
-  private String TYPE;
   private Position myPosition;
   private int myState;
+  private String myString;
 
   /**
    * abstract constructor for cell
@@ -23,7 +24,6 @@ public abstract class AbstractAgent implements Agent {
   public AbstractAgent(int x, int y, String type) {
     myPosition = new Position(x, y);
     stateConsumers = new ArrayList<Consumer<Agent>>();
-    TYPE = type;
   }
 
 
@@ -40,12 +40,13 @@ public abstract class AbstractAgent implements Agent {
     for (Consumer<Agent> consumer : stateConsumers) {
       consumer.accept(this);
     }
-
-
-
-
-  public String getType() {
-    return TYPE;
   }
 
+  public int[] getPosition(){
+    return myPosition.getCoords();
+  }
+
+  public int getState(){
+    return myState;
+  }
 }

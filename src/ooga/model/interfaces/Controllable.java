@@ -10,4 +10,6 @@ public interface Controllable extends Agent {
    **/
   void setDirection(String direction);
 
+  String getDirection();
+
 }

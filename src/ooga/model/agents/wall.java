@@ -1,6 +1,6 @@
 package ooga.model.agents;
 
-import ooga.model.interfaces.AbstractAgent;
+
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
@@ -23,5 +23,15 @@ public class wall extends AbstractAgent {
   @Override
   public void step() {
     myMover.move(myPosition);
+  }
+
+  @Override
+  public int[] getPosition() {
+    return myPosition.getCoords();
+  }
+
+  @Override
+  public int getState() {
+    return myState;
   }
 }

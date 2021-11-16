@@ -1,4 +1,4 @@
-package ooga.model.factories;
+package ooga.factories;
 
 import java.lang.reflect.InvocationTargetException;
 import ooga.model.agents.players.Pacman;

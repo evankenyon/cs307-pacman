@@ -25,10 +25,7 @@ public interface Agent {
    */
   void step();
 
-  /**
-   * Get type
-   *
-   * @return type string
-   */
-  String getType();
+  int[] getPosition();
+
+  int getState();
 }

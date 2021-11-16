@@ -1,4 +1,4 @@
-package ooga.model.factories;
+package ooga.factories;
 
 import ooga.model.agents.consumables.pellet;
 import ooga.model.agents.wall;

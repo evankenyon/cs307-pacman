@@ -1,6 +1,7 @@
 package ooga.model.agents.players;
 
 import ooga.model.agents.AbstractAgent;
+import ooga.model.interfaces.Consumable;
 import ooga.model.interfaces.Controllable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
@@ -52,4 +53,10 @@ public class Pacman extends AbstractAgent implements Controllable {
   public String getDirection() {
     return currentDirection;
   }
+
+  public void consume(Consumable agent){
+    agent.agentReact();
+    agent.applyEffects();
+  }
+
 }

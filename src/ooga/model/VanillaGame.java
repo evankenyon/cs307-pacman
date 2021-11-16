@@ -1,8 +1,8 @@
 package ooga.model;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 import ooga.model.interfaces.Controllable;
 import ooga.model.interfaces.Game;
@@ -16,7 +16,7 @@ public class VanillaGame implements Game {
 
   //private GameScore myScore; potential data structure to hold score, highscore, time played, etc.?
 
-  public VanillaGame(VanillaGameDataInterface vanillaGameData)
+  public VanillaGame(DataInterface vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     myBoard = new GameBoard(vanillaGameData);
   }
@@ -40,7 +40,7 @@ public class VanillaGame implements Game {
   }
 
   public boolean isWin() {
-    return false;
+    return myBoard.checkWin();
   }
 
   public boolean isLoss() {

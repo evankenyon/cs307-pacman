@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Map;
 import ooga.model.util.Position;
 
-public class VanillaGameData implements VanillaGameDataInterface {
+public class Data implements DataInterface {
   private Map<String, List<Position>> wallMap;
   private String player;
   private Map<String, Boolean> pelletInfo;
 
-  public VanillaGameData (Map<String, List<Position>> wallMap, String player, Map<String, Boolean> pelletInfo) {
+  public Data(Map<String, List<Position>> wallMap, String player, Map<String, Boolean> pelletInfo) {
     this.wallMap = wallMap;
     this.player = player;
     this.pelletInfo = pelletInfo;

@@ -1,5 +1,6 @@
 package ooga.model;
 
+import ooga.model.agents.consumables.pellet;
 import ooga.model.agents.players.Pacman;
 import ooga.model.util.Position;
 import org.junit.jupiter.api.Assertions;
@@ -57,6 +58,16 @@ public class PacmanTest {
 
     Assertions.assertEquals(0, currentX);
     Assertions.assertEquals(2, currentY);
+  }
+
+  @Test
+  void consumeTestPellet() {
+    //create pellet at 2,2 and pacman at 1,2 then move pacman towards pellet
+    pellet myPellet = new pellet(2, 2);
+    pacman.setDirection("right");
+    int pointsGained = pacman.consume(myPellet);
+
+    Assertions.assertEquals(2, pointsGained);
   }
 
 

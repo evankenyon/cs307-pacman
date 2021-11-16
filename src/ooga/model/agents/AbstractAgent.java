@@ -22,7 +22,7 @@ public abstract class AbstractAgent implements Agent {
    */
   public AbstractAgent(int x, int y) {
     myPosition = new Position(x, y);
-    stateConsumers = new ArrayList<Consumer<Agent>>();
+    stateConsumers = new ArrayList<>();
   }
 
 

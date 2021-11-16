@@ -2,6 +2,7 @@ package ooga.model.agents.players;
 
 import ooga.model.interfaces.AbstractAgent;
 import ooga.model.interfaces.Controllable;
+import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
 
 public class Pacman extends AbstractAgent implements Controllable {
@@ -13,11 +14,8 @@ public class Pacman extends AbstractAgent implements Controllable {
   private String currentDirection;
   private int myState;
   private Position myPosition;
-<<<<<<< HEAD
   private String myDirection;
   private MovementStrategyContext myMover;
-=======
->>>>>>> d666c22911ff513a085d99e10ae25e952c24bac8
 
   public Pacman(int x, int y) {
     super(x, y, "PACMAN");

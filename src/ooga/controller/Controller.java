@@ -7,11 +7,13 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import javafx.scene.input.KeyEvent;
+import ooga.Main;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.keyTracker;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
+import ooga.view.mainView.MainView;
 
 public class Controller implements ControllerInterface {
 
@@ -19,6 +21,7 @@ public class Controller implements ControllerInterface {
   private Map<String, List<Position>> wallMap;
   private keyTracker keyTracker;
   private VanillaGame vanillaGame;
+  private MainView mainView;
 
   public Controller() {
     jsonParser = new JsonParser();

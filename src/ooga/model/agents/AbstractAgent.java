@@ -20,9 +20,9 @@ public abstract class AbstractAgent implements Agent {
    * @param x int x position
    * @param y int y position
    */
-  public AbstractAgent(int x, int y, String type) {
+  public AbstractAgent(int x, int y) {
     myPosition = new Position(x, y);
-    stateConsumers = new ArrayList<Consumer<Agent>>();
+    stateConsumers = new ArrayList<>();
   }
 
 
@@ -41,11 +41,15 @@ public abstract class AbstractAgent implements Agent {
     }
   }
 
-  public int[] getPosition(){
+  public int[] getPosition() {
     return myPosition.getCoords();
   }
 
-  public int getState(){
+  public void setPosition(int[] newPosition) {
+    myPosition.setCoords(newPosition[0], newPosition[1]);
+  }
+
+  public int getState() {
     return myState;
   }
 }

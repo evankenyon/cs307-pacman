@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 public class TopView {
+    GridPane topGrid;
 
     public void TopView () {
         initiateTopView();
@@ -15,7 +16,7 @@ public class TopView {
         Button loadButton = makeButton("Load game", e -> loadGame());
         Button saveButton = makeButton("Save game", e -> saveGame());
 
-        GridPane topGrid = new GridPane();
+        topGrid = new GridPane();
         topGrid.add(loadButton, 1, 1);
         topGrid.add(saveButton, 2, 1);
 
@@ -34,5 +35,9 @@ public class TopView {
         Button myButton = new Button(name);
         myButton.setOnAction(handler);
         return myButton;
+    }
+
+    public GridPane getTopViewGP() {
+        return this.topGrid;
     }
 }

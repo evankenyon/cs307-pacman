@@ -46,7 +46,7 @@ public class Controller implements ControllerInterface {
 
   @Override
   public void updatePressedKey(KeyEvent event) {
-    //keyTracker.getPressedKey(event);
+    keyTracker.getPressedKey(event);
   }
 
 }

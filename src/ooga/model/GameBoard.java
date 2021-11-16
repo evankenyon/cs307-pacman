@@ -16,21 +16,32 @@ public class GameBoard {
   private int myCols;
   private List<List<Agent>> myGrid;
   private Controllable myPlayer;
+  private List<String> requiredPellets;
   private List<Movable> myMoveables;
 
   // TODO: handle exceptions
-  public GameBoard(Map<String, List<Position>> initialStates, String player)
+  public GameBoard(VanillaGameDataInterface vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    myPlayer = new ControllableFactory().createControllable(player, initialStates.get(player).get(0).getCoords()[1], initialStates.get(player).get(0).getCoords()[0]);
-    myRows = calculateDimension(initialStates, 1) + 1;
-    myCols = calculateDimension(initialStates, 0) + 1;
-    createGrid(initialStates);
+    myPlayer = new ControllableFactory().createControllable(vanillaGameData.getPlayer(), vanillaGameData.getWallMap().get(vanillaGameData.getPlayer()).get(0).getCoords()[1], vanillaGameData.getWallMap().get(vanillaGameData.getPlayer()).get(0).getCoords()[0]);
+    myRows = calculateDimension(vanillaGameData.getWallMap(), 1) + 1;
+    myCols = calculateDimension(vanillaGameData.getWallMap(), 0) + 1;
+    createRequiredPellets(vanillaGameData.getPelletInfo());
+    createGrid(vanillaGameData.getWallMap());
+  }
+
+  private void createRequiredPellets(Map<String, Boolean> pelletInfo) {
+    requiredPellets = new ArrayList<>();
+    for (String pellet : pelletInfo.keySet()) {
+      if(pelletInfo.get(pellet)) {
+        requiredPellets.add(pellet);
+      }
+    }
   }
 
   private int calculateDimension(Map<String, List<Position>> initialStates, int dim) {
     int maxCol = 0;
-    for(String key : initialStates.keySet()) {
-      for(Position position : initialStates.get(key)) {
+    for (String key : initialStates.keySet()) {
+      for (Position position : initialStates.get(key)) {
         maxCol = Math.max(position.getCoords()[dim], maxCol);
       }
     }
@@ -41,9 +52,28 @@ public class GameBoard {
   public void moveAll() {
     for (List<Agent> row : myGrid) {
       for (Agent agent : row) {
-        agent.step();
+        Position newPosition = agent.step();
+        if (checkMoveValidity(newPosition)) {
+          agent.setCoords(newPosition);
+        }
       }
     }
+  }
+
+  private boolean checkMoveValidity(Position newPosition) {
+    //TODO: add cases for walls, other overlaps, etc
+    int x = newPosition.getCoords()[1];
+    int y = newPosition.getCoords()[0];
+    return checkGridBounds(x, y);
+  }
+
+  private boolean checkGridBounds(int x, int y) {
+    if (x > myRows || y > myCols) {
+      return false;
+    } else if (x < 0 || y < 0) {
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -56,6 +86,11 @@ public class GameBoard {
     return myGrid.get(pos.getCoords()[1]).get(pos.getCoords()[0]);
   }
 
+  /**
+   * Set pacman direction for movement and display
+   *
+   * @param direction string
+   */
   public void setPlayerDirection(String direction) {
     myPlayer.setDirection(direction);
   }
@@ -68,11 +103,12 @@ public class GameBoard {
     Agent[][] myGridArr = new Agent[myRows][myCols];
     for (String state : initialStates.keySet()) {
       for (Position position : initialStates.get(state)) {
-        myGridArr[position.getCoords()[1]][position.getCoords()[0]] = new AgentFactory().createAgent(state, position.getCoords()[0], position.getCoords()[1]);
+        myGridArr[position.getCoords()[1]][position.getCoords()[0]] = new AgentFactory().createAgent(
+            state, position.getCoords()[0], position.getCoords()[1]);
       }
     }
     myGrid = new ArrayList<>();
-    for(Agent[] myGridArrRow : myGridArr) {
+    for (Agent[] myGridArrRow : myGridArr) {
       myGrid.add(List.of(myGridArrRow));
     }
   }

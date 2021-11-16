@@ -2,6 +2,7 @@ package ooga.model.interfaces;
 
 
 import java.util.function.Consumer;
+import ooga.model.util.Position;
 
 /**
  * Interface to set/retrieve agents coords.
@@ -22,10 +23,14 @@ public interface Agent {
 
   /**
    * Moves agent.
+   *
+   * @return
    */
-  void step();
+  Position step();
 
   int[] getPosition();
 
   int getState();
+
+  void setCoords(Position newPosition);
 }

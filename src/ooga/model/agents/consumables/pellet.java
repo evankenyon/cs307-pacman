@@ -32,6 +32,11 @@ public class pellet extends AbstractAgent implements Consumable {
   }
 
   @Override
+  public void setCoords(Position newPosition) {
+    myPosition = newPosition;
+  }
+
+  @Override
   public void consume() {
 
   }

@@ -3,6 +3,7 @@ package ooga.model.agents.consumables;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
+import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
 public class pellet extends AbstractAgent implements Consumable {
@@ -19,11 +20,11 @@ public class pellet extends AbstractAgent implements Consumable {
    *
    * @param x     int x position
    * @param y     int y position
-   * @param state int cell state
    */
   public pellet(int x, int y) {
     super(x, y, "PELLET");
     myState = UNEATEN_STATE;
+    myMover = new MovementStrategyContext(new Static());
   }
 
   @Override
@@ -36,17 +37,19 @@ public class pellet extends AbstractAgent implements Consumable {
     myPosition = newPosition;
   }
 
-  @Override
-  public void consume() {
-
-  }
 
   @Override
   public void agentReact() {
+    myState = EATEN_STATE;
+    updateConsumer();
   }
 
   @Override
   public void applyEffects() {
+  }
 
+  @Override
+  public int applyPoints() {
+    return 2;
   }
 }

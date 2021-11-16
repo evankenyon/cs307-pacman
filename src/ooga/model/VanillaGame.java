@@ -50,5 +50,9 @@ public class VanillaGame implements Game {
   private void updateHandlers() {
     //update all view handlers
   }
+
+  public GameBoard getBoard(){
+    return myBoard;
+  }
 }
 

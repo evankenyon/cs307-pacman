@@ -140,4 +140,5 @@ public class JsonParser implements JsonParserInterface {
   private void updateConsumers(DataInterface vanillaGameData) {
     vanillaGameDataConsumer.accept(vanillaGameData);
   }
+
 }

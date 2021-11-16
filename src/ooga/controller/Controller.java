@@ -7,6 +7,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import javafx.animation.Timeline;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import ooga.Main;
@@ -15,6 +16,7 @@ import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.keyTracker;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
+import ooga.view.GameStartupPanel;
 import ooga.view.mainView.MainView;
 
 public class Controller implements ControllerInterface {
@@ -27,12 +29,15 @@ public class Controller implements ControllerInterface {
   private MainView mainView;
   private Timeline myAnimation;
   private double secondDelay;
+  private GameStartupPanel panel;
+  public final int rows = 4;
+  public final int cols = 6;
 
 
   public Controller(String language, Stage stage) {
     myAnimation = new Timeline();
     myAnimation.setCycleCount(Timeline.INDEFINITE);
-    mainView = new MainView();
+    panel = new GameStartupPanel(stage);
     secondDelay = SECONDS_ANIMATION_BASE;
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();
@@ -57,9 +62,11 @@ public class Controller implements ControllerInterface {
     return wallMap;
   }
 
+
+
   @Override
   public void updatePressedKey(KeyEvent event) {
-    //keyTracker.getPressedKey(event);
+    keyTracker.getPressedKey(event);
   }
 
 }

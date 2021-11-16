@@ -13,6 +13,7 @@ import ooga.controller.Controller;
 import ooga.view.mainView.MainView;
 
 import java.io.File;
+import java.io.IOException;
 
 import static java.util.Objects.isNull;
 
@@ -22,6 +23,8 @@ public class GameStartupPanel {
     ComboBox<String> selectGameType;
     ComboBox<String> selectLanguage;
     ComboBox<String> selectViewMode;
+    Button fileUploadButton;
+    File gameFile;
 
     public GameStartupPanel(Stage stage) {
         this.stage = stage;
@@ -63,7 +66,7 @@ public class GameStartupPanel {
     }
 
     private void addFileUploadButton(GridPane root) {
-        Button fileUploadButton = new Button();
+        fileUploadButton = new Button();
         fileUploadButton.setId("fileUploadButton");
         fileUploadButton.setText("Upload game file");
         fileUploadButton.setOnAction(e -> uploadFile());
@@ -73,7 +76,7 @@ public class GameStartupPanel {
     }
 
     private void uploadFile() {
-        File gameFile = fileExplorer();
+        gameFile = fileExplorer();
     }
 
     private File fileExplorer() {
@@ -93,7 +96,13 @@ public class GameStartupPanel {
             String selectedViewMode = selectViewMode.getValue();
             if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
                 Controller application = new Controller(selectedLanguage, stage);
-                MainView newMainView = new MainView();
+                // TODO: Fix exception:
+                try {
+                    application.uploadFile(gameFile);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                //MainView newMainView = new MainView();
                 selectGameType.setValue(null);
                 selectLanguage.setValue(null);
                 selectViewMode.setValue(null);

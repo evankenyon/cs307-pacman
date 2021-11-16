@@ -8,6 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import ooga.view.mainView.MainView;
 
 import static java.util.Objects.isNull;
 
@@ -19,17 +20,18 @@ public class GameStartupPanel {
     ComboBox<String> selectViewMode;
 
     public GameStartupPanel(Stage stage) {
-        createStartupPanelView(stage);
+        this.stage = stage;
+        stage.setScene(createStartupScene());
+        stage.setTitle("Game Startup");
         stage.show();
     }
 
-    public void createStartupPanelView(Stage stage) {
-        this.stage = stage;
-        stage.setTitle("Game Startup");
+    public Scene createStartupScene() {
         GridPane root = new GridPane();
         addStartupOptions(root);
         addStartButton(root);
-        Scene myScene = new Scene(root);
+        Scene myScene = new Scene(root, 400, 400);
+        return myScene;
     }
 
     private void addStartupOptions(GridPane root) {
@@ -57,6 +59,7 @@ public class GameStartupPanel {
 
     private void addStartButton(GridPane root){
         Button startButton = new Button();
+        startButton.setId("startButton");
         startButton.setDefaultButton(true);
         startButton.setText("PLAY");
         startButton.setOnAction(e -> {
@@ -65,6 +68,7 @@ public class GameStartupPanel {
             String selectedViewMode = selectViewMode.getValue();
             if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
                 //newGame(selectedGameType, selectedLanguage, selectedViewMode);
+                MainView newMainView = new MainView();
                 selectGameType.setValue(null);
                 selectLanguage.setValue(null);
                 selectViewMode.setValue(null);
@@ -83,6 +87,7 @@ public class GameStartupPanel {
             newComboBox.getItems().add(option);
         }
         newComboBox.setMinWidth(150);
+        newComboBox.setId(category);
         return newComboBox;
     }
 

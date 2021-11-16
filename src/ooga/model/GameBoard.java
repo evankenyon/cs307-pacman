@@ -14,33 +14,37 @@ import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
 
 public class GameBoard {
+
   private int myRows;
   private int myCols;
   private List<List<Agent>> myGrid;
   private Controllable myPlayer;
-
   private List<wall> myWalls;
   private List<Consumable> myConsumables;
   private List<Movable> myMovables;
   //Instantiiate a list containing the instantiated agents for each respective type.
   private List<String> requiredPellets;
+  private int pelletsLeftToEat;
 
   // TODO: handle exceptions
   public GameBoard(DataInterface vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    myPlayer = new ControllableFactory().createControllable(vanillaGameData.getPlayer(), vanillaGameData.getWallMap().get(vanillaGameData.getPlayer()).get(0).getCoords()[1], vanillaGameData.getWallMap().get(vanillaGameData.getPlayer()).get(0).getCoords()[0]);
+    myPlayer = new ControllableFactory().createControllable(vanillaGameData.getPlayer(),
+        vanillaGameData.getWallMap().get(vanillaGameData.getPlayer()).get(0).getCoords()[1],
+        vanillaGameData.getWallMap().get(vanillaGameData.getPlayer()).get(0).getCoords()[0]);
     myRows = calculateDimension(vanillaGameData.getWallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.getWallMap(), 0) + 1;
     createRequiredPellets(vanillaGameData.getPelletInfo());
     myWalls = new ArrayList<>();
     myMovables = new ArrayList<>();
     createGrid(vanillaGameData.getWallMap());
+    createRequiredPellets(vanillaGameData.getPelletInfo());
   }
 
   private void createRequiredPellets(Map<String, Boolean> pelletInfo) {
     requiredPellets = new ArrayList<>();
     for (String pellet : pelletInfo.keySet()) {
-      if(pelletInfo.get(pellet)) {
+      if (pelletInfo.get(pellet)) {
         requiredPellets.add(pellet);
       }
     }
@@ -56,6 +60,15 @@ public class GameBoard {
       }
     }
     return maxCol;
+  }
+
+  //TODO: implement
+  public boolean checkWin() {
+    if (pelletsLeftToEat == 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   //move every agent in the board by one step
@@ -116,6 +129,9 @@ public class GameBoard {
         Agent newAgent = new AgentFactory().createAgent(
             state, position.getCoords()[0], position.getCoords()[1]);
         myGridArr[position.getCoords()[1]][position.getCoords()[0]] = newAgent;
+        if (requiredPellets.contains(state)) {
+          pelletsLeftToEat++;
+        }
       }
     }
     myGrid = new ArrayList<>();

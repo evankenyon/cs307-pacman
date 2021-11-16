@@ -1,6 +1,7 @@
 package ooga.model;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import ooga.model.interfaces.Controllable;
@@ -39,7 +40,7 @@ public class VanillaGame implements Game {
   }
 
   public boolean isWin() {
-    return false;
+    return myBoard.checkWin();
   }
 
   public boolean isLoss() {

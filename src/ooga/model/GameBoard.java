@@ -16,15 +16,26 @@ public class GameBoard {
   private int myCols;
   private List<List<Agent>> myGrid;
   private Controllable myPlayer;
+  private List<String> requiredPellets;
   private List<Movable> myMoveables;
 
   // TODO: handle exceptions
-  public GameBoard(Map<String, List<Position>> initialStates, String player)
+  public GameBoard(VanillaGameDataInterface vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    myPlayer = new ControllableFactory().createControllable(player, initialStates.get(player).get(0).getCoords()[1], initialStates.get(player).get(0).getCoords()[0]);
-    myRows = calculateDimension(initialStates, 1) + 1;
-    myCols = calculateDimension(initialStates, 0) + 1;
-    createGrid(initialStates);
+    myPlayer = new ControllableFactory().createControllable(vanillaGameData.getPlayer(), vanillaGameData.getWallMap().get(vanillaGameData.getPlayer()).get(0).getCoords()[1], vanillaGameData.getWallMap().get(vanillaGameData.getPlayer()).get(0).getCoords()[0]);
+    myRows = calculateDimension(vanillaGameData.getWallMap(), 1) + 1;
+    myCols = calculateDimension(vanillaGameData.getWallMap(), 0) + 1;
+    createRequiredPellets(vanillaGameData.getPelletInfo());
+    createGrid(vanillaGameData.getWallMap());
+  }
+
+  private void createRequiredPellets(Map<String, Boolean> pelletInfo) {
+    requiredPellets = new ArrayList<>();
+    for (String pellet : pelletInfo.keySet()) {
+      if(pelletInfo.get(pellet)) {
+        requiredPellets.add(pellet);
+      }
+    }
   }
 
   private int calculateDimension(Map<String, List<Position>> initialStates, int dim) {

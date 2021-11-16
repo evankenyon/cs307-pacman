@@ -20,7 +20,7 @@ public class pellet extends AbstractAgent implements Consumable {
    * @param y     int y position
    * @param state int cell state
    */
-  public pellet(int x, int y, int state) {
+  public pellet(int x, int y) {
     super(x, y, "PELLET");
     myState = UNEATEN_STATE;
   }

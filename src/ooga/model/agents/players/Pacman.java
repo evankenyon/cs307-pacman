@@ -2,17 +2,15 @@ package ooga.model.agents.players;
 
 import ooga.model.agents.AbstractAgent;
 import ooga.model.interfaces.Consumable;
-import ooga.model.interfaces.Controllable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
 
-public class Pacman extends AbstractAgent implements Controllable {
+public class Pacman extends AbstractAgent {
 
   public final static int DEAD_STATE = 0;
   public final static int ALIVE_STATE = 1;
   public final static int SUPER_STATE = 2;
 
-  private String currentDirection;
   private int myState;
   private MovementStrategyContext myMover;
 
@@ -31,7 +29,8 @@ public class Pacman extends AbstractAgent implements Controllable {
   }
 
   public Position step() {
-    int[] coords = getPosition();
+    int[] coords = getPosition().getCoords();
+    String currentDirection = getPosition().getDirection();
     return handleMovement(coords, currentDirection);
   }
 
@@ -46,16 +45,6 @@ public class Pacman extends AbstractAgent implements Controllable {
       case "down" -> new Position(coordinates[0], (coordinates[1] - 1));
       default -> null;
     };
-  }
-
-  @Override
-  public void setDirection(String direction) {
-    currentDirection = direction;
-  }
-
-  @Override
-  public String getDirection() {
-    return currentDirection;
   }
 
   public int consume(Consumable agent) {

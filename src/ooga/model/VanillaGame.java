@@ -1,10 +1,8 @@
 package ooga.model;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import ooga.model.interfaces.Controllable;
 import ooga.model.interfaces.Game;
 
 public class VanillaGame implements Game {

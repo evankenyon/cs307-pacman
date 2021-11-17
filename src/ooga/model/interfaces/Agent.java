@@ -28,7 +28,7 @@ public interface Agent {
    */
   Position step();
 
-  int[] getPosition();
+  Position getPosition();
 
   int getState();
 

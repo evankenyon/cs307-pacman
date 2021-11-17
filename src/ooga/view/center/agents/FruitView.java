@@ -29,8 +29,8 @@ public class FruitView extends StationaryView {
     myImage = new ImageView(String.format("%s%s", IMAGE_PATH, CHERRIES_IMAGE));
     myImage.setFitWidth(IMAGE_BUFFER);
     myImage.setFitHeight(IMAGE_BUFFER);
-    setX(myAgent.getPosition().getCoords()[0]);
-    setY(myAgent.getPosition().getCoords()[1]);
+//    setX(myAgent.getPosition().getCoords()[0]);
+//    setY(myAgent.getPosition().getCoords()[1]);
     myImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0]);
     myImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1]);
     setImage(myImage);

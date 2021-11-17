@@ -37,18 +37,23 @@ public class PacView extends MovableView {
 
   @Override
   protected void moveX(int x) {
-    setX(x);
+//    setX(x);
     pacImage.setX(BOARD_WIDTH/cols*x);
   }
 
   @Override
   protected void moveY(int y) {
-    setY(y);
+//    setY(y);
     pacImage.setY(BOARD_HEIGHT/rows*y);
   }
 
   @Override
   protected void updateState(int state) {
     pacImage.setVisible(state == ALIVE_STATE);
+  }
+
+  @Override
+  protected void updateOrientation(String orientation) {
+    pacImage.setRotate(ORIENTATION_MAP.get(orientation));
   }
 }

@@ -27,10 +27,10 @@ public abstract class AgentView {
 
   public int getX() { return myX; }
 
-  protected void setX(int newX) { myX = newX; }
+//  protected void setX(int newX) { myX = newX; }
 
   public int getY() { return myY; }
 
-  protected void setY(int newY) { myY = newY; }
+//  protected void setY(int newY) { myY = newY; }
 
 }

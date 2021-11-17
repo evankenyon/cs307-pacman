@@ -23,8 +23,8 @@ public class GhostView extends MovableView {
     myAgent = ghost;
     ghostImage = makeGhostImage(0); //TODO: fix Ghost Number
     setImage(ghostImage);
-    setX(myAgent.getPosition().getCoords()[0]);
-    setY(myAgent.getPosition().getCoords()[1]);
+//    setX(myAgent.getPosition().getCoords()[0]);
+//    setY(myAgent.getPosition().getCoords()[1]);
     ghostImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0]);
     ghostImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1]);
     myAgent.addConsumer(updateGhost);
@@ -40,18 +40,23 @@ public class GhostView extends MovableView {
 
   @Override
   protected void moveX(int x) {
-    setX(x);
+//    setX(x);
     ghostImage.setX(BOARD_WIDTH/cols*x);
   }
 
   @Override
   protected void moveY(int y) {
-    setY(y);
+//    setY(y);
     ghostImage.setY(BOARD_HEIGHT/rows*y);
   }
 
   @Override
   protected void updateState(int state) {
     ghostImage.setVisible(state == CONSUMABLE_STATE);
+  }
+
+  @Override
+  protected void updateOrientation(String orientation) {
+    ghostImage.setRotate(ORIENTATION_MAP.get(orientation));
   }
 }

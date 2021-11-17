@@ -7,10 +7,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import javafx.animation.Timeline;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import ooga.Main;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.keyTracker;
@@ -20,6 +18,7 @@ import ooga.view.GameStartupPanel;
 import ooga.view.mainView.MainView;
 
 public class Controller implements ControllerInterface {
+
   private final static double SECONDS_ANIMATION_BASE = 20 / 60.0;
 
   private JsonParserInterface jsonParser;
@@ -46,16 +45,17 @@ public class Controller implements ControllerInterface {
   // TODO: properly handle exception
   @Override
   public void uploadFile(File file) throws IOException {
-    jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.getWallMap());
     jsonParser.addVanillaGameDataConsumer(
-    vanillaGameDataInterface -> {
-      try {
-        vanillaGame = new VanillaGame(vanillaGameDataInterface);
+        vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.getWallMap());
+    jsonParser.addVanillaGameDataConsumer(
+        vanillaGameDataInterface -> {
+          try {
+            vanillaGame = new VanillaGame(vanillaGameDataInterface);
 //
-      } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
-        throw new InputMismatchException("Error occurred in backend reflection");
-      }
-    });
+          } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+            throw new InputMismatchException("Error occurred in backend reflection");
+          }
+        });
     jsonParser.uploadFile(file);
 
     System.out.println(wallMap);
@@ -69,11 +69,9 @@ public class Controller implements ControllerInterface {
     return vanillaGame;
   }
 
-
-
   @Override
   public void updatePressedKey(KeyEvent event) {
-    keyTracker.getPressedKey(event);
+    vanillaGame.setPlayerDirection(keyTracker.getPressedKey(event));
   }
 
 }

@@ -24,8 +24,8 @@ public class PacView extends MovableView {
   public PacView(Agent pac) {
     myAgent = pac;
     pacImage = new ImageView(String.format("%s%s", IMAGE_PATH, PAC_IMAGE));
-    pacImage.setFitWidth(Math.min(GRID_WIDTH,GRID_HEIGHT));
-    pacImage.setFitHeight(Math.min(GRID_WIDTH,GRID_HEIGHT));
+    pacImage.setFitWidth(GRID_MIN);
+    pacImage.setFitHeight(GRID_MIN);
     setImage(pacImage);
 //    setX(myAgent.getPosition()[0]);
 //    setY(myAgent.getPosition()[1]);

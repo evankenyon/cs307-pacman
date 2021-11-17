@@ -12,6 +12,7 @@ public abstract class AgentView {
 
   public static final double GRID_WIDTH = BOARD_WIDTH / cols;
   public static final double GRID_HEIGHT = BOARD_HEIGHT / rows;
+  public static final double GRID_MIN = Math.min(GRID_HEIGHT,GRID_WIDTH);
 
   private Node myImage;
   private int myX;

@@ -53,6 +53,7 @@ public class Controller implements ControllerInterface {
         vanillaGame = new VanillaGame(vanillaGameDataInterface);
 //
       } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+        e.printStackTrace();
         throw new InputMismatchException("Error occurred in backend reflection");
       }
     });

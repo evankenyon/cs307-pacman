@@ -61,7 +61,7 @@ public class GameState {
       for (Position position : initialStates.get(state)) {
         myGridArr[position.getCoords()[1]][position.getCoords()[0]] = new AgentFactory().createAgent(
             state, position.getCoords()[0], position.getCoords()[1]);
-        addAgentToSpecificList(state, position.getCoords()[0], position.getCoords()[1]);
+        //addAgentToSpecificList(state, position.getCoords()[0], position.getCoords()[1]);
       }
     }
     myGrid = new ArrayList<>();

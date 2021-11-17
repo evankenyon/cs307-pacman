@@ -45,13 +45,7 @@ public class GameBoard {
     return myState.checkGridBounds(x, y);
   }
 
-
-  /**
-   * Set pacman direction for movement and display
-   *
-   * @param direction string
-   */
-//  public void setPlayerDirection(String direction) {
-//    myPlayer.setDirection(direction);
-//  }
+  public GameState getGameState(){
+    return myState;
+  }
 }

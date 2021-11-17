@@ -88,7 +88,7 @@ public class BoardView {
     String realType = types.getString(type);
     String camelType = String.format("%s%s",realType.substring(0,1).toUpperCase(),realType.substring(1));
     String className = String.format("ooga.view.center.agents.%sView",camelType);
-    Agent agent = myGame.getBoard().findAgent(position);
+    Agent agent = myGame.getBoard().getGameState().findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);
       return (AgentView) clazz.getDeclaredConstructor(Agent.class)

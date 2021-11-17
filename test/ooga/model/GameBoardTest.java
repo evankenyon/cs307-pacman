@@ -35,7 +35,7 @@ class GameBoardTest {
     DataInterface vanillaGame = new Data(initialStates, "Pacman", pelletInfo);
 
     gameBoard = new GameBoard(vanillaGame);
-    Assertions.assertTrue(gameBoard.findAgent(new Position(0, 0)) instanceof Pacman);
+    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 0)) instanceof Pacman);
   }
 
   @Test
@@ -54,7 +54,7 @@ class GameBoardTest {
     DataInterface vanillaGame = new Data(initialStates, "Pacman", pelletInfo);
 
     gameBoard = new GameBoard(vanillaGame);
-    Assertions.assertTrue(gameBoard.findAgent(new Position(0, 1)) instanceof pellet);
+    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof pellet);
   }
 
   @Test
@@ -73,7 +73,7 @@ class GameBoardTest {
     DataInterface vanillaGame = new Data(initialStates, "Pacman", pelletInfo);
 
     gameBoard = new GameBoard(vanillaGame);
-    Assertions.assertTrue(gameBoard.findAgent(new Position(0, 1)) instanceof wall);
+    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof wall);
   }
 
   @Test
@@ -94,7 +94,7 @@ class GameBoardTest {
     DataInterface vanillaGame = new Data(initialStates, "Pacman", pelletInfo);
 
     gameBoard = new GameBoard(vanillaGame);
-    Assertions.assertTrue(gameBoard.findAgent(new Position(0, 1)) instanceof wall);
-    Assertions.assertTrue(gameBoard.findAgent(new Position(0, 2)) instanceof pellet);
+    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof wall);
+    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 2)) instanceof pellet);
   }
 }

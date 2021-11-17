@@ -8,7 +8,6 @@ import ooga.model.interfaces.Game;
 public class VanillaGame implements Game {
 
   private static final String BOARD_CONFIGURATION = "board";
-  private Controllable myPlayer;
   private GameBoard myBoard;
   private List<Consumer<String>> myObservers;
 
@@ -21,13 +20,6 @@ public class VanillaGame implements Game {
 
   public void initializeGame() {
 
-  }
-
-  /**
-   * Sets player direction.
-   */
-  public void setPlayerDirection(String direction) {
-    myBoard.setPlayerDirection(direction);
   }
 
   public void step() {

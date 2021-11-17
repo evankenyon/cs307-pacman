@@ -8,7 +8,7 @@ import javafx.scene.layout.GridPane;
 public class TopView {
     GridPane topGrid;
 
-    public void TopView () {
+    public TopView () {
         initiateTopView();
     }
 

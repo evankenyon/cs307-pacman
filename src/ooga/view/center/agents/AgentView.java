@@ -1,9 +1,17 @@
 package ooga.view.center.agents;
 
+import static ooga.controller.Controller.cols;
+import static ooga.controller.Controller.rows;
+import static ooga.view.center.BoardView.BOARD_HEIGHT;
+import static ooga.view.center.BoardView.BOARD_WIDTH;
+
 import javafx.scene.Node;
 import ooga.model.interfaces.Agent;
 
 public abstract class AgentView {
+
+  public static final double GRID_WIDTH = BOARD_WIDTH / cols;
+  public static final double GRID_HEIGHT = BOARD_HEIGHT / rows;
 
   private Node myImage;
   private int myX;

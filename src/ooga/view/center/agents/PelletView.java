@@ -1,16 +1,11 @@
 package ooga.view.center.agents;
 
-import static ooga.controller.Controller.cols;
-import static ooga.controller.Controller.rows;
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
-import static ooga.view.center.BoardView.BOARD_HEIGHT;
-import static ooga.view.center.BoardView.BOARD_WIDTH;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import java.util.function.Consumer;
 import javafx.scene.shape.Circle;
-import ooga.model.agents.consumables.pellet;
 import ooga.model.interfaces.Agent;
 
 public class PelletView extends StationaryView {
@@ -18,6 +13,8 @@ public class PelletView extends StationaryView {
   public static final Paint PELLET_COLOR = Color.WHITE;
   public static final int SMALL_PELLET_SIZE = 20;
   public static final int LARGE_PELLET_SIZE = 100;
+  public static final double PELLET_BUFFER_Y = GRID_HEIGHT/2;
+  public static final double PELLET_BUFFER_X = GRID_WIDTH/2;
 
 //  private VanillaGame myGame;
 //  private Position myInfo;
@@ -31,10 +28,10 @@ public class PelletView extends StationaryView {
 //    myInfo = agentInfo;
     myCircle = makeCircle();
     setImage(myCircle);
-    setX(myAgent.getPosition()[0]);
-    setY(myAgent.getPosition()[1]);
-    myCircle.setCenterX(BOARD_WIDTH/cols*myAgent.getPosition()[0]);
-    myCircle.setCenterY(BOARD_HEIGHT/rows*myAgent.getPosition()[1]);
+//    setX(myAgent.getPosition()[0]);
+//    setY(myAgent.getPosition()[1]);
+    myCircle.setCenterX(GRID_WIDTH*myAgent.getPosition()[0] + PELLET_BUFFER_X);
+    myCircle.setCenterY(GRID_HEIGHT*myAgent.getPosition()[1] + PELLET_BUFFER_Y);
     myAgent.addConsumer(updatePellet);
   }
 

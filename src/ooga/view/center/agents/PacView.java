@@ -24,11 +24,13 @@ public class PacView extends MovableView {
   public PacView(Agent pac) {
     myAgent = pac;
     pacImage = new ImageView(String.format("%s%s", IMAGE_PATH, PAC_IMAGE));
+    pacImage.setFitWidth(Math.min(GRID_WIDTH,GRID_HEIGHT));
+    pacImage.setFitHeight(Math.min(GRID_WIDTH,GRID_HEIGHT));
     setImage(pacImage);
-    setX(myAgent.getPosition()[0]);
-    setY(myAgent.getPosition()[1]);
-    pacImage.setX(BOARD_WIDTH/cols*myAgent.getPosition()[0]);
-    pacImage.setY(BOARD_HEIGHT/rows*myAgent.getPosition()[1]);
+//    setX(myAgent.getPosition()[0]);
+//    setY(myAgent.getPosition()[1]);
+    pacImage.setX(GRID_WIDTH*myAgent.getPosition()[0]);
+    pacImage.setY(GRID_HEIGHT*myAgent.getPosition()[1]);
 // add the Consumers to the List<Consumer<Integer>> in the model
     myAgent.addConsumer(updatePacMan);
   }

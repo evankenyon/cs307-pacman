@@ -33,18 +33,22 @@ public class MainView {
     myStage = stage;
     myBoardView = new BoardView(myGame, myController);
     myTopView = new TopView();
-    myScene = makeScene(SCENE_WIDTH, SCENE_HEIGHT);
+    myScene = makeScene();
     myStage.hide();
     myStage.setScene(myScene);
     myStage.show();
   }
 
-  private Scene makeScene(int width, int height) {
+  private Scene makeScene() {
     root = new BorderPane();
-    root.setCenter(myBoardView.getGridPane());
+//    root.setRight(new Rectangle(100,100, Color.GREEN));
+//    root.setLeft(new Rectangle(100,100, Color.GREEN));
+//    root.setTop(new Rectangle(100,100, Color.GREEN));
+//    root.setBottom(new Rectangle(100,100, Color.GREEN));
+    root.setCenter(myBoardView.getBoardPane());
     root.setBottom(myBottomView.getBottomViewGP());
     root.setTop(myTopView.getTopViewGP());
-    Scene scene = new Scene(root, width, height);
+    Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
     return scene;
   }
 }

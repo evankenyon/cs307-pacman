@@ -12,7 +12,6 @@ import ooga.factories.ConsumableFactory;
 import ooga.factories.ControllableFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
-import ooga.model.interfaces.Controllable;
 import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
 
@@ -24,7 +23,6 @@ public class GameState {
 
   private int myRows;
   private int myCols;
-  private Controllable myPlayer;
   private List<List<Agent>> myGrid;
   private List<Movable> myMovables;
   private List<Consumable> allConsumables;
@@ -88,15 +86,6 @@ public class GameState {
     allConsumables.add(consumable);
   }
 
-  private void addToMovables(String agent, int x, int y) throws InputMismatchException {
-    myAgents.add(new AgentFactory().createAgent(agent, x, y));
-  }
-
-  private void addToPlayer(String agent, int x, int y)
-      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    myPlayer = new ControllableFactory().createControllable(agent, x, y);
-  }
-
   public List<List<Agent>> getMyGrid() {
     return myGrid;
   }
@@ -105,13 +94,6 @@ public class GameState {
     return myGrid.get(pos.getCoords()[1]).get(pos.getCoords()[0]);
   }
 
-  public Controllable getMyPlayer() {
-    return myPlayer;
-  }
-
-  public List<Agent> getMyMovables() {
-    return myMovables;
-  }
 
   public List<Consumable> getAllConsumables() {
     return allConsumables;

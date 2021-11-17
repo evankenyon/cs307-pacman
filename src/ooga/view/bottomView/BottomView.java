@@ -7,9 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 public class BottomView {
-    GridPane bottomGrid;
+    private GridPane bottomGrid;
 
-    public void BottomView () {
+    public BottomView () {
         initiateBottomView();
     }
 

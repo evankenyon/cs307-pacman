@@ -6,7 +6,8 @@ import ooga.model.util.Position;
 
 public class GameBoard {
 
-  private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",GameBoard.class.getPackageName());
+  private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",
+      GameBoard.class.getPackageName());
   private static final String TYPES_FILENAME = "types";
 
   GameState myState;

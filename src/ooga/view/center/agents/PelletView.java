@@ -30,14 +30,14 @@ public class PelletView extends StationaryView {
     setImage(myCircle);
 //    setX(myAgent.getPosition()[0]);
 //    setY(myAgent.getPosition()[1]);
-    myCircle.setCenterX(GRID_WIDTH*myAgent.getPosition()[0] + PELLET_BUFFER_X);
-    myCircle.setCenterY(GRID_HEIGHT*myAgent.getPosition()[1] + PELLET_BUFFER_Y);
+    myCircle.setCenterX(GRID_WIDTH*myAgent.getPosition().getCoords()[0] + PELLET_BUFFER_X);
+    myCircle.setCenterY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1] + PELLET_BUFFER_Y);
     myAgent.addConsumer(updatePellet);
   }
 
   private Circle makeCircle() {
-    int x = myAgent.getPosition()[0];
-    int y = myAgent.getPosition()[1];
+    int x = myAgent.getPosition().getCoords()[0];
+    int y = myAgent.getPosition().getCoords()[1];
     double size = SMALL_PELLET_SIZE;
     if (myAgent.getState() == 1) size = LARGE_PELLET_SIZE;
     return new Circle(x, y, GRID_MIN*size, PELLET_COLOR);

@@ -6,9 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 public class TopView {
-    GridPane topGrid;
+    private GridPane topGrid;
 
-    public void TopView () {
+    public TopView () {
         initiateTopView();
     }
 

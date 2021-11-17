@@ -21,12 +21,12 @@ import static java.util.Objects.isNull;
 
 public class GameStartupPanel {
 
-    Stage stage;
-    ComboBox<String> selectGameType;
-    ComboBox<String> selectLanguage;
-    ComboBox<String> selectViewMode;
-    Button fileUploadButton;
-    File gameFile;
+    private Stage stage;
+    private ComboBox<String> selectGameType;
+    private ComboBox<String> selectLanguage;
+    private ComboBox<String> selectViewMode;
+    private Button fileUploadButton;
+    private File gameFile;
 
     public GameStartupPanel(Stage stage) {
         this.stage = stage;

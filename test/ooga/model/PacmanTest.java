@@ -1,5 +1,8 @@
 package ooga.model;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import ooga.controller.IO.keyTracker;
 import ooga.model.agents.consumables.pellet;
 import ooga.model.agents.players.Pacman;
 import ooga.model.util.Position;
@@ -10,15 +13,35 @@ import org.junit.jupiter.api.Test;
 public class PacmanTest {
 
   private Pacman pacman;
+  private keyTracker tracker;
+  private KeyEvent left;
+  private KeyEvent right;
+  private KeyEvent up;
+  private KeyEvent down;
+  private KeyEvent nonArrow;
 
   @BeforeEach
   void setUp() {
     pacman = new Pacman(1, 2);
+    tracker = new keyTracker();
+    left = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "left",
+        "left", KeyCode.LEFT, false, false, false,
+        false);
+    right = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "right",
+        "right", KeyCode.RIGHT, false, false, false,
+        false);
+    up = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "up",
+        "up", KeyCode.UP, false, false, false,
+        false);
+    down = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "down",
+        "down", KeyCode.DOWN, false, false, false,
+        false);
   }
 
   @Test
   void stepTestUp() {
-    pacman.setDirection("up");
+
+    pacman.setDirection(tracker.getPressedKey(up));
     Position potentialPosition = pacman.step();
     int currentX = potentialPosition.getCoords()[0];
     int currentY = potentialPosition.getCoords()[1];
@@ -29,7 +52,7 @@ public class PacmanTest {
 
   @Test
   void stepTestDown() {
-    pacman.setDirection("down");
+    pacman.setDirection(tracker.getPressedKey(down));
     Position potentialPosition = pacman.step();
     int currentX = potentialPosition.getCoords()[0];
     int currentY = potentialPosition.getCoords()[1];
@@ -40,7 +63,7 @@ public class PacmanTest {
 
   @Test
   void stepTestRight() {
-    pacman.setDirection("right");
+    pacman.setDirection(tracker.getPressedKey(right));
     Position potentialPosition = pacman.step();
     int currentX = potentialPosition.getCoords()[0];
     int currentY = potentialPosition.getCoords()[1];
@@ -51,7 +74,7 @@ public class PacmanTest {
 
   @Test
   void stepTestLeft() {
-    pacman.setDirection("left");
+    pacman.setDirection(tracker.getPressedKey(left));
     Position potentialPosition = pacman.step();
     int currentX = potentialPosition.getCoords()[0];
     int currentY = potentialPosition.getCoords()[1];

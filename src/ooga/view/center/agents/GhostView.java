@@ -25,8 +25,8 @@ public class GhostView extends MovableView {
     setImage(ghostImage);
     setX(myAgent.getPosition()[0]);
     setY(myAgent.getPosition()[1]);
-    ghostImage.setX(BOARD_WIDTH/cols*myAgent.getPosition()[0]);
-    ghostImage.setY(BOARD_HEIGHT/rows*myAgent.getPosition()[1]);
+    ghostImage.setX(GRID_WIDTH*myAgent.getPosition()[0]);
+    ghostImage.setY(GRID_HEIGHT*myAgent.getPosition()[1]);
     myAgent.addConsumer(updateGhost);
   }
 

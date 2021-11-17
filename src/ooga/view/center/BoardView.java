@@ -30,8 +30,8 @@ public class BoardView {
   private static final String DEFAULT_RESOURCE_PACKAGE =
       BoardView.class.getPackageName() + ".resources.";
   private static final String TYPE_FILENAME = "types";
-  public static final int BOARD_WIDTH = 500;
-  public static final int BOARD_HEIGHT = 700;
+  public static final int BOARD_WIDTH = 600;
+  public static final int BOARD_HEIGHT = 400;
   public static final int GRID_SIZE = 1;
   public static final Paint BOARD_COLOR = Color.BLACK;
 
@@ -45,8 +45,12 @@ public class BoardView {
     myController = controller;
     myBoardPane = new Pane();
     boardConsumerList = new ArrayList<>();
-    myBoardPane.setBackground(new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     initiateBoard();
+    myBoardPane.setMaxWidth(BOARD_WIDTH);
+    myBoardPane.setMaxHeight(BOARD_HEIGHT);
+//    System.out.println(myBoardPane.getMaxWidth());
+//    System.out.println(myBoardPane.getMaxHeight());
+    myBoardPane.setBackground(new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
   private void initiateBoard() {
@@ -96,6 +100,6 @@ public class BoardView {
     }
   }
 
-  public Node getGridPane() { return myBoardPane; }
+  public Node getBoardPane() { return myBoardPane; }
 
 }

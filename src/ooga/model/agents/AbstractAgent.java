@@ -40,8 +40,8 @@ public abstract class AbstractAgent implements Agent {
     }
   }
 
-  public int[] getPosition() {
-    return myPosition.getCoords();
+  public Position getPosition() {
+    return myPosition;
   }
 
   public void setPosition(int[] newPosition) {

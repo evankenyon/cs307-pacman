@@ -18,8 +18,8 @@ public abstract class MovableView extends AgentView {
 
   @Override
   public void updateAgent(Agent agent) {
-    int newX = agent.getPosition()[0];
-    int newY = agent.getPosition()[1];
+    int newX = agent.getPosition().getCoords()[0];
+    int newY = agent.getPosition().getCoords()[1];
     int newState = agent.getState();
     moveX(newX);
     moveY(newY);

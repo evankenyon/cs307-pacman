@@ -23,10 +23,10 @@ public class GhostView extends MovableView {
     myAgent = ghost;
     ghostImage = makeGhostImage(0); //TODO: fix Ghost Number
     setImage(ghostImage);
-    setX(myAgent.getPosition()[0]);
-    setY(myAgent.getPosition()[1]);
-    ghostImage.setX(GRID_WIDTH*myAgent.getPosition()[0]);
-    ghostImage.setY(GRID_HEIGHT*myAgent.getPosition()[1]);
+    setX(myAgent.getPosition().getCoords()[0]);
+    setY(myAgent.getPosition().getCoords()[1]);
+    ghostImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0]);
+    ghostImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1]);
     myAgent.addConsumer(updateGhost);
   }
 

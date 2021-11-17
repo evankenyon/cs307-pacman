@@ -3,6 +3,7 @@ package ooga.model;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import ooga.controller.IO.keyTracker;
+import ooga.model.agents.AbstractAgent;
 import ooga.model.agents.consumables.pellet;
 import ooga.model.agents.players.Pacman;
 import ooga.model.util.Position;
@@ -41,7 +42,7 @@ public class PacmanTest {
   @Test
   void stepTestUp() {
 
-    pacman.setDirection(tracker.getPressedKey(up));
+    pacman.getPosition().setDirection(tracker.getPressedKey(up));
     Position potentialPosition = pacman.step();
     int currentX = potentialPosition.getCoords()[0];
     int currentY = potentialPosition.getCoords()[1];
@@ -52,7 +53,7 @@ public class PacmanTest {
 
   @Test
   void stepTestDown() {
-    pacman.setDirection(tracker.getPressedKey(down));
+    pacman.getPosition().setDirection(tracker.getPressedKey(down));
     Position potentialPosition = pacman.step();
     int currentX = potentialPosition.getCoords()[0];
     int currentY = potentialPosition.getCoords()[1];
@@ -63,7 +64,7 @@ public class PacmanTest {
 
   @Test
   void stepTestRight() {
-    pacman.setDirection(tracker.getPressedKey(right));
+    pacman.getPosition().setDirection(tracker.getPressedKey(right));
     Position potentialPosition = pacman.step();
     int currentX = potentialPosition.getCoords()[0];
     int currentY = potentialPosition.getCoords()[1];
@@ -74,7 +75,7 @@ public class PacmanTest {
 
   @Test
   void stepTestLeft() {
-    pacman.setDirection(tracker.getPressedKey(left));
+    pacman.getPosition().setDirection(tracker.getPressedKey(left));
     Position potentialPosition = pacman.step();
     int currentX = potentialPosition.getCoords()[0];
     int currentY = potentialPosition.getCoords()[1];
@@ -87,7 +88,7 @@ public class PacmanTest {
   void consumeTestPellet() {
     //create pellet at 2,2 and pacman at 1,2 then move pacman towards pellet
     pellet myPellet = new pellet(2, 2);
-    pacman.setDirection("right");
+    pacman.getPosition().setDirection("right");
     int pointsGained = pacman.consume(myPellet);
 
     Assertions.assertEquals(2, pointsGained);

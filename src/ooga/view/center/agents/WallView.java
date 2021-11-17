@@ -26,10 +26,10 @@ public class WallView extends StationaryView {
     myAgent = w;
     myWallShape = new Rectangle(GRID_WIDTH, GRID_HEIGHT, WALL_COLOR);
     setImage(myWallShape);
-    setX(myAgent.getPosition()[0]);
-    setY(myAgent.getPosition()[1]);
-    myWallShape.setX(GRID_WIDTH*myAgent.getPosition()[0]);
-    myWallShape.setY(GRID_HEIGHT*myAgent.getPosition()[1]);
+    setX(myAgent.getPosition().getCoords()[0]);
+    setY(myAgent.getPosition().getCoords()[1]);
+    myWallShape.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0]);
+    myWallShape.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1]);
     myAgent.addConsumer(updateWall);
   }
 

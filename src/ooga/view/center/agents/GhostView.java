@@ -32,7 +32,10 @@ public class GhostView extends MovableView {
 
   private ImageView makeGhostImage(int ghostNum) {
     String path = String.format("%s%s_ghost.png", IMAGE_PATH, GHOST_COLORS[ghostNum]);
-    return new ImageView(path);
+    ImageView ghost = new ImageView(path);
+    ghost.setFitWidth(IMAGE_BUFFER);
+    ghost.setFitHeight(IMAGE_BUFFER);
+    return ghost;
   }
 
   @Override

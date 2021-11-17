@@ -17,7 +17,8 @@ import ooga.model.util.Position;
 
 public class GameBoard {
 
-  private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",GameBoard.class.getPackageName());
+  private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",
+      GameBoard.class.getPackageName());
   private static final String TYPES_FILENAME = "types";
 
 
@@ -126,8 +127,11 @@ public class GameBoard {
 
   private void addAgentToSpecificList(String agent, int x, int y)
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    ResourceBundle types = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, TYPES_FILENAME));
-    Method method = this.getClass().getDeclaredMethod(String.format("addTo%s", types.getString(agent)), String.class, int.class, int.class);
+    ResourceBundle types = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, TYPES_FILENAME));
+    Method method = this.getClass()
+        .getDeclaredMethod(String.format("addTo%s", types.getString(agent)), String.class,
+            int.class, int.class);
     method.setAccessible(true);
     method.invoke(this, agent, x, y);
   }
@@ -136,7 +140,7 @@ public class GameBoard {
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     Consumable consumable = new ConsumableFactory().createConsumable(agent, x, y);
     allConsumables.add(consumable);
-    if(consumableInfo.get(agent)) {
+    if (consumableInfo.get(agent)) {
       requiredConsumables.add(consumable);
     }
   }

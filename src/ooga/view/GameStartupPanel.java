@@ -97,11 +97,12 @@ public class GameStartupPanel {
             String selectedLanguage = selectLanguage.getValue();
             String selectedViewMode = selectViewMode.getValue();
             if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
-                Controller application = new Controller(selectedLanguage, stage);
+                Stage gameStage = new Stage();
+                Controller application = new Controller(selectedLanguage, gameStage);
                 // TODO: Fix exception:
                 try {
                     application.uploadFile(gameFile);
-                    MainView mainView = new MainView(application, application.getVanillaGame(), stage);
+                    MainView mainView = new MainView(application, application.getVanillaGame(), gameStage);
                 } catch (IOException ex) {
 //                    ex.printStackTrace();
                 }

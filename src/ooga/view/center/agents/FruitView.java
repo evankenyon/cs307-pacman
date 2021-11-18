@@ -9,7 +9,7 @@ import ooga.model.interfaces.Agent;
 
 public class FruitView extends StationaryView {
 
-  public static final String CHERRIES_IMAGE = "cherries.png";
+  public static final String FRUIT_IMAGE = "fruit.png";
 
 //  private VanillaGame myGame;
 //  private AgentInfo myInfo;
@@ -22,7 +22,7 @@ public class FruitView extends StationaryView {
     myAgent = fruit;
 //    myInfo = agentInfo;
     myAgent.addConsumer(updatePellet);
-    myImage = new ImageView(String.format("%s%s", IMAGE_PATH, CHERRIES_IMAGE));
+    myImage = new ImageView(String.format("%s%s", IMAGE_PATH, FRUIT_IMAGE));
     myImage.setFitWidth(IMAGE_BUFFER);
     myImage.setFitHeight(IMAGE_BUFFER);
 //    setX(myAgent.getPosition().getCoords()[0]);

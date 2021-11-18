@@ -6,22 +6,25 @@ import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 
 import java.util.function.Consumer;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ooga.model.interfaces.Agent;
 
 public class GhostView extends MovableView {
 
-  public static final String GHOST_COLORS[] = {"blue","light_blue","pink","red","yellow"};
+  public static final String GHOST_NAMES[] = {"blue","blinky","pinky","inky","clyde"};
 
   public static final int CONSUMABLE_STATE = 1;
 
   private ImageView ghostImage;
   private Agent myAgent;
+  private int ghostNum;
   private Consumer<Agent> updateGhost = newInfo -> updateAgent(newInfo);
 
   public GhostView (Agent ghost) { // make just 1 ghost (not 4) for first test?
     myAgent = ghost;
-    ghostImage = makeGhostImage(0); //TODO: fix Ghost Number
+    ghostNum = 0; //TODO: Deal with Ghost Number
+    ghostImage = makeGhostImage(ghostNum); //TODO: fix Ghost Number
     setImage(ghostImage);
 //    setX(myAgent.getPosition().getCoords()[0]);
 //    setY(myAgent.getPosition().getCoords()[1]);
@@ -31,7 +34,7 @@ public class GhostView extends MovableView {
   }
 
   private ImageView makeGhostImage(int ghostNum) {
-    String path = String.format("%s%s_ghost.png", IMAGE_PATH, GHOST_COLORS[ghostNum]);
+    String path = String.format("%s%s_right.png", IMAGE_PATH, GHOST_NAMES[ghostNum]);
     ImageView ghost = new ImageView(path);
     ghost.setFitWidth(IMAGE_BUFFER);
     ghost.setFitHeight(IMAGE_BUFFER);
@@ -57,6 +60,11 @@ public class GhostView extends MovableView {
 
   @Override
   protected void updateOrientation(String orientation) {
-    ghostImage.setRotate(ORIENTATION_MAP.get(orientation));
+    try {
+      ghostImage.setImage(new Image(String.format("%s%s_%s.png", IMAGE_PATH, GHOST_NAMES[ghostNum], orientation)));
+    }
+    catch (Exception e) { // Don't change the image because it's going up or down
+      return;
+    }
   }
 }

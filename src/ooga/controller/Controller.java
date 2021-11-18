@@ -6,10 +6,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import ooga.Main;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
@@ -20,15 +21,15 @@ import ooga.view.GameStartupPanel;
 import ooga.view.mainView.MainView;
 
 public class Controller implements ControllerInterface {
-  private final static double SECONDS_ANIMATION_BASE = 20 / 60.0;
+  private static final double SECONDS_ANIMATION_BASE = 20 / 60.0;
+  private static final double SECOND_DELAY = 1.0 / 60;
 
   private JsonParserInterface jsonParser;
   private Map<String, List<Position>> wallMap;
   private keyTracker keyTracker;
   private VanillaGame vanillaGame;
-  private MainView mainView;
+  private GameStartupPanel gameStartupPanel;
   private Timeline myAnimation;
-  private double secondDelay;
   private GameStartupPanel panel;
   public static final int rows = 4;
   public static final int cols = 6;
@@ -37,10 +38,11 @@ public class Controller implements ControllerInterface {
   public Controller(String language, Stage stage) {
     myAnimation = new Timeline();
     myAnimation.setCycleCount(Timeline.INDEFINITE);
-    secondDelay = SECONDS_ANIMATION_BASE;
+    myAnimation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step(SECOND_DELAY)));
+    myAnimation.play();
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();
-//    mainView = new MainView(this, vanillaGame, stage);
+    gameStartupPanel = new GameStartupPanel(stage);
   }
 
   // TODO: properly handle exception
@@ -51,8 +53,8 @@ public class Controller implements ControllerInterface {
     vanillaGameDataInterface -> {
       try {
         vanillaGame = new VanillaGame(vanillaGameDataInterface);
-//
       } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+        e.printStackTrace();
         throw new InputMismatchException("Error occurred in backend reflection");
       }
     });
@@ -69,7 +71,9 @@ public class Controller implements ControllerInterface {
     return vanillaGame;
   }
 
-
+  private void step(double elapsedTime) {
+    vanillaGame.step();
+  }
 
   @Override
   public void updatePressedKey(KeyEvent event) {

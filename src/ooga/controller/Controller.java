@@ -21,6 +21,8 @@ import ooga.view.mainView.MainView;
 
 public class Controller implements ControllerInterface {
   private final static double SECONDS_ANIMATION_BASE = 20 / 60.0;
+  public static final int ROWS = 11;
+  public static final int COLS = 11;
 
   private JsonParserInterface jsonParser;
   private Map<String, List<Position>> wallMap;
@@ -30,8 +32,6 @@ public class Controller implements ControllerInterface {
   private Timeline myAnimation;
   private double secondDelay;
   private GameStartupPanel panel;
-  public static final int rows = 4;
-  public static final int cols = 6;
 
 
   public Controller(String language, Stage stage) {

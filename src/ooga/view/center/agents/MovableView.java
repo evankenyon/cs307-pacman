@@ -1,5 +1,6 @@
 package ooga.view.center.agents;
 
+    import java.util.Map;
     import ooga.model.interfaces.Agent;
     import ooga.model.util.Position;
     import ooga.view.center.agents.AgentView;
@@ -7,6 +8,8 @@ package ooga.view.center.agents;
 public abstract class MovableView extends AgentView {
 
   public static final String IMAGE_PATH = "images/";
+  public static final Map<String, Integer> ORIENTATION_MAP =
+      Map.of("right",0,"down",90,"left",180,"up",270);
 
   protected abstract void moveX(int x);
 
@@ -14,16 +17,18 @@ public abstract class MovableView extends AgentView {
 
   protected abstract void updateState(int state);
 
+  protected abstract void updateOrientation(String orientation);
+
 //  protected abstract void consume(PlayerView prey);
 
   @Override
   public void updateAgent(Agent agent) {
-    int newX = agent.getPosition().getCoords()[0];
-    int newY = agent.getPosition().getCoords()[1];
+    Position p = agent.getPosition();
     int newState = agent.getState();
-    moveX(newX);
-    moveY(newY);
+    moveX(p.getCoords()[0]);
+    moveY(p.getCoords()[1]);
     updateState(newState);
+    updateOrientation(p.getDirection());
   }
 
 }

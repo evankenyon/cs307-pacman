@@ -13,7 +13,11 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) {
-        Controller application = new Controller(LANGUAGE, stage);
+        GameStartupPanel myGameStartupPanel = new GameStartupPanel(stage);
+//        Controller application = new Controller(LANGUAGE, stage);
+        // TODO: move this to controller when MainView has a more fleshed out implementation
+//        stage.setScene(application.setScene());
+//        stage.show();
     }
 }
 

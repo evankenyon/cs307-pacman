@@ -59,9 +59,8 @@ public class GameState {
     for (String state : initialStates.keySet()) {
 
       for (Position position : initialStates.get(state)) {
-        myGridArr[position.getCoords()[1]][position.getCoords()[0]] = new AgentFactory().createAgent(
-            state, position.getCoords()[0], position.getCoords()[1]);
-        //addAgentToSpecificList(state, position.getCoords()[0], position.getCoords()[1]);
+        Agent agent = addAgentToSpecificList(state, position.getCoords()[0], position.getCoords()[1]);
+        myGridArr[position.getCoords()[1]][position.getCoords()[0]] = agent;
       }
     }
     myGrid = new ArrayList<>();
@@ -70,18 +69,24 @@ public class GameState {
     }
   }
 
-  private void addAgentToSpecificList(String agent, int x, int y)
+  private Agent addAgentToSpecificList(String agent, int x, int y)
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     ResourceBundle types = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, TYPES_FILENAME));
     Method method = this.getClass().getDeclaredMethod(String.format("addTo%s", types.getString(agent)), String.class, int.class, int.class);
     method.setAccessible(true);
-    method.invoke(this, agent, x, y);
+    return (Agent) method.invoke(this, agent, x, y);
   }
 
-  private void addToConsumables(String agent, int x, int y)
+  private Agent addToConsumables(String agent, int x, int y)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     Consumable consumable = new ConsumableFactory().createConsumable(agent, x, y);
     allConsumables.add(consumable);
+    return consumable;
+  }
+
+  private Agent addToAgents(String agent, int x, int y) {
+    Agent player = new AgentFactory().createAgent(agent, x, y);
+    return player;
   }
 
   public List<List<Agent>> getMyGrid() {

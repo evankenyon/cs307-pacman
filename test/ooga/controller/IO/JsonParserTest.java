@@ -44,7 +44,7 @@ class JsonParserTest {
 
     jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> compareWallMaps(vanillaGameDataInterface.getWallMap(), expected));
 
-    jsonParser.uploadFile(new File("tests/basicWallMap.json"));
+    jsonParser.uploadFile(new File("data/tests/basicWallMap.json"));
   }
 
   private void compareWallMaps(Map<String, List<Position>> actual, Map<String, List<Position>> expected) {
@@ -68,7 +68,7 @@ class JsonParserTest {
   void properPlayerCreation() throws IOException {
     String expected = "Pacman";
     jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> comparePlayers(vanillaGameDataInterface.getPlayer(), expected));
-    jsonParser.uploadFile(new File("tests/basicWallMap.json"));
+    jsonParser.uploadFile(new File("data/tests/basicWallMap.json"));
   }
 
   private void comparePlayers(String actual, String expected) {
@@ -81,7 +81,7 @@ class JsonParserTest {
     expected.put("Dot", Boolean.TRUE);
     expected.put("Fruit", Boolean.FALSE);
     jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> comparePelletMaps(vanillaGameDataInterface.getPelletInfo(), expected));
-    jsonParser.uploadFile(new File("tests/basicWallMap.json"));
+    jsonParser.uploadFile(new File("data/tests/basicWallMap.json"));
   }
 
   private void comparePelletMaps(Map<String, Boolean> actual, Map<String, Boolean> expected) {
@@ -93,13 +93,13 @@ class JsonParserTest {
   @Test
   void uploadFileNotAllRequiredKeys() {
     Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.uploadFile(
-        new File("tests/notEnoughKeys.json")));
+        new File("data/tests/notEnoughKeys.json")));
   }
 
   @Test
   void uploadFileExtraKeys() {
     Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.uploadFile(
-        new File("tests/extraKeys.json")));
+        new File("data/tests/extraKeys.json")));
   }
 
   @Test
@@ -111,18 +111,18 @@ class JsonParserTest {
   @Test
   void uploadFileTwoPlayers() {
     Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.uploadFile(
-        new File("tests/twoPlayers.json")));
+        new File("data/tests/twoPlayers.json")));
   }
 
   @Test
   void uploadFileDuplicateGhosts() {
     Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.uploadFile(
-        new File("tests/duplicateGhosts.json")));
+        new File("data/tests/duplicateGhosts.json")));
   }
 
   @Test
   void uploadFileMissingRequiredPellet() {
     Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.uploadFile(
-        new File("tests/missingRequiredPellet.json")));
+        new File("data/tests/missingRequiredPellet.json")));
   }
 }

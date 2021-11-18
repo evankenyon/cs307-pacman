@@ -30,6 +30,8 @@ public class JsonParser implements JsonParserInterface {
   private static final String REQUIRED_VALUES_FILENAME = "RequiredValues";
 
   private Map<String, List<Position>> wallMap;
+  private int mapCols;
+  private int mapRows;
   private Map<String, Boolean> pelletInfo;
   private String player;
   private List<Consumer<DataInterface>> vanillaGameDataConsumers;
@@ -99,13 +101,18 @@ public class JsonParser implements JsonParserInterface {
     optionalPellets.iterator().forEachRemaining(pellet -> pelletInfo.put((String) pellet, false));
   }
 
+  //check that all rows are same length and all columns are same length
   private void setupWallMap(JSONArray wallMapArr) {
-    for (int row = 0; row < wallMapArr.length(); row++) {
-      for (int col = 0; col < wallMapArr.getJSONArray(row).length(); col++) {
+    int expectedNumCols = wallMapArr.length();
+    int expectedNumRows = wallMapArr.getJSONArray(0).length(); //count as magic #?
+    for (int row = 0; row < expectedNumCols; row++) {
+      for (int col = 0; col < expectedNumRows; col++) {
         wallMap.putIfAbsent(wallMapArr.getJSONArray(row).getString(col), new ArrayList<>());
         wallMap.get(wallMapArr.getJSONArray(row).getString(col)).add(new Position(col, row));
       }
     }
+    mapCols = expectedNumCols;
+    mapRows = expectedNumRows;
   }
 
   private void checkWallMapForRequirements() throws InputMismatchException {

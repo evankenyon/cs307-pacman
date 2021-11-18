@@ -2,16 +2,16 @@ package ooga.view.center.agents;
 
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
 
+import java.util.function.Consumer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import java.util.function.Consumer;
 import javafx.scene.shape.Circle;
 import ooga.model.interfaces.Agent;
 
-public class PelletView extends StationaryView {
+public class SuperPelletView extends StationaryView {
 
   public static final Paint PELLET_COLOR = Color.WHITE;
-  public static final double SMALL_PELLET_SIZE = 0.10; // small pellets radii are 10% of grid square
+  public static final double LARGE_PELLET_SIZE = 0.25; // large pellets radii are 50% of grid square
   public static final double PELLET_BUFFER_Y = GRID_HEIGHT/2;
   public static final double PELLET_BUFFER_X = GRID_WIDTH/2;
 
@@ -22,7 +22,7 @@ public class PelletView extends StationaryView {
   private Consumer<Agent> updatePellet = newInfo -> updateAgent(newInfo);
 
 
-  public PelletView (Agent pelletAgent) {
+  public SuperPelletView(Agent pelletAgent) {
     myAgent = pelletAgent;
 //    myInfo = agentInfo;
     myCircle = makeCircle();
@@ -37,7 +37,7 @@ public class PelletView extends StationaryView {
   private Circle makeCircle() {
     int x = myAgent.getPosition().getCoords()[0];
     int y = myAgent.getPosition().getCoords()[1];
-    return new Circle(x, y, GRID_MIN*SMALL_PELLET_SIZE, PELLET_COLOR);
+    return new Circle(x, y, GRID_MIN*LARGE_PELLET_SIZE, PELLET_COLOR);
   }
 
   @Override

@@ -91,9 +91,7 @@ public class BoardView {
 
   private AgentView makeAgentView(String type, Position position) {
     ResourceBundle types = ResourceBundle.getBundle("ooga.view.center.resources.types");
-    String realType = types.getString(type);
-    String camelType = String.format("%s%s",realType.substring(0,1).toUpperCase(),realType.substring(1));
-    String className = String.format("ooga.view.center.agents.%sView",camelType);
+    String className = String.format("ooga.view.center.agents.%sView",types.getString(type));
     Agent agent = myGame.getBoard().getGameState().findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);

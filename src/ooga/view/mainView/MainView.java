@@ -30,6 +30,7 @@ public class MainView {
 
   public MainView (Controller controller, VanillaGame game, Stage stage, Map<String, List<Position>> wallMap) {
     myController = controller;
+    controller.setAnimationSpeed(1);
     myGame = game;
     myBottomView = new BottomView();
 //    gameStartupPanel = new GameStartupPanel(myStage);

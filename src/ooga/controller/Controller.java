@@ -34,9 +34,11 @@ public class Controller implements ControllerInterface {
   private GameStartupPanel panel;
   private Map<String, List<Position>> wallMap;
   private boolean isPaused;
+  private int count;
 
 
   public Controller(String language, Stage stage) {
+    count++;
     myAnimation = new Timeline();
     myAnimation.setCycleCount(Timeline.INDEFINITE);
     myAnimation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step(SECOND_DELAY)));
@@ -61,7 +63,13 @@ public class Controller implements ControllerInterface {
       }
     });
     jsonParser.uploadFile(file);
+
     return wallMap;
+  }
+
+  @Override
+  public void setAnimationSpeed(double factor) {
+    myAnimation.setRate(factor);
   }
 
   @Override
@@ -75,7 +83,9 @@ public class Controller implements ControllerInterface {
   }
 
   private void step(double elapsedTime) {
-    if (!isPaused) {
+    if (vanillaGame != null && !isPaused) {
+      System.out.println(count);
+      count++;
       vanillaGame.step();
     }
   }

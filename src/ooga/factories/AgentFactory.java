@@ -1,6 +1,7 @@
 package ooga.factories;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import ooga.model.interfaces.Agent;
 
@@ -18,10 +19,16 @@ public class AgentFactory {
     ResourceBundle packages = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, PACKAGES_FILENAME));
     ResourceBundle classNames = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, CLASS_NAMES_FILENAME));
+    String actualAgent = "";
+    try {
+      actualAgent = classNames.getString(agent);
+    } catch (MissingResourceException e) {
+      actualAgent = agent;
+    }
     for (String aPackage : packages.keySet()) {
       try {
         createdAgent = (Agent) Class.forName(
-                String.format("%s%s", packages.getString(aPackage), classNames.getString(agent))).getConstructor(int.class, int.class)
+                String.format("%s%s", packages.getString(aPackage), actualAgent)).getConstructor(int.class, int.class)
             .newInstance(x, y);
       } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
         numNot++;
@@ -29,7 +36,6 @@ public class AgentFactory {
     }
 
     if (numNot == packages.keySet().size()) {
-      System.out.println(agent);
       throw new IllegalArgumentException();
     }
     return createdAgent;

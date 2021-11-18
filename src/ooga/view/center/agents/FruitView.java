@@ -1,10 +1,6 @@
 package ooga.view.center.agents;
 
-import static ooga.controller.Controller.cols;
-import static ooga.controller.Controller.rows;
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
-import static ooga.view.center.BoardView.BOARD_HEIGHT;
-import static ooga.view.center.BoardView.BOARD_WIDTH;
 import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 
 import java.util.function.Consumer;
@@ -31,8 +27,8 @@ public class FruitView extends StationaryView {
     myImage.setFitHeight(IMAGE_BUFFER);
 //    setX(myAgent.getPosition().getCoords()[0]);
 //    setY(myAgent.getPosition().getCoords()[1]);
-    myImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0]);
-    myImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1]);
+    myImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0] + HORIZONTAL_IMAGE_BUFFER);
+    myImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1] + VERTICAL_IMAGE_BUFFER);
     setImage(myImage);
   }
 

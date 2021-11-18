@@ -1,17 +1,11 @@
 package ooga.view.center.agents;
 
-import static ooga.controller.Controller.cols;
-import static ooga.controller.Controller.rows;
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
-import static ooga.view.center.BoardView.BOARD_HEIGHT;
-import static ooga.view.center.BoardView.BOARD_WIDTH;
 
 import java.util.function.Consumer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import ooga.model.agents.wall;
 import ooga.model.interfaces.Agent;
 
 public class WallView extends StationaryView {

@@ -1,16 +1,13 @@
 package ooga.view.center.agents;
 
-import static ooga.controller.Controller.cols;
-import static ooga.controller.Controller.rows;
+import static ooga.controller.Controller.COLS;
+import static ooga.controller.Controller.ROWS;
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 
-import java.net.URL;
 import java.util.function.Consumer;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 
 public class PacView extends MovableView {
@@ -29,8 +26,8 @@ public class PacView extends MovableView {
     setImage(pacImage);
 //    setX(myAgent.getPosition()[0]);
 //    setY(myAgent.getPosition()[1]);
-    pacImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0]);
-    pacImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1]);
+    pacImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0] + HORIZONTAL_IMAGE_BUFFER);
+    pacImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1] + VERTICAL_IMAGE_BUFFER);
 // add the Consumers to the List<Consumer<Integer>> in the model
     myAgent.addConsumer(updatePacMan);
   }
@@ -38,13 +35,13 @@ public class PacView extends MovableView {
   @Override
   protected void moveX(int x) {
 //    setX(x);
-    pacImage.setX(BOARD_WIDTH/cols*x);
+    pacImage.setX(BOARD_WIDTH/COLS * x + HORIZONTAL_IMAGE_BUFFER);
   }
 
   @Override
   protected void moveY(int y) {
 //    setY(y);
-    pacImage.setY(BOARD_HEIGHT/rows*y);
+    pacImage.setY(BOARD_HEIGHT/ROWS * y + VERTICAL_IMAGE_BUFFER);
   }
 
   @Override

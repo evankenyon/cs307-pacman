@@ -30,8 +30,8 @@ public class BoardView {
   private static final String DEFAULT_RESOURCE_PACKAGE =
       BoardView.class.getPackageName() + ".resources.";
   private static final String TYPE_FILENAME = "types";
-  public static final int BOARD_WIDTH = 600;
-  public static final int BOARD_HEIGHT = 400;
+  public static final double BOARD_WIDTH = 600;
+  public static final double BOARD_HEIGHT = 400;
   public static final int GRID_SIZE = 1;
   public static final Paint BOARD_COLOR = Color.BLACK;
 
@@ -39,6 +39,8 @@ public class BoardView {
   private Controller myController;
   private Pane myBoardPane;
   private List<Consumer<AgentView>> boardConsumerList;
+  private double numRows;
+  private double numCols;
 
   public BoardView (VanillaGame game, Controller controller) {
     myGame = game;
@@ -48,8 +50,6 @@ public class BoardView {
     initiateBoard();
     myBoardPane.setMaxWidth(BOARD_WIDTH);
     myBoardPane.setMaxHeight(BOARD_HEIGHT);
-//    System.out.println(myBoardPane.getMaxWidth());
-//    System.out.println(myBoardPane.getMaxHeight());
     myBoardPane.setBackground(new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
@@ -68,11 +68,17 @@ public class BoardView {
     Map<String, List<Position>> agentMap = myController.getWallMap();
     for (String type : agentMap.keySet()) {
       for (Position p : agentMap.get(type)) {
+//        updateDimensions(p);
         AgentView agentView = makeAgentView(type, p);
         attachAgent(agentView);
       }
     }
   }
+
+//  private void updateDimensions(Position p) {
+//    if (p.getCoords()[0] > numCols) numCols = p.getCoords()[0];
+//    if (p.getCoords()[1] > numRows) numRows = p.getCoords()[1];
+//  }
 
 //  private void updateBoard(AgentView newInfo) {
 //    GridPane.setColumnIndex(newInfo.getImage(), newInfo.getX());
@@ -99,6 +105,11 @@ public class BoardView {
       return new WallView(new wall(0,0));
     }
   }
+
+//  public double getDimension(int index) {
+//    if (index == 0) return numCols;
+//    return numRows;
+//  }
 
   public Node getBoardPane() { return myBoardPane; }
 

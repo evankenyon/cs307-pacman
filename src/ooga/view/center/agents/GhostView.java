@@ -1,7 +1,7 @@
 package ooga.view.center.agents;
 
-import static ooga.controller.Controller.cols;
-import static ooga.controller.Controller.rows;
+import static ooga.controller.Controller.COLS;
+import static ooga.controller.Controller.ROWS;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 
@@ -25,8 +25,8 @@ public class GhostView extends MovableView {
     setImage(ghostImage);
 //    setX(myAgent.getPosition().getCoords()[0]);
 //    setY(myAgent.getPosition().getCoords()[1]);
-    ghostImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0]);
-    ghostImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1]);
+    ghostImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0] + HORIZONTAL_IMAGE_BUFFER);
+    ghostImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1] + VERTICAL_IMAGE_BUFFER);
     myAgent.addConsumer(updateGhost);
   }
 
@@ -41,13 +41,13 @@ public class GhostView extends MovableView {
   @Override
   protected void moveX(int x) {
 //    setX(x);
-    ghostImage.setX(BOARD_WIDTH/cols*x);
+    ghostImage.setX(BOARD_WIDTH/COLS * x + HORIZONTAL_IMAGE_BUFFER);
   }
 
   @Override
   protected void moveY(int y) {
 //    setY(y);
-    ghostImage.setY(BOARD_HEIGHT/rows*y);
+    ghostImage.setY(BOARD_HEIGHT/ROWS * y + VERTICAL_IMAGE_BUFFER);
   }
 
   @Override

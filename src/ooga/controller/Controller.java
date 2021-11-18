@@ -33,6 +33,7 @@ public class Controller implements ControllerInterface {
   private Timeline myAnimation;
   private GameStartupPanel panel;
   private Map<String, List<Position>> wallMap;
+  private boolean isPaused;
 
 
   public Controller(String language, Stage stage) {
@@ -43,6 +44,7 @@ public class Controller implements ControllerInterface {
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();
     gameStartupPanel = new GameStartupPanel(stage);
+    isPaused = false;
   }
 
   // TODO: properly handle exception
@@ -62,12 +64,18 @@ public class Controller implements ControllerInterface {
     return wallMap;
   }
 
+  public void pauseOrResume() {
+    isPaused = !isPaused;
+  }
+
   public VanillaGame getVanillaGame() {
     return vanillaGame;
   }
 
   private void step(double elapsedTime) {
-    vanillaGame.step();
+    if (!isPaused) {
+      vanillaGame.step();
+    }
   }
 
   @Override

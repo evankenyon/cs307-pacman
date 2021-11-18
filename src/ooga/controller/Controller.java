@@ -27,12 +27,12 @@ public class Controller implements ControllerInterface {
   public static final int COLS = 11;
 
   private JsonParserInterface jsonParser;
-  private Map<String, List<Position>> wallMap;
   private keyTracker keyTracker;
   private VanillaGame vanillaGame;
   private GameStartupPanel gameStartupPanel;
   private Timeline myAnimation;
   private GameStartupPanel panel;
+  private Map<String, List<Position>> wallMap;
 
 
   public Controller(String language, Stage stage) {
@@ -47,7 +47,7 @@ public class Controller implements ControllerInterface {
 
   // TODO: properly handle exception
   @Override
-  public void uploadFile(File file) throws IOException {
+  public Map<String, List<Position>> uploadFile(File file) throws IOException {
     jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.getWallMap());
     jsonParser.addVanillaGameDataConsumer(
     vanillaGameDataInterface -> {
@@ -59,9 +59,6 @@ public class Controller implements ControllerInterface {
       }
     });
     jsonParser.uploadFile(file);
-  }
-
-  public Map<String, List<Position>> getWallMap() {
     return wallMap;
   }
 

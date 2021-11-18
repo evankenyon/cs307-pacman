@@ -9,7 +9,7 @@ import ooga.model.util.Position;
 
 public interface ControllerInterface {
 
-  public void uploadFile(File file) throws IOException;
+  public Map<String, List<Position>> uploadFile(File file) throws IOException;
 
   public void updatePressedKey(KeyEvent event);
 }

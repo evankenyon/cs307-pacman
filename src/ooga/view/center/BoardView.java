@@ -42,18 +42,18 @@ public class BoardView {
   private double numRows;
   private double numCols;
 
-  public BoardView (VanillaGame game, Controller controller) {
+  public BoardView (VanillaGame game, Controller controller, Map<String, List<Position>> wallMap) {
     myGame = game;
     myController = controller;
     myBoardPane = new Pane();
     boardConsumerList = new ArrayList<>();
-    initiateBoard();
+    initiateBoard(wallMap);
     myBoardPane.setMaxWidth(BOARD_WIDTH);
     myBoardPane.setMaxHeight(BOARD_HEIGHT);
     myBoardPane.setBackground(new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
-  private void initiateBoard() {
+  private void initiateBoard(Map<String, List<Position>> agentMap) {
 //    makeWalls(myParser.getWallMapPositions());
 //    int rows = myController.getRows();
 //    int cols = myController.getCols();
@@ -65,7 +65,6 @@ public class BoardView {
 //        makeAgentView(agentType);
 //      }
 //    }
-    Map<String, List<Position>> agentMap = myController.getWallMap();
     for (String type : agentMap.keySet()) {
       for (Position p : agentMap.get(type)) {
 //        updateDimensions(p);

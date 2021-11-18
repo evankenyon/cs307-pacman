@@ -29,6 +29,7 @@ public class AgentFactory {
     }
 
     if (numNot == packages.keySet().size()) {
+      System.out.println(agent);
       throw new IllegalArgumentException();
     }
     return createdAgent;

@@ -23,6 +23,8 @@ import ooga.view.mainView.MainView;
 public class Controller implements ControllerInterface {
   private static final double SECONDS_ANIMATION_BASE = 20 / 60.0;
   private static final double SECOND_DELAY = 1.0 / 60;
+  public static final int ROWS = 11;
+  public static final int COLS = 11;
 
   private JsonParserInterface jsonParser;
   private Map<String, List<Position>> wallMap;
@@ -31,8 +33,6 @@ public class Controller implements ControllerInterface {
   private GameStartupPanel gameStartupPanel;
   private Timeline myAnimation;
   private GameStartupPanel panel;
-  public static final int rows = 4;
-  public static final int cols = 6;
 
 
   public Controller(String language, Stage stage) {
@@ -59,8 +59,6 @@ public class Controller implements ControllerInterface {
       }
     });
     jsonParser.uploadFile(file);
-
-    System.out.println(wallMap);
   }
 
   public Map<String, List<Position>> getWallMap() {

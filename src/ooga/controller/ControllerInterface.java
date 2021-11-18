@@ -14,7 +14,7 @@ public interface ControllerInterface {
 
   public void updatePressedKey(KeyEvent event);
 
-  public void pause();
+  public void pauseOrResume();
 
   public VanillaGame getVanillaGame();
 }

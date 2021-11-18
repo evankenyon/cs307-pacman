@@ -64,10 +64,12 @@ public class Controller implements ControllerInterface {
     return wallMap;
   }
 
+  @Override
   public void pauseOrResume() {
     isPaused = !isPaused;
   }
 
+  @Override
   public VanillaGame getVanillaGame() {
     return vanillaGame;
   }

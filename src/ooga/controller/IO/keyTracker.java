@@ -6,6 +6,7 @@ import javafx.scene.input.KeyEvent;
 
 public class keyTracker {
 
+  // no need to translate to string; just account for non arrow case
   /**
    * Communicates the key pressed by user to the model so that it can move the player avatar
    * @param event is key pressed by player which should be one of the arrow keys

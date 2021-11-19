@@ -10,7 +10,6 @@ import ooga.factories.AgentFactory;
 import ooga.factories.ConsumableFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
-import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
 
 public class GameState {
@@ -23,7 +22,8 @@ public class GameState {
   private int myRows;
   private int myCols;
   private List<List<Agent>> myGrid;
-  private List<Movable> myMovables;
+  private List<Agent> myMovables;
+  private List<Agent> myWalls;
   private List<Consumable> allConsumables;
 
   public GameState(DataInterface vanillaGameData)
@@ -32,6 +32,7 @@ public class GameState {
     myCols = calculateDimension(vanillaGameData.getWallMap(), 0) + 1;
     myMovables = new ArrayList<>();
     allConsumables = new ArrayList<>();
+    myWalls = new ArrayList<>();
     createGrid(vanillaGameData.getWallMap());
   }
 

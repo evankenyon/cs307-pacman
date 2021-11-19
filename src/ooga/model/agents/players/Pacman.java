@@ -5,6 +5,8 @@ import ooga.model.interfaces.Consumable;
 import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Pacman extends AbstractAgent {
 
@@ -14,6 +16,7 @@ public class Pacman extends AbstractAgent {
 
   private int myState;
   private MovementStrategyContext myMover;
+  private static final Logger LOG = LogManager.getLogger(Pacman.class);
 
   public Pacman(int x, int y) {
     super(x, y);
@@ -35,6 +38,7 @@ public class Pacman extends AbstractAgent {
   }
 
   public void setDirection(String direction) {
+    LOG.info("setting current direction to {}", direction);
     getPosition().setDirection(direction);
   }
 

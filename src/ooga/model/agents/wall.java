@@ -30,6 +30,10 @@ public class wall extends AbstractAgent {
   }
 
   @Override
+  public void setDirection(String direction) {
+  }
+
+  @Override
   public int getState() {
     return myState;
   }

@@ -2,23 +2,23 @@ package ooga.model.agents.players;
 
 import ooga.model.agents.AbstractAgent;
 import ooga.model.interfaces.Consumable;
-import ooga.model.interfaces.Controllable;
+import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
 
-public class Pacman extends AbstractAgent implements Controllable {
+public class Pacman extends AbstractAgent {
 
   public final static int DEAD_STATE = 0;
   public final static int ALIVE_STATE = 1;
   public final static int SUPER_STATE = 2;
 
-  private String currentDirection;
   private int myState;
   private MovementStrategyContext myMover;
 
   public Pacman(int x, int y) {
     super(x, y);
     myState = ALIVE_STATE;
+    myMover = new MovementStrategyContext(new Controllable());
   }
 
   @Override
@@ -31,31 +31,11 @@ public class Pacman extends AbstractAgent implements Controllable {
   }
 
   public Position step() {
-    int[] coords = getPosition();
-    return handleMovement(coords, currentDirection);
+    return myMover.move(getPosition());
   }
 
-
-  private Position handleMovement(int[] coordinates, String currentDirection) {
-    //refactor this to not use switch case statements potentially?
-    //also argument that we never really need it to recognize other keys to move so it doesn't need to be flexible
-    return switch (currentDirection) {
-      case "left" -> new Position((coordinates[0] - 1), coordinates[1]);
-      case "right" -> new Position((coordinates[0] + 1), coordinates[1]);
-      case "up" -> new Position(coordinates[0], (coordinates[1] + 1));
-      case "down" -> new Position(coordinates[0], (coordinates[1] - 1));
-      default -> null;
-    };
-  }
-
-  @Override
   public void setDirection(String direction) {
-    currentDirection = direction;
-  }
-
-  @Override
-  public String getDirection() {
-    return currentDirection;
+    getPosition().setDirection(direction);
   }
 
   public int consume(Consumable agent) {

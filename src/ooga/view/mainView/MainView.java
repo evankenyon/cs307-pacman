@@ -1,10 +1,13 @@
 package ooga.view.mainView;
 
+import java.util.List;
+import java.util.Map;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.model.VanillaGame;
+import ooga.model.util.Position;
 import ooga.view.GameStartupPanel;
 import ooga.view.bottomView.BottomView;
 import ooga.view.center.BoardView;
@@ -25,13 +28,14 @@ public class MainView {
   private BorderPane root;
   private GameStartupPanel gameStartupPanel;
 
-  public MainView (Controller controller, VanillaGame game, Stage stage) {
+  public MainView (Controller controller, VanillaGame game, Stage stage, Map<String, List<Position>> wallMap) {
     myController = controller;
+    controller.setAnimationSpeed(1);
     myGame = game;
     myBottomView = new BottomView();
 //    gameStartupPanel = new GameStartupPanel(myStage);
     myStage = stage;
-    myBoardView = new BoardView(myGame, myController);
+    myBoardView = new BoardView(myGame, myController, wallMap);
     myTopView = new TopView();
     myScene = makeScene();
     myStage.hide();
@@ -49,6 +53,7 @@ public class MainView {
     root.setBottom(myBottomView.getBottomViewGP());
     root.setTop(myTopView.getTopViewGP());
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+    scene.setOnKeyPressed(e -> myController.updatePressedKey(e));
     return scene;
   }
 }

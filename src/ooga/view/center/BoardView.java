@@ -30,8 +30,8 @@ public class BoardView {
   private static final String DEFAULT_RESOURCE_PACKAGE =
       BoardView.class.getPackageName() + ".resources.";
   private static final String TYPE_FILENAME = "types";
-  public static final int BOARD_WIDTH = 600;
-  public static final int BOARD_HEIGHT = 400;
+  public static final double BOARD_WIDTH = 600;
+  public static final double BOARD_HEIGHT = 400;
   public static final int GRID_SIZE = 1;
   public static final Paint BOARD_COLOR = Color.BLACK;
 
@@ -39,21 +39,21 @@ public class BoardView {
   private Controller myController;
   private Pane myBoardPane;
   private List<Consumer<AgentView>> boardConsumerList;
+  private double numRows;
+  private double numCols;
 
-  public BoardView (VanillaGame game, Controller controller) {
+  public BoardView (VanillaGame game, Controller controller, Map<String, List<Position>> wallMap) {
     myGame = game;
     myController = controller;
     myBoardPane = new Pane();
     boardConsumerList = new ArrayList<>();
-    initiateBoard();
+    initiateBoard(wallMap);
     myBoardPane.setMaxWidth(BOARD_WIDTH);
     myBoardPane.setMaxHeight(BOARD_HEIGHT);
-//    System.out.println(myBoardPane.getMaxWidth());
-//    System.out.println(myBoardPane.getMaxHeight());
     myBoardPane.setBackground(new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
-  private void initiateBoard() {
+  private void initiateBoard(Map<String, List<Position>> agentMap) {
 //    makeWalls(myParser.getWallMapPositions());
 //    int rows = myController.getRows();
 //    int cols = myController.getCols();
@@ -65,14 +65,19 @@ public class BoardView {
 //        makeAgentView(agentType);
 //      }
 //    }
-    Map<String, List<Position>> agentMap = myController.getWallMap();
     for (String type : agentMap.keySet()) {
       for (Position p : agentMap.get(type)) {
+//        updateDimensions(p);
         AgentView agentView = makeAgentView(type, p);
         attachAgent(agentView);
       }
     }
   }
+
+//  private void updateDimensions(Position p) {
+//    if (p.getCoords()[0] > numCols) numCols = p.getCoords()[0];
+//    if (p.getCoords()[1] > numRows) numRows = p.getCoords()[1];
+//  }
 
 //  private void updateBoard(AgentView newInfo) {
 //    GridPane.setColumnIndex(newInfo.getImage(), newInfo.getX());
@@ -85,10 +90,8 @@ public class BoardView {
 
   private AgentView makeAgentView(String type, Position position) {
     ResourceBundle types = ResourceBundle.getBundle("ooga.view.center.resources.types");
-    String realType = types.getString(type);
-    String camelType = String.format("%s%s",realType.substring(0,1).toUpperCase(),realType.substring(1));
-    String className = String.format("ooga.view.center.agents.%sView",camelType);
-    Agent agent = myGame.getBoard().findAgent(position);
+    String className = String.format("ooga.view.center.agents.%sView",types.getString(type));
+    Agent agent = myGame.getBoard().getGameState().findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);
       return (AgentView) clazz.getDeclaredConstructor(Agent.class)
@@ -99,6 +102,11 @@ public class BoardView {
       return new WallView(new wall(0,0));
     }
   }
+
+//  public double getDimension(int index) {
+//    if (index == 0) return numCols;
+//    return numRows;
+//  }
 
   public Node getBoardPane() { return myBoardPane; }
 

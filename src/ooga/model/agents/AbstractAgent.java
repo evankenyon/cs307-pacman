@@ -24,7 +24,6 @@ public abstract class AbstractAgent implements Agent {
     stateConsumers = new ArrayList<>();
   }
 
-
   /**
    * add consumers
    *
@@ -40,8 +39,8 @@ public abstract class AbstractAgent implements Agent {
     }
   }
 
-  public int[] getPosition() {
-    return myPosition.getCoords();
+  public Position getPosition() {
+    return myPosition;
   }
 
   public void setPosition(int[] newPosition) {

@@ -6,7 +6,7 @@ import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
-public class pellet extends AbstractAgent implements Consumable {
+public class SuperPellet extends AbstractAgent implements Consumable {
 
   private final static int PELLET_POINT = 2;
 
@@ -22,7 +22,7 @@ public class pellet extends AbstractAgent implements Consumable {
    * @param x int x position
    * @param y int y position
    */
-  public pellet(int x, int y) {
+  public SuperPellet(int x, int y) {
     super(x, y);
     myState = UNEATEN_STATE;
     myMover = new MovementStrategyContext(new Static());

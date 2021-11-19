@@ -1,10 +1,6 @@
 package ooga.view.center.agents;
 
-import static ooga.controller.Controller.cols;
-import static ooga.controller.Controller.rows;
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
-import static ooga.view.center.BoardView.BOARD_HEIGHT;
-import static ooga.view.center.BoardView.BOARD_WIDTH;
 import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 
 import java.util.function.Consumer;
@@ -13,7 +9,7 @@ import ooga.model.interfaces.Agent;
 
 public class FruitView extends StationaryView {
 
-  public static final String CHERRIES_IMAGE = "cherries.png";
+  public static final String FRUIT_IMAGE = "fruit.png";
 
 //  private VanillaGame myGame;
 //  private AgentInfo myInfo;
@@ -26,11 +22,13 @@ public class FruitView extends StationaryView {
     myAgent = fruit;
 //    myInfo = agentInfo;
     myAgent.addConsumer(updatePellet);
-    myImage = new ImageView(String.format("%s%s", IMAGE_PATH, CHERRIES_IMAGE));
-    setX(myAgent.getPosition()[0]);
-    setY(myAgent.getPosition()[1]);
-    myImage.setX(GRID_WIDTH*myAgent.getPosition()[0]);
-    myImage.setY(GRID_HEIGHT*myAgent.getPosition()[1]);
+    myImage = new ImageView(String.format("%s%s", IMAGE_PATH, FRUIT_IMAGE));
+    myImage.setFitWidth(IMAGE_BUFFER);
+    myImage.setFitHeight(IMAGE_BUFFER);
+//    setX(myAgent.getPosition().getCoords()[0]);
+//    setY(myAgent.getPosition().getCoords()[1]);
+    myImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0] + HORIZONTAL_IMAGE_BUFFER);
+    myImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1] + VERTICAL_IMAGE_BUFFER);
     setImage(myImage);
   }
 

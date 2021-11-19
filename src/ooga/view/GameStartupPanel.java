@@ -1,5 +1,7 @@
 package ooga.view;
 
+import java.util.List;
+import java.util.Map;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -11,6 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.model.VanillaGame;
+import ooga.model.util.Position;
 import ooga.view.center.BoardView;
 import ooga.view.mainView.MainView;
 
@@ -101,8 +104,8 @@ public class GameStartupPanel {
                 Controller application = new Controller(selectedLanguage, gameStage);
                 // TODO: Fix exception:
                 try {
-                    application.uploadFile(gameFile);
-                    MainView mainView = new MainView(application, application.getVanillaGame(), gameStage);
+                    Map<String, List<Position>> wallMap = application.uploadFile(gameFile);
+                    MainView mainView = new MainView(application, application.getVanillaGame(), gameStage, wallMap);
                 } catch (IOException ex) {
 //                    ex.printStackTrace();
                 }

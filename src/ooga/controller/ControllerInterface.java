@@ -5,11 +5,18 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import javafx.scene.input.KeyEvent;
+import ooga.model.VanillaGame;
 import ooga.model.util.Position;
 
 public interface ControllerInterface {
 
-  public void uploadFile(File file) throws IOException;
+  public Map<String, List<Position>> uploadFile(File file) throws IOException;
 
   public void updatePressedKey(KeyEvent event);
+
+  public void setAnimationSpeed(double factor);
+
+  public void pauseOrResume();
+
+  public VanillaGame getVanillaGame();
 }

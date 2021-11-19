@@ -3,28 +3,25 @@ package ooga.model;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.factories.AgentFactory;
 import ooga.factories.ConsumableFactory;
-import ooga.factories.ControllableFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
-import ooga.model.interfaces.Controllable;
 import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
 
 public class GameState {
 
-  private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",GameBoard.class.getPackageName());
+  private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",
+      GameBoard.class.getPackageName());
   private static final String TYPES_FILENAME = "types";
 
 
   private int myRows;
   private int myCols;
-  private Controllable myPlayer;
   private List<List<Agent>> myGrid;
   private List<Movable> myMovables;
   private List<Consumable> allConsumables;
@@ -63,9 +60,9 @@ public class GameState {
     for (String state : initialStates.keySet()) {
 
       for (Position position : initialStates.get(state)) {
-        myGridArr[position.getCoords()[1]][position.getCoords()[0]] = new AgentFactory().createAgent(
-            state, position.getCoords()[0], position.getCoords()[1]);
-        addAgentToSpecificList(state, position.getCoords()[0], position.getCoords()[1]);
+        Agent agent = addAgentToSpecificList(state, position.getCoords()[0],
+            position.getCoords()[1]);
+        myGridArr[position.getCoords()[1]][position.getCoords()[0]] = agent;
       }
     }
     myGrid = new ArrayList<>();
@@ -74,46 +71,43 @@ public class GameState {
     }
   }
 
-  private void addAgentToSpecificList(String agent, int x, int y)
+  private Agent addAgentToSpecificList(String agent, int x, int y)
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    ResourceBundle types = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, TYPES_FILENAME));
-    Method method = this.getClass().getDeclaredMethod(String.format("addTo%s", types.getString(agent)), String.class, int.class, int.class);
+    ResourceBundle types = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, TYPES_FILENAME));
+    Method method = this.getClass()
+        .getDeclaredMethod(String.format("addTo%s", types.getString(agent)), String.class,
+            int.class, int.class);
     method.setAccessible(true);
-    method.invoke(this, agent, x, y);
+    return (Agent) method.invoke(this, agent, x, y);
   }
 
-  private void addToConsumables(String agent, int x, int y)
+  private Agent addToConsumables(String agent, int x, int y)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     Consumable consumable = new ConsumableFactory().createConsumable(agent, x, y);
     allConsumables.add(consumable);
+    return consumable;
   }
 
-  private void addToMovables(String agent, int x, int y) throws InputMismatchException {
-    myAgents.add(new AgentFactory().createAgent(agent, x, y));
+  private Agent addToAgents(String agent, int x, int y) {
+    Agent player = new AgentFactory().createAgent(agent, x, y);
+    return player;
   }
 
-  private void addToPlayer(String agent, int x, int y)
-      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    myPlayer = new ControllableFactory().createControllable(agent, x, y);
-  }
-
-  public List<List<Agent>> getMyGrid() {
-    return myGrid;
-  }
+//  public Agent findAgent(Position pos) {
+//    loopThroughList();
+//    return myGrid.get(pos.getCoords()[1]).get(pos.getCoords()[0]);
+//  }
 
   public Agent findAgent(Position pos) {
     return myGrid.get(pos.getCoords()[1]).get(pos.getCoords()[0]);
   }
 
-  public Controllable getMyPlayer() {
-    return myPlayer;
-  }
-
-  public List<Agent> getMyMovables() {
-    return myMovables;
-  }
-
   public List<Consumable> getAllConsumables() {
     return allConsumables;
   }
+
+//  public void setPlayerDirection(String direction){
+//    myPlayer.setDirection(direction);
+//  }
 }

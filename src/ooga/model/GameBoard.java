@@ -1,7 +1,6 @@
 package ooga.model;
+
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 
 public class GameBoard {
@@ -16,9 +15,9 @@ public class GameBoard {
   // TODO: handle exceptions
   public GameBoard(DataInterface vanillaGameData)
       throws
-    ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException{
+      ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     myState = new GameState(vanillaGameData);
-    }
+  }
 
 
   //TODO: implement
@@ -28,15 +27,20 @@ public class GameBoard {
 
   //move every agent in the board by one step
   public void moveAll() {
-    for (List<Agent> row : myState.getMyGrid()) {
-      for (Agent agent : row) {
-        Position newPosition = agent.step();
-        if (checkMoveValidity(newPosition)) {
-          agent.setCoords(newPosition);
-        }
-      }
-    }
+//    for (List<Agent> row : myState.getMyGrid()) {
+//      for (Agent agent : row) {
+//        Position newPosition = agent.step();
+//        if (checkMoveValidity(newPosition)) {
+//          agent.setCoords(newPosition);
+//        }
+//      }
+//    }
   }
+
+
+//  public void setPlayerDirection(String direction) {
+//    myState.setPlayerDirection(direction);
+//  }
 
   private boolean checkMoveValidity(Position newPosition) {
     //TODO: add cases for walls, other overlaps, etc
@@ -45,13 +49,7 @@ public class GameBoard {
     return myState.checkGridBounds(x, y);
   }
 
-
-  /**
-   * Set pacman direction for movement and display
-   *
-   * @param direction string
-   */
-//  public void setPlayerDirection(String direction) {
-//    myPlayer.setDirection(direction);
-//  }
+  public GameState getGameState() {
+    return myState;
+  }
 }

@@ -66,7 +66,7 @@ public class GameState {
     }
   }
 
-  private Agent addAgentToSpecificList(String agent, int x, int y)
+  private void addAgentToSpecificList(String agent, int x, int y)
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     ResourceBundle types = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, TYPES_FILENAME));
@@ -74,7 +74,7 @@ public class GameState {
         .getDeclaredMethod(String.format("addTo%s", types.getString(agent)), String.class,
             int.class, int.class);
     method.setAccessible(true);
-    return (Agent) method.invoke(this, agent, x, y);
+    method.invoke(this, agent, x, y);
   }
 
   private void addToOtherAgents(String agent, int x, int y) {

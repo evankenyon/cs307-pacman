@@ -84,8 +84,6 @@ public class Controller implements ControllerInterface {
 
   private void step(double elapsedTime) {
     if (vanillaGame != null && !isPaused) {
-      System.out.println(count);
-      count++;
       vanillaGame.step();
     }
   }

@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.factories.AgentFactory;
-import ooga.factories.ConsumableFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameState {
 
@@ -22,10 +23,12 @@ public class GameState {
   private int myRows;
   private int myCols;
   private List<Agent> myOtherAgents;
+
   private Agent myPlayer;
   private List<Agent> myWalls;
   private List<Consumable> myConsumables;
   private AgentFactory agentFactory;
+  private static final Logger LOG = LogManager.getLogger(GameBoard.class);
 
   public GameState(DataInterface vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -87,21 +90,25 @@ public class GameState {
 
   private void addToPlayer(String agent, int x, int y) {
     myPlayer = agentFactory.createAgent(agent, x, y);
+    LOG.info("myplayer is {}", myPlayer);
   }
 
   public Agent findAgent(Position pos) {
-    if (myPlayer.getPosition().getCoords()[0] == pos.getCoords()[0] &&  myPlayer.getPosition().getCoords()[1] == pos.getCoords()[1]) {
+    if (myPlayer.getPosition().getCoords()[0] == pos.getCoords()[0]
+        && myPlayer.getPosition().getCoords()[1] == pos.getCoords()[1]) {
       return myPlayer;
     }
     Agent potentialAgent = null;
     for (Agent agent : myOtherAgents) {
-      if(agent.getPosition().getCoords()[0] == pos.getCoords()[0] &&  agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
+      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
+          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
         potentialAgent = agent;
       }
     }
 
     for (Agent agent : myWalls) {
-      if(agent.getPosition().getCoords()[0] == pos.getCoords()[0] &&  agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
+      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
+          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
         potentialAgent = agent;
       }
     }
@@ -113,7 +120,20 @@ public class GameState {
     return new ArrayList<>();
   }
 
-//  public void setPlayerDirection(String direction){
-//    myPlayer.setDirection(direction);
-//  }
+  public void setPlayerDirection(String direction) {
+    LOG.info("setting direction in STATE to {}", direction);
+    myPlayer.setDirection(direction);
+  }
+
+  public List<Agent> getMyOtherAgents() {
+    return myOtherAgents;
+  }
+
+  public Agent getMyPlayer() {
+    return myPlayer;
+  }
+
+  public List<Agent> getMyWalls() {
+    return myWalls;
+  }
 }

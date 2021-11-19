@@ -11,16 +11,17 @@ import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import ooga.Main;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.keyTracker;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
 import ooga.view.GameStartupPanel;
-import ooga.view.mainView.MainView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Controller implements ControllerInterface {
+
   private static final double SECONDS_ANIMATION_BASE = 20 / 60.0;
   private static final double SECOND_DELAY = 1.0 / 60;
   public static final int ROWS = 11;
@@ -35,13 +36,15 @@ public class Controller implements ControllerInterface {
   private Map<String, List<Position>> wallMap;
   private boolean isPaused;
   private int count;
+  private static final Logger LOG = LogManager.getLogger(Controller.class);
 
 
   public Controller(String language, Stage stage) {
     count++;
     myAnimation = new Timeline();
     myAnimation.setCycleCount(Timeline.INDEFINITE);
-    myAnimation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step(SECOND_DELAY)));
+    myAnimation.getKeyFrames()
+        .add(new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step(SECOND_DELAY)));
     myAnimation.play();
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();
@@ -52,16 +55,17 @@ public class Controller implements ControllerInterface {
   // TODO: properly handle exception
   @Override
   public Map<String, List<Position>> uploadFile(File file) throws IOException {
-    jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.getWallMap());
     jsonParser.addVanillaGameDataConsumer(
-    vanillaGameDataInterface -> {
-      try {
-        vanillaGame = new VanillaGame(vanillaGameDataInterface);
-      } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
-        e.printStackTrace();
-        throw new InputMismatchException("Error occurred in backend reflection");
-      }
-    });
+        vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.getWallMap());
+    jsonParser.addVanillaGameDataConsumer(
+        vanillaGameDataInterface -> {
+          try {
+            vanillaGame = new VanillaGame(vanillaGameDataInterface);
+          } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+            throw new InputMismatchException("Error occurred in backend reflection");
+          }
+        });
     jsonParser.uploadFile(file);
 
     return wallMap;
@@ -90,7 +94,8 @@ public class Controller implements ControllerInterface {
 
   @Override
   public void updatePressedKey(KeyEvent event) {
-    keyTracker.getPressedKey(event);
+    LOG.info("updating pressed key to {}", event.getCode());
+    vanillaGame.getBoard().setPlayerDirection(keyTracker.getPressedKey(event));
   }
 
 }

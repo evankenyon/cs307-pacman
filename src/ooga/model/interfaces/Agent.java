@@ -33,4 +33,6 @@ public interface Agent {
   int getState();
 
   void setCoords(Position newPosition);
+
+  void setDirection(String direction);
 }

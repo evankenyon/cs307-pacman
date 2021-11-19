@@ -41,7 +41,7 @@ public class VanillaGame implements Game {
     //update all view handlers
   }
 
-  public GameBoard getBoard(){
+  public GameBoard getBoard() {
     return myBoard;
   }
 }

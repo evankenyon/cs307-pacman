@@ -3,7 +3,6 @@ package ooga.model;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import ooga.controller.IO.keyTracker;
-import ooga.model.agents.AbstractAgent;
 import ooga.model.agents.consumables.pellet;
 import ooga.model.agents.players.Pacman;
 import ooga.model.util.Position;

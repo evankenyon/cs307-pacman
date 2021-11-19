@@ -24,7 +24,6 @@ public abstract class AbstractAgent implements Agent {
     stateConsumers = new ArrayList<>();
   }
 
-
   /**
    * add consumers
    *

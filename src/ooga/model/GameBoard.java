@@ -1,14 +1,19 @@
 package ooga.model;
+
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameBoard {
 
   private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",
       GameBoard.class.getPackageName());
   private static final String TYPES_FILENAME = "types";
+  private static final Logger LOG = LogManager.getLogger(GameBoard.class);
 
   GameState myState;
 
@@ -16,9 +21,9 @@ public class GameBoard {
   // TODO: handle exceptions
   public GameBoard(DataInterface vanillaGameData)
       throws
-    ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException{
+      ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     myState = new GameState(vanillaGameData);
-    }
+  }
 
 
   //TODO: implement
@@ -28,14 +33,26 @@ public class GameBoard {
 
   //move every agent in the board by one step
   public void moveAll() {
-    for (List<Agent> row : myState.getMyGrid()) {
-      for (Agent agent : row) {
-        Position newPosition = agent.step();
+    List<Agent> movers = new ArrayList<>();
+    movers.add(myState.getMyPlayer());
+    movers.addAll(myState.getMyWalls());
+    movers.addAll(myState.getMyOtherAgents());
+    for (Agent agent : movers) {
+      Position newPosition = agent.step();
+      if (newPosition != null) {
+//        LOG.info("new position: {} should not be null?", newPosition);
+//        LOG.info("current agent is: {}", agent);
         if (checkMoveValidity(newPosition)) {
           agent.setCoords(newPosition);
         }
       }
     }
+  }
+
+
+  public void setPlayerDirection(String direction) {
+    LOG.info("setting direction in board to {}", direction);
+    myState.setPlayerDirection(direction);
   }
 
   private boolean checkMoveValidity(Position newPosition) {
@@ -45,7 +62,7 @@ public class GameBoard {
     return myState.checkGridBounds(x, y);
   }
 
-  public GameState getGameState(){
+  public GameState getGameState() {
     return myState;
   }
 }

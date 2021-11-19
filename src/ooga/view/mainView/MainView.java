@@ -12,6 +12,8 @@ import ooga.view.GameStartupPanel;
 import ooga.view.bottomView.BottomView;
 import ooga.view.center.BoardView;
 import ooga.view.topView.TopView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MainView {
 
@@ -27,8 +29,11 @@ public class MainView {
   private VanillaGame myGame;
   private BorderPane root;
   private GameStartupPanel gameStartupPanel;
+  private static final Logger LOG = LogManager.getLogger(MainView.class);
 
-  public MainView (Controller controller, VanillaGame game, Stage stage, Map<String, List<Position>> wallMap) {
+
+  public MainView(Controller controller, VanillaGame game, Stage stage,
+      Map<String, List<Position>> wallMap) {
     myController = controller;
     controller.setAnimationSpeed(1);
     myGame = game;
@@ -53,7 +58,10 @@ public class MainView {
     root.setBottom(myBottomView.getBottomViewGP());
     root.setTop(myTopView.getTopViewGP());
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
-    scene.setOnKeyPressed(e -> myController.updatePressedKey(e));
+    scene.setOnKeyPressed(e -> {
+      myController.updatePressedKey(e);
+      LOG.info("key was pressed");
+    });
     return scene;
   }
 }

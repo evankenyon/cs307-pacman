@@ -2,8 +2,11 @@ package ooga.model.agents.players;
 
 import ooga.model.agents.AbstractAgent;
 import ooga.model.interfaces.Consumable;
+import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Pacman extends AbstractAgent {
 
@@ -13,10 +16,12 @@ public class Pacman extends AbstractAgent {
 
   private int myState;
   private MovementStrategyContext myMover;
+  private static final Logger LOG = LogManager.getLogger(Pacman.class);
 
   public Pacman(int x, int y) {
     super(x, y);
     myState = ALIVE_STATE;
+    myMover = new MovementStrategyContext(new Controllable());
   }
 
   @Override
@@ -29,22 +34,12 @@ public class Pacman extends AbstractAgent {
   }
 
   public Position step() {
-    int[] coords = getPosition().getCoords();
-    String currentDirection = getPosition().getDirection();
-    return handleMovement(coords, currentDirection);
+    return myMover.move(getPosition());
   }
 
-
-  private Position handleMovement(int[] coordinates, String currentDirection) {
-    //refactor this to not use switch case statements potentially?
-    //also argument that we never really need it to recognize other keys to move so it doesn't need to be flexible
-    return switch (currentDirection) {
-      case "left" -> new Position((coordinates[0] - 1), coordinates[1]);
-      case "right" -> new Position((coordinates[0] + 1), coordinates[1]);
-      case "up" -> new Position(coordinates[0], (coordinates[1] + 1));
-      case "down" -> new Position(coordinates[0], (coordinates[1] - 1));
-      default -> null;
-    };
+  public void setDirection(String direction) {
+    LOG.info("setting current direction to {}", direction);
+    getPosition().setDirection(direction);
   }
 
   public int consume(Consumable agent) {

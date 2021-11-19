@@ -10,19 +10,20 @@ import ooga.factories.AgentFactory;
 import ooga.factories.ConsumableFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
-import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
 
 public class GameState {
 
-  private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",GameBoard.class.getPackageName());
+  private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",
+      GameBoard.class.getPackageName());
   private static final String TYPES_FILENAME = "types";
 
 
   private int myRows;
   private int myCols;
   private List<List<Agent>> myGrid;
-  private List<Movable> myMovables;
+  private List<Agent> myMovables;
+  private List<Agent> myWalls;
   private List<Consumable> allConsumables;
 
   public GameState(DataInterface vanillaGameData)
@@ -31,6 +32,7 @@ public class GameState {
     myCols = calculateDimension(vanillaGameData.getWallMap(), 0) + 1;
     myMovables = new ArrayList<>();
     allConsumables = new ArrayList<>();
+    myWalls = new ArrayList<>();
     createGrid(vanillaGameData.getWallMap());
   }
 
@@ -59,7 +61,8 @@ public class GameState {
     for (String state : initialStates.keySet()) {
 
       for (Position position : initialStates.get(state)) {
-        Agent agent = addAgentToSpecificList(state, position.getCoords()[0], position.getCoords()[1]);
+        Agent agent = addAgentToSpecificList(state, position.getCoords()[0],
+            position.getCoords()[1]);
         myGridArr[position.getCoords()[1]][position.getCoords()[0]] = agent;
       }
     }
@@ -71,8 +74,11 @@ public class GameState {
 
   private Agent addAgentToSpecificList(String agent, int x, int y)
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    ResourceBundle types = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, TYPES_FILENAME));
-    Method method = this.getClass().getDeclaredMethod(String.format("addTo%s", types.getString(agent)), String.class, int.class, int.class);
+    ResourceBundle types = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, TYPES_FILENAME));
+    Method method = this.getClass()
+        .getDeclaredMethod(String.format("addTo%s", types.getString(agent)), String.class,
+            int.class, int.class);
     method.setAccessible(true);
     return (Agent) method.invoke(this, agent, x, y);
   }
@@ -89,16 +95,20 @@ public class GameState {
     return player;
   }
 
-  public List<List<Agent>> getMyGrid() {
-    return myGrid;
-  }
+//  public Agent findAgent(Position pos) {
+//    loopThroughList();
+//    return myGrid.get(pos.getCoords()[1]).get(pos.getCoords()[0]);
+//  }
 
   public Agent findAgent(Position pos) {
     return myGrid.get(pos.getCoords()[1]).get(pos.getCoords()[0]);
   }
 
-
   public List<Consumable> getAllConsumables() {
     return allConsumables;
   }
+
+//  public void setPlayerDirection(String direction){
+//    myPlayer.setDirection(direction);
+//  }
 }

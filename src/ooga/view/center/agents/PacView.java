@@ -32,13 +32,13 @@ public class PacView extends MovableView {
 
   @Override
   protected void moveX(int x) {
-    pacImage.setX(BOARD_WIDTH/COLS * x + HORIZONTAL_IMAGE_BUFFER);
+    pacImage.setX(BOARD_WIDTH / COLS * x + HORIZONTAL_IMAGE_BUFFER);
   }
 
   @Override
   protected void moveY(int y) {
 //    setY(y);
-    pacImage.setY(BOARD_HEIGHT/ROWS * y + VERTICAL_IMAGE_BUFFER);
+    pacImage.setY(BOARD_HEIGHT / ROWS * y + VERTICAL_IMAGE_BUFFER);
   }
 
   @Override
@@ -48,6 +48,9 @@ public class PacView extends MovableView {
 
   @Override
   protected void updateOrientation(String orientation) {
-    pacImage.setRotate(ORIENTATION_MAP.get(orientation));
+    //can delete when null in the map has been merged
+    if (ORIENTATION_MAP.get(orientation) != null) {
+      pacImage.setRotate(ORIENTATION_MAP.get(orientation));
+    }
   }
 }

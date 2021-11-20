@@ -1,9 +1,8 @@
 package ooga.view.center.agents;
 
-    import java.util.Map;
-    import ooga.model.interfaces.Agent;
-    import ooga.model.util.Position;
-    import ooga.view.center.agents.AgentView;
+import java.util.Map;
+import ooga.model.interfaces.Agent;
+import ooga.model.util.Position;
 
 public abstract class MovableView extends AgentView {
 

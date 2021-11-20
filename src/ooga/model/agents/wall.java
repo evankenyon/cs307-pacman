@@ -1,6 +1,7 @@
 package ooga.model.agents;
 
 
+import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
@@ -31,6 +32,16 @@ public class wall extends AbstractAgent {
 
   @Override
   public void setDirection(String direction) {
+  }
+
+  @Override
+  public int consume(Consumable agent) {
+    return 0;
+  }
+
+  @Override
+  public void setState(int i) {
+    myState = i;
   }
 
   @Override

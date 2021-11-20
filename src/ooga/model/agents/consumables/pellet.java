@@ -1,10 +1,13 @@
 package ooga.model.agents.consumables;
 
 import ooga.model.agents.AbstractAgent;
+import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class pellet extends AbstractAgent implements Consumable {
 
@@ -12,6 +15,7 @@ public class pellet extends AbstractAgent implements Consumable {
 
   private final static int EATEN_STATE = 0;
   private final static int UNEATEN_STATE = 1;
+  private static final Logger LOG = LogManager.getLogger(pellet.class);
 
   private int myState;
   private MovementStrategyContext myMover;
@@ -43,6 +47,16 @@ public class pellet extends AbstractAgent implements Consumable {
     setPosition(newPosition.getCoords());
   }
 
+  @Override
+  public int consume(Consumable agent) {
+    return 0;
+  }
+
+  @Override
+  public void setState(int i) {
+    myState = i;
+  }
+
 
   @Override
   public void agentReact() {
@@ -51,7 +65,7 @@ public class pellet extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public void applyEffects() {
+  public void applyEffects(Agent agent) {
   }
 
   @Override

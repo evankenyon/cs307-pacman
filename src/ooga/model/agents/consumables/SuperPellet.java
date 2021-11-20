@@ -1,6 +1,7 @@
 package ooga.model.agents.consumables;
 
 import ooga.model.agents.AbstractAgent;
+import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
@@ -8,7 +9,7 @@ import ooga.model.util.Position;
 
 public class SuperPellet extends AbstractAgent implements Consumable {
 
-  private final static int PELLET_POINT = 2;
+  private final static int PELLET_POINT = 10;
 
   private final static int EATEN_STATE = 0;
   private final static int UNEATEN_STATE = 1;
@@ -44,13 +45,25 @@ public class SuperPellet extends AbstractAgent implements Consumable {
   }
 
   @Override
+  public int consume(Consumable agent) {
+    return 0;
+  }
+
+  @Override
+  public void setState(int i) {
+    myState = 1;
+    updateConsumer();
+  }
+
+  @Override
   public void agentReact() {
     myState = EATEN_STATE;
     updateConsumer();
   }
 
   @Override
-  public void applyEffects() {
+  public void applyEffects(Agent agent) {
+    agent.setState(2);
   }
 
   @Override

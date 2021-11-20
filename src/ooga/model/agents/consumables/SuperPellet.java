@@ -44,6 +44,11 @@ public class SuperPellet extends AbstractAgent implements Consumable {
   }
 
   @Override
+  public int consume(Consumable agent) {
+    return 0;
+  }
+
+  @Override
   public void agentReact() {
     myState = EATEN_STATE;
     updateConsumer();

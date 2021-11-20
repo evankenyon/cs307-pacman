@@ -35,4 +35,7 @@ public interface Agent {
   void setCoords(Position newPosition);
 
   void setDirection(String direction);
+
+  //not sure if this makes sense to have
+  int consume(Consumable agent);
 }

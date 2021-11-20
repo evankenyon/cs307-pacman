@@ -1,6 +1,7 @@
 package ooga.model.agents.consumables;
 
 import ooga.model.agents.AbstractAgent;
+import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
@@ -48,6 +49,9 @@ public class pellet extends AbstractAgent implements Consumable {
 
   @Override
   public int consume(Consumable agent) {
+    if (agent instanceof Pacman) {
+      LOG.info("pellet trying to consume pacman lmao");
+    }
     return 0;
   }
 
@@ -55,7 +59,6 @@ public class pellet extends AbstractAgent implements Consumable {
   @Override
   public void agentReact() {
     myState = EATEN_STATE;
-    LOG.info("consumer being updated in pellet currently with state {}", myState);
     updateConsumer();
   }
 

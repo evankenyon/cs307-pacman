@@ -39,7 +39,6 @@ public class Pacman extends AbstractAgent implements Consumable {
   }
 
   public int consume(Consumable agent) {
-    LOG.info("in pacman consuming {}", agent);
     if (agent != null) {
       agent.agentReact();
       agent.applyEffects();

@@ -38,7 +38,6 @@ public class GameState {
     myWalls = new ArrayList<>();
     agentFactory = new AgentFactory();
     populateLists(vanillaGameData.getWallMap());
-    LOG.info("other agent list has {} pellets", myOtherAgents.size());
   }
 
   public boolean checkGridBounds(int x, int y) {

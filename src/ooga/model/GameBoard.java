@@ -3,6 +3,7 @@ package ooga.model;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
@@ -17,6 +18,7 @@ public class GameBoard {
   private static final Logger LOG = LogManager.getLogger(GameBoard.class);
   private final GameState myState;
   private int myScore;
+  private Consumer<Integer> myScoreConsumer;
 
   // TODO: handle exceptions
   public GameBoard(DataInterface vanillaGameData)
@@ -57,6 +59,7 @@ public class GameBoard {
         newPosition.getCoords()[1])) {
       Consumable colliding = (Consumable) myState.findAgent(newPosition);
       myScore += agent.consume(colliding);
+      updateScoreConsumer();
       LOG.info("score is now {}", myScore);
     }
   }
@@ -75,7 +78,15 @@ public class GameBoard {
     return myState;
   }
 
-  public int getScore() {
-    return myScore;
+//  public int getScore() {
+//    return myScore;
+//  }
+
+  public void addScoreConsumer(Consumer<Integer> consumer) {
+    myScoreConsumer = consumer;
+  }
+
+  public void updateScoreConsumer() {
+    myScoreConsumer.accept(myScore);
   }
 }

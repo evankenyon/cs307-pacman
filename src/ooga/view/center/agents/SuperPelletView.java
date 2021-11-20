@@ -27,8 +27,6 @@ public class SuperPelletView extends StationaryView {
 //    myInfo = agentInfo;
     myCircle = makeCircle();
     setImage(myCircle);
-//    setX(myAgent.getPosition()[0]);
-//    setY(myAgent.getPosition()[1]);
     myCircle.setCenterX(GRID_WIDTH*myAgent.getPosition().getCoords()[0] + PELLET_BUFFER_X);
     myCircle.setCenterY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1] + PELLET_BUFFER_Y);
     myAgent.addConsumer(updatePellet);

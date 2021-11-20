@@ -7,8 +7,8 @@ import ooga.model.util.Position;
 
 public class wall extends AbstractAgent {
 
-  private static final int UNPASSABLE = 0;
-  private static final int PASSABLE = 1;
+  public static final int UNPASSABLE = 0;
+  public static final int PASSABLE = 1;
 
   private int myState;
   private MovementStrategyContext myMover;

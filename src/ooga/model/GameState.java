@@ -28,7 +28,7 @@ public class GameState {
   private List<Agent> myWalls;
   private List<Consumable> myConsumables;
   private final AgentFactory agentFactory;
-  private static final Logger LOG = LogManager.getLogger(GameBoard.class);
+  private static final Logger LOG = LogManager.getLogger(GameState.class);
 
   public GameState(DataInterface vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -37,7 +37,8 @@ public class GameState {
     myOtherAgents = new ArrayList<>();
     myWalls = new ArrayList<>();
     agentFactory = new AgentFactory();
-    createGrid(vanillaGameData.getWallMap());
+    populateLists(vanillaGameData.getWallMap());
+    LOG.info("other agent list has {} pellets", myOtherAgents.size());
   }
 
   public boolean checkGridBounds(int x, int y) {
@@ -59,7 +60,7 @@ public class GameState {
     return maxCol;
   }
 
-  private void createGrid(Map<String, List<Position>> initialStates)
+  private void populateLists(Map<String, List<Position>> initialStates)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     for (String state : initialStates.keySet()) {
       for (Position position : initialStates.get(state)) {
@@ -90,7 +91,6 @@ public class GameState {
 
   private void addToPlayer(String agent, int x, int y) {
     myPlayer = agentFactory.createAgent(agent, x, y);
-    LOG.info("myplayer is {}", myPlayer);
   }
 
   public Agent findAgent(Position pos) {
@@ -121,7 +121,6 @@ public class GameState {
   }
 
   public void setPlayerDirection(String direction) {
-    LOG.info("setting direction in STATE to {}", direction);
     myPlayer.setDirection(direction);
   }
 
@@ -152,5 +151,18 @@ public class GameState {
 
   public void updateHandlers() {
     myPlayer.updateConsumer();
+  }
+
+  public boolean checkConsumables(int x, int y) {
+    for (Agent pellet : myOtherAgents) {
+      //if not consumed yet
+      if (pellet.getState() == 1) {
+        //if collides
+        if (pellet.getPosition().getCoords()[0] == x && pellet.getPosition().getCoords()[1] == y) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

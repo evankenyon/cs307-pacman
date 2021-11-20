@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import ooga.model.interfaces.Agent;
+import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +22,7 @@ public class GameBoard {
   // TODO: handle exceptions
   public GameBoard(DataInterface vanillaGameData)
       throws
-      ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+      InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myState = new GameState(vanillaGameData);
   }
 
@@ -40,21 +41,28 @@ public class GameBoard {
     for (Agent agent : movers) {
       Position newPosition = agent.step();
       if (newPosition != null) {
+        //only set new coordinate value if move is valid
         if (checkMoveValidity(newPosition)) {
+          applyEffects(agent, newPosition);
           agent.setCoords(newPosition);
         }
       }
     }
   }
 
+  private void applyEffects(Agent agent, Position newPosition) {
+    if (myState.checkConsumables(agent.getPosition().getCoords()[0],
+        agent.getPosition().getCoords()[1])) {
+      Consumable colliding = (Consumable) myState.findAgent(newPosition);
+      agent.consume(colliding);
+    }
+  }
 
   public void setPlayerDirection(String direction) {
-    LOG.info("setting direction in board to {}", direction);
     myState.setPlayerDirection(direction);
   }
 
   private boolean checkMoveValidity(Position newPosition) {
-    //TODO: add cases for walls, other overlaps, etc
     int x = newPosition.getCoords()[0];
     int y = newPosition.getCoords()[1];
     return myState.checkGridBounds(x, y) && !myState.checkWallCollision(x, y);

@@ -26,21 +26,21 @@ public class PacView extends MovableView {
     setImage(pacImage);
 //    setX(myAgent.getPosition()[0]);
 //    setY(myAgent.getPosition()[1]);
-    pacImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0] + HORIZONTAL_IMAGE_BUFFER);
-    pacImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1] + VERTICAL_IMAGE_BUFFER);
+    pacImage.setX(GRID_WIDTH * myAgent.getPosition().getCoords()[0] + HORIZONTAL_IMAGE_BUFFER);
+    pacImage.setY(GRID_HEIGHT * myAgent.getPosition().getCoords()[1] + VERTICAL_IMAGE_BUFFER);
 // add the Consumers to the List<Consumer<Integer>> in the model
     myAgent.addConsumer(updatePacMan);
   }
 
   @Override
   protected void moveX(int x) {
-    pacImage.setX(BOARD_WIDTH/COLS * x + HORIZONTAL_IMAGE_BUFFER);
+    pacImage.setX(BOARD_WIDTH / COLS * x + HORIZONTAL_IMAGE_BUFFER);
   }
 
   @Override
   protected void moveY(int y) {
 //    setY(y);
-    pacImage.setY(BOARD_HEIGHT/ROWS * y + VERTICAL_IMAGE_BUFFER);
+    pacImage.setY(BOARD_HEIGHT / ROWS * y + VERTICAL_IMAGE_BUFFER);
   }
 
   @Override
@@ -50,6 +50,8 @@ public class PacView extends MovableView {
 
   @Override
   protected void updateOrientation(String orientation) {
-    pacImage.setRotate(ORIENTATION_MAP.get(orientation));
+    if (ORIENTATION_MAP.get(orientation) != null) {
+      pacImage.setRotate(ORIENTATION_MAP.get(orientation));
+    }
   }
 }

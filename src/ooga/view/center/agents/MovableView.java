@@ -1,15 +1,14 @@
 package ooga.view.center.agents;
 
-    import java.util.Map;
-    import ooga.model.interfaces.Agent;
-    import ooga.model.util.Position;
-    import ooga.view.center.agents.AgentView;
+import java.util.Map;
+import ooga.model.interfaces.Agent;
+import ooga.model.util.Position;
 
 public abstract class MovableView extends AgentView {
 
   public static final String IMAGE_PATH = "images/";
   public static final Map<String, Integer> ORIENTATION_MAP =
-      Map.of("right",0,"down",90,"left",180,"up",270);
+      Map.of("right", 0, "down", 90, "left", 180, "up", 270);
 
   protected abstract void moveX(int x);
 

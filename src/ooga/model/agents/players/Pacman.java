@@ -1,5 +1,6 @@
 package ooga.model.agents.players;
 
+import java.util.List;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.Controllable;
@@ -34,6 +35,7 @@ public class Pacman extends AbstractAgent {
   }
 
   public Position step() {
+    LOG.info(String.format("%d, %d", getPosition().getCoords()[0], getPosition().getCoords()[1]));
     return myMover.move(getPosition());
   }
 

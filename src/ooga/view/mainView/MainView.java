@@ -43,7 +43,7 @@ public class MainView {
     myBoardView = new BoardView(myGame, myController, wallMap);
     myTopView = new TopView();
     myScene = makeScene();
-    myStage.hide();
+//    myStage.hide();
     myStage.setScene(myScene);
     myStage.show();
   }

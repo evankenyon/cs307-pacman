@@ -39,6 +39,7 @@ public class VanillaGame implements Game {
 
   private void updateHandlers() {
     //update all view handlers
+    myBoard.getGameState().updateHandlers();
   }
 
   public GameBoard getBoard() {

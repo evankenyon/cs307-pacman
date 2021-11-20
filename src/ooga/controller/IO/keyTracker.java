@@ -14,16 +14,16 @@ public class keyTracker {
    */
   public String getPressedKey(KeyEvent event) {
     KeyCode code = event.getCode();
-    if (code == KeyCode.LEFT) {
+    if (code == KeyCode.A) {
       return "left";
     }
-    else if (code == KeyCode.RIGHT) {
+    else if (code == KeyCode.D) {
       return "right";
     }
-    else if (code == KeyCode.UP) {
+    else if (code == KeyCode.W) {
       return "up";
     }
-    else if (code == KeyCode.DOWN) {
+    else if (code == KeyCode.S) {
       return "down";
     }
     else {

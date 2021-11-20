@@ -15,15 +15,15 @@ public class GameBoard {
       GameBoard.class.getPackageName());
   private static final String TYPES_FILENAME = "types";
   private static final Logger LOG = LogManager.getLogger(GameBoard.class);
-
-  GameState myState;
-
+  private final GameState myState;
+  private int myScore;
 
   // TODO: handle exceptions
   public GameBoard(DataInterface vanillaGameData)
       throws
       InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myState = new GameState(vanillaGameData);
+    myScore = 0;
   }
 
 
@@ -56,7 +56,8 @@ public class GameBoard {
     if (myState.checkConsumables(newPosition.getCoords()[0],
         newPosition.getCoords()[1])) {
       Consumable colliding = (Consumable) myState.findAgent(newPosition);
-      agent.consume(colliding);
+      myScore += agent.consume(colliding);
+      LOG.info("score is now {}", myScore);
     }
   }
 
@@ -72,5 +73,9 @@ public class GameBoard {
 
   public GameState getGameState() {
     return myState;
+  }
+
+  public int getScore() {
+    return myScore;
   }
 }

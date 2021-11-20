@@ -59,7 +59,7 @@ public class GameBoard {
         newPosition.getCoords()[1])) {
       Consumable colliding = (Consumable) myState.findAgent(newPosition);
       myScore += agent.consume(colliding);
-      updateScoreConsumer();
+//      updateScoreConsumer();
       LOG.info("score is now {}", myScore);
     }
   }

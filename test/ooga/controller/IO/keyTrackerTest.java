@@ -22,17 +22,17 @@ public class keyTrackerTest {
 
   @Test
   void testForCorrectKey() {
-    left = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "left",
-        "left", KeyCode.LEFT, false, false, false,
+    left = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "A",
+        "left", KeyCode.A, false, false, false,
         false);
-    right = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "right",
-        "right", KeyCode.RIGHT, false, false, false,
+    right = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "D",
+        "right", KeyCode.D, false, false, false,
         false);
-    up = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "up",
-        "up", KeyCode.UP, false, false, false,
+    up = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "W",
+        "up", KeyCode.W, false, false, false,
         false);
-    down = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "down",
-        "down", KeyCode.DOWN, false, false, false,
+    down = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "S",
+        "down", KeyCode.S, false, false, false,
         false);
     Assertions.assertEquals("left", tracker.getPressedKey(left));
     Assertions.assertEquals("right", tracker.getPressedKey(right));

@@ -20,18 +20,18 @@ public class GameState {
   private static final String TYPES_FILENAME = "types";
 
 
-  private int myRows;
-  private int myCols;
+  private final int myRows;
+  private final int myCols;
   private List<Agent> myOtherAgents;
 
   private Agent myPlayer;
   private List<Agent> myWalls;
   private List<Consumable> myConsumables;
-  private AgentFactory agentFactory;
+  private final AgentFactory agentFactory;
   private static final Logger LOG = LogManager.getLogger(GameBoard.class);
 
   public GameState(DataInterface vanillaGameData)
-      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+      throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myRows = calculateDimension(vanillaGameData.getWallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.getWallMap(), 0) + 1;
     myOtherAgents = new ArrayList<>();
@@ -125,6 +125,19 @@ public class GameState {
     myPlayer.setDirection(direction);
   }
 
+  public boolean checkWallCollision(int x, int y) {
+    for (Agent wall : myWalls) {
+      //if wall unpassable
+      if (wall.getState() == 0) {
+        //if collides
+        if (wall.getPosition().getCoords()[0] == x && wall.getPosition().getCoords()[1] == y) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   public List<Agent> getMyOtherAgents() {
     return myOtherAgents;
   }
@@ -135,5 +148,9 @@ public class GameState {
 
   public List<Agent> getMyWalls() {
     return myWalls;
+  }
+
+  public void updateHandlers() {
+    myPlayer.updateConsumer();
   }
 }

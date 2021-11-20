@@ -43,11 +43,6 @@ public class pellet extends AbstractAgent implements Consumable {
     setPosition(newPosition.getCoords());
   }
 
-  @Override
-  public void setDirection(String direction) {
-
-  }
-
 
   @Override
   public void agentReact() {

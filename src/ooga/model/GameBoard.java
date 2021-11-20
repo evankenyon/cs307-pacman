@@ -40,8 +40,6 @@ public class GameBoard {
     for (Agent agent : movers) {
       Position newPosition = agent.step();
       if (newPosition != null) {
-//        LOG.info("new position: {} should not be null?", newPosition);
-//        LOG.info("current agent is: {}", agent);
         if (checkMoveValidity(newPosition)) {
           agent.setCoords(newPosition);
         }
@@ -59,7 +57,7 @@ public class GameBoard {
     //TODO: add cases for walls, other overlaps, etc
     int x = newPosition.getCoords()[0];
     int y = newPosition.getCoords()[1];
-    return myState.checkGridBounds(x, y);
+    return myState.checkGridBounds(x, y) && !myState.checkWallCollision(x, y);
   }
 
   public GameState getGameState() {

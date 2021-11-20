@@ -34,12 +34,8 @@ public class Pacman extends AbstractAgent {
   }
 
   public Position step() {
+    LOG.info(String.format("%d, %d", getPosition().getCoords()[0], getPosition().getCoords()[1]));
     return myMover.move(getPosition());
-  }
-
-  public void setDirection(String direction) {
-    LOG.info("setting current direction to {}", direction);
-    getPosition().setDirection(direction);
   }
 
   public int consume(Consumable agent) {

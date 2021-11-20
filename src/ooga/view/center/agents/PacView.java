@@ -34,7 +34,6 @@ public class PacView extends MovableView {
 
   @Override
   protected void moveX(int x) {
-//    setX(x);
     pacImage.setX(BOARD_WIDTH/COLS * x + HORIZONTAL_IMAGE_BUFFER);
   }
 

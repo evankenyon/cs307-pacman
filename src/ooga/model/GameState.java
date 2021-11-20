@@ -136,4 +136,8 @@ public class GameState {
   public List<Agent> getMyWalls() {
     return myWalls;
   }
+
+  public void updateHandlers() {
+    myPlayer.updateConsumer();
+  }
 }

@@ -8,7 +8,7 @@ import ooga.model.util.Position;
 
 public class SuperPellet extends AbstractAgent implements Consumable {
 
-  private final static int PELLET_POINT = 2;
+  private final static int PELLET_POINT = 10;
 
   private final static int EATEN_STATE = 0;
   private final static int UNEATEN_STATE = 1;

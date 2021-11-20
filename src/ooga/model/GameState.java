@@ -150,6 +150,8 @@ public class GameState {
 
   public void updateHandlers() {
     myPlayer.updateConsumer();
+    for (Agent a : myOtherAgents) a.updateConsumer();
+    for (Agent wall : myWalls) wall.updateConsumer();
   }
 
   public boolean checkConsumables(int x, int y) {

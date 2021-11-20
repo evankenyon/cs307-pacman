@@ -24,10 +24,8 @@ public class PacView extends MovableView {
     pacImage.setFitWidth(IMAGE_BUFFER);
     pacImage.setFitHeight(IMAGE_BUFFER);
     setImage(pacImage);
-//    setX(myAgent.getPosition()[0]);
-//    setY(myAgent.getPosition()[1]);
-    pacImage.setX(GRID_WIDTH * myAgent.getPosition().getCoords()[0] + HORIZONTAL_IMAGE_BUFFER);
-    pacImage.setY(GRID_HEIGHT * myAgent.getPosition().getCoords()[1] + VERTICAL_IMAGE_BUFFER);
+    pacImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0] + HORIZONTAL_IMAGE_BUFFER);
+    pacImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1] + VERTICAL_IMAGE_BUFFER);
 // add the Consumers to the List<Consumer<Integer>> in the model
     myAgent.addConsumer(updatePacMan);
   }

@@ -37,7 +37,7 @@ public class MainView {
     myController = controller;
     controller.setAnimationSpeed(1);
     myGame = game;
-    myBottomView = new BottomView();
+    myBottomView = new BottomView(myController);
 //    gameStartupPanel = new GameStartupPanel(myStage);
     myStage = stage;
     myBoardView = new BoardView(myGame, myController, wallMap);

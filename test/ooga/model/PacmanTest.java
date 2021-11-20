@@ -47,7 +47,7 @@ public class PacmanTest {
     int currentY = potentialPosition.getCoords()[1];
 
     Assertions.assertEquals(1, currentX);
-    Assertions.assertEquals(3, currentY);
+    Assertions.assertEquals(1, currentY);
   }
 
   @Test
@@ -58,7 +58,7 @@ public class PacmanTest {
     int currentY = potentialPosition.getCoords()[1];
 
     Assertions.assertEquals(1, currentX);
-    Assertions.assertEquals(1, currentY);
+    Assertions.assertEquals(3, currentY);
   }
 
   @Test

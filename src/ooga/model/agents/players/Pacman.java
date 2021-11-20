@@ -1,6 +1,7 @@
 package ooga.model.agents.players;
 
 import ooga.model.agents.AbstractAgent;
+import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
@@ -41,19 +42,25 @@ public class Pacman extends AbstractAgent implements Consumable {
   public int consume(Consumable agent) {
     if (agent != null) {
       agent.agentReact();
-      agent.applyEffects();
+      agent.applyEffects(this);
       return agent.applyPoints();
     }
     return 0;
   }
 
   @Override
-  public void agentReact() {
-
+  public void setState(int i) {
+    myState = i;
+    LOG.info("pacman state now {}", myState);
+    updateConsumer();
   }
 
   @Override
-  public void applyEffects() {
+  public void agentReact() {
+  }
+
+  @Override
+  public void applyEffects(Agent agent) {
     //decrease lives or something?
   }
 

@@ -29,9 +29,14 @@ public class GameBoard {
   }
 
 
-  //TODO: implement
+  //TODO: change when we implement list of required consumables?
   public boolean checkWin() {
-    return myState.getAllConsumables().isEmpty();
+    for (Agent pellet : myState.getMyOtherAgents()) {
+      if (pellet.getState() != 0) {
+        return false;
+      }
+    }
+    return true;
   }
 
   //move every agent in the board by one step
@@ -59,6 +64,7 @@ public class GameBoard {
         newPosition.getCoords()[1])) {
       Consumable colliding = (Consumable) myState.findAgent(newPosition);
       myScore += agent.consume(colliding);
+      //call this when consumer has actually been added
 //      updateScoreConsumer();
       LOG.info("score is now {}", myScore);
     }

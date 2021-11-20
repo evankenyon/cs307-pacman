@@ -1,6 +1,7 @@
 package ooga.model.agents.consumables;
 
 import ooga.model.agents.AbstractAgent;
+import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
@@ -51,6 +52,11 @@ public class pellet extends AbstractAgent implements Consumable {
     return 0;
   }
 
+  @Override
+  public void setState(int i) {
+    myState = i;
+  }
+
 
   @Override
   public void agentReact() {
@@ -59,7 +65,7 @@ public class pellet extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public void applyEffects() {
+  public void applyEffects(Agent agent) {
   }
 
   @Override

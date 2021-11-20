@@ -55,4 +55,5 @@ public abstract class AbstractAgent implements Agent {
   public void setDirection(String direction) {
     myPosition.setDirection(direction);
   }
+
 }

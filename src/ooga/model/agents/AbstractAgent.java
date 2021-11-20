@@ -48,4 +48,8 @@ public abstract class AbstractAgent implements Agent {
   }
 
   public abstract int getState();
+
+  public void setDirection(String direction) {
+    myPosition.setDirection(direction);
+  }
 }

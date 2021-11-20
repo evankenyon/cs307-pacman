@@ -50,6 +50,7 @@ public class PacView extends MovableView {
 
   @Override
   protected void updateOrientation(String orientation) {
+    //can delete when null in the map has been merged
     if (ORIENTATION_MAP.get(orientation) != null) {
       pacImage.setRotate(ORIENTATION_MAP.get(orientation));
     }

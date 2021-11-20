@@ -43,7 +43,9 @@ public class GameBoard {
       if (newPosition != null) {
         //only set new coordinate value if move is valid
         if (checkMoveValidity(newPosition)) {
+          //apply effects first because if we move first we'll have two agents with the same coords
           applyEffects(agent, newPosition);
+          //set coordinates after effects have been applied
           agent.setCoords(newPosition);
         }
       }
@@ -51,8 +53,8 @@ public class GameBoard {
   }
 
   private void applyEffects(Agent agent, Position newPosition) {
-    if (myState.checkConsumables(agent.getPosition().getCoords()[0],
-        agent.getPosition().getCoords()[1])) {
+    if (myState.checkConsumables(newPosition.getCoords()[0],
+        newPosition.getCoords()[1])) {
       Consumable colliding = (Consumable) myState.findAgent(newPosition);
       agent.consume(colliding);
     }

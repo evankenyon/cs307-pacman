@@ -44,12 +44,6 @@ public class SuperPellet extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public void setDirection(String direction) {
-
-  }
-
-
-  @Override
   public void agentReact() {
     myState = EATEN_STATE;
     updateConsumer();

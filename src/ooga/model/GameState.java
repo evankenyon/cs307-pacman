@@ -125,6 +125,19 @@ public class GameState {
     myPlayer.setDirection(direction);
   }
 
+  public boolean checkWallCollision(int x, int y) {
+    for (Agent wall : myWalls) {
+      //if wall unpassable
+      if (wall.getState() == 0) {
+        //if collides
+        if (wall.getPosition().getCoords()[0] == x && wall.getPosition().getCoords()[1] == y) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   public List<Agent> getMyOtherAgents() {
     return myOtherAgents;
   }

@@ -38,4 +38,6 @@ public interface Agent {
 
   //not sure if this makes sense to have
   int consume(Consumable agent);
+
+  void setState(int i);
 }

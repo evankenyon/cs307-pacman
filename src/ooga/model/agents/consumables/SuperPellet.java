@@ -1,6 +1,7 @@
 package ooga.model.agents.consumables;
 
 import ooga.model.agents.AbstractAgent;
+import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
@@ -49,13 +50,20 @@ public class SuperPellet extends AbstractAgent implements Consumable {
   }
 
   @Override
+  public void setState(int i) {
+    myState = 1;
+    updateConsumer();
+  }
+
+  @Override
   public void agentReact() {
     myState = EATEN_STATE;
     updateConsumer();
   }
 
   @Override
-  public void applyEffects() {
+  public void applyEffects(Agent agent) {
+    agent.setState(2);
   }
 
   @Override

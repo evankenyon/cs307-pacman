@@ -40,6 +40,11 @@ public class wall extends AbstractAgent {
   }
 
   @Override
+  public void setState(int i) {
+    myState = i;
+  }
+
+  @Override
   public int getState() {
     return myState;
   }

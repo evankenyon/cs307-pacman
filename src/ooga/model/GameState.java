@@ -115,9 +115,9 @@ public class GameState {
   }
 
   //TODO : actually implement
-  public List<Consumable> getAllConsumables() {
-    return new ArrayList<>();
-  }
+//  public List<Consumable> getAllConsumables() {
+//    return new ArrayList<>();
+//  }
 
   public void setPlayerDirection(String direction) {
     myPlayer.setDirection(direction);

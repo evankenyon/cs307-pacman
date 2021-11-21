@@ -65,7 +65,7 @@ public class GameBoard {
       Consumable colliding = (Consumable) myState.findAgent(newPosition);
       myScore += agent.consume(colliding);
       //call this when consumer has actually been added
-//      updateScoreConsumer();
+      updateScoreConsumer();
       LOG.info("score is now {}", myScore);
     }
   }

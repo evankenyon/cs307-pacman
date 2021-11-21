@@ -16,6 +16,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.controller.IO.UserPreferences;
 import ooga.model.util.Position;
 import ooga.view.mainView.MainView;
 
@@ -101,9 +102,9 @@ public class GameStartupPanel {
         Controller application = new Controller(selectedLanguage, gameStage);
         // TODO: Fix exception:
         try {
-          Map<String, List<Position>> wallMap = application.uploadFile(gameFile);
+          UserPreferences userPreferences = application.uploadFile(gameFile);
           MainView mainView = new MainView(application, application.getVanillaGame(), gameStage,
-              wallMap);
+              userPreferences);
         } catch (Exception ex) {
           // TODO: clean this up
 //                    ex.printStackTrace();

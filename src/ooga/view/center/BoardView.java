@@ -19,6 +19,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import ooga.controller.Controller;
 import ooga.controller.IO.JsonParser;
+import ooga.controller.IO.UserPreferences;
 import ooga.model.VanillaGame;
 import ooga.model.agents.wall;
 import ooga.model.util.Position;
@@ -42,18 +43,18 @@ public class BoardView {
   private double numRows;
   private double numCols;
 
-  public BoardView (VanillaGame game, Controller controller, Map<String, List<Position>> wallMap) {
+  public BoardView (VanillaGame game, Controller controller, UserPreferences userPreferences) {
     myGame = game;
     myController = controller;
     myBoardPane = new Pane();
     boardConsumerList = new ArrayList<>();
-    initiateBoard(wallMap);
+    initiateBoard(userPreferences);
     myBoardPane.setMaxWidth(BOARD_WIDTH);
     myBoardPane.setMaxHeight(BOARD_HEIGHT);
     myBoardPane.setBackground(new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
-  private void initiateBoard(Map<String, List<Position>> agentMap) {
+  private void initiateBoard(UserPreferences userPreferences) {
 //    makeWalls(myParser.getWallMapPositions());
 //    int rows = myController.getRows();
 //    int cols = myController.getCols();
@@ -65,8 +66,8 @@ public class BoardView {
 //        makeAgentView(agentType);
 //      }
 //    }
-    for (String type : agentMap.keySet()) {
-      for (Position p : agentMap.get(type)) {
+    for (String type : userPreferences.wallMap().keySet()) {
+      for (Position p : userPreferences.wallMap().get(type)) {
 //        updateDimensions(p);
         AgentView agentView = makeAgentView(type, p);
         attachAgent(agentView);

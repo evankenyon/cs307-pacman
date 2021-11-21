@@ -41,7 +41,7 @@ public class MainView {
 //    gameStartupPanel = new GameStartupPanel(myStage);
     myStage = stage;
     myBoardView = new BoardView(myGame, myController, wallMap);
-    myTopView = new TopView();
+    myTopView = new TopView(myGame);
     myScene = makeScene();
 //    myStage.hide();
     myStage.setScene(myScene);

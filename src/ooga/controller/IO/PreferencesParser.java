@@ -32,6 +32,7 @@ public class PreferencesParser {
   private JSONObject preferencesJson;
   private Map<String, String> imagePaths;
   private Map<String, List<Double>> colors;
+  private File startingConfig;
   private String style;
 
   private ResourceBundle possiblePreferences;
@@ -55,8 +56,7 @@ public class PreferencesParser {
       try {
         method.invoke(this, key);
       } catch (InvocationTargetException e) {
-        //TODO: figure out how to throw original exception
-        throw new InputMismatchException();
+        throw (InputMismatchException) e.getCause();
       }
 
     }
@@ -74,6 +74,10 @@ public class PreferencesParser {
     return style;
   }
 
+  public File getStartingConfig() {
+    return startingConfig;
+  }
+
   private void checkForExtraKeys(Set<String> keySet) throws InputMismatchException {
     for (String key : keySet) {
       if (!possiblePreferences.containsKey(key)) {
@@ -81,6 +85,10 @@ public class PreferencesParser {
             String.format("Unexpected key %s was found in preferences file", key));
       }
     }
+  }
+
+  private void addToStartingConfig(String key) {
+    startingConfig = new File(preferencesJson.getString(key));
   }
 
   private void addToImage(String key) {

@@ -60,4 +60,12 @@ class PreferencesParserTest {
     preferencesParser.uploadFile(new File("data/tests/preferences/lightStyle.json"));
     Assertions.assertEquals(expected, preferencesParser.getStyle());
   }
+
+  @Test
+  void getStartingConfig()
+      throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    String expected = "test_implementation.json";
+    preferencesParser.uploadFile(new File("data/tests/preferences/startingConfig.json"));
+    Assertions.assertEquals(expected, preferencesParser.getStartingConfig().getName());
+  }
 }

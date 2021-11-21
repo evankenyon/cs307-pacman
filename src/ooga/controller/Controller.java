@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
+import ooga.controller.IO.PreferencesParser;
 import ooga.controller.IO.keyTracker;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
@@ -32,6 +33,7 @@ public class Controller implements ControllerInterface {
   private VanillaGame vanillaGame;
   private GameStartupPanel gameStartupPanel;
   private Timeline myAnimation;
+  private PreferencesParser preferencesParser;
   private GameStartupPanel panel;
   private Map<String, List<Position>> wallMap;
   private boolean isPaused;
@@ -48,13 +50,16 @@ public class Controller implements ControllerInterface {
     myAnimation.play();
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();
+    preferencesParser = new PreferencesParser();
     gameStartupPanel = new GameStartupPanel(stage);
     isPaused = false;
   }
 
   // TODO: properly handle exception
   @Override
-  public Map<String, List<Position>> uploadFile(File file) throws IOException {
+  public Map<String, List<Position>> uploadFile(File file)
+      throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    preferencesParser.uploadFile(file);
     jsonParser.addVanillaGameDataConsumer(
         vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.getWallMap());
     jsonParser.addVanillaGameDataConsumer(
@@ -66,7 +71,7 @@ public class Controller implements ControllerInterface {
             throw new InputMismatchException("Error occurred in backend reflection");
           }
         });
-    jsonParser.uploadFile(file);
+    jsonParser.uploadFile(preferencesParser.getStartingConfig());
 
     return wallMap;
   }

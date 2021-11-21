@@ -2,6 +2,7 @@ package ooga.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import javafx.scene.input.KeyEvent;
@@ -10,7 +11,8 @@ import ooga.model.util.Position;
 
 public interface ControllerInterface {
 
-  public Map<String, List<Position>> uploadFile(File file) throws IOException;
+  public Map<String, List<Position>> uploadFile(File file)
+      throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException;
 
   public void updatePressedKey(KeyEvent event);
 

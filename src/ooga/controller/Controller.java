@@ -14,6 +14,7 @@ import javafx.util.Duration;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.PreferencesParser;
+import ooga.controller.IO.UserPreferences;
 import ooga.controller.IO.keyTracker;
 import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.VanillaGame;
@@ -58,10 +59,8 @@ public class Controller implements ControllerInterface {
 
   // TODO: properly handle exception
   @Override
-  public Map<String, List<Position>> uploadFile(File file)
+  public UserPreferences uploadFile(File file)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-
-
     jsonParser.addVanillaGameDataConsumer(
         vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.getWallMap());
     jsonParser.addVanillaGameDataConsumer(
@@ -80,7 +79,7 @@ public class Controller implements ControllerInterface {
       jsonParser.uploadFile(file);
     }
 
-    return wallMap;
+    return new UserPreferences(wallMap, preferencesParser.getImagePaths(), preferencesParser.getColors(), preferencesParser.getStyle());
   }
 
   @Override

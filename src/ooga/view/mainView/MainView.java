@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.controller.IO.UserPreferences;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
 import ooga.view.GameStartupPanel;
@@ -32,15 +33,14 @@ public class MainView {
   private static final Logger LOG = LogManager.getLogger(MainView.class);
 
 
-  public MainView(Controller controller, VanillaGame game, Stage stage,
-      Map<String, List<Position>> wallMap) {
+  public MainView(Controller controller, VanillaGame game, Stage stage, UserPreferences userPreferences) {
     myController = controller;
     controller.setAnimationSpeed(1);
     myGame = game;
     myBottomView = new BottomView(myController);
 //    gameStartupPanel = new GameStartupPanel(myStage);
     myStage = stage;
-    myBoardView = new BoardView(myGame, myController, wallMap);
+    myBoardView = new BoardView(myGame, myController, userPreferences);
     myTopView = new TopView(myGame);
     myScene = makeScene();
 //    myStage.hide();

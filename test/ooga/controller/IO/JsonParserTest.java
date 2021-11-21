@@ -132,7 +132,7 @@ class JsonParserTest {
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     PreferencesParser preferencesParser = new PreferencesParser();
     preferencesParser.uploadFile(new File("data/tests/preferences/simpleConfig.json"));
-    
+
     jsonParser.addVanillaGameDataConsumer(vanillaGame -> comparePlayers("Pacman",
         vanillaGame.getPlayer()));
 

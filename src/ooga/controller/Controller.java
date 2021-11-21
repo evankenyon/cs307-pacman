@@ -15,6 +15,7 @@ import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.PreferencesParser;
 import ooga.controller.IO.keyTracker;
+import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
 import ooga.view.GameStartupPanel;
@@ -59,7 +60,8 @@ public class Controller implements ControllerInterface {
   @Override
   public Map<String, List<Position>> uploadFile(File file)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    preferencesParser.uploadFile(file);
+
+
     jsonParser.addVanillaGameDataConsumer(
         vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.getWallMap());
     jsonParser.addVanillaGameDataConsumer(
@@ -71,7 +73,12 @@ public class Controller implements ControllerInterface {
             throw new InputMismatchException("Error occurred in backend reflection");
           }
         });
-    jsonParser.uploadFile(preferencesParser.getStartingConfig());
+    if(!JSONObjectParser.parseJSONObject(file).toMap().containsKey("Player")) {
+      preferencesParser.uploadFile(file);
+      jsonParser.uploadFile(preferencesParser.getStartingConfig());
+    } else {
+      jsonParser.uploadFile(file);
+    }
 
     return wallMap;
   }

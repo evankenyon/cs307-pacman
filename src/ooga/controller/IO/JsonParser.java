@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.function.Consumer;
 import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.Data;
-import ooga.model.DataInterface;
 import ooga.model.util.Position;
 import org.apache.commons.io.IOUtils;
 // Decided to use this library after reading article from
@@ -34,7 +33,7 @@ public class JsonParser implements JsonParserInterface {
   private int mapRows;
   private Map<String, Boolean> pelletInfo;
   private String player;
-  private List<Consumer<DataInterface>> vanillaGameDataConsumers;
+  private List<Consumer<Data>> vanillaGameDataConsumers;
 
   private ResourceBundle requiredKeys;
 
@@ -58,7 +57,7 @@ public class JsonParser implements JsonParserInterface {
   }
 
   @Override
-  public void addVanillaGameDataConsumer(Consumer<DataInterface> consumer) {
+  public void addVanillaGameDataConsumer(Consumer<Data> consumer) {
     vanillaGameDataConsumers.add(consumer);
   }
 
@@ -136,8 +135,8 @@ public class JsonParser implements JsonParserInterface {
     }
   }
 
-  private void updateConsumers(DataInterface vanillaGameData) {
-    for (Consumer<DataInterface> consumer : vanillaGameDataConsumers) {
+  private void updateConsumers(Data vanillaGameData) {
+    for (Consumer<Data> consumer : vanillaGameDataConsumers) {
       consumer.accept(vanillaGameData);
     }
   }

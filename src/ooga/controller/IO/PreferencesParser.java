@@ -14,9 +14,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Consumer;
 import ooga.controller.IO.utils.JSONObjectParser;
-import ooga.model.Data;
-import ooga.model.DataInterface;
-import ooga.model.util.Position;
 // Decided to use this library after reading article from
 // https://coderolls.com/parse-json-in-java/
 import org.json.JSONArray;

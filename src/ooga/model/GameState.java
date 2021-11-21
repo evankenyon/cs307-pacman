@@ -30,14 +30,14 @@ public class GameState {
   private final AgentFactory agentFactory;
   private static final Logger LOG = LogManager.getLogger(GameState.class);
 
-  public GameState(DataInterface vanillaGameData)
+  public GameState(Data vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    myRows = calculateDimension(vanillaGameData.getWallMap(), 1) + 1;
-    myCols = calculateDimension(vanillaGameData.getWallMap(), 0) + 1;
+    myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
+    myCols = calculateDimension(vanillaGameData.wallMap(), 0) + 1;
     myOtherAgents = new ArrayList<>();
     myWalls = new ArrayList<>();
     agentFactory = new AgentFactory();
-    populateLists(vanillaGameData.getWallMap());
+    populateLists(vanillaGameData.wallMap());
   }
 
   public boolean checkGridBounds(int x, int y) {

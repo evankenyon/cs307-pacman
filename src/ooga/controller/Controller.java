@@ -62,7 +62,7 @@ public class Controller implements ControllerInterface {
   public UserPreferences uploadFile(File file)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     jsonParser.addVanillaGameDataConsumer(
-        vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.getWallMap());
+        vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.wallMap());
     jsonParser.addVanillaGameDataConsumer(
         vanillaGameDataInterface -> {
           try {

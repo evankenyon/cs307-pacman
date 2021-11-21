@@ -21,7 +21,7 @@ public class GameBoard {
   private Consumer<Integer> myScoreConsumer;
 
   // TODO: handle exceptions
-  public GameBoard(DataInterface vanillaGameData)
+  public GameBoard(Data vanillaGameData)
       throws
       InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myState = new GameState(vanillaGameData);

@@ -13,7 +13,7 @@ public class VanillaGame implements Game {
 
   //private GameScore myScore; potential data structure to hold score, highscore, time played, etc.?
 
-  public VanillaGame(DataInterface vanillaGameData)
+  public VanillaGame(Data vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     myBoard = new GameBoard(vanillaGameData);
   }

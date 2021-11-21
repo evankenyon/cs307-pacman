@@ -43,7 +43,7 @@ class JsonParserTest {
     expected.put("Pinky", new ArrayList<>());
     expected.get("Pinky").add(new Position(3, 1));
 
-    jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> compareWallMaps(vanillaGameDataInterface.getWallMap(), expected));
+    jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> compareWallMaps(vanillaGameDataInterface.wallMap(), expected));
 
     jsonParser.uploadFile(new File("data/tests/basicWallMap.json"));
   }
@@ -68,7 +68,7 @@ class JsonParserTest {
   @Test
   void properPlayerCreation() throws IOException {
     String expected = "Pacman";
-    jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> comparePlayers(vanillaGameDataInterface.getPlayer(), expected));
+    jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> comparePlayers(vanillaGameDataInterface.player(), expected));
     jsonParser.uploadFile(new File("data/tests/basicWallMap.json"));
   }
 
@@ -81,7 +81,7 @@ class JsonParserTest {
     Map<String, Boolean> expected = new HashMap<>();
     expected.put("Dot", Boolean.TRUE);
     expected.put("Fruit", Boolean.FALSE);
-    jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> comparePelletMaps(vanillaGameDataInterface.getPelletInfo(), expected));
+    jsonParser.addVanillaGameDataConsumer(vanillaGameDataInterface -> comparePelletMaps(vanillaGameDataInterface.pelletInfo(), expected));
     jsonParser.uploadFile(new File("data/tests/basicWallMap.json"));
   }
 
@@ -134,12 +134,12 @@ class JsonParserTest {
     preferencesParser.uploadFile(new File("data/tests/preferences/simpleConfig.json"));
 
     jsonParser.addVanillaGameDataConsumer(vanillaGame -> comparePlayers("Pacman",
-        vanillaGame.getPlayer()));
+        vanillaGame.player()));
 
     Map<String, Boolean> expectedPelletMap = new HashMap<>();
     expectedPelletMap.put("Dot" , Boolean.TRUE);
     jsonParser.addVanillaGameDataConsumer(vanillaGame -> comparePelletMaps(expectedPelletMap,
-        vanillaGame.getPelletInfo()));
+        vanillaGame.pelletInfo()));
 
     Map<String, List<Position>> expectedWallMap = new HashMap<>();
     expectedWallMap.put("Dot" , new ArrayList<>());
@@ -149,7 +149,7 @@ class JsonParserTest {
     expectedWallMap.get("Pacman").add(new Position(1, 0));
     expectedWallMap.get("Wall").add(new Position(0, 0));
     jsonParser.addVanillaGameDataConsumer(vanillaGame -> compareWallMaps(expectedWallMap,
-        vanillaGame.getWallMap()));
+        vanillaGame.wallMap()));
 
     jsonParser.uploadFile(preferencesParser.getStartingConfig());
   }

@@ -24,17 +24,27 @@ public class GhostView extends MovableView {
   public GhostView (Agent ghost) { // make just 1 ghost (not 4) for first test?
     myAgent = ghost;
     ghostNum = 0; //TODO: Deal with Ghost Number
-    ghostImage = makeGhostImage(ghostNum); //TODO: fix Ghost Number
+    String path = String.format("%s%s_right.png", IMAGE_PATH, GHOST_NAMES[ghostNum]);
+    ghostViewSetup(path);
+  }
+
+  public GhostView (Agent ghost, String imagePath) { // make just 1 ghost (not 4) for first test?
+    myAgent = ghost;
+    ghostNum = 0; //TODO: Deal with Ghost Number
+    ghostViewSetup(imagePath);
+  }
+
+  private void ghostViewSetup(String path) {
+    ghostImage = makeGhostImage(path); //TODO: fix Ghost Number
     setImage(ghostImage);
 //    setX(myAgent.getPosition().getCoords()[0]);
 //    setY(myAgent.getPosition().getCoords()[1]);
-    ghostImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0] + HORIZONTAL_IMAGE_BUFFER);
-    ghostImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1] + VERTICAL_IMAGE_BUFFER);
+    ghostImage.setX(GRID_WIDTH * myAgent.getPosition().getCoords()[0] + HORIZONTAL_IMAGE_BUFFER);
+    ghostImage.setY(GRID_HEIGHT * myAgent.getPosition().getCoords()[1] + VERTICAL_IMAGE_BUFFER);
     myAgent.addConsumer(updateGhost);
   }
 
-  private ImageView makeGhostImage(int ghostNum) {
-    String path = String.format("%s%s_right.png", IMAGE_PATH, GHOST_NAMES[ghostNum]);
+  private ImageView makeGhostImage(String path) {
     ImageView ghost = new ImageView(path);
     ghost.setFitWidth(IMAGE_BUFFER);
     ghost.setFitHeight(IMAGE_BUFFER);
@@ -60,6 +70,7 @@ public class GhostView extends MovableView {
 
   @Override
   protected void updateOrientation(String orientation) {
+    //TODO: account for case of user input image
     try {
       ghostImage.setImage(new Image(String.format("%s%s_%s.png", IMAGE_PATH, GHOST_NAMES[ghostNum], orientation)));
     }

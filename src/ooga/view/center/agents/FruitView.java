@@ -19,10 +19,14 @@ public class FruitView extends StationaryView {
 
 
   public FruitView (Agent fruit) {
+    this(fruit, String.format("%s%s", IMAGE_PATH, FRUIT_IMAGE));
+  }
+
+  public FruitView (Agent fruit, String imagePath) {
     myAgent = fruit;
 //    myInfo = agentInfo;
     myAgent.addConsumer(updatePellet);
-    myImage = new ImageView(String.format("%s%s", IMAGE_PATH, FRUIT_IMAGE));
+    myImage = new ImageView(imagePath);
     myImage.setFitWidth(IMAGE_BUFFER);
     myImage.setFitHeight(IMAGE_BUFFER);
     myImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0] + HORIZONTAL_IMAGE_BUFFER);

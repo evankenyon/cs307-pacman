@@ -2,6 +2,7 @@ package ooga.controller.IO;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -124,5 +125,32 @@ class JsonParserTest {
   void uploadFileMissingRequiredPellet() {
     Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.uploadFile(
         new File("data/tests/missingRequiredPellet.json")));
+  }
+
+  @Test
+  void getStartingConfigFromPreferences()
+      throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    PreferencesParser preferencesParser = new PreferencesParser();
+    preferencesParser.uploadFile(new File("data/tests/preferences/simpleConfig.json"));
+    
+    jsonParser.addVanillaGameDataConsumer(vanillaGame -> comparePlayers("Pacman",
+        vanillaGame.getPlayer()));
+
+    Map<String, Boolean> expectedPelletMap = new HashMap<>();
+    expectedPelletMap.put("Dot" , Boolean.TRUE);
+    jsonParser.addVanillaGameDataConsumer(vanillaGame -> comparePelletMaps(expectedPelletMap,
+        vanillaGame.getPelletInfo()));
+
+    Map<String, List<Position>> expectedWallMap = new HashMap<>();
+    expectedWallMap.put("Dot" , new ArrayList<>());
+    expectedWallMap.put("Pacman", new ArrayList<>());
+    expectedWallMap.put("Wall", new ArrayList<>());
+    expectedWallMap.get("Dot").add(new Position(2, 0));
+    expectedWallMap.get("Pacman").add(new Position(1, 0));
+    expectedWallMap.get("Wall").add(new Position(0, 0));
+    jsonParser.addVanillaGameDataConsumer(vanillaGame -> compareWallMaps(expectedWallMap,
+        vanillaGame.getWallMap()));
+
+    jsonParser.uploadFile(preferencesParser.getStartingConfig());
   }
 }

@@ -104,7 +104,8 @@ public class GameStartupPanel {
           Map<String, List<Position>> wallMap = application.uploadFile(gameFile);
           MainView mainView = new MainView(application, application.getVanillaGame(), gameStage,
               wallMap);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
+          // TODO: clean this up
 //                    ex.printStackTrace();
         }
         //MainView newMainView = new MainView();

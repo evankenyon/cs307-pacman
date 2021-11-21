@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Consumer;
+import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.Data;
 import ooga.model.DataInterface;
 import ooga.model.util.Position;
@@ -25,7 +26,6 @@ public class JsonParser implements JsonParserInterface {
 
   private static final String DEFAULT_RESOURCE_PACKAGE =
       JsonParser.class.getPackageName() + ".resources.";
-  public static final int DEFAULT_STATE = 1;
   private static final String REQUIRED_KEYS_FILENAME = "RequiredKeys";
   private static final String REQUIRED_VALUES_FILENAME = "RequiredValues";
 
@@ -48,22 +48,7 @@ public class JsonParser implements JsonParserInterface {
 
   @Override
   public void uploadFile(File file) throws IOException, InputMismatchException {
-    // Borrowed code to read in a json file from
-    // https://stackoverflow.com/questions/7463414/what-s-the-best-way-to-load-a-jsonobject-from-a-json-text-file
-    File currFile = file;
-    StringBuilder pathName = new StringBuilder(file.getName());
-    while (!currFile.getParentFile().getName().equals("data")) {
-      pathName.insert(0, String.format("%s/", currFile.getParentFile().getName()));
-      currFile = currFile.getParentFile();
-    }
-
-    InputStream is = this.getClass().getClassLoader()
-        .getResourceAsStream(String.valueOf(pathName));
-    if (is == null) {
-      throw new FileNotFoundException();
-    }
-    String jsonTxt = IOUtils.toString(is, "UTF-8");
-    JSONObject json = new JSONObject(jsonTxt);
+    JSONObject json = JSONObjectParser.parseJSONObject(file);
     checkForRequiredKeys(json.keySet());
     setupPlayer(json.getString("Player"));
     setupPelletInfo(json.getJSONArray("RequiredPellets"), json.getJSONArray("OptionalPellets"));

@@ -108,6 +108,7 @@ public class GameStartupPanel {
         } catch (Exception ex) {
           // TODO: clean this up
 //                    ex.printStackTrace();
+          ex.printStackTrace();
         }
         //MainView newMainView = new MainView();
         selectGameType.setValue(null);

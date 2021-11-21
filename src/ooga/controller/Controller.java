@@ -78,7 +78,6 @@ public class Controller implements ControllerInterface {
     } else {
       jsonParser.uploadFile(file);
     }
-
     return new UserPreferences(wallMap, preferencesParser.getImagePaths(), preferencesParser.getColors(), preferencesParser.getStyle());
   }
 

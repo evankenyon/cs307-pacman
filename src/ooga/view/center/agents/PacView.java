@@ -54,7 +54,7 @@ public class PacView extends MovableView {
     ImageView oldPac = pacImage;
     switch (state) {
       case DEAD_STATE -> pacImage.setVisible(false);
-      case ALIVE_STATE -> pacImage.setImage(new Image(PAC_IMAGE));
+      case ALIVE_STATE -> pacImage.setImage(pacImage.getImage());
       case SUPER_STATE -> pacImage.setImage(new Image(String.format("%s%s", IMAGE_PATH, "clyde_right.png")));
     }
     pacImage.setRotate(oldPac.getRotate());

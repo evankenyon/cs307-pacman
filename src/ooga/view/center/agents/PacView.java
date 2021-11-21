@@ -22,8 +22,12 @@ public class PacView extends MovableView {
   private Consumer<Agent> updatePacMan = newInfo -> updateAgent(newInfo);
 
   public PacView(Agent pac) {
+    this(pac, PAC_IMAGE);
+  }
+
+  public PacView(Agent pac, String imagePath) {
     myAgent = pac;
-    pacImage = new ImageView(PAC_IMAGE);
+    pacImage = new ImageView(imagePath);
     pacImage.setFitWidth(IMAGE_BUFFER);
     pacImage.setFitHeight(IMAGE_BUFFER);
     setImage(pacImage);

@@ -1,7 +1,5 @@
 package ooga.view.bottomView;
 
-import static ooga.controller.Controller.SECOND_DELAY;
-
 import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -26,9 +25,14 @@ public class BottomView {
   public static final String PAUSE_IMAGE = "data/images/pause.png";
 //  public static final String STEP_IMAGE = "https://toppng.com/uploads/preview/rotate-object-ui-arrow-round-svg-png-icon-free-download-arrow-icon-white-png-rotate-11563011162pfybbrrqls.png";
   public static final String STEP_IMAGE = "data/images/step.png";
-  public static final String SLOW_IMAGE = "images/turtle.png";
-  public static final String FAST_IMAGE = "images/rabbit.png";
+  public static final String SLOW_IMAGE = "data/images/turtle.png";
+  public static final String FAST_IMAGE = "data/images/rabbit.png";
   public static final int BUTTON_SIZE = 50;
+  public static final int ICON_SIZE = 20;
+  public static final double MIN_SLIDER_VAL = 0.5;
+  public static final double MAX_SLIDER_VAL = 5;
+  public static final double INITIAL_RATE = 1;
+  public static final int SLIDER_LENGTH = 200;
 
   private GridPane bottomGrid;
   private VBox bottomView;
@@ -37,9 +41,6 @@ public class BottomView {
   private Button playPauseButton;
   private Button stepButton;
   private boolean isPaused = false;
-  private ImageView pauseButtonImage;
-  private ImageView playButtonImage;
-  private ImageView stepButtonImage;
 
   public BottomView (Controller controller, VanillaGame game) {
     myController = controller;
@@ -53,12 +54,25 @@ public class BottomView {
 
   private void makeSimulationButtons() {
     HBox simButtons = new HBox();
-    simButtons.setAlignment(Pos.CENTER);
-    makeButtonImages();
-    playPauseButton = makeSimButton(pauseButtonImage, Background.EMPTY, e -> togglePlayPause());
-    stepButton = makeSimButton(stepButtonImage, Background.EMPTY, e -> myGame.step());
-    simButtons.getChildren().addAll(playPauseButton, stepButton);
+    simButtons.setAlignment(Pos.BASELINE_CENTER);
+    playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> togglePlayPause());
+    stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> myGame.step());
+    Node slider = makeSpeedSlider();
+    simButtons.getChildren().addAll(playPauseButton, stepButton, slider);
     bottomView.getChildren().add(simButtons);
+  }
+
+  private Node makeSpeedSlider() {
+    HBox sliderBox = new HBox();
+    Slider speedSlider = new Slider(MIN_SLIDER_VAL, MAX_SLIDER_VAL, INITIAL_RATE);
+    speedSlider.setPrefWidth(SLIDER_LENGTH);
+    speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> myController.setAnimationSpeed(speedSlider.getValue()));
+    speedSlider.setId("speedSlider");
+    sliderBox.getChildren().add(makeButtonImage(SLOW_IMAGE, ICON_SIZE));
+    sliderBox.getChildren().add(speedSlider);
+    sliderBox.getChildren().add(makeButtonImage(FAST_IMAGE, ICON_SIZE));
+    sliderBox.getStyleClass().add("speedSlider");
+    return sliderBox;
   }
 
   private Button makeSimButton(ImageView image, Background background, EventHandler<ActionEvent> handler) {
@@ -69,26 +83,21 @@ public class BottomView {
     return myButton;
   }
 
-  private void makeButtonImages() {
-    pauseButtonImage = new ImageView(new Image(new File(PAUSE_IMAGE).toURI().toString()));
-    pauseButtonImage.setFitHeight(BUTTON_SIZE);
-    pauseButtonImage.setFitWidth(BUTTON_SIZE);
-    playButtonImage = new ImageView(new Image(new File(PLAY_IMAGE).toURI().toString()));
-    playButtonImage.setFitHeight(BUTTON_SIZE);
-    playButtonImage.setFitWidth(BUTTON_SIZE);
-    stepButtonImage = new ImageView(new Image(new File(STEP_IMAGE).toURI().toString()));
-    stepButtonImage.setFitWidth(BUTTON_SIZE);
-    stepButtonImage.setFitHeight(BUTTON_SIZE);
+  private ImageView makeButtonImage(String path, int size) {
+    ImageView image = new ImageView(new Image(new File(path).toURI().toString()));
+    image.setFitHeight(size);
+    image.setFitWidth(size);
+    return image;
   }
 
   private void togglePlayPause() {
     myController.pauseOrResume();
     if (isPaused) {
-      playPauseButton.setGraphic(pauseButtonImage);
+      playPauseButton.setGraphic(makeButtonImage(PAUSE_IMAGE, BUTTON_SIZE));
       isPaused = false;
     }
     else {
-      playPauseButton.setGraphic(playButtonImage);
+      playPauseButton.setGraphic(makeButtonImage(PLAY_IMAGE, BUTTON_SIZE));
       isPaused = true;
     }
   }

@@ -12,8 +12,6 @@ import ooga.model.VanillaGame;
 
 
 public class TopView {
-    private String PAUSE_BUTTON = "https://theologygaming.com/wp-content/uploads/2014/08/Pause.png";
-    private String PLAY_BUTTON = "https://cdn-icons-png.flaticon.com/512/109/109197.png";
     private GridPane topGrid;
     private Label scoreDisplay;
     private VanillaGame myGame;
@@ -57,8 +55,8 @@ public class TopView {
         GridPane statsGP = new GridPane();
         Label lifeDisplay = updateLifeDisplay();
         scoreDisplay = new Label("SCORE: ");
-        statsGP.add(lifeDisplay, 1,1);
-        statsGP.add(scoreDisplay, 2,1);
+        statsGP.add(lifeDisplay, 1,2);
+        statsGP.add(scoreDisplay, 1,1);
         return statsGP;
     }
 

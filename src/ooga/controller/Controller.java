@@ -108,4 +108,20 @@ public class Controller implements ControllerInterface {
     vanillaGame.getBoard().setPlayerDirection(keyTracker.getPressedKey(event));
   }
 
+  /**
+   * Getter method to return whether simulation is paused or not. Used for testing
+   *
+   * @return boolean isPaused
+   */
+  public boolean getPlayPause() {
+    return isPaused;
+  }
+
+  /**
+   * Getter method to get the animation speed. Used for teting
+   *
+   * @return double animation rate
+   */
+  public double getAnimationSpeed() { return myAnimation.getRate(); }
+
 }

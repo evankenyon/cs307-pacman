@@ -8,6 +8,7 @@ import static ooga.model.agents.players.Pacman.SUPER_STATE;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 
+import java.io.File;
 import java.util.function.Consumer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,6 +17,7 @@ import ooga.model.interfaces.Agent;
 public class PacView extends MovableView {
 
   public static final String PAC_IMAGE = String.format("%spacman.png", IMAGE_PATH);
+  public static final String SUPER_PAC_IMAGE = String.format("%ssuper_pacman.png", IMAGE_PATH);
 
   private ImageView pacImage;
   private Agent myAgent; //TODO: change to subclass of Agent
@@ -27,7 +29,7 @@ public class PacView extends MovableView {
 
   public PacView(Agent pac, String imagePath) {
     myAgent = pac;
-    pacImage = new ImageView(imagePath);
+    pacImage = new ImageView(new Image(new File(imagePath).toURI().toString()));
     pacImage.setFitWidth(IMAGE_BUFFER);
     pacImage.setFitHeight(IMAGE_BUFFER);
     setImage(pacImage);
@@ -54,8 +56,8 @@ public class PacView extends MovableView {
     ImageView oldPac = pacImage;
     switch (state) {
       case DEAD_STATE -> pacImage.setVisible(false);
-      case ALIVE_STATE -> pacImage.setImage(pacImage.getImage());
-      case SUPER_STATE -> pacImage.setImage(new Image(String.format("%s%s", IMAGE_PATH, "clyde_right.png")));
+      case ALIVE_STATE -> pacImage.setImage(new Image(new File(PAC_IMAGE).toURI().toString()));
+      case SUPER_STATE -> pacImage.setImage(new Image(new File(SUPER_PAC_IMAGE).toURI().toString()));
     }
     pacImage.setRotate(oldPac.getRotate());
   }

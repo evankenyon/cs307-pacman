@@ -6,7 +6,7 @@ import ooga.controller.Controller;
 
 public class Main extends Application {
 
-  private static final String LANGUAGE = "English";
+  public static final String LANGUAGE = "English";
 
   /**
    * Start of the program.

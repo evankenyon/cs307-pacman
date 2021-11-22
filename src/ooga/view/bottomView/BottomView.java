@@ -1,14 +1,13 @@
 package ooga.view.bottomView;
 
-import java.io.File;
-import java.net.MalformedURLException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -16,19 +15,26 @@ import ooga.controller.Controller;
 
 public class BottomView {
 
-  public static final String PLAY_IMAGE = "images/play.png";
-  public static final String PAUSE_IMAGE = "images/pause.png";
+  public static final String PAUSE_IMAGE = "https://theologygaming.com/wp-content/uploads/2014/08/Pause.png";
+  public static final String PLAY_IMAGE = "https://cdn-icons-png.flaticon.com/512/109/109197.png";
+//  public static final String PLAY_IMAGE = "images/play.png";
+//  public static final String PAUSE_IMAGE = "images/pause.png";
   public static final String STEP_IMAGE = "images/step.png";
   public static final String SLOW_IMAGE = "images/turtle.png";
   public static final String FAST_IMAGE = "images/rabbit.png";
+  public static final int BUTTON_SIZE = 50;
 
   private GridPane bottomGrid;
   private VBox bottomView;
   private Controller myController;
   private Button playPauseButton;
+  private boolean isPaused = false;
+  private ImageView pauseButton;
+  private ImageView playButton;
 
   public BottomView (Controller controller) {
     bottomView = new VBox();
+    bottomView.setAlignment(Pos.TOP_CENTER);
     myController = controller;
     makeSimulationButtons();
     makeSettingsButtons();
@@ -36,22 +42,32 @@ public class BottomView {
   }
 
   private void makeSimulationButtons() {
-    playPauseButton = makeButton("Pause", e -> togglePlayPause());
-//    File foo = new File("images/play.png");
-//    Image play = new Image();
-//    try {
-//      Image play = new Image(foo.toURL().toString());
-//    } catch (MalformedURLException e) {
-//      e.printStackTrace();
-//    }
-//    playPauseButton.setGraphic(new ImageView(PLAY_IMAGE));
+    makeButtonImages();
+    playPauseButton = makeButton("", e -> togglePlayPause());
+    playPauseButton.setGraphic(pauseButton);
+    playPauseButton.setBackground(Background.EMPTY);
     bottomView.getChildren().add(playPauseButton);
+  }
+
+  private void makeButtonImages() {
+    pauseButton = new ImageView(PAUSE_IMAGE);
+    pauseButton.setFitHeight(BUTTON_SIZE);
+    pauseButton.setFitWidth(BUTTON_SIZE);
+    playButton = new ImageView(PLAY_IMAGE);
+    playButton.setFitHeight(BUTTON_SIZE);
+    playButton.setFitWidth(BUTTON_SIZE);
   }
 
   private void togglePlayPause() {
     myController.pauseOrResume();
-    if (playPauseButton.getText().equals("Play")) playPauseButton.setText("Pause");
-    else playPauseButton.setText("Play");
+    if (isPaused) {
+      playPauseButton.setGraphic(pauseButton);
+      isPaused = false;
+    }
+    else {
+      playPauseButton.setGraphic(playButton);
+      isPaused = true;
+    }
   }
 
   private void makeSettingsButtons() {

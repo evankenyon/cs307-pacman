@@ -30,7 +30,7 @@ public class TopView {
     private GridPane initiateTopView() {
         topGrid = new GridPane();
         topGrid.add(makeLoadSaveGP(), 1, 1);
-        topGrid.add(makePausePlayGP(), 1, 2);
+//        topGrid.add(makePausePlayGP(), 1, 2);
         topGrid.add(makeStatsGP(), 1,3);
         return topGrid;
     }
@@ -44,14 +44,14 @@ public class TopView {
         return loadSaveGP;
     }
 
-    private GridPane makePausePlayGP() {
-        GridPane pausePlayGP = new GridPane();
-        ImageView playButton = makeImgButton(PLAY_BUTTON, e -> playGame());
-        pausePlayGP.add(playButton, 1, 1);
-        ImageView pauseButton = makeImgButton(PAUSE_BUTTON, e -> pauseGame());
-        pausePlayGP.add(pauseButton, 2, 1);
-        return pausePlayGP;
-    }
+//    private GridPane makePausePlayGP() {
+//        GridPane pausePlayGP = new GridPane();
+//        ImageView playButton = makeImgButton(PLAY_BUTTON, e -> playGame());
+//        pausePlayGP.add(playButton, 1, 1);
+//        ImageView pauseButton = makeImgButton(PAUSE_BUTTON, e -> pauseGame());
+//        pausePlayGP.add(pauseButton, 2, 1);
+//        return pausePlayGP;
+//    }
 
     private GridPane makeStatsGP() {
         GridPane statsGP = new GridPane();
@@ -95,14 +95,14 @@ public class TopView {
         return myButton;
     }
 
-    private ImageView makeImgButton(String imgFile, EventHandler handler) {
-        Image myImage = new Image(imgFile);
-        ImageView imgButton = new ImageView(myImage);
-        imgButton.setFitWidth(50);
-        imgButton.setFitHeight(50);
-        imgButton.setOnMouseReleased(handler);
-        return imgButton;
-    }
+//    private ImageView makeImgButton(String imgFile, EventHandler handler) {
+//        Image myImage = new Image(imgFile);
+//        ImageView imgButton = new ImageView(myImage);
+//        imgButton.setFitWidth(50);
+//        imgButton.setFitHeight(50);
+//        imgButton.setOnMouseReleased(handler);
+//        return imgButton;
+//    }
 
     public GridPane getTopViewGP() {
         return this.topGrid;

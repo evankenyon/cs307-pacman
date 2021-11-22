@@ -80,6 +80,18 @@ public class GameState {
     method.invoke(this, agent, x, y);
   }
 
+  private void addToOtherAgents(String agent, int x, int y) {
+    myOtherAgents.add(agentFactory.createAgent(agent, x, y));
+  }
+
+  private void addToWalls(String agent, int x, int y) {
+    myWalls.add(agentFactory.createAgent(agent, x, y));
+  }
+
+  private void addToPlayer(String agent, int x, int y) {
+    myPlayer = agentFactory.createAgent(agent, x, y);
+  }
+
   public Agent findAgent(Position pos) {
     if (myPlayer.getPosition().getCoords()[0] == pos.getCoords()[0]
         && myPlayer.getPosition().getCoords()[1] == pos.getCoords()[1]) {

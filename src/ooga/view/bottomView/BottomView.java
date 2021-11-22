@@ -23,7 +23,6 @@ public class BottomView {
 //  public static final String PLAY_IMAGE = "https://cdn-icons-png.flaticon.com/512/109/109197.png";
   public static final String PLAY_IMAGE = "data/images/play.png";
   public static final String PAUSE_IMAGE = "data/images/pause.png";
-//  public static final String STEP_IMAGE = "https://toppng.com/uploads/preview/rotate-object-ui-arrow-round-svg-png-icon-free-download-arrow-icon-white-png-rotate-11563011162pfybbrrqls.png";
   public static final String STEP_IMAGE = "data/images/step.png";
   public static final String SLOW_IMAGE = "data/images/turtle.png";
   public static final String FAST_IMAGE = "data/images/rabbit.png";

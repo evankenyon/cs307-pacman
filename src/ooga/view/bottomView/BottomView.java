@@ -1,5 +1,7 @@
 package ooga.view.bottomView;
 
+import static ooga.view.topView.TopView.TOPVIEW_PACKAGE;
+
 import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,6 +28,9 @@ public class BottomView {
   public static final String STEP_IMAGE = "data/images/step.png";
   public static final String SLOW_IMAGE = "data/images/turtle.png";
   public static final String FAST_IMAGE = "data/images/rabbit.png";
+  public static final String BOTTOMVIEW_PACKAGE = "ooga.view.bottomView.";
+  public static final String STYLESHEET = String.format("/%sBottomView.css",
+      BOTTOMVIEW_PACKAGE.replace(".", "/"));
   public static final int BUTTON_SIZE = 50;
   public static final int ICON_SIZE = 20;
   public static final double MIN_SLIDER_VAL = 0.5;
@@ -45,7 +50,9 @@ public class BottomView {
     myController = controller;
     myGame = game;
     bottomView = new VBox();
-    bottomView.setAlignment(Pos.TOP_CENTER);
+    bottomView.getStyleClass().add("root");
+    bottomView.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+//    bottomView.setAlignment(Pos.TOP_CENTER);
     makeSimulationButtons();
     makeSettingsButtons();
     initiateBottomView();
@@ -65,6 +72,9 @@ public class BottomView {
 
   private Node makeSpeedSlider() {
     HBox sliderBox = new HBox();
+//    sliderBox.setAlignment(Pos.BASELINE_CENTER);
+    sliderBox.getStyleClass().add("speedSlider");
+    sliderBox.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     Slider speedSlider = new Slider(MIN_SLIDER_VAL, MAX_SLIDER_VAL, INITIAL_RATE);
     speedSlider.setPrefWidth(SLIDER_LENGTH);
     speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> myController.setAnimationSpeed(speedSlider.getValue()));
@@ -72,7 +82,6 @@ public class BottomView {
     sliderBox.getChildren().add(makeButtonImage(SLOW_IMAGE, ICON_SIZE));
     sliderBox.getChildren().add(speedSlider);
     sliderBox.getChildren().add(makeButtonImage(FAST_IMAGE, ICON_SIZE));
-    sliderBox.getStyleClass().add("speedSlider");
     return sliderBox;
   }
 

@@ -2,6 +2,11 @@
   -fx-alignment: center;
 }
 
+.scoreLife {
+  -fx-alignment: center;
+  -fx-spacing: center;
+}
+
 .lives {
   -fx-alignment: right;
 }

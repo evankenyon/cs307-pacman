@@ -3,7 +3,6 @@ package ooga.model;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import ooga.controller.IO.keyTracker;
-import ooga.model.agents.AbstractAgent;
 import ooga.model.agents.consumables.pellet;
 import ooga.model.agents.players.Pacman;
 import ooga.model.util.Position;
@@ -25,17 +24,17 @@ public class PacmanTest {
   void setUp() {
     pacman = new Pacman(1, 2);
     tracker = new keyTracker();
-    left = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "left",
-        "left", KeyCode.LEFT, false, false, false,
+    left = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "A",
+        "left", KeyCode.A, false, false, false,
         false);
-    right = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "right",
-        "right", KeyCode.RIGHT, false, false, false,
+    right = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "D",
+        "right", KeyCode.D, false, false, false,
         false);
-    up = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "up",
-        "up", KeyCode.UP, false, false, false,
+    up = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "W",
+        "up", KeyCode.W, false, false, false,
         false);
-    down = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "down",
-        "down", KeyCode.DOWN, false, false, false,
+    down = new KeyEvent(null, null, KeyEvent.KEY_PRESSED, "S",
+        "down", KeyCode.S, false, false, false,
         false);
   }
 
@@ -48,7 +47,7 @@ public class PacmanTest {
     int currentY = potentialPosition.getCoords()[1];
 
     Assertions.assertEquals(1, currentX);
-    Assertions.assertEquals(3, currentY);
+    Assertions.assertEquals(1, currentY);
   }
 
   @Test
@@ -59,7 +58,7 @@ public class PacmanTest {
     int currentY = potentialPosition.getCoords()[1];
 
     Assertions.assertEquals(1, currentX);
-    Assertions.assertEquals(1, currentY);
+    Assertions.assertEquals(3, currentY);
   }
 
   @Test

@@ -1,11 +1,15 @@
 package ooga.model.agents.players;
 
 import ooga.model.agents.AbstractAgent;
+import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
+import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class Pacman extends AbstractAgent {
+public class Pacman extends AbstractAgent implements Consumable {
 
   public final static int DEAD_STATE = 0;
   public final static int ALIVE_STATE = 1;
@@ -13,10 +17,12 @@ public class Pacman extends AbstractAgent {
 
   private int myState;
   private MovementStrategyContext myMover;
+  private static final Logger LOG = LogManager.getLogger(Pacman.class);
 
   public Pacman(int x, int y) {
     super(x, y);
     myState = ALIVE_STATE;
+    myMover = new MovementStrategyContext(new Controllable());
   }
 
   @Override
@@ -29,28 +35,37 @@ public class Pacman extends AbstractAgent {
   }
 
   public Position step() {
-    int[] coords = getPosition().getCoords();
-    String currentDirection = getPosition().getDirection();
-    return handleMovement(coords, currentDirection);
-  }
-
-
-  private Position handleMovement(int[] coordinates, String currentDirection) {
-    //refactor this to not use switch case statements potentially?
-    //also argument that we never really need it to recognize other keys to move so it doesn't need to be flexible
-    return switch (currentDirection) {
-      case "left" -> new Position((coordinates[0] - 1), coordinates[1]);
-      case "right" -> new Position((coordinates[0] + 1), coordinates[1]);
-      case "up" -> new Position(coordinates[0], (coordinates[1] + 1));
-      case "down" -> new Position(coordinates[0], (coordinates[1] - 1));
-      default -> null;
-    };
+//    LOG.info(String.format("%d, %d", getPosition().getCoords()[0], getPosition().getCoords()[1]));
+    return myMover.move(getPosition());
   }
 
   public int consume(Consumable agent) {
-    agent.agentReact();
-    agent.applyEffects();
-    return agent.applyPoints();
+    if (agent != null) {
+      agent.agentReact();
+      agent.applyEffects(this);
+      return agent.applyPoints();
+    }
+    return 0;
   }
 
+  @Override
+  public void setState(int i) {
+    myState = i;
+    LOG.info("pacman state now {}", myState);
+    updateConsumer();
+  }
+
+  @Override
+  public void agentReact() {
+  }
+
+  @Override
+  public void applyEffects(Agent agent) {
+    //decrease lives or something?
+  }
+
+  @Override
+  public int applyPoints() {
+    return 0;
+  }
 }

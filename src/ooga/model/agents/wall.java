@@ -1,21 +1,22 @@
 package ooga.model.agents;
 
 
+import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
 public class wall extends AbstractAgent {
 
-  private static final int UNPASSABLE = 0;
-  private static final int PASSABLE = 1;
+  public static final int UNPASSABLE = 0;
+  public static final int PASSABLE = 1;
 
   private int myState;
   private MovementStrategyContext myMover;
 
   public wall(int x, int y) {
     super(x, y);
-    myState = PASSABLE;
+    myState = UNPASSABLE;
     myMover = new MovementStrategyContext(new Static());
   }
 
@@ -27,6 +28,20 @@ public class wall extends AbstractAgent {
   @Override
   public void setCoords(Position newPosition) {
     setPosition(newPosition.getCoords());
+  }
+
+  @Override
+  public void setDirection(String direction) {
+  }
+
+  @Override
+  public int consume(Consumable agent) {
+    return 0;
+  }
+
+  @Override
+  public void setState(int i) {
+    myState = i;
   }
 
   @Override

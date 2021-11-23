@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.function.Consumer;
 import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class AbstractAgent implements Agent {
 
   /*** cell list of consumers*/
   protected List<Consumer<Agent>> stateConsumers;
+  private static final Logger LOG = LogManager.getLogger(AbstractAgent.class);
 
   private Position myPosition;
 
@@ -23,7 +26,6 @@ public abstract class AbstractAgent implements Agent {
     myPosition = new Position(x, y);
     stateConsumers = new ArrayList<>();
   }
-
 
   /**
    * add consumers
@@ -49,4 +51,9 @@ public abstract class AbstractAgent implements Agent {
   }
 
   public abstract int getState();
+
+  public void setDirection(String direction) {
+    myPosition.setDirection(direction);
+  }
+
 }

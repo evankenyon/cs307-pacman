@@ -1,0 +1,41 @@
+{
+  "Title": "Extremely basic pacman",
+  "Player": "Pacman",
+  "RequiredPellets": [
+    "Dot"
+  ],
+  "OptionalPellets": [
+    "Fruit"
+  ],
+  "PowerUps": [
+    "Super",
+    "Energizer"
+  ],
+  "NumberOfLives": 3,
+  "OpponentTypes": [
+    "Inky",
+    "Pinky",
+    "Clyde"
+  ],
+  "Difficulty-Level": 2,
+  "WallMap": [
+    [
+      "Wall",
+      "Wall",
+      "Wall",
+      "Wall"
+    ],
+    [
+      "Wall",
+      "Pacman",
+      "Dot",
+      "Wall"
+    ],
+    [
+      "Wall",
+      "Wall",
+      "Wall",
+      "Wall"
+    ]
+  ]
+}

@@ -1,6 +1,7 @@
 package ooga.view.center;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -19,6 +20,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import ooga.controller.Controller;
 import ooga.controller.IO.JsonParser;
+import ooga.controller.IO.UserPreferences;
 import ooga.model.VanillaGame;
 import ooga.model.agents.wall;
 import ooga.model.util.Position;
@@ -30,6 +32,7 @@ public class BoardView {
   private static final String DEFAULT_RESOURCE_PACKAGE =
       BoardView.class.getPackageName() + ".resources.";
   private static final String TYPE_FILENAME = "types";
+  private static final String CONSTRUCTORS_FILENAME = "constructors";
   public static final double BOARD_WIDTH = 600;
   public static final double BOARD_HEIGHT = 400;
   public static final int GRID_SIZE = 1;
@@ -42,18 +45,18 @@ public class BoardView {
   private double numRows;
   private double numCols;
 
-  public BoardView (VanillaGame game, Controller controller, Map<String, List<Position>> wallMap) {
+  public BoardView (VanillaGame game, Controller controller, UserPreferences userPreferences) {
     myGame = game;
     myController = controller;
     myBoardPane = new Pane();
     boardConsumerList = new ArrayList<>();
-    initiateBoard(wallMap);
+    initiateBoard(userPreferences);
     myBoardPane.setMaxWidth(BOARD_WIDTH);
     myBoardPane.setMaxHeight(BOARD_HEIGHT);
     myBoardPane.setBackground(new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
-  private void initiateBoard(Map<String, List<Position>> agentMap) {
+  private void initiateBoard(UserPreferences userPreferences) {
 //    makeWalls(myParser.getWallMapPositions());
 //    int rows = myController.getRows();
 //    int cols = myController.getCols();
@@ -65,10 +68,18 @@ public class BoardView {
 //        makeAgentView(agentType);
 //      }
 //    }
-    for (String type : agentMap.keySet()) {
-      for (Position p : agentMap.get(type)) {
+    for (String type : userPreferences.wallMap().keySet()) {
+      for (Position p : userPreferences.wallMap().get(type)) {
 //        updateDimensions(p);
-        AgentView agentView = makeAgentView(type, p);
+        AgentView agentView = null;
+        ResourceBundle types = ResourceBundle.getBundle("ooga.view.center.resources.types");
+        String realType = types.getString(type);
+        ResourceBundle constructors = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, CONSTRUCTORS_FILENAME));
+        if(constructors.getString(type).equals("Color")) {
+          agentView = makeAgentViewColor(realType, p, userPreferences.colors().get(type));
+        } else {
+          agentView = makeAgentViewImage(realType, p, userPreferences.imagePaths().get(type));
+        }
         attachAgent(agentView);
       }
     }
@@ -88,9 +99,32 @@ public class BoardView {
     myBoardPane.getChildren().add(agentView.getImage());
   }
 
+  private AgentView makeAgentViewColor(String type, Position position, List<Double> rgb) {
+    String className = String.format("ooga.view.center.agents.%sView", type);
+    Agent agent = myGame.getBoard().getGameState().findAgent(position);
+    try {
+      Class<?> clazz = Class.forName(className);
+      return (AgentView) clazz.getDeclaredConstructor(Agent.class, List.class)
+          .newInstance(agent, rgb);
+    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+      return makeAgentView(type, position);
+    }
+  }
+
+  private AgentView makeAgentViewImage(String type, Position position, String imagePath) {
+    String className = String.format("ooga.view.center.agents.%sView", type);
+    Agent agent = myGame.getBoard().getGameState().findAgent(position);
+    try {
+      Class<?> clazz = Class.forName(className);
+      return (AgentView) clazz.getDeclaredConstructor(Agent.class, String.class)
+          .newInstance(agent, imagePath);
+    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+      return makeAgentView(type, position);
+    }
+  }
+
   private AgentView makeAgentView(String type, Position position) {
-    ResourceBundle types = ResourceBundle.getBundle("ooga.view.center.resources.types");
-    String className = String.format("ooga.view.center.agents.%sView",types.getString(type));
+    String className = String.format("ooga.view.center.agents.%sView", type);
     Agent agent = myGame.getBoard().getGameState().findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);

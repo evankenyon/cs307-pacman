@@ -2,6 +2,7 @@ package ooga.view.center.agents;
 
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
 
+import java.util.List;
 import java.util.function.Consumer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -25,19 +26,30 @@ public class SuperPelletView extends StationaryView {
   public SuperPelletView(Agent pelletAgent) {
     myAgent = pelletAgent;
 //    myInfo = agentInfo;
-    myCircle = makeCircle();
+    myCircle = makeCircle(PELLET_COLOR);
+    superPelletViewSetup();
+  }
+
+  public SuperPelletView(Agent pelletAgent, List<Double> rgb) {
+    myAgent = pelletAgent;
+//    myInfo = agentInfo;
+    // TODO: move these values to a props file
+    Color pelletColor = new Color(rgb.get(0), rgb.get(1), rgb.get(2), 1);
+    myCircle = makeCircle(pelletColor);
+    superPelletViewSetup();
+  }
+
+  private void superPelletViewSetup() {
     setImage(myCircle);
-//    setX(myAgent.getPosition()[0]);
-//    setY(myAgent.getPosition()[1]);
     myCircle.setCenterX(GRID_WIDTH*myAgent.getPosition().getCoords()[0] + PELLET_BUFFER_X);
     myCircle.setCenterY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1] + PELLET_BUFFER_Y);
     myAgent.addConsumer(updatePellet);
   }
 
-  private Circle makeCircle() {
+  private Circle makeCircle(Paint color) {
     int x = myAgent.getPosition().getCoords()[0];
     int y = myAgent.getPosition().getCoords()[1];
-    return new Circle(x, y, GRID_MIN*LARGE_PELLET_SIZE, PELLET_COLOR);
+    return new Circle(x, y, GRID_MIN*LARGE_PELLET_SIZE, color);
   }
 
   @Override

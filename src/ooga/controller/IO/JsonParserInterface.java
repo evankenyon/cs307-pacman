@@ -10,4 +10,8 @@ public interface JsonParserInterface {
   public void uploadFile(File file) throws IOException;
 
   public void addVanillaGameDataConsumer(Consumer<Data> consumer);
+
+  public int getRows();
+
+  public int getCols();
 }

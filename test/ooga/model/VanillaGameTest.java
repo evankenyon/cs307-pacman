@@ -20,8 +20,8 @@ public class VanillaGameTest {
     Map<String, List<Position>> wallMap = Map.of("Pacman", List.of(new Position(0, 0)), "Dot",
         List.of(new Position(1, 0)));
     Map<String, Boolean> pelletInfo = Map.of("Dot", true);
-//    Data vanillaGameData = new Data(wallMap, "Pacman", pelletInfo, mapCols, mapRows);
-//    myGame = new VanillaGame(vanillaGameData);
+    Data vanillaGameData = new Data(wallMap, "Pacman", pelletInfo, 1, 1);
+    myGame = new VanillaGame(vanillaGameData);
     myGame.getBoard().setPlayerDirection("right");
     myGame.step();
     //expect that pacman moves one place to the right

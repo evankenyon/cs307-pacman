@@ -27,6 +27,7 @@ public class Controller implements ControllerInterface {
 
   private static final double SECONDS_ANIMATION_BASE = 20 / 60.0;
   public static final double SECOND_DELAY = 20.0 / 60;
+  //TODO: remove
   public static final int ROWS = 11;
   public static final int COLS = 11;
 
@@ -39,6 +40,8 @@ public class Controller implements ControllerInterface {
   private GameStartupPanel panel;
   private Map<String, List<Position>> wallMap;
   private boolean isPaused;
+  private int rows;
+  private int cols;
   private int count;
   private static final Logger LOG = LogManager.getLogger(Controller.class);
 
@@ -78,7 +81,7 @@ public class Controller implements ControllerInterface {
     } else {
       jsonParser.uploadFile(file);
     }
-    return new UserPreferences(wallMap, preferencesParser.getImagePaths(), preferencesParser.getColors(), preferencesParser.getStyle());
+    return new UserPreferences(wallMap, jsonParser.getRows(), jsonParser.getCols(), preferencesParser.getImagePaths(), preferencesParser.getColors(), preferencesParser.getStyle());
   }
 
   @Override

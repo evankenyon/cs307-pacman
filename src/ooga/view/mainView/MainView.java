@@ -41,11 +41,11 @@ public class MainView {
     myController = controller;
     controller.setAnimationSpeed(1);
     myGame = game;
-    myBottomView = new BottomView(myController, myGame);
+    myBottomView = new BottomView(myController, myGame, userPreferences.language());
 //    gameStartupPanel = new GameStartupPanel(myStage);
     myStage = stage;
     myBoardView = new BoardView(myGame, myController, userPreferences);
-    myTopView = new TopView(myGame);
+    myTopView = new TopView(myGame, userPreferences.language());
     myScene = makeScene();
 //    myStage.hide();
     myStage.setScene(myScene);

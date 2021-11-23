@@ -37,6 +37,7 @@ public class Controller implements ControllerInterface {
   private GameStartupPanel panel;
   private Map<String, List<Position>> wallMap;
   private boolean isPaused;
+  private String myLanguage;
   private int rows;
   private int cols;
   private int count;
@@ -45,6 +46,7 @@ public class Controller implements ControllerInterface {
 
   public Controller(String language, Stage stage) {
     count++;
+    myLanguage = language;
     myAnimation = new Timeline();
     myAnimation.setCycleCount(Timeline.INDEFINITE);
     myAnimation.getKeyFrames()
@@ -78,7 +80,7 @@ public class Controller implements ControllerInterface {
     } else {
       jsonParser.uploadFile(file);
     }
-    return new UserPreferences(wallMap, jsonParser.getRows(), jsonParser.getCols(), preferencesParser.getImagePaths(), preferencesParser.getColors(), preferencesParser.getStyle());
+    return new UserPreferences(wallMap, jsonParser.getRows(), jsonParser.getCols(), preferencesParser.getImagePaths(), preferencesParser.getColors(), preferencesParser.getStyle(), myLanguage);
   }
 
   @Override

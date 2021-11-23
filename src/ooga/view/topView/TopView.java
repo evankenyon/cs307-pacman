@@ -1,10 +1,11 @@
 package ooga.view.topView;
 
+import static ooga.view.GameStartupPanel.RESOURCES_PATH;
+import static ooga.view.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
 import static ooga.view.bottomView.BottomView.ICON_SIZE;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 import static ooga.view.mainView.MainView.SCENE_HEIGHT;
-import static ooga.view.mainView.MainView.SCENE_WIDTH;
 
 import java.io.File;
 import java.util.ResourceBundle;
@@ -17,11 +18,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import java.util.function.Consumer;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import ooga.model.VanillaGame;
 
 
@@ -42,8 +40,8 @@ public class TopView {
     private ResourceBundle myResources;
 
 
-    public TopView (VanillaGame game) {
-        myResources = ResourceBundle.getBundle("ooga.view.resources.English");
+    public TopView (VanillaGame game, String language) {
+        myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
         myGame = game;
         game.getBoard().addScoreConsumer(scoreConsumer);
         initiateTopView();

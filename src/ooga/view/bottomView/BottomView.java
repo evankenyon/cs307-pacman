@@ -1,8 +1,10 @@
 package ooga.view.bottomView;
 
-import static ooga.view.topView.TopView.TOPVIEW_PACKAGE;
+import static ooga.view.GameStartupPanel.RESOURCES_PATH;
+import static ooga.view.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
 
 import java.io.File;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -41,12 +43,14 @@ public class BottomView {
   private GridPane bottomGrid;
   private VBox bottomView;
   private Controller myController;
+  private ResourceBundle myResources;
   private VanillaGame myGame;
   private Button playPauseButton;
   private Button stepButton;
   private boolean isPaused = false;
 
-  public BottomView (Controller controller, VanillaGame game) {
+  public BottomView (Controller controller, VanillaGame game, String language) {
+    myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
     myController = controller;
     myGame = game;
     bottomView = new VBox();
@@ -114,8 +118,8 @@ public class BottomView {
 
   private void makeSettingsButtons() {
     HBox settings = new HBox();
-    Button statsButton   = makeButton("Stats", e -> showStats());
-    Button newGameButton = makeButton("New Game", e -> resetGame());
+    Button statsButton   = makeButton(myResources.getString("Stats"), e -> showStats());
+    Button newGameButton = makeButton(myResources.getString("NewGame"), e -> resetGame());
     settings.getChildren().addAll(statsButton, newGameButton);
     bottomView.getChildren().add(settings);
   }

@@ -3,9 +3,7 @@ package ooga.view;
 import static java.util.Objects.isNull;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -17,10 +15,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
-import ooga.model.util.Position;
 import ooga.view.mainView.MainView;
 
 public class GameStartupPanel {
+
+  public static final String RESOURCES_PATH_WITH_LANGUAGE = "ooga.view.resources.English";
+  public static final String RESOURCES_PATH = "ooga.view.resources.";
 
   private Stage stage;
   private ComboBox<String> selectGameType;
@@ -28,8 +28,10 @@ public class GameStartupPanel {
   private ComboBox<String> selectViewMode;
   private Button fileUploadButton;
   private File gameFile;
+  private ResourceBundle myResources;
 
   public GameStartupPanel(Stage stage) {
+    myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
     this.stage = stage;
     this.stage.setScene(createStartupScene());
     this.stage.setTitle("Game Startup");
@@ -46,24 +48,29 @@ public class GameStartupPanel {
   }
 
   private void addStartupOptions(GridPane root) {
-    Label selectGameLabel = makeLabel("Select game type:");
+    Label selectGameLabel = makeLabel(myResources.getString("SelectGameType"));
     root.add(selectGameLabel, 1, 1);
 
-    String[] gameTypes = {"Vanilla Pacman", "Super Pac Man", "Play as a ghost"};
+    String[] gameTypes = {myResources.getString("VanillaPacman"),
+        myResources.getString("SuperPacman"), myResources.getString("MrsPacman"),
+        myResources.getString("GhostPacman")};
     selectGameType = makeDropDown("game type", gameTypes);
     root.add(selectGameType, 1, 2);
 
-    Label selectLanguageLabel = makeLabel("Select language:");
+    Label selectLanguageLabel = makeLabel(myResources.getString("SelectLanguage"));
     root.add(selectLanguageLabel, 1, 3);
 
-    String[] languages = {"English", "Lang1", "Lang2", "Lang3", "Lang4"};
+    String[] languages = {myResources.getString("English"), myResources.getString("Spanish"),
+        myResources.getString("Lang3"), myResources.getString("Lang4"),
+        myResources.getString("Lang5")};
     selectLanguage = makeDropDown("language", languages);
     root.add(selectLanguage, 1, 4);
 
-    Label selectModeLabel = makeLabel("Select viewing mode:");
+    Label selectModeLabel = makeLabel(myResources.getString("SelectViewMode"));
     root.add(selectModeLabel, 1, 5);
 
-    String[] viewModes = {"Light", "Dark", "Duke"};
+    String[] viewModes = {myResources.getString("Light"), myResources.getString("Dark"),
+        myResources.getString("Duke")};
     selectViewMode = makeDropDown("viewing mode", viewModes);
     root.add(selectViewMode, 1, 6);
   }
@@ -71,9 +78,9 @@ public class GameStartupPanel {
   private void addFileUploadButton(GridPane root) {
     fileUploadButton = new Button();
     fileUploadButton.setId("fileUploadButton");
-    fileUploadButton.setText("Upload game file");
+    fileUploadButton.setText(myResources.getString("UploadFile"));
     fileUploadButton.setOnAction(e -> uploadFile());
-    Label selectGameFileLabel = makeLabel("Select a game file:");
+    Label selectGameFileLabel = makeLabel(myResources.getString("SelectGameFile"));
     root.add(selectGameFileLabel, 1, 7);
     root.add(fileUploadButton, 1, 8);
   }
@@ -92,7 +99,7 @@ public class GameStartupPanel {
     Button startButton = new Button();
     startButton.setId("startButton");
     startButton.setDefaultButton(true);
-    startButton.setText("PLAY");
+    startButton.setText(myResources.getString("Play"));
     startButton.setOnAction(e -> {
       String selectedGameType = selectGameType.getValue();
       String selectedLanguage = selectLanguage.getValue();
@@ -115,7 +122,7 @@ public class GameStartupPanel {
         selectLanguage.setValue(null);
         selectViewMode.setValue(null);
       } else {
-        //notEnoughInfo();
+        //notEnoughInfo(); // TODO: handle eception
         System.out.println("whoops");
       }
     });
@@ -124,7 +131,7 @@ public class GameStartupPanel {
 
   private ComboBox makeDropDown(String category, String[] options) {
     ComboBox<String> newComboBox = new ComboBox<>();
-    newComboBox.setPromptText("Select " + category);
+    newComboBox.setPromptText(myResources.getString("Select") + category);
     for (String option : options) {
       newComboBox.getItems().add(option);
     }

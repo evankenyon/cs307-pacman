@@ -69,7 +69,7 @@ public class JsonParser implements JsonParserInterface {
     setupPelletInfo(json.getJSONArray("RequiredPellets"), json.getJSONArray("OptionalPellets"));
     setupWallMap(json.getJSONArray("WallMap"));
     checkWallMapForRequirements();
-    updateConsumers(new Data(wallMap, player, pelletInfo));
+    updateConsumers(new Data(wallMap, player, pelletInfo, mapCols, mapRows));
   }
 
   @Override

@@ -32,9 +32,9 @@ class GameBoardTest {
     Map<String, Boolean> pelletInfo = new HashMap<>();
     pelletInfo.put("pellet", Boolean.TRUE);
 
-    Data vanillaGame = new Data(initialStates, "Pacman", pelletInfo, mapCols, mapRows);
+//    Data vanillaGame = new Data(initialStates, "Pacman", pelletInfo, mapCols, mapRows);
 
-    gameBoard = new GameBoard(vanillaGame);
+//    gameBoard = new GameBoard(vanillaGame);
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 0)) instanceof Pacman);
   }
 
@@ -51,9 +51,9 @@ class GameBoardTest {
     Map<String, Boolean> pelletInfo = new HashMap<>();
     pelletInfo.put("pellet", Boolean.TRUE);
 
-    Data vanillaGame = new Data(initialStates, "Pacman", pelletInfo, mapCols, mapRows);
+//    Data vanillaGame = new Data(initialStates, "Pacman", pelletInfo, mapCols, mapRows);
 
-    gameBoard = new GameBoard(vanillaGame);
+//    gameBoard = new GameBoard(vanillaGame);
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof pellet);
   }
 
@@ -70,9 +70,9 @@ class GameBoardTest {
     Map<String, Boolean> pelletInfo = new HashMap<>();
     pelletInfo.put("pellet", Boolean.TRUE);
 
-    Data vanillaGame = new Data(initialStates, "Pacman", pelletInfo, mapCols, mapRows);
-
-    gameBoard = new GameBoard(vanillaGame);
+//    Data vanillaGame = new Data(initialStates, "Pacman", pelletInfo, mapCols, mapRows);
+//
+//    gameBoard = new GameBoard(vanillaGame);
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof wall);
   }
 
@@ -91,9 +91,9 @@ class GameBoardTest {
     Map<String, Boolean> pelletInfo = new HashMap<>();
     pelletInfo.put("Dot", Boolean.TRUE);
 
-    Data vanillaGame = new Data(initialStates, "Pacman", pelletInfo, mapCols, mapRows);
-
-    gameBoard = new GameBoard(vanillaGame);
+//    Data vanillaGame = new Data(initialStates, "Pacman", pelletInfo, mapCols, mapRows);
+//
+//    gameBoard = new GameBoard(vanillaGame);
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof wall);
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 2)) instanceof pellet);
   }

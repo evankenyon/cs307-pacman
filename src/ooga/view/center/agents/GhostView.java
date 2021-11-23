@@ -50,8 +50,6 @@ public class GhostView extends MovableView {
   private void ghostViewSetup(String path) {
     ghostImage = makeGhostImage(path); //TODO: fix Ghost Number
     setImage(ghostImage);
-//    setX(myAgent.getPosition().getCoords()[0]);
-//    setY(myAgent.getPosition().getCoords()[1]);
     ghostImage.setX(gridWidth * myAgent.getPosition().getCoords()[0] + horizontalImageBuffer);
     ghostImage.setY(gridHeight * myAgent.getPosition().getCoords()[1] + verticalImageBuffer);
     myAgent.addConsumer(updateGhost);
@@ -66,13 +64,11 @@ public class GhostView extends MovableView {
 
   @Override
   protected void moveX(int x) {
-//    setX(x);
     ghostImage.setX(gridWidth * x + horizontalImageBuffer);
   }
 
   @Override
   protected void moveY(int y) {
-//    setY(y);
     ghostImage.setY(gridHeight * y + verticalImageBuffer);
   }
 

@@ -1,8 +1,5 @@
 package ooga.view.center.agents;
 
-import static ooga.view.center.BoardView.BOARD_HEIGHT;
-import static ooga.view.center.BoardView.BOARD_WIDTH;
-
 import javafx.scene.Node;
 import ooga.model.interfaces.Agent;
 

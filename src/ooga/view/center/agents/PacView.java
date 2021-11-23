@@ -1,7 +1,5 @@
 package ooga.view.center.agents;
 
-import static ooga.controller.Controller.COLS;
-import static ooga.controller.Controller.ROWS;
 import static ooga.model.agents.players.Pacman.ALIVE_STATE;
 import static ooga.model.agents.players.Pacman.DEAD_STATE;
 import static ooga.model.agents.players.Pacman.SUPER_STATE;
@@ -22,32 +20,50 @@ public class PacView extends MovableView {
   private ImageView pacImage;
   private Agent myAgent; //TODO: change to subclass of Agent
   private Consumer<Agent> updatePacMan = newInfo -> updateAgent(newInfo);
+  private int numCols;
+  private int numRows;
+  private double gridWidth;
+  private double gridHeight;
+  private double imageBuffer;
+  private double verticalImageBuffer;
+  private double horizontalImageBuffer;
 
-  public PacView(Agent pac) {
-    this(pac, PAC_IMAGE);
+  public PacView(Agent pac, int gridRows, int gridCols) {
+    this(pac, PAC_IMAGE, gridRows, gridCols);
   }
 
-  public PacView(Agent pac, String imagePath) {
+  public PacView(Agent pac, String imagePath, int gridRows, int gridCols) {
     myAgent = pac;
+    numRows = gridRows;
+    numCols = gridCols;
+    makeLayoutSettings();
     pacImage = new ImageView(new Image(new File(imagePath).toURI().toString()));
-    pacImage.setFitWidth(IMAGE_BUFFER);
-    pacImage.setFitHeight(IMAGE_BUFFER);
+    pacImage.setFitWidth(imageBuffer);
+    pacImage.setFitHeight(imageBuffer);
     setImage(pacImage);
-    pacImage.setX(GRID_WIDTH*myAgent.getPosition().getCoords()[0] + HORIZONTAL_IMAGE_BUFFER);
-    pacImage.setY(GRID_HEIGHT*myAgent.getPosition().getCoords()[1] + VERTICAL_IMAGE_BUFFER);
+    pacImage.setX(gridWidth*myAgent.getPosition().getCoords()[0] + horizontalImageBuffer);
+    pacImage.setY(gridHeight*myAgent.getPosition().getCoords()[1] + verticalImageBuffer);
 // add the Consumers to the List<Consumer<Integer>> in the model
     myAgent.addConsumer(updatePacMan);
   }
 
+  private void makeLayoutSettings() {
+    gridWidth = BOARD_WIDTH / numCols;
+    gridHeight = BOARD_HEIGHT / numRows;
+    imageBuffer = IMAGE_BUFFER_FACTOR * Math.min(gridWidth, gridHeight);
+    verticalImageBuffer = (gridHeight - imageBuffer) / 2;
+    horizontalImageBuffer = (gridWidth - imageBuffer) / 2;
+  }
+
   @Override
   protected void moveX(int x) {
-    pacImage.setX(BOARD_WIDTH / COLS * x + HORIZONTAL_IMAGE_BUFFER);
+    pacImage.setX(gridWidth * x + horizontalImageBuffer);
   }
 
   @Override
   protected void moveY(int y) {
 //    setY(y);
-    pacImage.setY(BOARD_HEIGHT / ROWS * y + VERTICAL_IMAGE_BUFFER);
+    pacImage.setY(gridHeight * y + verticalImageBuffer);
   }
 
   @Override

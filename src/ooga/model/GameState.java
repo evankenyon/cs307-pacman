@@ -19,7 +19,6 @@ public class GameState {
       GameBoard.class.getPackageName());
   private static final String TYPES_FILENAME = "types";
 
-
   private final int myRows;
   private final int myCols;
   private List<Agent> myOtherAgents;

@@ -59,8 +59,8 @@ public class BottomView {
     stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> myGame.step());
     stepButton.setId("stepButton");
     Node slider = makeSpeedSlider();
-    simButtons.getChildren().addAll(playPauseButton, stepButton, slider);
-    bottomView.getChildren().add(simButtons);
+    simButtons.getChildren().addAll(playPauseButton, stepButton);
+    bottomView.getChildren().addAll(simButtons, slider);
   }
 
   private Node makeSpeedSlider() {

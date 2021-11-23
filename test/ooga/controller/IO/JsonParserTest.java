@@ -153,4 +153,13 @@ class JsonParserTest {
 
     jsonParser.uploadFile(preferencesParser.getStartingConfig());
   }
+
+  @Test
+  void properDimensions() throws IOException {
+    int expectedRows = 3;
+    int expectedCols = 5;
+    jsonParser.uploadFile(new File("data/tests/basicWallMap.json"));
+    Assertions.assertEquals(expectedRows, jsonParser.getRows());
+    Assertions.assertEquals(expectedCols, jsonParser.getCols());
+  }
 }

@@ -27,9 +27,6 @@ public class Controller implements ControllerInterface {
 
   private static final double SECONDS_ANIMATION_BASE = 20 / 60.0;
   public static final double SECOND_DELAY = 20.0 / 60;
-  //TODO: remove
-  public static final int ROWS = 11;
-  public static final int COLS = 11;
 
   private JsonParserInterface jsonParser;
   private keyTracker keyTracker;
@@ -110,5 +107,21 @@ public class Controller implements ControllerInterface {
 //    LOG.info("updating pressed key to {}", event.getCode());
     vanillaGame.getBoard().setPlayerDirection(keyTracker.getPressedKey(event));
   }
+
+  /**
+   * Getter method to return whether simulation is paused or not. Used for testing
+   *
+   * @return boolean isPaused
+   */
+  public boolean getPlayPause() {
+    return isPaused;
+  }
+
+  /**
+   * Getter method to get the animation speed. Used for teting
+   *
+   * @return double animation rate
+   */
+  public double getAnimationSpeed() { return myAnimation.getRate(); }
 
 }

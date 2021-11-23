@@ -1,26 +1,37 @@
 package ooga.view.topView;
 
+import static ooga.view.bottomView.BottomView.ICON_SIZE;
+
+import java.io.File;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import java.util.function.Consumer;
+import javafx.scene.layout.HBox;
 import ooga.model.VanillaGame;
 
 
 public class TopView {
-    private String PAUSE_BUTTON = "https://theologygaming.com/wp-content/uploads/2014/08/Pause.png";
-    private String PLAY_BUTTON = "https://cdn-icons-png.flaticon.com/512/109/109197.png";
+
+    public static final String HEART_PATH = "data/images/heart.png";
+
     private GridPane topGrid;
     private Label scoreDisplay;
+    private Node lifeDisplay;
     private VanillaGame myGame;
     private Consumer<Integer> scoreConsumer = i -> updateScoreDisplay(i);
+    private ResourceBundle myResources;
 
 
     public TopView (VanillaGame game) {
+        myResources = ResourceBundle.getBundle("ooga.view.resources.English");
         myGame = game;
         game.getBoard().addScoreConsumer(scoreConsumer);
         initiateTopView();
@@ -37,8 +48,8 @@ public class TopView {
 
     private GridPane makeLoadSaveGP() {
         GridPane loadSaveGP = new GridPane();
-        Button loadButton = makeButton("Load game", e -> loadGame());
-        Button saveButton = makeButton("Save game", e -> saveGame());
+        Button loadButton = makeButton(myResources.getString("LoadGame"), e -> loadGame());
+        Button saveButton = makeButton(myResources.getString("SaveGame"), e -> saveGame());
         topGrid.add(loadButton, 1, 1);
         topGrid.add(saveButton, 2, 1);
         return loadSaveGP;
@@ -55,10 +66,10 @@ public class TopView {
 
     private GridPane makeStatsGP() {
         GridPane statsGP = new GridPane();
-        Label lifeDisplay = updateLifeDisplay();
-        scoreDisplay = new Label("SCORE: ");
-        statsGP.add(lifeDisplay, 1,1);
-        statsGP.add(scoreDisplay, 2,1);
+        lifeDisplay = makeLifeDisplay();
+        scoreDisplay = new Label(myResources.getString("Score"));
+        statsGP.add(lifeDisplay, 1,2);
+        statsGP.add(scoreDisplay, 1,1);
         return statsGP;
     }
 
@@ -78,14 +89,26 @@ public class TopView {
         // TODO: Implement
     }
 
-    private Label updateLifeDisplay() {
-        String lifeDisplayText = "LIVES LEFT: " + String.valueOf(3); // TODO: GET LIFECOUNT
+    private Node makeLifeDisplay() {
+        HBox lives = new HBox();
+        String lifeDisplayText = myResources.getString("Lives");
         Label lifeDisplay = new Label(lifeDisplayText);
-        return lifeDisplay;
+        ImageView heart1 = makeIcon(HEART_PATH);
+        ImageView heart2 = makeIcon(HEART_PATH);
+        ImageView heart3 = makeIcon(HEART_PATH);
+        lives.getChildren().addAll(lifeDisplay, heart1, heart2, heart3);
+        return lives;
+    }
+
+    private ImageView makeIcon(String path) {
+        ImageView image = new ImageView(new Image(new File(path).toURI().toString()));
+        image.setFitHeight(ICON_SIZE);
+        image.setFitWidth(ICON_SIZE);
+        return image;
     }
 
     private void updateScoreDisplay(int i) {
-        String newText = String.format("SCORE: %s", String.valueOf(i));
+        String newText = String.format("%s%s", myResources.getString("Score"),String.valueOf(i));
         scoreDisplay.setText(newText);
     }
 

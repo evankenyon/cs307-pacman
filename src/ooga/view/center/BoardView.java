@@ -33,23 +33,24 @@ public class BoardView {
       BoardView.class.getPackageName() + ".resources.";
   private static final String TYPE_FILENAME = "types";
   private static final String CONSTRUCTORS_FILENAME = "constructors";
-  public static final double BOARD_WIDTH = 600;
-  public static final double BOARD_HEIGHT = 400;
-  public static final int GRID_SIZE = 1;
+  public static final double BOARD_WIDTH = 600.;
+  public static final double BOARD_HEIGHT = 400.;
   public static final Paint BOARD_COLOR = Color.BLACK;
 
   private VanillaGame myGame;
   private Controller myController;
   private Pane myBoardPane;
   private List<Consumer<AgentView>> boardConsumerList;
-  private double numRows;
-  private double numCols;
+  private int numRows;
+  private int numCols;
 
   public BoardView (VanillaGame game, Controller controller, UserPreferences userPreferences) {
     myGame = game;
     myController = controller;
     myBoardPane = new Pane();
     boardConsumerList = new ArrayList<>();
+    numRows = userPreferences.rows();
+    numCols = userPreferences.cols();
     initiateBoard(userPreferences);
     myBoardPane.setMaxWidth(BOARD_WIDTH);
     myBoardPane.setMaxHeight(BOARD_HEIGHT);
@@ -57,17 +58,6 @@ public class BoardView {
   }
 
   private void initiateBoard(UserPreferences userPreferences) {
-//    makeWalls(myParser.getWallMapPositions());
-//    int rows = myController.getRows();
-//    int cols = myController.getCols();
-//    for (int r=0; r<rows; r++) {
-//      for (int c=0; c<cols; c++) {
-//        Agent agent = myController.getAgent(x,y);
-//        String agentType = agent.getType();
-//        //TODO: reflection to create ItemView
-//        makeAgentView(agentType);
-//      }
-//    }
     for (String type : userPreferences.wallMap().keySet()) {
       for (Position p : userPreferences.wallMap().get(type)) {
 //        updateDimensions(p);
@@ -104,8 +94,8 @@ public class BoardView {
     Agent agent = myGame.getBoard().getGameState().findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);
-      return (AgentView) clazz.getDeclaredConstructor(Agent.class, List.class)
-          .newInstance(agent, rgb);
+      return (AgentView) clazz.getDeclaredConstructor(Agent.class, List.class, int.class, int.class)
+          .newInstance(agent, rgb, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       return makeAgentView(type, position);
     }
@@ -116,8 +106,8 @@ public class BoardView {
     Agent agent = myGame.getBoard().getGameState().findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);
-      return (AgentView) clazz.getDeclaredConstructor(Agent.class, String.class)
-          .newInstance(agent, imagePath);
+      return (AgentView) clazz.getDeclaredConstructor(Agent.class, String.class, int.class, int.class)
+          .newInstance(agent, imagePath, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       return makeAgentView(type, position);
     }
@@ -128,12 +118,12 @@ public class BoardView {
     Agent agent = myGame.getBoard().getGameState().findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);
-      return (AgentView) clazz.getDeclaredConstructor(Agent.class)
-          .newInstance(agent);
+      return (AgentView) clazz.getDeclaredConstructor(Agent.class, int.class, int.class)
+          .newInstance(agent, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       //TODO: remove stack trace
       e.printStackTrace();
-      return new WallView(new wall(0,0));
+      return new WallView(new wall(position.getCoords()[0],position.getCoords()[1]), numRows, numCols);
     }
   }
 

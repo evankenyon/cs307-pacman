@@ -50,10 +50,6 @@ public class MainView {
 
   private Scene makeScene() {
     root = new BorderPane();
-//    root.setRight(new Rectangle(100,100, Color.GREEN));
-//    root.setLeft(new Rectangle(100,100, Color.GREEN));
-//    root.setTop(new Rectangle(100,100, Color.GREEN));
-//    root.setBottom(new Rectangle(100,100, Color.GREEN));
     root.setCenter(myBoardView.getBoardPane());
     root.setBottom(myBottomView.getBottomViewGP());
     root.setTop(myTopView.getTopViewGP());

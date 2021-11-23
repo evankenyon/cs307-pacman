@@ -55,7 +55,9 @@ public class BottomView {
     HBox simButtons = new HBox();
     simButtons.setAlignment(Pos.BASELINE_CENTER);
     playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> togglePlayPause());
+    playPauseButton.setId("playPauseButton");
     stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> myGame.step());
+    stepButton.setId("stepButton");
     Node slider = makeSpeedSlider();
     simButtons.getChildren().addAll(playPauseButton, stepButton, slider);
     bottomView.getChildren().add(simButtons);

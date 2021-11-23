@@ -6,7 +6,7 @@ import ooga.model.util.Position;
 
 public abstract class MovableView extends AgentView {
 
-  public static final String IMAGE_PATH = "images/";
+  public static final String IMAGE_PATH = "data/images/";
   public static final Map<String, Integer> ORIENTATION_MAP =
       Map.of("right",0,"down",90,"left",180,"up",270,"NULL", 0);
 

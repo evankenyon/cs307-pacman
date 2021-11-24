@@ -1,7 +1,7 @@
 package ooga.view.topView;
 
-import static ooga.view.GameStartupPanel.RESOURCES_PATH;
-import static ooga.view.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
+import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
+import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
 import static ooga.view.bottomView.BottomView.ICON_SIZE;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;

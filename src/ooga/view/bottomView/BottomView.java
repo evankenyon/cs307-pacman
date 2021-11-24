@@ -1,7 +1,7 @@
 package ooga.view.bottomView;
 
-import static ooga.view.GameStartupPanel.RESOURCES_PATH;
-import static ooga.view.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
+import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
+import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
 
 import java.io.File;
 import java.util.ResourceBundle;
@@ -22,9 +22,6 @@ import ooga.controller.Controller;
 import ooga.model.VanillaGame;
 
 public class BottomView {
-
-//  public static final String PAUSE_IMAGE = "https://theologygaming.com/wp-content/uploads/2014/08/Pause.png";
-//  public static final String PLAY_IMAGE = "https://cdn-icons-png.flaticon.com/512/109/109197.png";
   public static final String PLAY_IMAGE = "data/images/play.png";
   public static final String PAUSE_IMAGE = "data/images/pause.png";
   public static final String STEP_IMAGE = "data/images/step.png";
@@ -173,4 +170,5 @@ public class BottomView {
     return bottomView;
 //        return this.bottomGrid;
   }
+
 }

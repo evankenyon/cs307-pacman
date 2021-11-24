@@ -114,6 +114,8 @@ public class BoardView {
           .newInstance(agent, imagePath, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       new ErrorPopups(myLanguage).reflectionErrorPopup();
+      //TODO: remove stack trace
+      e.printStackTrace();
       return makeAgentView(type, position);
     }
   }

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
 import ooga.view.mainView.MainView;
+import ooga.view.startupView.GameStartupPanel;
 import util.DukeApplicationTest;
 
 public class StartUpPanelTests extends DukeApplicationTest {

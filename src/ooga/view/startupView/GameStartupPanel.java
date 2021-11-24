@@ -3,6 +3,7 @@ package ooga.view.startupView;
 import static java.util.Objects.isNull;
 
 import java.io.File;
+import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -28,6 +29,11 @@ public class GameStartupPanel {
   private ComboBox<String> selectViewMode;
   private Button fileUploadButton;
   private File gameFile;
+  private String selectedGameType;
+  private String selectedLanguage;
+  private String selectedViewMode;
+  private ResourceBundle myResources;
+
   private static final int SCREEN_WIDTH = 400;
   private static final int SCREEN_HEIGHT = 425;
   public static final Paint BACKGROUND = Color.BLACK;
@@ -39,6 +45,7 @@ public class GameStartupPanel {
   public static final String DEFAULT_LANGUAGE = "English";
 
   public GameStartupPanel(Stage stage) {
+    myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
     this.stage = stage;
     this.stage.setScene(createStartupScene());
     this.stage.setTitle("PACMAN STARTUP");
@@ -73,14 +80,18 @@ public class GameStartupPanel {
 
     ImageView selectGameLabel = new ImageView(new Image(new File("data/images/selectGameType.png").toURI().toString()));
     setImgWidth(selectGameLabel, SCREEN_WIDTH/2);
-    String[] gameTypes = {"Vanilla Pacman", "Super Pac Man", "Play as a ghost"};
+    String[] gameTypes = {myResources.getString("VanillaPacman"),
+        myResources.getString("SuperPacman"), myResources.getString("MrsPacman"),
+        myResources.getString("GhostPacman")};
     selectGameType = makeDropDown("game type", gameTypes);
     selectCol1L.getChildren().addAll(selectGameLabel, selectGameType);
     selectCol1L.setAlignment(Pos.CENTER);
 
     ImageView selectLanguageLabel = new ImageView(new Image(new File("data/images/selectLanguage.png").toURI().toString()));
     setImgWidth(selectLanguageLabel, SCREEN_WIDTH/2);
-    String[] languages = {"English", "Spanish", "L33T", "Numbers", "Emoji"};
+    String[] languages = {myResources.getString("English"), myResources.getString("Spanish"),
+        myResources.getString("Lang3"), myResources.getString("Lang4"),
+        myResources.getString("Lang5")};
     selectLanguage = makeDropDown("language", languages);
     selectCol1R.getChildren().addAll(selectLanguageLabel, selectLanguage);
     selectCol1R.setAlignment(Pos.CENTER);
@@ -90,7 +101,8 @@ public class GameStartupPanel {
 
     ImageView selectModeLabel = new ImageView(new Image(new File("data/images/selectViewingMode.png").toURI().toString()));
     setImgWidth(selectModeLabel, SCREEN_WIDTH/2);
-    String[] viewModes = {"Light", "Dark", "Duke"};
+    String[] viewModes = {myResources.getString("Light"), myResources.getString("Dark"),
+        myResources.getString("Duke")};
     selectViewMode = makeDropDown("viewing mode", viewModes);
     selectCol2L.getChildren().addAll(selectModeLabel, selectViewMode);
     selectCol2L.setAlignment(Pos.CENTER);
@@ -109,7 +121,7 @@ public class GameStartupPanel {
     fileUploadButton = new Button();
     fileUploadButton.setMinWidth(150);
     fileUploadButton.setId("fileUploadButton");
-    fileUploadButton.setText("Upload game file");
+    fileUploadButton.setText(myResources.getString("UploadFile"));
     fileUploadButton.setOnAction(e -> uploadFile());
     return fileUploadButton;
   }
@@ -128,43 +140,49 @@ public class GameStartupPanel {
     ImageView startButton = new ImageView(new Image(new File("data/images/playButton.png").toURI().toString()));
     setImgWidth(startButton, SCREEN_WIDTH / 4);
     startButton.setId("startButton");
-    startButton.setOnMouseReleased(e -> {
-      String selectedGameType = selectGameType.getValue();
-      String selectedLanguage = selectLanguage.getValue();
-      String selectedViewMode = selectViewMode.getValue();
-      if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
-        Stage gameStage = new Stage();
-        Controller application = new Controller(selectedLanguage, gameStage);
-        try {
-          UserPreferences userPreferences = application.uploadFile(gameFile);
-          MainView mainView = new MainView(application, application.getVanillaGame(), gameStage,
-              userPreferences);
-        } catch (Exception ex) {
-          if (gameFile == null) {
-            new ErrorPopups(selectedLanguage).noFilePopup();
-          } else {
-            new ErrorPopups(selectedLanguage).fileErrorPopup();
-          }
-        }
-        selectGameType.setValue(null);
-        selectLanguage.setValue(null);
-        selectViewMode.setValue(null);
-      } else {
-        if (selectedLanguage == null) {
-          selectedLanguage = DEFAULT_LANGUAGE;
-        }
-        new ErrorPopups(selectedLanguage).requiredFieldsPopup();
-      }
-    });
+    startButton.setOnMouseReleased(e -> startButtonAction());
     HBox playBox = new HBox();
     playBox.getChildren().add(startButton);
     playBox.setAlignment(Pos.CENTER);
     root.add(playBox, 1, 4);
   }
 
+  private void startButtonAction() {
+    selectedGameType = selectGameType.getValue();
+    selectedLanguage = selectLanguage.getValue();
+    selectedViewMode = selectViewMode.getValue();
+    if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
+      runFile();
+      selectGameType.setValue(null);
+      selectLanguage.setValue(null);
+      selectViewMode.setValue(null);
+    } else {
+      if (selectedLanguage == null) {
+        selectedLanguage = DEFAULT_LANGUAGE;
+      }
+      new ErrorPopups(selectedLanguage).requiredFieldsPopup();
+    }
+  }
+
+  private void runFile() {
+    Stage gameStage = new Stage();
+    Controller application = new Controller(selectedLanguage, gameStage);
+    try {
+      UserPreferences userPreferences = application.uploadFile(gameFile);
+      MainView mainView = new MainView(application, application.getVanillaGame(), gameStage,
+          userPreferences);
+    } catch (Exception ex) {
+      if (gameFile == null) {
+        new ErrorPopups(selectedLanguage).noFilePopup();
+      } else {
+        new ErrorPopups(selectedLanguage).fileErrorPopup();
+      }
+    }
+  }
+
   private ComboBox makeDropDown(String category, String[] options) {
     ComboBox<String> newComboBox = new ComboBox<>();
-    newComboBox.setPromptText("Select " + category);
+    newComboBox.setPromptText(myResources.getString("Select") + category);
     for (String option : options) {
       newComboBox.getItems().add(option);
     }

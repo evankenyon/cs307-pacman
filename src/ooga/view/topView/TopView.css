@@ -8,9 +8,9 @@
 }
 
 .lives {
-  -fx-alignment: right;
+  -fx-alignment: bottom-right;
 }
 
 .score {
-  -fx-alignment: left;
+  -fx-alignment: bottom-left;
 }

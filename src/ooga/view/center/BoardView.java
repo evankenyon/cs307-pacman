@@ -109,6 +109,7 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, String.class, int.class, int.class)
           .newInstance(agent, imagePath, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+      e.printStackTrace();
       return makeAgentView(type, position);
     }
   }

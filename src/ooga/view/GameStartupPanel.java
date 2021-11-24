@@ -16,11 +16,13 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
 import ooga.view.mainView.MainView;
+import ooga.view.popups.ErrorPopups;
 
 public class GameStartupPanel {
 
   public static final String RESOURCES_PATH_WITH_LANGUAGE = "ooga.view.resources.English";
   public static final String RESOURCES_PATH = "ooga.view.resources.";
+  public static final String DEFAULT_LANGUAGE = "English";
 
   private Stage stage;
   private ComboBox<String> selectGameType;
@@ -29,6 +31,9 @@ public class GameStartupPanel {
   private Button fileUploadButton;
   private File gameFile;
   private ResourceBundle myResources;
+  private String selectedGameType;
+  private String selectedLanguage;
+  private String selectedViewMode;
 
   public GameStartupPanel(Stage stage) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
@@ -100,33 +105,41 @@ public class GameStartupPanel {
     startButton.setId("startButton");
     startButton.setDefaultButton(true);
     startButton.setText(myResources.getString("Play"));
-    startButton.setOnAction(e -> {
-      String selectedGameType = selectGameType.getValue();
-      String selectedLanguage = selectLanguage.getValue();
-      String selectedViewMode = selectViewMode.getValue();
-      if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
-        Stage gameStage = new Stage();
-        Controller application = new Controller(selectedLanguage, gameStage);
-        // TODO: Fix exception:
-        try {
-          UserPreferences userPreferences = application.uploadFile(gameFile);
-          MainView mainView = new MainView(application, application.getVanillaGame(), gameStage,
-              userPreferences);
-        } catch (Exception ex) {
-          // TODO: clean this up
-//                    ex.printStackTrace();
-          ex.printStackTrace();
-        }
-        //MainView newMainView = new MainView();
-        selectGameType.setValue(null);
-        selectLanguage.setValue(null);
-        selectViewMode.setValue(null);
-      } else {
-        //notEnoughInfo(); // TODO: handle eception
-        System.out.println("whoops");
-      }
-    });
+    startButton.setOnAction(e -> buttonAction());
     root.add(startButton, 1, 9);
+  }
+
+  private void buttonAction() {
+    selectedGameType = selectGameType.getValue();
+    selectedLanguage = selectLanguage.getValue();
+    selectedViewMode = selectViewMode.getValue();
+    if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
+      runFile();
+      selectGameType.setValue(null);
+      selectLanguage.setValue(null);
+      selectViewMode.setValue(null);
+    } else {
+      if (selectedLanguage == null) {
+        selectedLanguage = DEFAULT_LANGUAGE;
+      }
+      new ErrorPopups(selectedLanguage).requiredFieldsPopup();
+    }
+  }
+
+  private void runFile() {
+    Stage gameStage = new Stage();
+    Controller application = new Controller(selectedLanguage, gameStage);
+    try {
+      UserPreferences userPreferences = application.uploadFile(gameFile);
+      MainView mainView = new MainView(application, application.getVanillaGame(), gameStage,
+          userPreferences);
+    } catch (Exception ex) {
+      if (gameFile == null) {
+        new ErrorPopups(selectedLanguage).noFilePopup();
+      } else {
+        new ErrorPopups(selectedLanguage).fileErrorPopup();
+      }
+    }
   }
 
   private ComboBox makeDropDown(String category, String[] options) {

@@ -20,6 +20,7 @@ import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
 import ooga.view.GameStartupPanel;
+import ooga.view.popups.ErrorPopups;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -70,7 +71,7 @@ public class Controller implements ControllerInterface {
           try {
             vanillaGame = new VanillaGame(vanillaGameDataInterface);
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            new ErrorPopups(myLanguage).reflectionErrorPopup();
             throw new InputMismatchException("Error occurred in backend reflection");
           }
         });

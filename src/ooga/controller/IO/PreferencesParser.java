@@ -12,19 +12,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.function.Consumer;
 import ooga.controller.IO.utils.JSONObjectParser;
 // Decided to use this library after reading article from
 // https://coderolls.com/parse-json-in-java/
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class PreferencesParser {
 
   private static final String DEFAULT_RESOURCE_PACKAGE =
-      JsonParser.class.getPackageName() + ".resources.";
+      PreferencesParser.class.getPackageName() + ".resources.";
   private static final String POSSIBLE_PREFERENCES_FILENAME = "PossiblePreferences";
   private static final String PREFERENCES_VALUES_FILENAME = "PreferencesValues";
+  private static final String EXCEPTION_MESSAGES_FILENAME = "Exceptions";
 
   private JSONObject preferencesJson;
   private Map<String, String> imagePaths;
@@ -34,10 +33,12 @@ public class PreferencesParser {
 
   private ResourceBundle possiblePreferences;
   private ResourceBundle preferencesValues;
+  private ResourceBundle exceptionMessages;
 
   public PreferencesParser() {
     possiblePreferences = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, POSSIBLE_PREFERENCES_FILENAME));
     preferencesValues = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, PREFERENCES_VALUES_FILENAME));
+    exceptionMessages = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
     imagePaths = new HashMap<>();
     colors = new HashMap<>();
   }
@@ -79,7 +80,7 @@ public class PreferencesParser {
     for (String key : keySet) {
       if (!possiblePreferences.containsKey(key)) {
         throw new InputMismatchException(
-            String.format("Unexpected key %s was found in preferences file", key));
+            String.format(exceptionMessages.getString("NotEnoughKeys"), key));
       }
     }
   }
@@ -90,7 +91,7 @@ public class PreferencesParser {
 
   private void addToImage(String key) {
     if(!List.of(preferencesValues.getString("Image").split(",")).contains(preferencesJson.getString(key))) {
-      throw new InputMismatchException(String.format("Invalid image path %s was passed in for key %s", preferencesJson.get(key), key));
+      throw new InputMismatchException(String.format(exceptionMessages.getString("InvalidImagePath"), preferencesJson.get(key), key));
     }
     imagePaths.put(key, preferencesJson.getString(key));
   }
@@ -102,7 +103,7 @@ public class PreferencesParser {
     preferencesJson.getJSONArray(key).iterator().forEachRemaining(color -> rgb.add(((BigDecimal) color).doubleValue()));
     for (Double color : rgb) {
       if(color > 1 || color < 0) {
-        throw new InputMismatchException(String.format("Invalid rgb value of %s", color));
+        throw new InputMismatchException(String.format(exceptionMessages.getString("InvalidRGB"), color));
       }
     }
     colors.put(key, rgb);
@@ -110,7 +111,7 @@ public class PreferencesParser {
 
   private void addToStyle(String key) {
     if(!List.of(preferencesValues.getString("Style").split(",")).contains(preferencesJson.getString(key))) {
-      throw new InputMismatchException(String.format("Invalid style %s was passed in", style));
+      throw new InputMismatchException(String.format(exceptionMessages.getString("InvalidStyle"), style));
     }
     style = preferencesJson.getString(key);
   }

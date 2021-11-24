@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
 import ooga.view.mainView.MainView;
+import ooga.view.popups.ErrorPopups;
 
 public class GameStartupPanel {
 
@@ -35,7 +36,7 @@ public class GameStartupPanel {
           STARTUP_PACKAGE.replace(".", "/"));
   public static final String RESOURCES_PATH_WITH_LANGUAGE = "ooga.view.resources.English";
   public static final String RESOURCES_PATH = "ooga.view.resources.";
-
+  public static final String DEFAULT_LANGUAGE = "English";
 
   public GameStartupPanel(Stage stage) {
     this.stage = stage;
@@ -134,23 +135,25 @@ public class GameStartupPanel {
       if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
         Stage gameStage = new Stage();
         Controller application = new Controller(selectedLanguage, gameStage);
-        // TODO: Fix exception:
         try {
           UserPreferences userPreferences = application.uploadFile(gameFile);
           MainView mainView = new MainView(application, application.getVanillaGame(), gameStage,
               userPreferences);
         } catch (Exception ex) {
-          // TODO: clean this up
-//                    ex.printStackTrace();
-          ex.printStackTrace();
+          if (gameFile == null) {
+            new ErrorPopups(selectedLanguage).noFilePopup();
+          } else {
+            new ErrorPopups(selectedLanguage).fileErrorPopup();
+          }
         }
-        //MainView newMainView = new MainView();
         selectGameType.setValue(null);
         selectLanguage.setValue(null);
         selectViewMode.setValue(null);
       } else {
-        //notEnoughInfo();
-        System.out.println("whoops");
+        if (selectedLanguage == null) {
+          selectedLanguage = DEFAULT_LANGUAGE;
+        }
+        new ErrorPopups(selectedLanguage).requiredFieldsPopup();
       }
     });
     HBox playBox = new HBox();

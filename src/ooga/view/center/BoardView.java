@@ -27,6 +27,7 @@ import ooga.model.util.Position;
 import ooga.model.interfaces.Agent;
 import ooga.view.center.agents.AgentView;
 import ooga.view.center.agents.WallView;
+import ooga.view.popups.ErrorPopups;
 
 public class BoardView {
   private static final String DEFAULT_RESOURCE_PACKAGE =
@@ -43,6 +44,7 @@ public class BoardView {
   private List<Consumer<AgentView>> boardConsumerList;
   private int numRows;
   private int numCols;
+  private String myLanguage;
 
   public BoardView (VanillaGame game, Controller controller, UserPreferences userPreferences) {
     myGame = game;
@@ -51,6 +53,7 @@ public class BoardView {
     boardConsumerList = new ArrayList<>();
     numRows = userPreferences.rows();
     numCols = userPreferences.cols();
+    myLanguage = userPreferences.language();
     initiateBoard(userPreferences);
     myBoardPane.setMaxWidth(BOARD_WIDTH);
     myBoardPane.setMaxHeight(BOARD_HEIGHT);
@@ -97,6 +100,7 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, List.class, int.class, int.class)
           .newInstance(agent, rgb, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+//      new ErrorPopups(myLanguage).reflectionErrorPopup();
       return makeAgentView(type, position);
     }
   }
@@ -109,7 +113,7 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, String.class, int.class, int.class)
           .newInstance(agent, imagePath, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-      e.printStackTrace();
+//      new ErrorPopups(myLanguage).reflectionErrorPopup();
       return makeAgentView(type, position);
     }
   }
@@ -122,8 +126,7 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, int.class, int.class)
           .newInstance(agent, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-      //TODO: remove stack trace
-      e.printStackTrace();
+//      new ErrorPopups(myLanguage).reflectionErrorPopup();
       return new WallView(new wall(position.getCoords()[0],position.getCoords()[1]), numRows, numCols);
     }
   }

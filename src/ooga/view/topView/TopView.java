@@ -20,8 +20,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import java.util.function.Consumer;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import ooga.controller.IO.UserPreferences;
 import ooga.model.VanillaGame;
-
+import ooga.view.mainView.MainView;
 
 public class TopView {
 
@@ -92,7 +95,12 @@ public class TopView {
     }
 
     private void loadGame() {
-        // TODO: Implement
+//        FileChooser myFileChooser = new FileChooser();
+//        Stage fileStage = new Stage();
+//        File gameFile =  myFileChooser.showOpenDialog(fileStage);
+//        UserPreferences userPreferences = application.uploadFile(gameFile);
+//        MainView mainView = new MainView(application, application.getVanillaGame(), gameStage,
+//                userPreferences);
     }
 
     private void saveGame() {

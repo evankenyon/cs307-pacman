@@ -179,7 +179,6 @@ public class GameStartupPanel {
 
   private void setImgWidth(ImageView img, int width) {
     img.setPreserveRatio(true);
-    img.setPreserveRatio(true);
     img.setFitWidth(width);
   }
 

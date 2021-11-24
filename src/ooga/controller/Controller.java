@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
@@ -25,6 +26,9 @@ import org.apache.logging.log4j.Logger;
 
 public class Controller implements ControllerInterface {
 
+  private static final String DEFAULT_RESOURCE_PACKAGE =
+      Controller.class.getPackageName() + ".resources.";
+  private static final String EXCEPTION_MESSAGES_FILENAME = "Exceptions";
   private static final double SECONDS_ANIMATION_BASE = 20 / 60.0;
   public static final double SECOND_DELAY = 20.0 / 60;
 
@@ -70,8 +74,8 @@ public class Controller implements ControllerInterface {
           try {
             vanillaGame = new VanillaGame(vanillaGameDataInterface);
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            throw new InputMismatchException("Error occurred in backend reflection");
+            ResourceBundle exceptionMessages = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
+            throw new InputMismatchException(exceptionMessages.getString("BadReflection"));
           }
         });
     if(!JSONObjectParser.parseJSONObject(file).toMap().containsKey("Player")) {

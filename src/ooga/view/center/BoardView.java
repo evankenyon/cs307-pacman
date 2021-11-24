@@ -100,7 +100,7 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, List.class, int.class, int.class)
           .newInstance(agent, rgb, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-      new ErrorPopups(myLanguage).reflectionErrorPopup();
+//      new ErrorPopups(myLanguage).reflectionErrorPopup();
       return makeAgentView(type, position);
     }
   }
@@ -113,9 +113,7 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, String.class, int.class, int.class)
           .newInstance(agent, imagePath, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-      new ErrorPopups(myLanguage).reflectionErrorPopup();
-      //TODO: remove stack trace
-      e.printStackTrace();
+//      new ErrorPopups(myLanguage).reflectionErrorPopup();
       return makeAgentView(type, position);
     }
   }
@@ -128,9 +126,7 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, int.class, int.class)
           .newInstance(agent, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-      new ErrorPopups(myLanguage).reflectionErrorPopup();
-      //TODO: remove stack trace
-      e.printStackTrace();
+//      new ErrorPopups(myLanguage).reflectionErrorPopup();
       return new WallView(new wall(position.getCoords()[0],position.getCoords()[1]), numRows, numCols);
     }
   }

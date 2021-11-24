@@ -53,12 +53,20 @@ public class JsonParser implements JsonParserInterface {
     setupPelletInfo(json.getJSONArray("RequiredPellets"), json.getJSONArray("OptionalPellets"));
     setupWallMap(json.getJSONArray("WallMap"));
     checkWallMapForRequirements();
-    updateConsumers(new Data(wallMap, player, pelletInfo));
+    updateConsumers(new Data(wallMap, player, pelletInfo, mapCols, mapRows));
   }
 
   @Override
   public void addVanillaGameDataConsumer(Consumer<Data> consumer) {
     vanillaGameDataConsumers.add(consumer);
+  }
+
+  public int getRows() {
+    return mapRows;
+  }
+
+  public int getCols() {
+    return mapCols;
   }
 
   private void checkForRequiredKeys(Set<String> keySet) throws InputMismatchException {
@@ -87,10 +95,10 @@ public class JsonParser implements JsonParserInterface {
 
   //check that all rows are same length and all columns are same length
   private void setupWallMap(JSONArray wallMapArr) {
-    int expectedNumCols = wallMapArr.length();
-    int expectedNumRows = wallMapArr.getJSONArray(0).length(); //count as magic #?
-    for (int row = 0; row < expectedNumCols; row++) {
-      for (int col = 0; col < expectedNumRows; col++) {
+    int expectedNumRows = wallMapArr.length();
+    int expectedNumCols = wallMapArr.getJSONArray(0).length(); //count as magic #?
+    for (int row = 0; row < expectedNumRows; row++) {
+      for (int col = 0; col < expectedNumCols; col++) {
         wallMap.putIfAbsent(wallMapArr.getJSONArray(row).getString(col), new ArrayList<>());
         wallMap.get(wallMapArr.getJSONArray(row).getString(col)).add(new Position(col, row));
       }

@@ -2,6 +2,8 @@ package ooga.view.mainView;
 
 import java.util.List;
 import java.util.Map;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -20,6 +22,9 @@ public class MainView {
 
   public static final int SCENE_WIDTH = 1000;
   public static final int SCENE_HEIGHT = 600;
+  public static final String MAINVIEW_PACKAGE = "ooga.view.mainView.";
+  public static final String STYLESHEET = String.format("/%sMainView.css",
+      MAINVIEW_PACKAGE.replace(".", "/"));
 
   private BottomView myBottomView;
   private TopView myTopView;
@@ -32,16 +37,15 @@ public class MainView {
   private GameStartupPanel gameStartupPanel;
   private static final Logger LOG = LogManager.getLogger(MainView.class);
 
-
   public MainView(Controller controller, VanillaGame game, Stage stage, UserPreferences userPreferences) {
     myController = controller;
     controller.setAnimationSpeed(1);
     myGame = game;
-    myBottomView = new BottomView(myController, myGame);
+    myBottomView = new BottomView(myController, myGame, userPreferences.language());
 //    gameStartupPanel = new GameStartupPanel(myStage);
     myStage = stage;
     myBoardView = new BoardView(myGame, myController, userPreferences);
-    myTopView = new TopView(myGame);
+    myTopView = new TopView(myGame, userPreferences.language());
     myScene = makeScene();
 //    myStage.hide();
     myStage.setScene(myScene);
@@ -50,18 +54,21 @@ public class MainView {
 
   private Scene makeScene() {
     root = new BorderPane();
-//    root.setRight(new Rectangle(100,100, Color.GREEN));
-//    root.setLeft(new Rectangle(100,100, Color.GREEN));
-//    root.setTop(new Rectangle(100,100, Color.GREEN));
-//    root.setBottom(new Rectangle(100,100, Color.GREEN));
+    setStyles();
     root.setCenter(myBoardView.getBoardPane());
     root.setBottom(myBottomView.getBottomViewGP());
     root.setTop(myTopView.getTopViewGP());
+    BorderPane.setAlignment(myTopView.getTopViewGP(), Pos.BOTTOM_CENTER);
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
     scene.setOnKeyPressed(e -> {
       myController.updatePressedKey(e);
 //      LOG.info("key was pressed");
     });
     return scene;
+  }
+
+  private void setStyles() {
+    root.getStyleClass().add("root");
+    root.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
   }
 }

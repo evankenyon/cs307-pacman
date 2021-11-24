@@ -1,0 +1,4 @@
+.grid-pane {
+    -fx-alignment: top-center;
+    -fx-vgap: 15px;
+}

@@ -1,15 +1,12 @@
 package ooga.view.mainView;
 
-import java.util.List;
-import java.util.Map;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
 import ooga.model.VanillaGame;
-import ooga.model.util.Position;
-import ooga.view.GameStartupPanel;
+import ooga.view.startupView.GameStartupPanel;
 import ooga.view.bottomView.BottomView;
 import ooga.view.center.BoardView;
 import ooga.view.topView.TopView;

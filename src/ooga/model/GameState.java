@@ -31,6 +31,7 @@ public class GameState {
 
   public GameState(Data vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    System.out.println(vanillaGameData.wallMap().toString());
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.wallMap(), 0) + 1;
     myOtherAgents = new ArrayList<>();

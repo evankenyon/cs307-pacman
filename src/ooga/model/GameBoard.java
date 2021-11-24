@@ -17,7 +17,8 @@ public class GameBoard {
   private static final String TYPES_FILENAME = "types";
   private static final Logger LOG = LogManager.getLogger(GameBoard.class);
   private final GameState myState;
-  private int myScore;
+  private int myPacScore;
+  private int myGhostScore;
   private Consumer<Integer> myScoreConsumer;
 
   // TODO: handle exceptions
@@ -25,7 +26,8 @@ public class GameBoard {
       throws
       InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myState = new GameState(vanillaGameData);
-    myScore = 0;
+    myPacScore = 0;
+    myGhostScore = 0;
   }
 
 
@@ -63,10 +65,10 @@ public class GameBoard {
     if (myState.checkConsumables(newPosition.getCoords()[0],
         newPosition.getCoords()[1])) {
       Consumable colliding = (Consumable) myState.findAgent(newPosition);
-      myScore += agent.consume(colliding);
+      myPacScore += agent.consume(colliding);
       //call this when consumer has actually been added
       updateScoreConsumer();
-      LOG.info("score is now {}", myScore);
+      LOG.info("score is now {}", myPacScore);
     }
   }
 
@@ -93,6 +95,6 @@ public class GameBoard {
   }
 
   public void updateScoreConsumer() {
-    myScoreConsumer.accept(myScore);
+    myScoreConsumer.accept(myPacScore);
   }
 }

@@ -79,7 +79,7 @@ public class GameStartupPanel {
 
     ImageView selectLanguageLabel = new ImageView(new Image(new File("data/images/selectLanguage.png").toURI().toString()));
     setImgWidth(selectLanguageLabel, SCREEN_WIDTH/2);
-    String[] languages = {"English", "Lang1", "Lang2", "Lang3", "Lang4"};
+    String[] languages = {"English", "Spanish", "L33T", "Numbers", "Emoji"};
     selectLanguage = makeDropDown("language", languages);
     selectCol1R.getChildren().addAll(selectLanguageLabel, selectLanguage);
     selectCol1R.setAlignment(Pos.CENTER);

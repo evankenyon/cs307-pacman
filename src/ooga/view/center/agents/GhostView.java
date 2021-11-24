@@ -3,6 +3,7 @@ package ooga.view.center.agents;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 
+import java.io.File;
 import java.util.function.Consumer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,12 +28,12 @@ public class GhostView extends MovableView {
   private double horizontalImageBuffer;
 
   public GhostView(Agent ghost, int gridRows, int gridCols) { // make just 1 ghost (not 4) for first test?
-    this(ghost, String.format("%s%s_right.png", IMAGE_PATH, GHOST_NAMES[0]), gridRows, gridCols);
+    this(ghost, String.format("%s%s_right.png", IMAGE_PATH, GHOST_NAMES[1]), gridRows, gridCols);
   }
 
   public GhostView (Agent ghost, String imagePath, int gridRows, int gridCols) { // make just 1 ghost (not 4) for first test?
     myAgent = ghost;
-    ghostNum = 0; //TODO: Deal with Ghost Number
+    ghostNum = 1; //TODO: Deal with Ghost Number
     numRows = gridRows;
     numCols = gridCols;
     makeLayoutSettings();
@@ -56,7 +57,7 @@ public class GhostView extends MovableView {
   }
 
   private ImageView makeGhostImage(String path) {
-    ImageView ghost = new ImageView(path);
+    ImageView ghost = new ImageView(new Image(new File(path).toURI().toString()));
     ghost.setFitWidth(imageBuffer);
     ghost.setFitHeight(imageBuffer);
     return ghost;

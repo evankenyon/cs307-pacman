@@ -182,7 +182,7 @@ public class GameStartupPanel {
 
   private ComboBox makeDropDown(String category, String[] options) {
     ComboBox<String> newComboBox = new ComboBox<>();
-    newComboBox.setPromptText(myResources.getString("Select ") + category);
+    newComboBox.setPromptText(myResources.getString("Select") + category);
     for (String option : options) {
       newComboBox.getItems().add(option);
     }

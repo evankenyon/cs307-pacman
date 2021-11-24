@@ -42,11 +42,6 @@ public class Ghost extends AbstractAgent implements Consumable {
   }
 
   public int consume(Consumable agent) {
-    if (agent != null) {
-      agent.agentReact();
-      agent.applyEffects(this);
-      return agent.applyPoints();
-    }
     return 0;
   }
 

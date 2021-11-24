@@ -1,9 +1,7 @@
 package ooga.controller.IO;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -15,10 +13,10 @@ import java.util.function.Consumer;
 import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.Data;
 import ooga.model.util.Position;
-import org.apache.commons.io.IOUtils;
 // Decided to use this library after reading article from
 // https://coderolls.com/parse-json-in-java/
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JsonParser implements JsonParserInterface {
@@ -27,6 +25,7 @@ public class JsonParser implements JsonParserInterface {
       JsonParser.class.getPackageName() + ".resources.";
   private static final String REQUIRED_KEYS_FILENAME = "RequiredKeys";
   private static final String REQUIRED_VALUES_FILENAME = "RequiredValues";
+  private static final String EXCEPTION_MESSAGES_FILENAME = "Exceptions";
 
   private Map<String, List<Position>> wallMap;
   private int mapCols;
@@ -36,6 +35,7 @@ public class JsonParser implements JsonParserInterface {
   private List<Consumer<Data>> vanillaGameDataConsumers;
 
   private ResourceBundle requiredKeys;
+  private ResourceBundle exceptionMessages;
 
   public JsonParser() {
     wallMap = new HashMap<>();
@@ -43,10 +43,12 @@ public class JsonParser implements JsonParserInterface {
     vanillaGameDataConsumers = new ArrayList<>();
     requiredKeys = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, REQUIRED_KEYS_FILENAME));
+    exceptionMessages = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
   }
 
   @Override
-  public void uploadFile(File file) throws IOException, InputMismatchException {
+  public void uploadFile(File file) throws IOException, InputMismatchException, JSONException {
     JSONObject json = JSONObjectParser.parseJSONObject(file);
     checkForRequiredKeys(json.keySet());
     setupPlayer(json.getString("Player"));
@@ -74,12 +76,12 @@ public class JsonParser implements JsonParserInterface {
     int keysRequired = requiredKeysList.size();
     int numKeys = keySet.size();
     if (keysRequired != numKeys) {
-      throw new InputMismatchException("The uploaded file does not have enough keys");
+      throw new InputMismatchException(exceptionMessages.getString("NotEnoughKeys"));
     }
     for (String key : keySet) {
       if (!requiredKeysList.contains(key)) {
         throw new InputMismatchException(
-            String.format("Unexpected key %s was found in json file", key));
+            String.format(exceptionMessages.getString("UnexpectedKey"), key));
       }
     }
   }
@@ -115,7 +117,7 @@ public class JsonParser implements JsonParserInterface {
 
   private void checkForOnlyOnePlayer() throws InputMismatchException {
     if (wallMap.get(player).size() > 1) {
-      throw new InputMismatchException("You should only have one player in your game.");
+      throw new InputMismatchException(exceptionMessages.getString("MultiplePlayers"));
     }
   }
 
@@ -124,7 +126,7 @@ public class JsonParser implements JsonParserInterface {
       if (pelletInfo.get(pellet)) {
         if (!wallMap.containsKey(pellet)) {
           throw new InputMismatchException(
-              String.format("Game does not contain any of the %s required pellet", pellet));
+              String.format(exceptionMessages.getString("MissingRequiredPellet"), pellet));
         }
       }
     }
@@ -137,7 +139,7 @@ public class JsonParser implements JsonParserInterface {
     for (String key : wallMap.keySet()) {
       if (ghosts.contains(key)) {
         if (wallMap.get(key).size() > 1) {
-          throw new InputMismatchException("Game cannot have more than one of each type of ghost");
+          throw new InputMismatchException(exceptionMessages.getString("DuplicateGhosts"));
         }
       }
     }

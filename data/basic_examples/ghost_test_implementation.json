@@ -5,7 +5,7 @@
   "OptionalPellets":[],
   "PowerUps":["Super"],
   "NumberOfLives":3,
-  "OpponentTypes":[],
+  "OpponentTypes":["Ghost"],
   "Difficulty-Level":1,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall"],
@@ -17,7 +17,7 @@
     ["Wall","Dot","Dot","Wall", "Wall","Dot", "Wall","Wall", "Dot","Dot", "Wall"],
     ["Wall","Dot","Dot","Dot", "Wall","Dot", "Wall","Wall", "Dot","Dot", "Wall"],
     ["Wall","Dot","Wall","Dot", "Dot","Dot", "Dot","Dot", "Dot","Dot", "Wall"],
-    ["Wall","Super","Dot","Dot", "Dot","Dot", "Dot","Ghost", "Dot","Super", "Wall"],
+    ["Wall","Super","Dot","Dot", "Dot","Ghost", "Dot","Dot", "Dot","Super", "Wall"],
     ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall"],
   ]
 }

@@ -1,8 +1,11 @@
 package ooga.view.topView;
 
+import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
+import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
 import static ooga.view.bottomView.BottomView.ICON_SIZE;
+import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
-import static ooga.view.mainView.MainView.SCENE_WIDTH;
+import static ooga.view.mainView.MainView.SCENE_HEIGHT;
 
 import java.io.File;
 import java.util.ResourceBundle;
@@ -14,10 +17,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
 import java.util.function.Consumer;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import ooga.model.VanillaGame;
 
 
@@ -27,18 +29,19 @@ public class TopView {
     public static final String TOPVIEW_PACKAGE = "ooga.view.topView.";
     public static final String STYLESHEET = String.format("/%sTopView.css",
         TOPVIEW_PACKAGE.replace(".", "/"));
-    public static final int TOP_SPACING = 30;
+    public static final double TOP_SPACING = (SCENE_HEIGHT - BOARD_HEIGHT) / 3;
 
-    private VBox topGrid;
+    private BorderPane topGrid;
     private Label scoreDisplay;
     private HBox lifeDisplay;
     private VanillaGame myGame;
     private Consumer<Integer> scoreConsumer = i -> updateScoreDisplay(i);
+    private Consumer<Boolean> livesConsumer = result -> updateLivesDisplay(result);
     private ResourceBundle myResources;
 
 
-    public TopView (VanillaGame game) {
-        myResources = ResourceBundle.getBundle("ooga.view.resources.English");
+    public TopView (VanillaGame game, String language) {
+        myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
         myGame = game;
         game.getBoard().addScoreConsumer(scoreConsumer);
         initiateTopView();
@@ -47,35 +50,45 @@ public class TopView {
     }
 
     private Node initiateTopView() {
-        topGrid = new VBox();
+        topGrid = new BorderPane();
+        topGrid.setMaxWidth(BOARD_WIDTH);
 //        topGrid.setPrefWidth(SCENE_WIDTH);
-        topGrid.setAlignment(Pos.BOTTOM_CENTER);
-        topGrid.getChildren().add(makeLoadSaveGP());
-        topGrid.getChildren().add(makeStatsGP());
+//        topGrid.setAlignment(Pos.BOTTOM_CENTER);
+        topGrid.setTop(makeLoadSaveGP());
+        makeLifeDisplay();
+        topGrid.setLeft(lifeDisplay);
+        makeScoreDisplay();
+        topGrid.setRight(scoreDisplay);
         return topGrid;
     }
 
     private Node makeLoadSaveGP() {
         HBox loadSave = new HBox();
-        loadSave.setAlignment(Pos.CENTER);
+        loadSave.setAlignment(Pos.TOP_CENTER);
+        loadSave.setMinHeight(TOP_SPACING);
         Button loadButton = makeButton(myResources.getString("LoadGame"), e -> loadGame());
         Button saveButton = makeButton(myResources.getString("SaveGame"), e -> saveGame());
         loadSave.getChildren().addAll(loadButton, saveButton);
         loadSave.getStyleClass().add("loadSave");
         loadSave.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+//        return new VBox(loadSave, new Rectangle(TOP_SPACING, TOP_SPACING));
         return loadSave;
     }
 
     private Node makeStatsGP() {
         HBox statsGP = new HBox();
-        statsGP.setAlignment(Pos.CENTER);
-        statsGP.setSpacing(TOP_SPACING);
-        lifeDisplay = makeLifeDisplay();
-        scoreDisplay = new Label(myResources.getString("Score"));
-        statsGP.getChildren().addAll(scoreDisplay, lifeDisplay);
+//        statsGP.setAlignment(Pos.CENTER);
+//        statsGP.setSpacing(TOP_SPACING);
         statsGP.getStyleClass().add("scoreLIfe");
         statsGP.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+        scoreDisplay = new Label(myResources.getString("Score"));
+        makeLifeDisplay();
+        statsGP.getChildren().addAll(scoreDisplay, lifeDisplay);
         return statsGP;
+    }
+
+    private void makeScoreDisplay() {
+        scoreDisplay = new Label(myResources.getString("Score"));
     }
 
     private void loadGame() {
@@ -86,15 +99,14 @@ public class TopView {
         // TODO: Implement
     }
 
-    private HBox makeLifeDisplay() {
-        HBox lives = new HBox();
+    private void makeLifeDisplay() {
+        lifeDisplay = new HBox();
         ImageView heart1 = makeIcon(HEART_PATH);
         ImageView heart2 = makeIcon(HEART_PATH);
         ImageView heart3 = makeIcon(HEART_PATH);
-        lives.getChildren().addAll(heart1, heart2, heart3);
-        lives.getStyleClass().add("lives");
-        lives.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
-        return lives;
+        lifeDisplay.getChildren().addAll(heart1, heart2, heart3);
+        lifeDisplay.getStyleClass().add("lives");
+        lifeDisplay.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     }
 
     private ImageView makeIcon(String path) {
@@ -109,6 +121,12 @@ public class TopView {
         scoreDisplay.setText(newText);
     }
 
+    // TODO: implement lives consumer to change the hearts on the screen
+    private void updateLivesDisplay(boolean result) {
+        if (result) {
+            lifeDisplay.getChildren().remove(lifeDisplay.getChildren().size()-1);
+        }
+    }
     private Button makeButton(String name, EventHandler<ActionEvent> handler) {
         Button myButton = new Button(name);
         myButton.setOnAction(handler);

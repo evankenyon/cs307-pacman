@@ -1,33 +1,32 @@
-package ooga.model.agents.players;
+package ooga.model.agents.consumables;
 
 import ooga.model.agents.AbstractAgent;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
+import ooga.model.movement.Static;
 import ooga.model.util.Position;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public class Pacman extends AbstractAgent implements Consumable {
+
+public class Ghost extends AbstractAgent implements Consumable {
 
   public final static int DEAD_STATE = 0;
   public final static int ALIVE_STATE = 1;
-  public final static int SUPER_STATE = 2;
-  public int myLives;
+  public final static int AFRAID_STATE = 2;
+
+  private final static int GHOST_POINTS = 20;
 
   private int myState;
   private MovementStrategyContext myMover;
-  private static final Logger LOG = LogManager.getLogger(Pacman.class);
 
-  public Pacman(int x, int y) {
+
+  public Ghost(int x, int y) {
     super(x, y);
     myState = ALIVE_STATE;
-    myLives = 3;
-    myMover = new MovementStrategyContext(new Controllable());
+    myMover = new MovementStrategyContext(new Static());
   }
 
-  @Override
   public int getState() {
     return myState;
   }
@@ -37,7 +36,6 @@ public class Pacman extends AbstractAgent implements Consumable {
   }
 
   public Position step() {
-//    LOG.info(String.format("%d, %d", getPosition().getCoords()[0], getPosition().getCoords()[1]));
     return myMover.move(getPosition());
   }
 
@@ -53,14 +51,14 @@ public class Pacman extends AbstractAgent implements Consumable {
   @Override
   public void setState(int i) {
     myState = i;
-    LOG.info("pacman state now {}", myState);
     updateConsumer();
   }
 
   @Override
   public void agentReact() {
-    if (myLives != 0) myLives--;
-
+    if (myState == AFRAID_STATE){
+      System.out.println("a ghost has been eaten");
+    }
   }
 
   @Override
@@ -70,6 +68,9 @@ public class Pacman extends AbstractAgent implements Consumable {
 
   @Override
   public int applyPoints() {
-    return 0;
+    if (myState == AFRAID_STATE){
+      return GHOST_POINTS;
+    }
+    else return 0;
   }
 }

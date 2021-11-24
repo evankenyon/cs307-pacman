@@ -1,11 +1,20 @@
 package ooga.controller.IO;
 
+import java.util.ResourceBundle;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 
 public class keyTracker {
+  private static final String DEFAULT_RESOURCE_PACKAGE =
+      keyTracker.class.getPackageName() + ".resources.";
+  private static final String KEY_DIRECTION_MAP_FILENAME = "KeyDirectionMap";
 
+  private ResourceBundle keyDirectionMap;
+
+  public keyTracker() {
+    keyDirectionMap = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, KEY_DIRECTION_MAP_FILENAME));
+  }
   // no need to translate to string; just account for non arrow case
   /**
    * Communicates the key pressed by user to the model so that it can move the player avatar
@@ -14,21 +23,10 @@ public class keyTracker {
    */
   public String getPressedKey(KeyEvent event) {
     KeyCode code = event.getCode();
-    if (code == KeyCode.A) {
-      return "left";
+    if(keyDirectionMap.containsKey(code.toString())) {
+      return keyDirectionMap.getString(code.toString());
     }
-    else if (code == KeyCode.D) {
-      return "right";
-    }
-    else if (code == KeyCode.W) {
-      return "up";
-    }
-    else if (code == KeyCode.S) {
-      return "down";
-    }
-    else {
-      return "not-arrow";
-    }
+    return keyDirectionMap.getString("default");
   }
 
 }

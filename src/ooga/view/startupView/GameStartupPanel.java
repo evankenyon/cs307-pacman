@@ -33,6 +33,9 @@ public class GameStartupPanel {
   public static final String STARTUP_PACKAGE = "ooga.view.startupView.";
   public static final String DEFAULT_STYLESHEET = String.format("/%sGameStartupPanel.css",
           STARTUP_PACKAGE.replace(".", "/"));
+  public static final String RESOURCES_PATH_WITH_LANGUAGE = "ooga.view.resources.English";
+  public static final String RESOURCES_PATH = "ooga.view.resources.";
+
 
   public GameStartupPanel(Stage stage) {
     this.stage = stage;

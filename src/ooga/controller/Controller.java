@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
@@ -25,8 +26,10 @@ import org.apache.logging.log4j.Logger;
 
 public class Controller implements ControllerInterface {
 
-  private static final double SECONDS_ANIMATION_BASE = 20 / 60.0;
-  public static final double SECOND_DELAY = 20.0 / 60;
+  private static final String DEFAULT_RESOURCE_PACKAGE =
+      Controller.class.getPackageName() + ".resources.";
+  private static final String EXCEPTION_MESSAGES_FILENAME = "Exceptions";
+  private static final String MAGIC_VALUES_FILENAME = "ControllerMagicValues";
 
   private JsonParserInterface jsonParser;
   private keyTracker keyTracker;
@@ -37,18 +40,22 @@ public class Controller implements ControllerInterface {
   private GameStartupPanel panel;
   private Map<String, List<Position>> wallMap;
   private boolean isPaused;
+  private String myLanguage;
   private int rows;
   private int cols;
-  private int count;
   private static final Logger LOG = LogManager.getLogger(Controller.class);
+
+  private ResourceBundle magicValues;
 
 
   public Controller(String language, Stage stage) {
-    count++;
+    magicValues = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
+    myLanguage = language;
     myAnimation = new Timeline();
     myAnimation.setCycleCount(Timeline.INDEFINITE);
+    double secondDelay = Double.parseDouble(magicValues.getString("secondDelay"));
     myAnimation.getKeyFrames()
-        .add(new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step(SECOND_DELAY)));
+        .add(new KeyFrame(Duration.seconds(secondDelay), e -> step(secondDelay)));
     myAnimation.play();
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();
@@ -68,17 +75,17 @@ public class Controller implements ControllerInterface {
           try {
             vanillaGame = new VanillaGame(vanillaGameDataInterface);
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            throw new InputMismatchException("Error occurred in backend reflection");
+            ResourceBundle exceptionMessages = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
+            throw new InputMismatchException(exceptionMessages.getString("BadReflection"));
           }
         });
-    if(!JSONObjectParser.parseJSONObject(file).toMap().containsKey("Player")) {
+    if(!JSONObjectParser.parseJSONObject(file).toMap().containsKey(magicValues.getString("PlayerKey"))) {
       preferencesParser.uploadFile(file);
       jsonParser.uploadFile(preferencesParser.getStartingConfig());
     } else {
       jsonParser.uploadFile(file);
     }
-    return new UserPreferences(wallMap, jsonParser.getRows(), jsonParser.getCols(), preferencesParser.getImagePaths(), preferencesParser.getColors(), preferencesParser.getStyle());
+    return new UserPreferences(wallMap, jsonParser.getRows(), jsonParser.getCols(), preferencesParser.getImagePaths(), preferencesParser.getColors(), preferencesParser.getStyle(), myLanguage);
   }
 
   @Override

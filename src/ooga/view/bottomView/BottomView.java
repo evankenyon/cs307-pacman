@@ -1,6 +1,10 @@
 package ooga.view.bottomView;
 
+import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
+import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
+
 import java.io.File;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -23,6 +27,9 @@ public class BottomView {
   public static final String STEP_IMAGE = "data/images/step.png";
   public static final String SLOW_IMAGE = "data/images/turtle.png";
   public static final String FAST_IMAGE = "data/images/rabbit.png";
+  public static final String BOTTOMVIEW_PACKAGE = "ooga.view.bottomView.";
+  public static final String STYLESHEET = String.format("/%sBottomView.css",
+      BOTTOMVIEW_PACKAGE.replace(".", "/"));
   public static final int BUTTON_SIZE = 50;
   public static final int ICON_SIZE = 20;
   public static final double MIN_SLIDER_VAL = 0.5;
@@ -33,16 +40,20 @@ public class BottomView {
   private GridPane bottomGrid;
   private VBox bottomView;
   private Controller myController;
+  private ResourceBundle myResources;
   private VanillaGame myGame;
   private Button playPauseButton;
   private Button stepButton;
   private boolean isPaused = false;
 
-  public BottomView (Controller controller, VanillaGame game) {
+  public BottomView (Controller controller, VanillaGame game, String language) {
+    myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
     myController = controller;
     myGame = game;
     bottomView = new VBox();
-    bottomView.setAlignment(Pos.TOP_CENTER);
+    bottomView.getStyleClass().add("root");
+    bottomView.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+//    bottomView.setAlignment(Pos.TOP_CENTER);
     makeSimulationButtons();
     makeSettingsButtons();
     initiateBottomView();
@@ -62,6 +73,9 @@ public class BottomView {
 
   private Node makeSpeedSlider() {
     HBox sliderBox = new HBox();
+//    sliderBox.setAlignment(Pos.BASELINE_CENTER);
+    sliderBox.getStyleClass().add("speedSlider");
+    sliderBox.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     Slider speedSlider = new Slider(MIN_SLIDER_VAL, MAX_SLIDER_VAL, INITIAL_RATE);
     speedSlider.setPrefWidth(SLIDER_LENGTH);
     speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> myController.setAnimationSpeed(speedSlider.getValue()));
@@ -69,7 +83,6 @@ public class BottomView {
     sliderBox.getChildren().add(makeButtonImage(SLOW_IMAGE, ICON_SIZE));
     sliderBox.getChildren().add(speedSlider);
     sliderBox.getChildren().add(makeButtonImage(FAST_IMAGE, ICON_SIZE));
-    sliderBox.getStyleClass().add("speedSlider");
     return sliderBox;
   }
 
@@ -102,8 +115,8 @@ public class BottomView {
 
   private void makeSettingsButtons() {
     HBox settings = new HBox();
-    Button statsButton   = makeButton("Stats", e -> showStats());
-    Button newGameButton = makeButton("New Game", e -> resetGame());
+    Button statsButton   = makeButton(myResources.getString("Stats"), e -> showStats());
+    Button newGameButton = makeButton(myResources.getString("NewGame"), e -> resetGame());
     settings.getChildren().addAll(statsButton, newGameButton);
     bottomView.getChildren().add(settings);
   }

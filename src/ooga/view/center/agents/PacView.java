@@ -18,6 +18,7 @@ public class PacView extends MovableView {
   public static final String SUPER_PAC_IMAGE = String.format("%ssuper_pacman.png", IMAGE_PATH);
 
   private ImageView pacImage;
+  private Image originalImage;
   private Agent myAgent; //TODO: change to subclass of Agent
   private Consumer<Agent> updatePacMan = newInfo -> updateAgent(newInfo);
   private int numCols;
@@ -37,7 +38,8 @@ public class PacView extends MovableView {
     numRows = gridRows;
     numCols = gridCols;
     makeLayoutSettings();
-    pacImage = new ImageView(new Image(new File(imagePath).toURI().toString()));
+    originalImage = new Image(new File(imagePath).toURI().toString());
+    pacImage = new ImageView(originalImage);
     pacImage.setFitWidth(imageBuffer);
     pacImage.setFitHeight(imageBuffer);
     setImage(pacImage);
@@ -72,7 +74,7 @@ public class PacView extends MovableView {
     ImageView oldPac = pacImage;
     switch (state) {
       case DEAD_STATE -> pacImage.setVisible(false);
-      case ALIVE_STATE -> pacImage.setImage(new Image(new File(PAC_IMAGE).toURI().toString()));
+      case ALIVE_STATE -> pacImage.setImage(originalImage);
       case SUPER_STATE -> pacImage.setImage(new Image(new File(SUPER_PAC_IMAGE).toURI().toString()));
     }
     pacImage.setRotate(oldPac.getRotate());

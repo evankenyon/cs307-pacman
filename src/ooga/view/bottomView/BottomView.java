@@ -53,27 +53,11 @@ public class BottomView {
     bottomView = new VBox();
     bottomView.getStyleClass().add("root");
     bottomView.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
-//    bottomView.setAlignment(Pos.TOP_CENTER);
-    makeSimulationButtons();
-    makeSettingsButtons();
-    initiateBottomView();
+    initiateBottomView(bottomView);
   }
 
-  private void makeSimulationButtons() {
-    HBox simButtons = new HBox();
-    simButtons.setAlignment(Pos.BASELINE_CENTER);
-    playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> togglePlayPause());
-    playPauseButton.setId("playPauseButton");
-    stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> myGame.step());
-    stepButton.setId("stepButton");
-    Node slider = makeSpeedSlider();
-    simButtons.getChildren().addAll(playPauseButton, stepButton);
-    bottomView.getChildren().addAll(simButtons, slider);
-  }
-
-  private Node makeSpeedSlider() {
+  private HBox makeSpeedSlider() {
     HBox sliderBox = new HBox();
-//    sliderBox.setAlignment(Pos.BASELINE_CENTER);
     sliderBox.getStyleClass().add("speedSlider");
     sliderBox.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     Slider speedSlider = new Slider(MIN_SLIDER_VAL, MAX_SLIDER_VAL, INITIAL_RATE);
@@ -113,27 +97,38 @@ public class BottomView {
     }
   }
 
-  private void makeSettingsButtons() {
-    HBox settings = new HBox();
-    Button statsButton   = makeButton(myResources.getString("Stats"), e -> showStats());
-    Button newGameButton = makeButton(myResources.getString("NewGame"), e -> resetGame());
-    settings.getChildren().addAll(statsButton, newGameButton);
-    bottomView.getChildren().add(settings);
+  private void initiateBottomView(VBox root) {
+    ImageView saveButton    = makeGraphicButton("save", e -> saveGame());
+    ImageView statsButton   = makeGraphicButton("stats", e -> showStats());
+    ImageView restartButton = makeGraphicButton("restart", e -> restartGame());
+    VBox graphicButtons = new VBox();
+    graphicButtons.getStyleClass().add("graphic-buttons");
+    graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
+
+    playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> togglePlayPause());
+    playPauseButton.setId("playPauseButton");
+    stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> myGame.step());
+    stepButton.setId("stepButton");
+    HBox buttonsPane = new HBox();
+    buttonsPane.getStyleClass().add("root");
+    buttonsPane.getChildren().addAll(graphicButtons, playPauseButton, stepButton);
+
+    HBox slider = makeSpeedSlider();
+    root.getChildren().addAll(buttonsPane, slider);
   }
 
-  private GridPane initiateBottomView() {
-    Button easyButton    = makeButton("Easy", e -> makeGameEasy());
-    Button hardButton    = makeButton("Hard", e -> makeGameHard());
-    Button statsButton   = makeButton("Stats", e -> showStats());
-    Button newGameButton = makeButton("New Game", e -> resetGame());
+  private ImageView makeGraphicButton(String key, EventHandler handler) {
+    String value = myResources.getString(key);
+    String imagePath = "data/images/" + key + "Button-" + value + ".png";
+    ImageView myImgView = new ImageView(new Image(new File(imagePath).toURI().toString()));
+    myImgView.setPreserveRatio(true);
+    myImgView.setFitWidth(150);
+    myImgView.setOnMouseReleased(handler);
+    return myImgView;
+  }
 
-    bottomGrid = new GridPane();
-    bottomGrid.add(easyButton, 1, 1); // This might be in the config file
-    bottomGrid.add(hardButton, 2, 1); // This might be in the config file
-    bottomGrid.add(statsButton, 3, 1);
-    bottomGrid.add(newGameButton, 4, 1);
-
-    return bottomGrid;
+  private void saveGame() {
+    // TODO: Implement
   }
 
   private void makeGameEasy() {
@@ -156,14 +151,8 @@ public class BottomView {
     statsPopup.showAndWait();
   }
 
-  private void resetGame() {
+  private void restartGame() {
     // TODO: implement resetGame function here
-  }
-
-  private Button makeButton(String name, EventHandler<ActionEvent> handler) {
-    Button myButton = new Button(name);
-    myButton.setOnAction(handler);
-    return myButton;
   }
 
   public Node getBottomViewGP() {

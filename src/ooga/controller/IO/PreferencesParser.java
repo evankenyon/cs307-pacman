@@ -24,6 +24,7 @@ public class PreferencesParser {
   private static final String POSSIBLE_PREFERENCES_FILENAME = "PossiblePreferences";
   private static final String PREFERENCES_VALUES_FILENAME = "PreferencesValues";
   private static final String EXCEPTION_MESSAGES_FILENAME = "Exceptions";
+  private static final String MAGIC_VALUES_FILENAME = "PreferencesParserMagicValues";
 
   private JSONObject preferencesJson;
   private Map<String, String> imagePaths;
@@ -34,11 +35,14 @@ public class PreferencesParser {
   private ResourceBundle possiblePreferences;
   private ResourceBundle preferencesValues;
   private ResourceBundle exceptionMessages;
+  private ResourceBundle magicValues;
 
   public PreferencesParser() {
     possiblePreferences = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, POSSIBLE_PREFERENCES_FILENAME));
     preferencesValues = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, PREFERENCES_VALUES_FILENAME));
     exceptionMessages = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
+    magicValues = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
     imagePaths = new HashMap<>();
     colors = new HashMap<>();
   }
@@ -49,7 +53,7 @@ public class PreferencesParser {
     checkForExtraKeys(preferencesJson.keySet());
     for (String key : preferencesJson.keySet()) {
       Method method = this.getClass()
-          .getDeclaredMethod(String.format("addTo%s", possiblePreferences.getString(key)), String.class);
+          .getDeclaredMethod(String.format(magicValues.getString("addToMethod"), possiblePreferences.getString(key)), String.class);
       method.setAccessible(true);
       try {
         method.invoke(this, key);
@@ -90,7 +94,7 @@ public class PreferencesParser {
   }
 
   private void addToImage(String key) {
-    if(!List.of(preferencesValues.getString("Image").split(",")).contains(preferencesJson.getString(key))) {
+    if(!List.of(preferencesValues.getString("Image").split(magicValues.getString("Delimiter"))).contains(preferencesJson.getString(key))) {
       throw new InputMismatchException(String.format(exceptionMessages.getString("InvalidImagePath"), preferencesJson.get(key), key));
     }
     imagePaths.put(key, preferencesJson.getString(key));

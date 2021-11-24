@@ -47,7 +47,7 @@ public class JsonParser implements JsonParserInterface {
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, REQUIRED_KEYS_FILENAME));
     exceptionMessages = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
-    exceptionMessages = ResourceBundle.getBundle(
+    magicValues = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
   }
 

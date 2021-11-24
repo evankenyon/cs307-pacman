@@ -26,6 +26,7 @@ public class JsonParser implements JsonParserInterface {
   private static final String REQUIRED_KEYS_FILENAME = "RequiredKeys";
   private static final String REQUIRED_VALUES_FILENAME = "RequiredValues";
   private static final String EXCEPTION_MESSAGES_FILENAME = "Exceptions";
+  private static final String MAGIC_VALUES_FILENAME = "JsonParserMagicValues";
 
   private Map<String, List<Position>> wallMap;
   private int mapCols;
@@ -36,6 +37,7 @@ public class JsonParser implements JsonParserInterface {
 
   private ResourceBundle requiredKeys;
   private ResourceBundle exceptionMessages;
+  private ResourceBundle magicValues;
 
   public JsonParser() {
     wallMap = new HashMap<>();
@@ -45,15 +47,17 @@ public class JsonParser implements JsonParserInterface {
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, REQUIRED_KEYS_FILENAME));
     exceptionMessages = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
+    exceptionMessages = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
   }
 
   @Override
   public void uploadFile(File file) throws IOException, InputMismatchException, JSONException {
     JSONObject json = JSONObjectParser.parseJSONObject(file);
     checkForRequiredKeys(json.keySet());
-    setupPlayer(json.getString("Player"));
-    setupPelletInfo(json.getJSONArray("RequiredPellets"), json.getJSONArray("OptionalPellets"));
-    setupWallMap(json.getJSONArray("WallMap"));
+    setupPlayer(json.getString(magicValues.getString("PlayerKey")));
+    setupPelletInfo(json.getJSONArray(magicValues.getString("RequiredPelletsKey")), json.getJSONArray(magicValues.getString("OptionalPelletsKey")));
+    setupWallMap(json.getJSONArray(magicValues.getString("WallMapKey")));
     checkWallMapForRequirements();
     updateConsumers(new Data(wallMap, player, pelletInfo, mapCols, mapRows));
   }
@@ -72,7 +76,7 @@ public class JsonParser implements JsonParserInterface {
   }
 
   private void checkForRequiredKeys(Set<String> keySet) throws InputMismatchException {
-    List<String> requiredKeysList = List.of(requiredKeys.getString("RequiredKeys").split(","));
+    List<String> requiredKeysList = List.of(requiredKeys.getString("RequiredKeys").split(magicValues.getString("Delimiter")));
     int keysRequired = requiredKeysList.size();
     int numKeys = keySet.size();
     if (keysRequired != numKeys) {
@@ -135,7 +139,7 @@ public class JsonParser implements JsonParserInterface {
   private void checkForOneOfEachGhost() throws InputMismatchException {
     ResourceBundle requiredValues = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, REQUIRED_VALUES_FILENAME));
-    List<String> ghosts = List.of(requiredValues.getString("Ghosts").split(","));
+    List<String> ghosts = List.of(requiredValues.getString("Ghosts").split(magicValues.getString("Delimiter")));
     for (String key : wallMap.keySet()) {
       if (ghosts.contains(key)) {
         if (wallMap.get(key).size() > 1) {

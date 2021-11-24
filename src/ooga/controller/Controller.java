@@ -20,7 +20,7 @@ import ooga.controller.IO.keyTracker;
 import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
-import ooga.view.GameStartupPanel;
+import ooga.view.startupView.GameStartupPanel;
 import ooga.view.popups.ErrorPopups;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

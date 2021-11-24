@@ -21,6 +21,7 @@ import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
 import ooga.view.startupView.GameStartupPanel;
+import ooga.view.popups.ErrorPopups;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -75,6 +76,7 @@ public class Controller implements ControllerInterface {
           try {
             vanillaGame = new VanillaGame(vanillaGameDataInterface);
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+            new ErrorPopups(myLanguage).reflectionErrorPopup();
             ResourceBundle exceptionMessages = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
             throw new InputMismatchException(exceptionMessages.getString("BadReflection"));
           }

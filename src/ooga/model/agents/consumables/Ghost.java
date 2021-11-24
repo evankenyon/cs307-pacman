@@ -5,6 +5,7 @@ import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
+import ooga.model.movement.Random;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
@@ -23,8 +24,9 @@ public class Ghost extends AbstractAgent implements Consumable {
 
   public Ghost(int x, int y) {
     super(x, y);
+    getPosition().setDirection("right");
     myState = ALIVE_STATE;
-    myMover = new MovementStrategyContext(new Static());
+    myMover = new MovementStrategyContext(new Random());
   }
 
   public int getState() {
@@ -40,11 +42,6 @@ public class Ghost extends AbstractAgent implements Consumable {
   }
 
   public int consume(Consumable agent) {
-    if (agent != null) {
-      agent.agentReact();
-      agent.applyEffects(this);
-      return agent.applyPoints();
-    }
     return 0;
   }
 

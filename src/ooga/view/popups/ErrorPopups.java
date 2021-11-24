@@ -1,6 +1,6 @@
 package ooga.view.popups;
 
-import static ooga.view.GameStartupPanel.RESOURCES_PATH;
+import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
 
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;

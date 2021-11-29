@@ -2,6 +2,8 @@ package ooga.view.popups;
 
 import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -9,40 +11,60 @@ import javafx.scene.control.Alert.AlertType;
 public class ErrorPopups {
 
     private ResourceBundle myResources;
+    private String alertMessage;
 
-    public ErrorPopups(String language) {
+    public ErrorPopups(String language, String type) {
         myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
+        String methodName = String.format("%sPopup", type);
+        try {
+            Method m = ErrorPopups.class.getDeclaredMethod(methodName, null);
+            m.invoke(this, null);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+            reflectionErrorPopup();
+        }
     }
 
-    public void fileErrorPopup() {
+    private void fileErrorPopup() {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(myResources.getString("Error"));
         alert.setHeaderText(myResources.getString("InvalidFileHeader"));
-        alert.setContentText(myResources.getString("InvalidFileMessage"));
+        alertMessage = myResources.getString("InvalidFileMessage");
+        alert.setContentText(alertMessage);
         alert.showAndWait();
     }
 
-    public void noFilePopup() {
+    private void noFilePopup() {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(myResources.getString("Error"));
         alert.setHeaderText(myResources.getString("NoFileHeader"));
-        alert.setContentText(myResources.getString("NoFileMessage"));
+        alertMessage = myResources.getString("NoFileMessage");
+        alert.setContentText(alertMessage);
         alert.showAndWait();
     }
 
-    public void requiredFieldsPopup() {
+    private void requiredFieldsPopup() {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(myResources.getString("Error"));
         alert.setHeaderText(myResources.getString("RequiredFieldsHeader"));
-        alert.setContentText(myResources.getString("RequiredFieldsMessage"));
+        alertMessage = myResources.getString("RequiredFieldsMessage");
+        alert.setContentText(alertMessage);
         alert.showAndWait();
     }
 
-    public void reflectionErrorPopup() {
+    private void reflectionErrorPopup() {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(myResources.getString("Error"));
         alert.setHeaderText(myResources.getString("ReflectionErrorHeader"));
-        alert.setContentText(myResources.getString("ReflectionErrorMessage"));
+        alertMessage = myResources.getString("ReflectionErrorMessage");
+        alert.setContentText(alertMessage);
         alert.showAndWait();
     }
+
+    /**
+     * Getter method to return the content's message for the Alert pop up. This is used to test to ensure the correct Alert was created from reflection.
+     *
+     * @return String alertMessage that is the text in the content of the Alert
+     */
+    public String getErrorMessage() { return alertMessage; }
 }

@@ -18,8 +18,6 @@ public abstract class MovableView extends AgentView {
 
   protected abstract void updateOrientation(String orientation);
 
-//  protected abstract void consume(PlayerView prey);
-
   @Override
   public void updateAgent(Agent agent) {
     Position p = agent.getPosition();

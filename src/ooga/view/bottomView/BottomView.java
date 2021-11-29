@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -19,7 +20,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ooga.controller.Controller;
+import ooga.controller.IO.UserPreferences;
 import ooga.model.VanillaGame;
+import ooga.view.mainView.MainView;
 
 public class BottomView {
   public static final String PLAY_IMAGE = "data/images/play.png";
@@ -44,16 +47,18 @@ public class BottomView {
   private VanillaGame myGame;
   private Button playPauseButton;
   private Button stepButton;
+  private String myLanguage;
   private boolean isPaused = false;
 
   public BottomView (Controller controller, VanillaGame game, String language) {
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
     myController = controller;
     myGame = game;
+    myLanguage = language;
     bottomView = new VBox();
     bottomView.getStyleClass().add("root");
     bottomView.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
-    initiateBottomView(bottomView);
+    initiateBottomView();
   }
 
   private HBox makeSpeedSlider() {
@@ -97,24 +102,31 @@ public class BottomView {
     }
   }
 
-  private void initiateBottomView(VBox root) {
-    ImageView saveButton    = makeGraphicButton("save", e -> saveGame());
-    ImageView statsButton   = makeGraphicButton("stats", e -> showStats());
-    ImageView restartButton = makeGraphicButton("restart", e -> restartGame());
-    VBox graphicButtons = new VBox();
-    graphicButtons.getStyleClass().add("graphic-buttons");
-    graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
+  private void initiateBottomView() {
+//    ImageView saveButton    = makeGraphicButton("save", e -> saveGame());
+//    ImageView statsButton   = makeGraphicButton("stats", e -> showStats());
+//    ImageView restartButton = makeGraphicButton("restart", e -> restartGame());
 
     playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> togglePlayPause());
     playPauseButton.setId("playPauseButton");
     stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> myGame.step());
     stepButton.setId("stepButton");
-    HBox buttonsPane = new HBox();
-    buttonsPane.getStyleClass().add("root");
-    buttonsPane.getChildren().addAll(graphicButtons, playPauseButton, stepButton);
-
+    HBox simButtons = new HBox();
+    simButtons.getStyleClass().add("root");
+    simButtons.getChildren().addAll(playPauseButton, stepButton);
     HBox slider = makeSpeedSlider();
-    root.getChildren().addAll(buttonsPane, slider);
+    Button statsButton = makeSimpleButton("Stats", e -> showStats());
+    Button restartButton = makeSimpleButton("Restart", e -> restartGame());
+    HBox gameButtons = new HBox();
+    gameButtons.getStyleClass().add("game-buttons");
+    gameButtons.getChildren().addAll(statsButton, restartButton);
+    bottomView.getChildren().addAll(simButtons, slider, gameButtons);
+  }
+
+  private Button makeSimpleButton(String name, EventHandler action) {
+    Button statsButton = new Button(myResources.getString(name));
+    statsButton.setOnAction(action);
+    return statsButton;
   }
 
   private ImageView makeGraphicButton(String key, EventHandler handler) {
@@ -127,10 +139,6 @@ public class BottomView {
     return myImgView;
   }
 
-  private void saveGame() {
-    // TODO: Implement
-  }
-
   private void makeGameEasy() {
     // TODO: Implement
   }
@@ -140,19 +148,21 @@ public class BottomView {
   }
 
   private void showStats() {
-    // TODO: implement pauseGame function here
-    Alert statsPopup = new Alert(Alert.AlertType.NONE);
+    togglePlayPause();
+    Alert statsPopup = new Alert(AlertType.INFORMATION);
     // TODO: Wire all text to resources files
-    statsPopup.setTitle("GAME STATS");
+    statsPopup.setHeaderText(myResources.getString("Stats"));
     statsPopup.setContentText(
         "All time high score: " + "\n" +
             "Your lives: " + "\n" +
             "Other stats: " + "\n");
     statsPopup.showAndWait();
+    togglePlayPause();
   }
 
   private void restartGame() {
     // TODO: implement resetGame function here
+    myController.restartGame();
   }
 
   public Node getBottomViewGP() {

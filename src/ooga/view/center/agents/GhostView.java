@@ -11,9 +11,10 @@ import ooga.model.interfaces.Agent;
 
 public class GhostView extends MovableView {
 
-  public static final String GHOST_NAMES[] = {"blue","blinky","pinky","inky","clyde"};
-
+  public static final String GHOST_NAMES[] = {"blue","blinky","pinky","inky","clyde"}; //make ghost state 0=dead, 1=blue, 2=blinky, etc
   public static final int CONSUMABLE_STATE = 1;
+  public static final String GHOST_PATH = "%s%s_right.png";
+  public static final String CHARGED_GHOST_PATH = "%s%s_right_charged.gif";
 
   private ImageView ghostImage;
   private Agent myAgent;
@@ -28,7 +29,8 @@ public class GhostView extends MovableView {
   private double horizontalImageBuffer;
 
   public GhostView(Agent ghost, int gridRows, int gridCols) { // make just 1 ghost (not 4) for first test?
-    this(ghost, String.format("%s%s_right.png", IMAGE_PATH, GHOST_NAMES[1]), gridRows, gridCols);
+    this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[1]), gridRows, gridCols);
+//    this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[ghost.getState()]), gridRows, gridCols);
   }
 
   public GhostView (Agent ghost, String imagePath, int gridRows, int gridCols) { // make just 1 ghost (not 4) for first test?

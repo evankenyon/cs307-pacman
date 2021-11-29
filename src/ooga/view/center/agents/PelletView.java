@@ -12,13 +12,19 @@ import java.util.function.Consumer;
 import javafx.scene.shape.Circle;
 import ooga.model.interfaces.Agent;
 
+/**
+ * Subclass of StationaryView, which is a subclass of AgentView. PelletView creates a View Agent
+ * that shows the regular pellets in the game.
+ *
+ * @author Dane Erickson
+ */
 public class PelletView extends StationaryView {
 
-  public static final List<Double> PELLET_COLOR_RGB = Arrays.asList(255.,255.,255.);
+  public static final List<Double> PELLET_COLOR_RGB = Arrays.asList(255., 255., 255.);
   public static final Paint PELLET_COLOR = Color.WHITE;
   public static final double SMALL_PELLET_SIZE = 0.10; // small pellets radii are 10% of grid square
 
-//  private VanillaGame myGame;
+  //  private VanillaGame myGame;
 //  private Position myInfo;
   private Agent myAgent; //TODO: change to correct agent subclass
   private Circle myCircle;
@@ -31,7 +37,15 @@ public class PelletView extends StationaryView {
   private double pelletBufferX;
   private double pelletBufferY;
 
-  public PelletView (Agent pelletAgent, int gridRows, int gridCols) {
+  /**
+   * Constructor to create the PelletView object using the default pellet color for the Circles in
+   * PelletView
+   *
+   * @param pelletAgent is the Agent from the backend that corresponds to the front end Agent
+   * @param gridRows    is the row position of the Agent
+   * @param gridCols    is the column position of the Agent
+   */
+  public PelletView(Agent pelletAgent, int gridRows, int gridCols) {
 //    this(pelletAgent, PELLET_COLOR_RGB, gridRows, gridCols);
     numRows = gridRows;
     numCols = gridCols;
@@ -41,6 +55,16 @@ public class PelletView extends StationaryView {
     pelletViewSetup();
   }
 
+  /**
+   * Constructor to create the PelletView object using the inputted list of RGB values to
+   * determine an inputted color for the pellets from the user.
+   *
+   * @param pelletAgent is the Agent from the backend that corresponds to the front end Agent
+   * @param rgb         is the list of Doubles that represent the red, green, and blue values to
+   *                    determine the pellet's color
+   * @param gridRows    is the row position of the Agent
+   * @param gridCols    is the column position of the Agent
+   */
   public PelletView(Agent pelletAgent, List<Double> rgb, int gridRows, int gridCols) {
     numRows = gridRows;
     numCols = gridCols;
@@ -62,8 +86,8 @@ public class PelletView extends StationaryView {
 
   private void pelletViewSetup() {
     setImage(myCircle);
-    myCircle.setCenterX(gridWidth*myAgent.getPosition().getCoords()[0] + pelletBufferX);
-    myCircle.setCenterY(gridHeight*myAgent.getPosition().getCoords()[1] + pelletBufferY);
+    myCircle.setCenterX(gridWidth * myAgent.getPosition().getCoords()[0] + pelletBufferX);
+    myCircle.setCenterY(gridHeight * myAgent.getPosition().getCoords()[1] + pelletBufferY);
     myAgent.addConsumer(updatePellet);
   }
 

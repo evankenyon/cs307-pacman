@@ -24,7 +24,15 @@ import ooga.controller.IO.UserPreferences;
 import ooga.model.VanillaGame;
 import ooga.view.mainView.MainView;
 
+/**
+ * Class that creates a VBox to be placed in the bottom of the BorderPane in MainView. This class
+ * creates simulation controls such as play/pause button, step button, animation speed, stats
+ * button, and restart game button.
+ *
+ * @author Dane Erickson, Kat Cottrell
+ */
 public class BottomView {
+
   public static final String PLAY_IMAGE = "data/images/play.png";
   public static final String PAUSE_IMAGE = "data/images/pause.png";
   public static final String STEP_IMAGE = "data/images/step.png";
@@ -50,7 +58,15 @@ public class BottomView {
   private String myLanguage;
   private boolean isPaused = false;
 
-  public BottomView (Controller controller, VanillaGame game, String language) {
+  /**
+   * Constructor to create a BottomView, which makes simulation and game buttons on the bottom of
+   * the screen.
+   *
+   * @param controller is the Controller used for this game
+   * @param game       is the model object that runs the game
+   * @param language   is a String for the language being used in the game
+   */
+  public BottomView(Controller controller, VanillaGame game, String language) {
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
     myController = controller;
     myGame = game;
@@ -67,7 +83,8 @@ public class BottomView {
     sliderBox.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     Slider speedSlider = new Slider(MIN_SLIDER_VAL, MAX_SLIDER_VAL, INITIAL_RATE);
     speedSlider.setPrefWidth(SLIDER_LENGTH);
-    speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> myController.setAnimationSpeed(speedSlider.getValue()));
+    speedSlider.valueProperty().addListener(
+        (observable, oldValue, newValue) -> myController.setAnimationSpeed(speedSlider.getValue()));
     speedSlider.setId("speedSlider");
     sliderBox.getChildren().add(makeButtonImage(SLOW_IMAGE, ICON_SIZE));
     sliderBox.getChildren().add(speedSlider);
@@ -75,7 +92,8 @@ public class BottomView {
     return sliderBox;
   }
 
-  private Button makeSimButton(ImageView image, Background background, EventHandler<ActionEvent> handler) {
+  private Button makeSimButton(ImageView image, Background background,
+      EventHandler<ActionEvent> handler) {
     Button myButton = new Button();
     myButton.setOnAction(handler);
     myButton.setGraphic(image);
@@ -95,8 +113,7 @@ public class BottomView {
     if (isPaused) {
       playPauseButton.setGraphic(makeButtonImage(PAUSE_IMAGE, BUTTON_SIZE));
       isPaused = false;
-    }
-    else {
+    } else {
       playPauseButton.setGraphic(makeButtonImage(PLAY_IMAGE, BUTTON_SIZE));
       isPaused = true;
     }
@@ -107,9 +124,11 @@ public class BottomView {
 //    ImageView statsButton   = makeGraphicButton("stats", e -> showStats());
 //    ImageView restartButton = makeGraphicButton("restart", e -> restartGame());
 
-    playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> togglePlayPause());
+    playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, BUTTON_SIZE), Background.EMPTY,
+        e -> togglePlayPause());
     playPauseButton.setId("playPauseButton");
-    stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> myGame.step());
+    stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, BUTTON_SIZE), Background.EMPTY,
+        e -> myGame.step());
     stepButton.setId("stepButton");
     HBox simButtons = new HBox();
     simButtons.getStyleClass().add("root");
@@ -165,6 +184,12 @@ public class BottomView {
     myController.restartGame();
   }
 
+  /**
+   * Getter method to return the VBox that holds all the buttons and other Nodes to be placed at the
+   * bottom of the screen.
+   *
+   * @return bottomView is a Node with the items to be placed on the bottom of the screen.
+   */
   public Node getBottomViewGP() {
     return bottomView;
 //        return this.bottomGrid;

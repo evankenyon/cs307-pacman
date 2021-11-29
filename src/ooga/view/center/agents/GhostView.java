@@ -9,9 +9,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ooga.model.interfaces.Agent;
 
+/**
+ * Subclass of MovableView, which is a subclass of AgentView. GhostView creates a View Agent that
+ * shows the ghosts in the game.
+ *
+ * @author Dane Erickson
+ */
 public class GhostView extends MovableView {
 
-  public static final String GHOST_NAMES[] = {"blue","blinky","pinky","inky","clyde"}; //make ghost state 0=dead, 1=blue, 2=blinky, etc
+  public static final String GHOST_NAMES[] = {"blue", "blinky", "pinky", "inky",
+      "clyde"}; //make ghost state 0=dead, 1=blue, 2=blinky, etc
   public static final int CONSUMABLE_STATE = 1;
   public static final String GHOST_PATH = "%s%s_right.png";
   public static final String CHARGED_GHOST_PATH = "%s%s_right_charged.gif";
@@ -28,12 +35,30 @@ public class GhostView extends MovableView {
   private double verticalImageBuffer;
   private double horizontalImageBuffer;
 
-  public GhostView(Agent ghost, int gridRows, int gridCols) { // make just 1 ghost (not 4) for first test?
+  /**
+   * Constructor to create the GhostView object using the default image path for the ghost images
+   *
+   * @param ghost    is the Agent from the backend that corresponds to the front end Agent
+   * @param gridRows is the row position of the Agent
+   * @param gridCols is the column position of the Agent
+   */
+  public GhostView(Agent ghost, int gridRows,
+      int gridCols) { // make just 1 ghost (not 4) for first test?
     this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[1]), gridRows, gridCols);
 //    this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[ghost.getState()]), gridRows, gridCols);
   }
 
-  public GhostView (Agent ghost, String imagePath, int gridRows, int gridCols) { // make just 1 ghost (not 4) for first test?
+  /**
+   * Constructor to create the GhostView object using the inputted image path for the ghost images
+   * from the preferences file.
+   *
+   * @param ghost     is the Agent from the backend that corresponds to the front end Agent
+   * @param imagePath is the inputted path from the preferences file for the Agent's image
+   * @param gridRows  is the row position of the Agent
+   * @param gridCols  is the column position of the Agent
+   */
+  public GhostView(Agent ghost, String imagePath, int gridRows,
+      int gridCols) { // make just 1 ghost (not 4) for first test?
     myAgent = ghost;
     ghostNum = 1; //TODO: Deal with Ghost Number
     numRows = gridRows;
@@ -84,9 +109,9 @@ public class GhostView extends MovableView {
   protected void updateOrientation(String orientation) {
     //TODO: account for case of user input image
     try {
-      ghostImage.setImage(new Image(String.format("%s%s_%s.png", IMAGE_PATH, GHOST_NAMES[ghostNum], orientation)));
-    }
-    catch (Exception e) { // Don't change the image because it's going up or down
+      ghostImage.setImage(
+          new Image(String.format("%s%s_%s.png", IMAGE_PATH, GHOST_NAMES[ghostNum], orientation)));
+    } catch (Exception e) { // Don't change the image because it's going up or down
       return;
     }
   }

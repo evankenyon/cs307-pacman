@@ -32,7 +32,6 @@ public class ErrorPopups {
       Method m = ErrorPopups.class.getDeclaredMethod(methodName, null);
       m.invoke(this, null);
     } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-      e.printStackTrace();
       reflectionErrorPopup();
     }
   }

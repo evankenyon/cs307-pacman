@@ -18,6 +18,12 @@ import ooga.view.topView.TopView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Class to create the MainView that places all the other View classes in the correct locations in
+ * the BorderPane in MainView, which is displayed to the user.
+ *
+ * @author Dane Erickson
+ */
 public class MainView {
 
   public static final int SCENE_WIDTH = 1000;
@@ -37,7 +43,17 @@ public class MainView {
   private GameStartupPanel gameStartupPanel;
   private static final Logger LOG = LogManager.getLogger(MainView.class);
 
-  public MainView(Controller controller, VanillaGame game, Stage stage, UserPreferences userPreferences) {
+  /**
+   * Constructor to create a MainView object to make the scene based on the constructed BorderPane
+   * with each view object in the correct location.
+   *
+   * @param controller is the Controller object used to communicate between the model and view
+   * @param game is the VanillaGame object that is used in the model
+   * @param stage is the Stage where the scene from MainView is set
+   * @param userPreferences is the UserPreferences object from the uploaded file
+   */
+  public MainView(Controller controller, VanillaGame game, Stage stage,
+      UserPreferences userPreferences) {
     myController = controller;
     controller.setAnimationSpeed(1);
     myGame = game;

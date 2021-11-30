@@ -1,6 +1,7 @@
 package ooga.model.agents.consumables;
 
 import ooga.model.agents.AbstractAgent;
+import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
@@ -59,13 +60,14 @@ public class pellet extends AbstractAgent implements Consumable {
 
 
   @Override
-  public void agentReact() {
+  public void getConsumed() {
     myState = EATEN_STATE;
+    //update score
     updateConsumer();
   }
 
   @Override
-  public void applyEffects(Agent agent) {
+  public void applyEffects(Pacman pacman) {
   }
 
   @Override

@@ -14,6 +14,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
@@ -33,6 +37,7 @@ public class GameStartupPanel {
   private String selectedLanguage;
   private String selectedViewMode;
   private ResourceBundle myResources;
+  private Text displayFileName;
 
   private static final int SCREEN_WIDTH = 400;
   private static final int SCREEN_HEIGHT = 425;
@@ -110,7 +115,11 @@ public class GameStartupPanel {
     ImageView selectGameFileLabel = new ImageView(new Image(new File("data/images/selectGameFile.png").toURI().toString()));
     setImgWidth(selectGameFileLabel, SCREEN_WIDTH/2);
     Button fileUploadButton = makeFileUploadButton();
-    selectCol2R.getChildren().addAll(selectGameFileLabel, fileUploadButton);
+    displayFileName = new Text();
+    displayFileName.setFont(Font.font("Verdana", FontPosture.ITALIC, 11));
+    displayFileName.setFill(Color.LIGHTGRAY);
+    displayFileName.setText("No file selected");
+    selectCol2R.getChildren().addAll(selectGameFileLabel, fileUploadButton, displayFileName);
     selectCol2R.setAlignment(Pos.CENTER);
 
     selectCluster2.getChildren().addAll(selectCol2L, selectCol2R);
@@ -128,6 +137,7 @@ public class GameStartupPanel {
 
   private void uploadFile() {
     gameFile = fileExplorer();
+    displayFileName.setText(gameFile.getName());
   }
 
   private File fileExplorer() {
@@ -182,7 +192,7 @@ public class GameStartupPanel {
 
   private ComboBox makeDropDown(String category, String[] options) {
     ComboBox<String> newComboBox = new ComboBox<>();
-    newComboBox.setPromptText(myResources.getString("Select") + category);
+    newComboBox.setPromptText(myResources.getString("Select") + " " + category);
     for (String option : options) {
       newComboBox.getItems().add(option);
     }

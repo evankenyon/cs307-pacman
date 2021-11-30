@@ -68,7 +68,6 @@ public class PacView extends MovableView {
     setImage(pacImage);
     pacImage.setX(gridWidth * myAgent.getPosition().getCoords()[0] + horizontalImageBuffer);
     pacImage.setY(gridHeight * myAgent.getPosition().getCoords()[1] + verticalImageBuffer);
-// add the Consumers to the List<Consumer<Integer>> in the model
     myAgent.addConsumer(updatePacMan);
   }
 
@@ -87,13 +86,11 @@ public class PacView extends MovableView {
 
   @Override
   protected void moveY(int y) {
-//    setY(y);
     pacImage.setY(gridHeight * y + verticalImageBuffer);
   }
 
   @Override
   protected void updateState(int state) {
-//    pacImage.setVisible(state == ALIVE_STATE);
     ImageView oldPac = pacImage;
     switch (state) {
       case DEAD_STATE -> pacImage.setVisible(false);
@@ -106,7 +103,6 @@ public class PacView extends MovableView {
 
   @Override
   protected void updateOrientation(String orientation) {
-    //can delete when null in the map has been merged
     if (ORIENTATION_MAP.get(orientation) != null) {
       pacImage.setRotate(ORIENTATION_MAP.get(orientation));
     }

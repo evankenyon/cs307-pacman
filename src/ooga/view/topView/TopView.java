@@ -38,8 +38,8 @@ public class TopView {
     private Label scoreDisplay;
     private HBox lifeDisplay;
     private VanillaGame myGame;
-    private Consumer<Integer> scoreConsumer = i -> updateScoreDisplay(i);
-    private Consumer<Boolean> livesConsumer = result -> updateLivesDisplay(result);
+    private Consumer<Integer> scoreConsumer = score -> updateScoreDisplay(score);
+    private Consumer<Boolean> livesConsumer = lost -> updateLivesDisplay(lost);
     private ResourceBundle myResources;
 
 
@@ -104,7 +104,7 @@ public class TopView {
     }
 
     private void saveGame() {
-        // TODO: Implement
+        // This is implemented in BottomView instead
     }
 
     private void makeLifeDisplay() {
@@ -130,8 +130,8 @@ public class TopView {
     }
 
     // TODO: implement lives consumer to change the hearts on the screen
-    private void updateLivesDisplay(boolean result) {
-        if (result) {
+    private void updateLivesDisplay(boolean lost) {
+        if (lost) {
             lifeDisplay.getChildren().remove(lifeDisplay.getChildren().size()-1);
         }
     }

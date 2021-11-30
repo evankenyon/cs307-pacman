@@ -79,7 +79,6 @@ public class BoardView {
   private void initiateBoard(UserPreferences userPreferences) {
     for (String type : userPreferences.wallMap().keySet()) {
       for (Position p : userPreferences.wallMap().get(type)) {
-//        updateDimensions(p);
         AgentView agentView = null;
         ResourceBundle types = ResourceBundle.getBundle("ooga.view.center.resources.types");
         String realType = types.getString(type);
@@ -95,16 +94,6 @@ public class BoardView {
     }
   }
 
-//  private void updateDimensions(Position p) {
-//    if (p.getCoords()[0] > numCols) numCols = p.getCoords()[0];
-//    if (p.getCoords()[1] > numRows) numRows = p.getCoords()[1];
-//  }
-
-//  private void updateBoard(AgentView newInfo) {
-//    GridPane.setColumnIndex(newInfo.getImage(), newInfo.getX());
-//    GridPane.setColumnIndex(newInfo.getImage(), newInfo.getX());
-//  }
-
   private void attachAgent(AgentView agentView) {
     myBoardPane.getChildren().add(agentView.getImage());
   }
@@ -117,7 +106,6 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, List.class, int.class, int.class)
           .newInstance(agent, rgb, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-//      new ErrorPopups(myLanguage).reflectionErrorPopup();
       return makeAgentView(type, position);
     }
   }
@@ -131,7 +119,6 @@ public class BoardView {
               int.class)
           .newInstance(agent, imagePath, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-//      new ErrorPopups(myLanguage).reflectionErrorPopup();
       return makeAgentView(type, position);
     }
   }
@@ -144,16 +131,10 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, int.class, int.class)
           .newInstance(agent, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-//      new ErrorPopups(myLanguage).reflectionErrorPopup();
       return new WallView(new wall(position.getCoords()[0], position.getCoords()[1]), numRows,
           numCols);
     }
   }
-
-//  public double getDimension(int index) {
-//    if (index == 0) return numCols;
-//    return numRows;
-//  }
 
   /**
    * Getter method to get the Pane with all the AgentView objects placed in the correct locations.

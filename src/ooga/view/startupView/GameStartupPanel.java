@@ -109,7 +109,10 @@ public class GameStartupPanel {
     String[] viewModes = {myResources.getString("Light"), myResources.getString("Dark"),
         myResources.getString("Duke")};
     selectViewMode = makeDropDown("viewing mode", viewModes);
-    selectCol2L.getChildren().addAll(selectModeLabel, selectViewMode);
+    Text spacingFix = new Text();
+    spacingFix.setText(".");
+    spacingFix.setFont(Font.font("Verdana", FontPosture.ITALIC, 11));
+    selectCol2L.getChildren().addAll(selectModeLabel, selectViewMode, spacingFix);
     selectCol2L.setAlignment(Pos.CENTER);
 
     ImageView selectGameFileLabel = new ImageView(new Image(new File("data/images/selectGameFile.png").toURI().toString()));

@@ -20,7 +20,7 @@ public class GhostView extends MovableView {
   public static final String GHOST_NAMES[] = {"blue", "blinky", "pinky", "inky",
       "clyde"}; //make ghost state 0=dead, 1=blue, 2=blinky, etc
   public static final int CONSUMABLE_STATE = 1;
-  public static final String GHOST_PATH = "%s%s_right.png";
+  public static final String GHOST_PATH = "%s%s_right.gif";
   public static final String CHARGED_GHOST_PATH = "%s%s_right_charged.gif";
 
   private ImageView ghostImage;

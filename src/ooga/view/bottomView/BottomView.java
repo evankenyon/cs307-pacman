@@ -33,15 +33,15 @@ import ooga.view.mainView.MainView;
  */
 public class BottomView {
 
-  public static final String PLAY_IMAGE = "data/images/play.png";
-  public static final String PAUSE_IMAGE = "data/images/pause.png";
-  public static final String STEP_IMAGE = "data/images/step.png";
+  public static final String PLAY_IMAGE = "data/images/bigPlayIcon.png";
+  public static final String PAUSE_IMAGE = "data/images/bigPauseIcon.png";
+  public static final String STEP_IMAGE = "data/images/bigSkipIcon.png";
   public static final String SLOW_IMAGE = "data/images/turtle.png";
   public static final String FAST_IMAGE = "data/images/rabbit.png";
   public static final String BOTTOMVIEW_PACKAGE = "ooga.view.bottomView.";
   public static final String STYLESHEET = String.format("/%sBottomView.css",
       BOTTOMVIEW_PACKAGE.replace(".", "/"));
-  public static final int BUTTON_SIZE = 50;
+  public static final int BUTTON_SIZE = 120;
   public static final int ICON_SIZE = 20;
   public static final double MIN_SLIDER_VAL = 0.5;
   public static final double MAX_SLIDER_VAL = 5;
@@ -74,7 +74,7 @@ public class BottomView {
     bottomView = new VBox();
     bottomView.getStyleClass().add("root");
     bottomView.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
-    initiateBottomView();
+    initiateBottomView(bottomView);
   }
 
   private HBox makeSpeedSlider() {
@@ -119,28 +119,26 @@ public class BottomView {
     }
   }
 
-  private void initiateBottomView() {
-//    ImageView saveButton    = makeGraphicButton("save", e -> saveGame());
-//    ImageView statsButton   = makeGraphicButton("stats", e -> showStats());
-//    ImageView restartButton = makeGraphicButton("restart", e -> restartGame());
+  private void initiateBottomView(VBox root) {
+    ImageView saveButton    = makeGraphicButton("save", e -> saveGame());
+    ImageView statsButton   = makeGraphicButton("stats", e -> showStats());
+    ImageView restartButton = makeGraphicButton("restart", e -> restartGame());
+    VBox graphicButtons = new VBox();
+    graphicButtons.getStyleClass().add("graphic-buttons");
+    graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
 
-    playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, BUTTON_SIZE), Background.EMPTY,
-        e -> togglePlayPause());
+    playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> togglePlayPause());
     playPauseButton.setId("playPauseButton");
-    stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, BUTTON_SIZE), Background.EMPTY,
-        e -> myGame.step());
+    stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> myGame.step());
     stepButton.setId("stepButton");
-    HBox simButtons = new HBox();
-    simButtons.getStyleClass().add("root");
-    simButtons.getChildren().addAll(playPauseButton, stepButton);
+    HBox buttonsPane = new HBox();
+    buttonsPane.getStyleClass().add("root");
+    buttonsPane.getChildren().addAll(graphicButtons, playPauseButton, stepButton);
+
     HBox slider = makeSpeedSlider();
-    Button statsButton = makeSimpleButton("Stats", e -> showStats());
-    Button restartButton = makeSimpleButton("Restart", e -> restartGame());
-    HBox gameButtons = new HBox();
-    gameButtons.getStyleClass().add("game-buttons");
-    gameButtons.getChildren().addAll(statsButton, restartButton);
-    bottomView.getChildren().addAll(simButtons, slider, gameButtons);
+    root.getChildren().addAll(buttonsPane, slider);
   }
+
 
   private Button makeSimpleButton(String name, EventHandler action) {
     Button statsButton = new Button(myResources.getString(name));
@@ -148,12 +146,16 @@ public class BottomView {
     return statsButton;
   }
 
+  private void saveGame() {
+    // TODO: Implement
+  }
+
   private ImageView makeGraphicButton(String key, EventHandler handler) {
     String value = myResources.getString(key);
     String imagePath = "data/images/" + key + "Button-" + value + ".png";
     ImageView myImgView = new ImageView(new Image(new File(imagePath).toURI().toString()));
     myImgView.setPreserveRatio(true);
-    myImgView.setFitWidth(150);
+    myImgView.setFitHeight(40);
     myImgView.setOnMouseReleased(handler);
     return myImgView;
   }

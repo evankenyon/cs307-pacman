@@ -10,3 +10,9 @@
   -fx-alignment: center;
   -fx-vgap: 30px;
 }
+
+.game-buttons {
+  -fx-alignment: center;
+  -fx-spacing: 10;
+  -fx-padding: 10;
+}

@@ -52,7 +52,7 @@ public class GameStartupPanel {
     this.stage.show();
   }
 
-  public Scene createStartupScene() {
+  private Scene createStartupScene() {
     GridPane root = new GridPane();
     root.getStyleClass().add("grid-pane");
     makeBackground(root);
@@ -160,7 +160,7 @@ public class GameStartupPanel {
       if (selectedLanguage == null) {
         selectedLanguage = DEFAULT_LANGUAGE;
       }
-      new ErrorPopups(selectedLanguage).requiredFieldsPopup();
+      new ErrorPopups(selectedLanguage, "requiredFields");
     }
   }
 
@@ -173,9 +173,9 @@ public class GameStartupPanel {
           userPreferences);
     } catch (Exception ex) {
       if (gameFile == null) {
-        new ErrorPopups(selectedLanguage).noFilePopup();
+        new ErrorPopups(selectedLanguage, "noFile");
       } else {
-        new ErrorPopups(selectedLanguage).fileErrorPopup();
+        new ErrorPopups(selectedLanguage, "fileError");
       }
     }
   }

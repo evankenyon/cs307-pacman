@@ -21,6 +21,8 @@ public class GameBoard {
   private int myGhostScore;
   private Consumer<Integer> myScoreConsumer;
 
+
+
   // TODO: handle exceptions
   public GameBoard(Data vanillaGameData)
       throws
@@ -28,6 +30,14 @@ public class GameBoard {
     myState = new GameState(vanillaGameData);
     myPacScore = 0;
     myGhostScore = 0;
+  }
+
+  private void addScore(Integer score) {
+    //called whenever a pellet/super-pellet/ghost is consumed, add the score of that pellet to the total score
+  }
+
+  private void superState() {
+    //set the state of the game to "super" which in turn sets the states of ghosts + pacman to super and starts a countdown
   }
 
 

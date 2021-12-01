@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.factories.AgentFactory;
+import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
@@ -19,28 +20,33 @@ public class GameState {
       GameBoard.class.getPackageName());
   private static final String TYPES_FILENAME = "types";
 
+  private GameStateData myGameStateData;
+  private final int DX = 1;
+
   private final int myRows;
   private final int myCols;
+
   private List<Agent> myOtherAgents;
 
-  private Agent myPlayer;
   private List<Agent> myWalls;
-  private List<Consumable> myConsumables;
   private final AgentFactory agentFactory;
   private static final Logger LOG = LogManager.getLogger(GameState.class);
 
   public GameState(Data vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     System.out.println(vanillaGameData.wallMap().toString());
+
+    myGameStateData = new GameStateData();
+    myGameStateData.initialize(vanillaGameData.wallMap(), vanillaGameData.pelletInfo());
+
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.wallMap(), 0) + 1;
     myOtherAgents = new ArrayList<>();
-    myWalls = new ArrayList<>();
     agentFactory = new AgentFactory();
     populateLists(vanillaGameData.wallMap());
   }
 
-  public boolean checkGridBounds(int x, int y) {
+  public boolean isInBounds(int x, int y) {
     if (x > myRows || y > myCols) {
       return false;
     } else if (x < 0 || y < 0) {
@@ -84,18 +90,11 @@ public class GameState {
     myOtherAgents.add(agentFactory.createAgent(agent, x, y));
   }
 
-  private void addToWalls(String agent, int x, int y) {
-    myWalls.add(agentFactory.createAgent(agent, x, y));
-  }
-
-  private void addToPlayer(String agent, int x, int y) {
-    myPlayer = agentFactory.createAgent(agent, x, y);
-  }
 
   public Agent findAgent(Position pos) {
-    if (myPlayer.getPosition().getCoords()[0] == pos.getCoords()[0]
-        && myPlayer.getPosition().getCoords()[1] == pos.getCoords()[1]) {
-      return myPlayer;
+    if (getPacman().getPosition().getCoords()[0] == pos.getCoords()[0]
+        && getPacman().getPosition().getCoords()[1] == pos.getCoords()[1]) {
+      return getPacman();
     }
     Agent potentialAgent = null;
     for (Agent agent : myOtherAgents) {
@@ -114,26 +113,13 @@ public class GameState {
     return potentialAgent;
   }
 
-  //TODO : actually implement
-//  public List<Consumable> getAllConsumables() {
-//    return new ArrayList<>();
-//  }
 
   public void setPlayerDirection(String direction) {
-    myPlayer.setDirection(direction);
+    getPacman().setDirection(direction);
   }
 
-  public boolean checkWallCollision(int x, int y) {
-    for (Agent wall : myWalls) {
-      //if wall unpassable
-      if (wall.getState() == 0) {
-        //if collides
-        if (wall.getPosition().getCoords()[0] == x && wall.getPosition().getCoords()[1] == y) {
-          return true;
-        }
-      }
-    }
-    return false;
+  public boolean isWall(int x, int y) {
+    return myGameStateData.isWall(x,y);
   }
 
   public List<Agent> getMyOtherAgents() {
@@ -141,21 +127,17 @@ public class GameState {
   }
 
   public Agent getMyPlayer() {
-    return myPlayer;
-  }
-
-  public List<Agent> getMyWalls() {
-    return myWalls;
+    return getPacman();
   }
 
   public void updateHandlers() {
-    myPlayer.updateConsumer();
+    getPacman().updateConsumer();
     for (Agent a : myOtherAgents) a.updateConsumer();
     for (Agent wall : myWalls) wall.updateConsumer();
   }
 
-  public boolean checkConsumables(int x, int y) {
-    for (Agent pellet : myOtherAgents) {
+  public boolean isFood(int x, int y) {
+    for (Agent pellet : myGameStateData.getMyPelletStates()) {
       //if not consumed yet
       if (pellet.getState() == 1) {
         //if collides
@@ -165,5 +147,35 @@ public class GameState {
       }
     }
     return false;
+  }
+
+  public List<String> getLegalActions(Agent agent){
+    List<String> directions = new ArrayList<>();
+    Position agentPos = agent.getPosition();
+    if (!myGameStateData.isWall(agentPos.getCoords()[0] + DX, agentPos.getCoords()[1])){
+      directions.add("EAST");
+    }
+    if (!myGameStateData.isWall(agentPos.getCoords()[0] - DX, agentPos.getCoords()[1])){
+      directions.add("WEST");
+    }
+    if (!myGameStateData.isWall(agentPos.getCoords()[0], agentPos.getCoords()[1] + DX)){
+      directions.add("NORTH");
+    }
+    if (!myGameStateData.isWall(agentPos.getCoords()[0], agentPos.getCoords()[1] - DX)){
+      directions.add("SOUTH");
+    }
+    return directions;
+  }
+
+  public Agent getPacman(){
+    return myGameStateData.getAgents().get(0);
+  }
+
+  public List<Agent> getGhosts(){
+    return myGameStateData.getAgents().subList(1, myGameStateData.getAgents().size());
+  }
+
+  public List<Agent> getFood(){
+    return myGameStateData.getMyPelletStates();
   }
 }

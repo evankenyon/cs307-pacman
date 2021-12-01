@@ -1,5 +1,6 @@
 package ooga.view.mainView;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import javafx.geometry.Insets;
@@ -7,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -65,6 +67,9 @@ public class MainView {
     myBottomView = new BottomView(myController, myGame, userPreferences.language());
 //    gameStartupPanel = new GameStartupPanel(myStage);
     myStage = stage;
+    myStage.setTitle("PACMAN");
+    Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
+    myStage.getIcons().add(favicon);
     myBoardView = new BoardView(myGame, myController, userPreferences);
     myTopView = new TopView(myGame, userPreferences.language());
     myScene = makeScene();

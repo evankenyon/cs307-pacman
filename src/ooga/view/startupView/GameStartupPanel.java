@@ -54,6 +54,8 @@ public class GameStartupPanel {
     this.stage = stage;
     this.stage.setScene(createStartupScene());
     this.stage.setTitle("PACMAN STARTUP");
+    Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
+    this.stage.getIcons().add(favicon);
     this.stage.show();
   }
 

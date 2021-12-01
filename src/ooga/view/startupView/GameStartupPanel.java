@@ -1,8 +1,12 @@
 package ooga.view.startupView;
 
 import static java.util.Objects.isNull;
+import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -27,6 +31,7 @@ import ooga.view.popups.ErrorPopups;
 
 public class GameStartupPanel {
 
+  public static final String NO_FILE_TEXT = "No file selected";
   private Stage stage;
   private ComboBox<String> selectGameType;
   private ComboBox<String> selectLanguage;
@@ -38,16 +43,21 @@ public class GameStartupPanel {
   private String selectedViewMode;
   private ResourceBundle myResources;
   private Text displayFileName;
+  private int test = 1;
 
   private static final int SCREEN_WIDTH = 400;
   private static final int SCREEN_HEIGHT = 425;
   public static final Paint BACKGROUND = Color.BLACK;
   public static final String STARTUP_PACKAGE = "ooga.view.startupView.";
   public static final String DEFAULT_STYLESHEET = String.format("/%sGameStartupPanel.css",
-          STARTUP_PACKAGE.replace(".", "/"));
+      STARTUP_PACKAGE.replace(".", "/"));
   public static final String RESOURCES_PATH_WITH_LANGUAGE = "ooga.view.resources.English";
   public static final String RESOURCES_PATH = "ooga.view.resources.";
   public static final String DEFAULT_LANGUAGE = "English";
+  public static final String GAME_TYPE_KEYS[] = {"VanillaPacman", "SuperPacman", "MrsPacman",
+      "GhostPacman"};
+  public static final String LANGUAGE_KEYS[] = {"English", "Spanish", "Lang3", "Lang4", "Lang5"};
+  public static final String VIEW_MODE_KEYS[] = {"Light", "Dark", "Duke"};
 
   public GameStartupPanel(Stage stage) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
@@ -72,7 +82,8 @@ public class GameStartupPanel {
   }
 
   private void addPacMan307Img(GridPane root) {
-    ImageView pm307 = new ImageView(new Image(new File("data/images/pac_man_307.png").toURI().toString()));
+    ImageView pm307 = new ImageView(
+        new Image(new File("data/images/pac_man_307.png").toURI().toString()));
     setImgWidth(pm307, SCREEN_WIDTH);
     root.add(pm307, 1, 1);
   }
@@ -84,51 +95,47 @@ public class GameStartupPanel {
     VBox selectCol2R = new VBox();
     HBox selectCluster1 = new HBox();
     HBox selectCluster2 = new HBox();
-
-    ImageView selectGameLabel = new ImageView(new Image(new File("data/images/selectGameType.png").toURI().toString()));
-    setImgWidth(selectGameLabel, SCREEN_WIDTH/2);
-    String[] gameTypes = {myResources.getString("VanillaPacman"),
-        myResources.getString("SuperPacman"), myResources.getString("MrsPacman"),
-        myResources.getString("GhostPacman")};
-    selectGameType = makeDropDown("game type", gameTypes);
-    selectCol1L.getChildren().addAll(selectGameLabel, selectGameType);
-    selectCol1L.setAlignment(Pos.CENTER);
-
-    ImageView selectLanguageLabel = new ImageView(new Image(new File("data/images/selectLanguage.png").toURI().toString()));
-    setImgWidth(selectLanguageLabel, SCREEN_WIDTH/2);
-    String[] languages = {myResources.getString("English"), myResources.getString("Spanish"),
-        myResources.getString("Lang3"), myResources.getString("Lang4"),
-        myResources.getString("Lang5")};
-    selectLanguage = makeDropDown("language", languages);
-    selectCol1R.getChildren().addAll(selectLanguageLabel, selectLanguage);
-    selectCol1R.setAlignment(Pos.CENTER);
-
-    selectCluster1.getChildren().addAll(selectCol1L, selectCol1R);
-    root.add(selectCluster1, 1, 2);
-
-    ImageView selectModeLabel = new ImageView(new Image(new File("data/images/selectViewingMode.png").toURI().toString()));
-    setImgWidth(selectModeLabel, SCREEN_WIDTH/2);
-    String[] viewModes = {myResources.getString("Light"), myResources.getString("Dark"),
-        myResources.getString("Duke")};
-    selectViewMode = makeDropDown("viewing mode", viewModes);
-    Text spacingFix = new Text();
-    spacingFix.setText(".");
-    spacingFix.setFont(Font.font("Verdana", FontPosture.ITALIC, 11));
-    selectCol2L.getChildren().addAll(selectModeLabel, selectViewMode, spacingFix);
-    selectCol2L.setAlignment(Pos.CENTER);
-
-    ImageView selectGameFileLabel = new ImageView(new Image(new File("data/images/selectGameFile.png").toURI().toString()));
-    setImgWidth(selectGameFileLabel, SCREEN_WIDTH/2);
+    selectGameType = makeSelectorBox(selectCol1L, "GameType", GAME_TYPE_KEYS);
+    selectLanguage = makeSelectorBox(selectCol1R, "Language", LANGUAGE_KEYS);
+    addToCluster(root, selectCol1L, selectCol1R, selectCluster1, 2);
+    selectViewMode = makeSelectorBox(selectCol2L, "ViewingMode", VIEW_MODE_KEYS);
+    ImageView selectGameFileLabel = new ImageView(
+        new Image(new File("data/images/selectGameFile.png").toURI().toString()));
+    setImgWidth(selectGameFileLabel, SCREEN_WIDTH / 2);
     Button fileUploadButton = makeFileUploadButton();
-    displayFileName = new Text();
-    displayFileName.setFont(Font.font("Verdana", FontPosture.ITALIC, 11));
-    displayFileName.setFill(Color.LIGHTGRAY);
-    displayFileName.setText("No file selected");
-    selectCol2R.getChildren().addAll(selectGameFileLabel, fileUploadButton, displayFileName);
+    selectCol2R.getChildren().addAll(selectGameFileLabel, fileUploadButton);
     selectCol2R.setAlignment(Pos.CENTER);
+    displayFileName = makeText(Color.LIGHTGRAY, NO_FILE_TEXT, selectCol2R);
+    addToCluster(root, selectCol2L, selectCol2R, selectCluster2, 3);
+  }
 
-    selectCluster2.getChildren().addAll(selectCol2L, selectCol2R);
-    root.add(selectCluster2, 1, 3);
+  private Text makeText(Paint color, String message, VBox vBox) {
+    Text text = new Text();
+    text.setFont(Font.font("Verdana", FontPosture.ITALIC, 11));
+    text.setFill(color);
+    text.setText(message);
+    vBox.getChildren().add(text);
+    return text;
+  }
+
+  private ComboBox<String> makeSelectorBox(VBox vBox, String category, String keys[]) {
+    ImageView imageLabel = new ImageView(
+        new Image(new File(String.format("%sselect%s.png", IMAGE_PATH, category)).toURI().toString()));
+    setImgWidth(imageLabel, SCREEN_WIDTH / 2);
+    List<String> choices = new ArrayList<>();
+    for (String s : keys) {
+      choices.add(myResources.getString(s));
+    }
+    ComboBox<String> comboBox = makeDropDown(category, choices.toArray(new String[0]));
+    vBox.getChildren().addAll(imageLabel, comboBox);
+    vBox.setAlignment(Pos.TOP_CENTER);
+    return comboBox;
+  }
+
+  private void addToCluster(GridPane root, VBox vBoxChild1, VBox vBoxChild2, HBox hBoxParent,
+      int row) {
+    hBoxParent.getChildren().addAll(vBoxChild1, vBoxChild2);
+    root.add(hBoxParent, 1, row);
   }
 
   private Button makeFileUploadButton() {
@@ -152,7 +159,8 @@ public class GameStartupPanel {
   }
 
   private void addStartButton(GridPane root) {
-    ImageView startButton = new ImageView(new Image(new File("data/images/playButton.png").toURI().toString()));
+    ImageView startButton = new ImageView(
+        new Image(new File("data/images/playButton.png").toURI().toString()));
     setImgWidth(startButton, SCREEN_WIDTH / 4);
     startButton.setId("startButton");
     startButton.setOnMouseReleased(e -> startButtonAction());
@@ -208,7 +216,7 @@ public class GameStartupPanel {
 
   private void makeBackground(GridPane root) {
     BackgroundFill background_fill = new BackgroundFill(BACKGROUND,
-            CornerRadii.EMPTY, Insets.EMPTY);
+        CornerRadii.EMPTY, Insets.EMPTY);
     Background background = new Background(background_fill);
     root.setBackground(background);
   }

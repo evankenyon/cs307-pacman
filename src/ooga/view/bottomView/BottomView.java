@@ -44,7 +44,7 @@ public class BottomView {
   public static final int ICON_SIZE = 30;
   public static final int SIM_BUTTON_SIZE = 120;
   public static final double MIN_SLIDER_VAL = 0.5;
-  public static final double MAX_SLIDER_VAL = 5;
+  public static final double MAX_SLIDER_VAL = 2;
   public static final double INITIAL_RATE = 1;
   public static final int SLIDER_LENGTH = 200;
   private static final int GRAPHIC_BUTTON_HEIGHT = 25;

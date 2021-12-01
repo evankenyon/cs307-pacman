@@ -16,6 +16,7 @@ public abstract class AgentView {
   public static final double IMAGE_BUFFER_FACTOR = 0.9; // Images fill 90% of grid squares
 
   private Node myImage;
+  private String myOrder;
 
   /**
    * Abstract method that is called when the consumer for each agent is called with .accept(). This
@@ -38,5 +39,16 @@ public abstract class AgentView {
   protected void setImage(Node newImage) {
     myImage = newImage;
   }
+
+  /**
+   * Getter method to get the order of the AgentView for the BoardView.
+   * StationaryView Objects (pellets and fruit) are in the back.
+   * MovableView Objects (Pacman and Ghosts) are in the front.
+   *
+   * @return myOrder is a String of it's position
+   */
+  public String getOrder() { return myOrder; }
+
+  protected void setOrder(String order) { myOrder = order; }
 
 }

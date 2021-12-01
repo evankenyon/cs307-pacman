@@ -14,6 +14,15 @@ public abstract class MovableView extends AgentView {
   public static final String IMAGE_PATH = "data/images/";
   public static final Map<String, Integer> ORIENTATION_MAP =
       Map.of("right", 0, "down", 90, "left", 180, "up", 270, "NULL", 0);
+  public static final String MOVABLE_ORDER = "Front";
+
+  /**
+   * Constructor to create the MovableView Object, which is the super class for movable objects.
+   * The constructor sets this AgentView object's order to the correct location (Back or Front).
+   */
+  public MovableView() {
+    setOrder(MOVABLE_ORDER);
+  }
 
   protected abstract void moveX(int x);
 

@@ -1,5 +1,7 @@
 package ooga.view.center;
 
+import static ooga.Main.LANGUAGE;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -75,6 +77,7 @@ public class BoardView {
   }
 
   private void initiateBoard(UserPreferences userPreferences) {
+    System.out.println(userPreferences.wallMap().keySet().toString());
     for (String type : userPreferences.wallMap().keySet()) {
       for (Position p : userPreferences.wallMap().get(type)) {
         AgentView agentView = null;
@@ -94,6 +97,17 @@ public class BoardView {
 
   private void attachAgent(AgentView agentView) {
     myBoardPane.getChildren().add(agentView.getImage());
+    assignOrder(agentView);
+  }
+
+  private void assignOrder(AgentView agentView) {
+    String methodName = String.format("to%s", agentView.getOrder());
+    try {
+      Method m = Node.class.getDeclaredMethod(methodName, null);
+      m.invoke(agentView.getImage(), null);
+    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+      new ErrorPopups(LANGUAGE, "reflectionError");
+    }
   }
 
   private AgentView makeAgentViewColor(String type, Position position, List<Double> rgb) {

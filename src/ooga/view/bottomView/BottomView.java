@@ -1,11 +1,15 @@
 package ooga.view.bottomView;
 
 import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
+import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
+import static ooga.view.mainView.MainView.BG_COLOR;
 
 import java.io.File;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -13,10 +17,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import ooga.controller.Controller;
 import ooga.model.VanillaGame;
 
@@ -32,13 +35,14 @@ public class BottomView {
   public static final String PLAY_IMAGE = "data/images/bigPlayIcon.png";
   public static final String PAUSE_IMAGE = "data/images/bigPauseIcon.png";
   public static final String STEP_IMAGE = "data/images/bigSkipIcon.png";
-  public static final String SLOW_IMAGE = "data/images/turtle.png";
-  public static final String FAST_IMAGE = "data/images/rabbit.png";
+  public static final String SLOW_IMAGE = "data/images/turtle-8bit.png";
+  public static final String FAST_IMAGE = "data/images/rabbit-8bit.png";
   public static final String BOTTOMVIEW_PACKAGE = "ooga.view.bottomView.";
   public static final String STYLESHEET = String.format("/%sBottomView.css",
       BOTTOMVIEW_PACKAGE.replace(".", "/"));
-  public static final int SIM_BUTTON_SIZE = 75;
-  public static final int ICON_SIZE = 20;
+  public static final int BUTTON_SIZE = 120;
+  public static final int ICON_SIZE = 30;
+  public static final int SIM_BUTTON_SIZE = 120;
   public static final double MIN_SLIDER_VAL = 0.5;
   public static final double MAX_SLIDER_VAL = 5;
   public static final double INITIAL_RATE = 1;
@@ -69,6 +73,7 @@ public class BottomView {
     myGame = game;
     myLanguage = language;
     bottomView = new VBox();
+    bottomView.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     bottomView.getStyleClass().add("root");
     bottomView.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     initiateBottomView(bottomView);
@@ -100,8 +105,8 @@ public class BottomView {
 
   private ImageView makeButtonImage(String path, int size) {
     ImageView image = new ImageView(new Image(new File(path).toURI().toString()));
+    image.setPreserveRatio(true);
     image.setFitHeight(size);
-    image.setFitWidth(size);
     return image;
   }
 
@@ -121,9 +126,10 @@ public class BottomView {
     ImageView statsButton = makeGraphicButton("stats", e -> showStats());
     ImageView restartButton = makeGraphicButton("restart", e -> restartGame());
     VBox graphicButtons = new VBox();
+    graphicButtons.setSpacing(6);
     graphicButtons.getStyleClass().add("graphic-buttons");
+    graphicButtons.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
-
     playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
         e -> togglePlayPause());
     playPauseButton.setId("playPauseButton");
@@ -131,18 +137,15 @@ public class BottomView {
         e -> myGame.step());
     stepButton.setId("stepButton");
     HBox buttonsPane = new HBox();
+    buttonsPane.setSpacing(15);
+    buttonsPane.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     buttonsPane.getStyleClass().add("root");
     buttonsPane.getChildren().addAll(graphicButtons, playPauseButton, stepButton);
-
     HBox slider = makeSpeedSlider();
+    root.setSpacing(10);
+    root.setPadding(new Insets(0, 0, 20, 0));
     root.getChildren().addAll(buttonsPane, slider);
-  }
-
-
-  private Button makeSimpleButton(String name, EventHandler action) {
-    Button statsButton = new Button(myResources.getString(name));
-    statsButton.setOnAction(action);
-    return statsButton;
+    root.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
   private void saveGame() {
@@ -155,7 +158,7 @@ public class BottomView {
     String imagePath = "data/images/" + key + "Button-" + value + ".png";
     ImageView myImgView = new ImageView(new Image(new File(imagePath).toURI().toString()));
     myImgView.setPreserveRatio(true);
-    myImgView.setFitHeight(GRAPHIC_BUTTON_HEIGHT);
+    myImgView.setFitHeight(36);
     myImgView.setOnMouseReleased(handler);
     return myImgView;
   }
@@ -191,7 +194,7 @@ public class BottomView {
    *
    * @return bottomView is a Node with the items to be placed on the bottom of the screen.
    */
-  public Node getBottomViewGP() {
+  public VBox getBottomViewGP() {
     return bottomView;
 //        return this.bottomGrid;
   }

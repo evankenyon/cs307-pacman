@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.Map;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
@@ -26,11 +30,12 @@ import org.apache.logging.log4j.Logger;
  */
 public class MainView {
 
-  public static final int SCENE_WIDTH = 1000;
-  public static final int SCENE_HEIGHT = 600;
+  public static final int SCENE_WIDTH = 650;
+  public static final int SCENE_HEIGHT = 750;
   public static final String MAINVIEW_PACKAGE = "ooga.view.mainView.";
   public static final String STYLESHEET = String.format("/%sMainView.css",
       MAINVIEW_PACKAGE.replace(".", "/"));
+  public static final Color BG_COLOR = Color.BLACK;
 
   private BottomView myBottomView;
   private TopView myTopView;
@@ -70,8 +75,10 @@ public class MainView {
 
   private Scene makeScene() {
     root = new BorderPane();
+    root.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     setStyles();
-    root.setCenter(myBoardView.getBoardPane());
+    Node centerNode = myBoardView.getBoardPane();
+    root.setCenter(centerNode);
     root.setBottom(myBottomView.getBottomViewGP());
     root.setTop(myTopView.getTopViewGP());
     BorderPane.setAlignment(myTopView.getTopViewGP(), Pos.BOTTOM_CENTER);

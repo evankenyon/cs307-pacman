@@ -10,11 +10,7 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -74,6 +70,8 @@ public class BoardView {
     myBoardPane.setMaxHeight(BOARD_HEIGHT);
     myBoardPane.setBackground(
         new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
+    myBoardPane.setBorder(new Border(
+            new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(10))));
   }
 
   private void initiateBoard(UserPreferences userPreferences) {

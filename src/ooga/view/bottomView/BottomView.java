@@ -42,7 +42,7 @@ public class BottomView {
       BOTTOMVIEW_PACKAGE.replace(".", "/"));
   public static final int BUTTON_SIZE = 120;
   public static final int ICON_SIZE = 30;
-  public static final int SIM_BUTTON_SIZE = 75;
+  public static final int SIM_BUTTON_SIZE = 120;
   public static final double MIN_SLIDER_VAL = 0.5;
   public static final double MAX_SLIDER_VAL = 5;
   public static final double INITIAL_RATE = 1;
@@ -129,10 +129,7 @@ public class BottomView {
     graphicButtons.setSpacing(6);
     graphicButtons.getStyleClass().add("graphic-buttons");
     graphicButtons.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
-    graphicButtons.getChildren().addAll(statsButton, saveButton, restartButton);
-    playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, BUTTON_SIZE), Background.EMPTY, e -> togglePlayPause());
     graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
-
     playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
         e -> togglePlayPause());
     playPauseButton.setId("playPauseButton");
@@ -197,7 +194,7 @@ public class BottomView {
    *
    * @return bottomView is a Node with the items to be placed on the bottom of the screen.
    */
-  public Node getBottomViewGP() {
+  public VBox getBottomViewGP() {
     return bottomView;
 //        return this.bottomGrid;
   }

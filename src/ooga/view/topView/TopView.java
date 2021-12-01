@@ -34,7 +34,6 @@ public class TopView {
         TOPVIEW_PACKAGE.replace(".", "/"));
     public static final double TOP_SPACING = (SCENE_HEIGHT - BOARD_HEIGHT) / 3;
     public static final String PM307 = "data/images/pac_man_307_header.png";
-    public static final String SCORE = "data/images/pac_man_307_header.png";
 
     private BorderPane topGrid;
     private HBox scoreDisplay;

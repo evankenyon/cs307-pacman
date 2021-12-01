@@ -18,8 +18,8 @@ import ooga.model.interfaces.Agent;
  */
 public class GhostView extends MovableView {
 
-  public static final String GHOST_NAMES[] = {"blue", "blinky", "pinky", "inky",
-      "clyde"}; //make ghost state 0=dead, 1=blue, 2=blinky, etc
+  public static final String GHOST_NAMES[] = {"blinky", "blue", "pinky", "inky",
+      "clyde"}; //make ghost state 0=dead, 1=blinky, 2=pinky, ... , 5=blue
   public static final int CONSUMABLE_STATE = 1;
   public static final String GHOST_PATH = "%s%s_right.gif";
   public static final String CHARGED_GHOST_PATH = "%s%s_right_charged.gif";
@@ -36,6 +36,7 @@ public class GhostView extends MovableView {
   private double verticalImageBuffer;
   private double horizontalImageBuffer;
   private String myOrientation;
+  private int myState;
 
   /**
    * Constructor to create the GhostView object using the default image path for the ghost images
@@ -46,7 +47,7 @@ public class GhostView extends MovableView {
    */
   public GhostView(Agent ghost, int gridRows,
       int gridCols) { // make just 1 ghost (not 4) for first test?
-    this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[1]), gridRows, gridCols);
+    this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[0]), gridRows, gridCols);
 //    this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[ghost.getState()]), gridRows, gridCols);
   }
 
@@ -62,7 +63,7 @@ public class GhostView extends MovableView {
   public GhostView(Agent ghost, String imagePath, int gridRows,
       int gridCols) { // make just 1 ghost (not 4) for first test?
     myAgent = ghost;
-    ghostNum = 1; //TODO: Deal with Ghost Number
+    myState = 1; //TODO: Deal with Ghost Number
     numRows = gridRows;
     numCols = gridCols;
     myOrientation = "right";
@@ -105,6 +106,7 @@ public class GhostView extends MovableView {
 
   @Override
   protected void updateState(int state) {
+    myState = state;
     if (state <= 0) {
       ghostImage.setVisible(state != DEAD_STATE);
     }
@@ -116,7 +118,7 @@ public class GhostView extends MovableView {
   @Override
   protected void updateOrientation(String orientation) {
     //TODO: account for case of user input image
-    ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[ghostNum], orientation)).toURI().toString()));
+    ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[myState-1], orientation)).toURI().toString()));
     myOrientation = orientation;
   }
 }

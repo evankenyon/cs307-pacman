@@ -53,6 +53,7 @@ public class BottomViewTest extends DukeApplicationTest {
 
   @Test
   void testSpeedSliderMin() {
+    clickOn(myPlayPauseButton);
     setValue(mySpeedSlider, MIN_SLIDER_VAL);
     double actual = myController.getAnimationSpeed();
     assertEquals(MIN_SLIDER_VAL, actual);
@@ -60,6 +61,7 @@ public class BottomViewTest extends DukeApplicationTest {
 
   @Test
   void testSpeedSliderMax() {
+    clickOn(myPlayPauseButton);
     setValue(mySpeedSlider, MAX_SLIDER_VAL);
     double actual = myController.getAnimationSpeed();
     assertEquals(MAX_SLIDER_VAL, actual);
@@ -67,6 +69,7 @@ public class BottomViewTest extends DukeApplicationTest {
 
   @Test
   void testSpeedSlider() {
+    clickOn(myPlayPauseButton);
     setValue(mySpeedSlider, (MAX_SLIDER_VAL+MIN_SLIDER_VAL)/2);
     double actual = myController.getAnimationSpeed();
     assertEquals((MAX_SLIDER_VAL+MIN_SLIDER_VAL)/2, actual);

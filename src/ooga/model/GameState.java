@@ -1,5 +1,8 @@
 package ooga.model;
 
+import static ooga.model.agents.consumables.Ghost.AFRAID_STATE;
+import static ooga.model.agents.players.Pacman.SUPER_STATE;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -7,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.factories.AgentFactory;
+import ooga.model.agents.consumables.Ghost;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
@@ -22,6 +26,7 @@ public class GameState {
   private final int myRows;
   private final int myCols;
   private List<Agent> myOtherAgents;
+  private List<Agent> myGhostAgents;
 
   private Agent myPlayer;
   private List<Agent> myWalls;
@@ -35,6 +40,7 @@ public class GameState {
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.wallMap(), 0) + 1;
     myOtherAgents = new ArrayList<>();
+    myGhostAgents = new ArrayList<>();
     myWalls = new ArrayList<>();
     agentFactory = new AgentFactory();
     populateLists(vanillaGameData.wallMap());
@@ -67,6 +73,7 @@ public class GameState {
             position.getCoords()[1]);
       }
     }
+    implementRunnables();
   }
 
   private void addAgentToSpecificList(String agent, int x, int y)
@@ -78,6 +85,27 @@ public class GameState {
             int.class, int.class);
     method.setAccessible(true);
     method.invoke(this, agent, x, y);
+  }
+
+  private void implementRunnables() {
+    for (Agent a : myOtherAgents) {
+      Runnable r = () -> processOtherAgentRunnable();
+      a.addRunnable(r);
+      if (a instanceof Ghost) myGhostAgents.add(a);
+    }
+    Runnable r = () -> processPlayerRunnable();
+    myPlayer.addRunnable(r);
+  }
+
+  private void processPlayerRunnable() {
+    //TODO: Change for when player is a ghost not Pacman
+    myPlayer.setState(SUPER_STATE);
+  }
+
+  private void processOtherAgentRunnable() {
+    for (Agent a : myGhostAgents) {
+      a.setState(AFRAID_STATE);
+    }
   }
 
   private void addToOtherAgents(String agent, int x, int y) {

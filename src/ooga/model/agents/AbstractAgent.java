@@ -15,6 +15,7 @@ public abstract class AbstractAgent implements Agent {
   private static final Logger LOG = LogManager.getLogger(AbstractAgent.class);
 
   private Position myPosition;
+  private Runnable superPelletRun;
 
   /**
    * abstract constructor for cell
@@ -55,5 +56,14 @@ public abstract class AbstractAgent implements Agent {
   public void setDirection(String direction) {
     myPosition.setDirection(direction);
   }
+
+  /**
+   * Adds a Runnable to the SuperPellet object that updates the Ghost and Pac states when consumed
+   *
+   * @param runnable is the Runnable to be assigned to local Runnable variable
+   */
+  public void addRunnable(Runnable runnable) { superPelletRun = runnable; }
+
+  protected Runnable getRunnable() { return superPelletRun; }
 
 }

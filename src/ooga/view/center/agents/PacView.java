@@ -21,6 +21,7 @@ import ooga.model.interfaces.Agent;
 public class PacView extends MovableView {
 
   public static final String PAC_IMAGE = String.format("%spacman.png", IMAGE_PATH);
+  public static final String PAC_GIF = String.format("%spacman.gif", IMAGE_PATH);
   public static final String SUPER_PAC_IMAGE = String.format("%ssuper_pacman.png", IMAGE_PATH);
 
   private ImageView pacImage;
@@ -43,7 +44,7 @@ public class PacView extends MovableView {
    * @param gridCols is the column position of the Agent
    */
   public PacView(Agent pac, int gridRows, int gridCols) {
-    this(pac, PAC_IMAGE, gridRows, gridCols);
+    this(pac, PAC_GIF, gridRows, gridCols);
   }
 
   /**
@@ -67,7 +68,6 @@ public class PacView extends MovableView {
     setImage(pacImage);
     pacImage.setX(gridWidth * myAgent.getPosition().getCoords()[0] + horizontalImageBuffer);
     pacImage.setY(gridHeight * myAgent.getPosition().getCoords()[1] + verticalImageBuffer);
-// add the Consumers to the List<Consumer<Integer>> in the model
     myAgent.addConsumer(updatePacMan);
   }
 
@@ -86,13 +86,11 @@ public class PacView extends MovableView {
 
   @Override
   protected void moveY(int y) {
-//    setY(y);
     pacImage.setY(gridHeight * y + verticalImageBuffer);
   }
 
   @Override
   protected void updateState(int state) {
-//    pacImage.setVisible(state == ALIVE_STATE);
     ImageView oldPac = pacImage;
     switch (state) {
       case DEAD_STATE -> pacImage.setVisible(false);
@@ -105,7 +103,6 @@ public class PacView extends MovableView {
 
   @Override
   protected void updateOrientation(String orientation) {
-    //can delete when null in the map has been merged
     if (ORIENTATION_MAP.get(orientation) != null) {
       pacImage.setRotate(ORIENTATION_MAP.get(orientation));
     }

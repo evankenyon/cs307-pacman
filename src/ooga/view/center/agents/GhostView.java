@@ -1,5 +1,6 @@
 package ooga.view.center.agents;
 
+import static ooga.model.agents.consumables.Ghost.DEAD_STATE;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 
@@ -20,7 +21,7 @@ public class GhostView extends MovableView {
   public static final String GHOST_NAMES[] = {"blue", "blinky", "pinky", "inky",
       "clyde"}; //make ghost state 0=dead, 1=blue, 2=blinky, etc
   public static final int CONSUMABLE_STATE = 1;
-  public static final String GHOST_PATH = "%s%s_right.png";
+  public static final String GHOST_PATH = "%s%s_right.gif";
   public static final String CHARGED_GHOST_PATH = "%s%s_right_charged.gif";
 
   private ImageView ghostImage;
@@ -34,6 +35,7 @@ public class GhostView extends MovableView {
   private double imageBuffer;
   private double verticalImageBuffer;
   private double horizontalImageBuffer;
+  private String myOrientation;
 
   /**
    * Constructor to create the GhostView object using the default image path for the ghost images
@@ -63,6 +65,7 @@ public class GhostView extends MovableView {
     ghostNum = 1; //TODO: Deal with Ghost Number
     numRows = gridRows;
     numCols = gridCols;
+    myOrientation = "right";
     makeLayoutSettings();
     ghostViewSetup(imagePath);
   }
@@ -102,17 +105,18 @@ public class GhostView extends MovableView {
 
   @Override
   protected void updateState(int state) {
-    ghostImage.setVisible(state == CONSUMABLE_STATE);
+    if (state <= 0) {
+      ghostImage.setVisible(state != DEAD_STATE);
+    }
+    else {
+      ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[state-1], myOrientation)).toURI().toString()));
+    }
   }
 
   @Override
   protected void updateOrientation(String orientation) {
     //TODO: account for case of user input image
-    try {
-      ghostImage.setImage(
-          new Image(String.format("%s%s_%s.png", IMAGE_PATH, GHOST_NAMES[ghostNum], orientation)));
-    } catch (Exception e) { // Don't change the image because it's going up or down
-      return;
-    }
+    ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[ghostNum], orientation)).toURI().toString()));
+    myOrientation = orientation;
   }
 }

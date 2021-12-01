@@ -21,6 +21,7 @@ public class SuperPellet extends AbstractAgent implements Consumable {
   private int myState;
   private MovementStrategyContext myMover;
   protected List<Consumer<Agent>> stateConsumers;
+  private Runnable superPelletRun;
 
   /**
    * abstract constructor for cell
@@ -79,6 +80,7 @@ public class SuperPellet extends AbstractAgent implements Consumable {
     // 2) update pacman state
     // 3) update ghost states
     updateConsumer();
+//    superPelletRun.run();
   }
 
   @Override
@@ -90,4 +92,11 @@ public class SuperPellet extends AbstractAgent implements Consumable {
   public int applyPoints() {
     return PELLET_POINT;
   }
+
+  /**
+   * Adds a Runnable to the SuperPellet object that updates the Ghost and Pac states when consumed
+   *
+   * @param runnable is the Runnable to be assigned to local Runnable variable
+   */
+  public void addRunnable(Runnable runnable) { superPelletRun = runnable; }
 }

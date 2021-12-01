@@ -25,6 +25,11 @@ public class MovementStrategyContext {
     myDirections[3] = "down";
   }
 
+  //to get it to work through reflection, call setStrategy on an agent when looking at data file
+  public void setStrategy(Movable strategyType){
+    strategy = strategyType;
+  }
+
   /**
    * Move one step for the given agent with the given strategy.
    *

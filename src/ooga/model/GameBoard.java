@@ -40,7 +40,6 @@ public class GameBoard {
     //set the state of the game to "super" which in turn sets the states of ghosts + pacman to super and starts a countdown
   }
 
-
   //TODO: change when we implement list of required consumables?
   public boolean checkWin() {
     for (Agent pellet : myState.getMyOtherAgents()) {
@@ -78,7 +77,7 @@ public class GameBoard {
       myPacScore += agent.consume(colliding);
       //call this when consumer has actually been added
       updateScoreConsumer();
-      LOG.info("score is now {}", myPacScore);
+//      LOG.info("score is now {}", myPacScore);
     }
   }
 

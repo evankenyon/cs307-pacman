@@ -1,7 +1,6 @@
 package ooga.model.agents.players;
 
 import ooga.model.agents.AbstractAgent;
-import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
@@ -15,7 +14,6 @@ public class Pacman extends AbstractAgent implements Consumable {
   public final static int ALIVE_STATE = 1;
   public final static int SUPER_STATE = 2;
   public int myLives;
-
 
   private int myState;
   private MovementStrategyContext myMover;

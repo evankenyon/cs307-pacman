@@ -40,8 +40,7 @@ public class JsonParser implements JsonParserInterface {
   private ResourceBundle magicValues;
 
   public JsonParser() {
-    wallMap = new HashMap<>();
-    pelletInfo = new HashMap<>();
+    reset();
     vanillaGameDataConsumers = new ArrayList<>();
     requiredKeys = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, REQUIRED_KEYS_FILENAME));
@@ -49,6 +48,11 @@ public class JsonParser implements JsonParserInterface {
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
     magicValues = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
+  }
+
+  public void reset() {
+    wallMap = new HashMap<>();
+    pelletInfo = new HashMap<>();
   }
 
   @Override

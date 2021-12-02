@@ -159,10 +159,10 @@ public class Controller implements ControllerInterface {
    * Restarts the game with the same file that was originally uploaded. Called from BottomView when user clicks on "Restart" button
    */
   public void restartGame() {
-    wallMap = new HashMap<>();
     try {
-      myPreferences = uploadFile(myFile);
-    } catch (IOException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+      jsonParser.reset();
+      jsonParser.uploadFile(myFile);
+    } catch (IOException e) {
       // TODO: Remove e.printStackTrace()
       e.printStackTrace();
     }

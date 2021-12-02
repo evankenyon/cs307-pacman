@@ -162,4 +162,13 @@ class JsonParserTest {
     Assertions.assertEquals(expectedRows, jsonParser.getRows());
     Assertions.assertEquals(expectedCols, jsonParser.getCols());
   }
+
+  @Test
+  void properReset() throws IOException {
+    jsonParser.uploadFile(new File("data/tests/basicWallMap.json"));
+    Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.uploadFile(new File("data/tests/basicWallMap.json")));
+    jsonParser.reset();
+    Assertions.assertDoesNotThrow(() -> jsonParser.uploadFile(new File("data/tests/basicWallMap.json")));
+  }
+
 }

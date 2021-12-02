@@ -1,0 +1,5 @@
+- try to limit getter methods 
+- make exceptions that tell you in more detail how to resolve the issue your input is causing 
+- consider implementing set-up using subclasses based on different customizations 
+- consider removing interfaces if it is only being extended by 1 class or implement in way with multiple classes to put it to use
+

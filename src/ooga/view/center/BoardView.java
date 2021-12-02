@@ -143,6 +143,7 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, int.class, int.class)
           .newInstance(agent, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+      e.printStackTrace();
       return new WallView(new wall(position.getCoords()[0], position.getCoords()[1]), numRows,
           numCols);
     }

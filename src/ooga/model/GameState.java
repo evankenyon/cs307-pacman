@@ -1,11 +1,9 @@
 package ooga.model;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import ooga.factories.AgentFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
@@ -24,9 +22,9 @@ public class GameState {
   private final int myRows;
   private final int myCols;
 
-  private List<Agent> myOtherAgents;
-
-  private List<Agent> myWalls;
+//  private List<Agent> myOtherAgents;
+//
+//  private List<Agent> myWalls;
   private final AgentFactory agentFactory;
   private static final Logger LOG = LogManager.getLogger(GameState.class);
 
@@ -39,9 +37,9 @@ public class GameState {
 
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.wallMap(), 0) + 1;
-    myOtherAgents = new ArrayList<>();
+//    myOtherAgents = new ArrayList<>();
     agentFactory = new AgentFactory();
-    populateLists(vanillaGameData.wallMap());
+//    populateLists(vanillaGameData.wallMap());
   }
 
   public boolean isInBounds(int x, int y) {
@@ -63,52 +61,53 @@ public class GameState {
     return maxCol;
   }
 
-  private void populateLists(Map<String, List<Position>> initialStates)
-      throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    for (String state : initialStates.keySet()) {
-      for (Position position : initialStates.get(state)) {
-        addAgentToSpecificList(state, position.getCoords()[0],
-            position.getCoords()[1]);
-      }
-    }
-  }
+//  private void populateLists(Map<String, List<Position>> initialStates)
+//      throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+//    for (String state : initialStates.keySet()) {
+//      for (Position position : initialStates.get(state)) {
+//        addAgentToSpecificList(state, position.getCoords()[0],
+//            position.getCoords()[1]);
+//      }
+//    }
+//  }
 
-  private void addAgentToSpecificList(String agent, int x, int y)
-      throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    ResourceBundle types = ResourceBundle.getBundle(
-        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, TYPES_FILENAME));
-    Method method = this.getClass()
-        .getDeclaredMethod(String.format("addTo%s", types.getString(agent)), String.class,
-            int.class, int.class);
-    method.setAccessible(true);
-    method.invoke(this, agent, x, y);
-  }
+//  private void addAgentToSpecificList(String agent, int x, int y)
+//      throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+//    ResourceBundle types = ResourceBundle.getBundle(
+//        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, TYPES_FILENAME));
+//    Method method = this.getClass()
+//        .getDeclaredMethod(String.format("addTo%s", types.getString(agent)), String.class,
+//            int.class, int.class);
+//    method.setAccessible(true);
+//    method.invoke(this, agent, x, y);
+//  }
 
-  private void addToOtherAgents(String agent, int x, int y) {
-    myOtherAgents.add(agentFactory.createAgent(agent, x, y));
-  }
+//  private void addToOtherAgents(String agent, int x, int y) {
+//    myOtherAgents.add(agentFactory.createAgent(agent, x, y));
+//  }
 
 
   public Agent findAgent(Position pos) {
-    if (getPacman().getPosition().getCoords()[0] == pos.getCoords()[0]
-        && getPacman().getPosition().getCoords()[1] == pos.getCoords()[1]) {
-      return getPacman();
-    }
-    Agent potentialAgent = null;
-    for (Agent agent : myOtherAgents) {
-      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
-          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
-        potentialAgent = agent;
-      }
-    }
-
-    for (Agent agent : myWalls) {
-      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
-          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
-        potentialAgent = agent;
-      }
-    }
-    return potentialAgent;
+    return myGameStateData.findAgent(pos);
+//    if (getPacman().getPosition().getCoords()[0] == pos.getCoords()[0]
+//        && getPacman().getPosition().getCoords()[1] == pos.getCoords()[1]) {
+//      return getPacman();
+//    }
+//    Agent potentialAgent = null;
+//    for (Agent agent : myOtherAgents) {
+//      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
+//          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
+//        potentialAgent = agent;
+//      }
+//    }
+//
+//    for (Agent agent : myWalls) {
+//      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
+//          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
+//        potentialAgent = agent;
+//      }
+//    }
+//    return potentialAgent;
   }
 
 
@@ -120,9 +119,9 @@ public class GameState {
     return myGameStateData.isWall(x,y);
   }
 
-  public List<Agent> getMyOtherAgents() {
-    return myOtherAgents;
-  }
+//  public List<Agent> getMyOtherAgents() {
+//    return myOtherAgents;
+//  }
 
   public Agent getMyPlayer() {
     return getPacman();
@@ -130,8 +129,8 @@ public class GameState {
 
   public void updateHandlers() {
     getPacman().updateConsumer();
-    for (Agent a : myOtherAgents) a.updateConsumer();
-    for (Agent wall : myWalls) wall.updateConsumer();
+//    for (Agent a : myOtherAgents) a.updateConsumer();
+//    for (Agent wall : myWalls) wall.updateConsumer();
   }
 
   public boolean isFood(int x, int y) {

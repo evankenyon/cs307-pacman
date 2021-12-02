@@ -33,24 +33,23 @@ public class Controller implements ControllerInterface {
   private static final String EXCEPTION_MESSAGES_FILENAME = "Exceptions";
   private static final String MAGIC_VALUES_FILENAME = "ControllerMagicValues";
 
-  private JsonParserInterface jsonParser;
-  private keyTracker keyTracker;
+  private final JsonParserInterface jsonParser;
+  private final keyTracker keyTracker;
   private VanillaGame vanillaGame;
-  private GameStartupPanel gameStartupPanel;
-  private Timeline myAnimation;
-  private PreferencesParser preferencesParser;
+  private final Timeline myAnimation;
+  private final PreferencesParser preferencesParser;
   private GameStartupPanel panel;
   private Map<String, List<Position>> wallMap;
   private boolean isPaused;
-  private String myLanguage;
+  private final String myLanguage;
   private int rows;
   private int cols;
   private File myFile;
-  private Stage myStage;
+  private final Stage myStage;
   private UserPreferences myPreferences;
   private static final Logger LOG = LogManager.getLogger(Controller.class);
 
-  private ResourceBundle magicValues;
+  private final ResourceBundle magicValues;
 
 
   public Controller(String language, Stage stage) {
@@ -67,7 +66,7 @@ public class Controller implements ControllerInterface {
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();
     preferencesParser = new PreferencesParser();
-    gameStartupPanel = new GameStartupPanel(
+    GameStartupPanel gameStartupPanel = new GameStartupPanel(
         stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
     isPaused = false;
   }
@@ -85,9 +84,7 @@ public class Controller implements ControllerInterface {
             vanillaGame = new VanillaGame(vanillaGameDataInterface);
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             new ErrorPopups(myLanguage, "reflectionError");
-            String path = String.format("%s%s", DEFAULT_RESOURCE_PACKAGE,
-                EXCEPTION_MESSAGES_FILENAME);
-            LOG.info("resource path is {}", path);
+            LOG.info("my exception is {}", e.toString());
             ResourceBundle exceptionMessages = ResourceBundle.getBundle(
                 String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
             throw new InputMismatchException(exceptionMessages.getString("BadReflection"));

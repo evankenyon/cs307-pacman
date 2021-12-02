@@ -8,6 +8,7 @@ import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 
 public class GameStateData {
+
   private boolean isWin;
   private boolean isLose;
   private boolean isSuper;
@@ -20,8 +21,7 @@ public class GameStateData {
   private boolean[][] myWallMap;
 
 
-
-  public GameStateData(){
+  public GameStateData() {
     isLose = false;
     isWin = false;
     myPacScore = 0;
@@ -30,7 +30,8 @@ public class GameStateData {
     myPelletStates = new ArrayList<>();
 
   }
-  public GameStateData(GameStateData previous){
+
+  public GameStateData(GameStateData previous) {
     isWin = previous.isWin;
     isLose = previous.isLose;
     myPacScore = previous.myPacScore;
@@ -43,7 +44,7 @@ public class GameStateData {
 
   }
 
-  public void initialize(Map<String, List<Position>> gameDict, Map<String, Boolean> pelletInfo){
+  public void initialize(Map<String, List<Position>> gameDict, Map<String, Boolean> pelletInfo) {
     int rows = calculateDimension(gameDict, 1) + 1;
     int cols = calculateDimension(gameDict, 0) + 1;
     isWin = false;
@@ -71,15 +72,15 @@ public class GameStateData {
     return myPelletStates;
   }
 
-  public boolean isWin(){
+  public boolean isWin() {
     return isWin;
   }
 
-  public boolean isLose(){
+  public boolean isLose() {
     return isLose;
   }
 
-  public int getMyPacScore(){
+  public int getMyPacScore() {
     return myPacScore;
   }
 
@@ -87,19 +88,46 @@ public class GameStateData {
     return myGhostScore;
   }
 
-  public boolean isWall(int x, int y){
+  public boolean isWall(int x, int y) {
     return myWallMap[x][y];
   }
 
-  public List<Agent> getAgents(){
+  public List<Agent> getAgents() {
     return myAgentStates;
   }
 
-  private void createRequiredPelletList(Map<String, List<Position>> gameDict, Map<String, Boolean> pelletInfo) {
-    for (String key : pelletInfo.keySet()){
-      if (pelletInfo.get(key)){
+  //TODO: to complete refactor, need to fix this, but walls aren't agents anymore?
+  public Agent findAgent(Position pos) {
+    Agent potentialAgent = null;
+    for (Agent agent : myAgentStates) {
+      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
+          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
+        potentialAgent = agent;
+      }
+    }
+
+    for (Agent agent : myPelletStates) {
+      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
+          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
+        potentialAgent = agent;
+      }
+    }
+
+    for (Agent agent : myWallMap) {
+      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
+          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
+        potentialAgent = agent;
+      }
+    }
+    return potentialAgent;
+  }
+
+  private void createRequiredPelletList(Map<String, List<Position>> gameDict,
+      Map<String, Boolean> pelletInfo) {
+    for (String key : pelletInfo.keySet()) {
+      if (pelletInfo.get(key)) {
         List<Position> tempPellets = gameDict.get(key);
-        for (Position dot : tempPellets){
+        for (Position dot : tempPellets) {
           int x = dot.getCoords()[0];
           int y = dot.getCoords()[1];
           myPelletStates.add(agentFactory.createAgent(key, x, y));
@@ -110,15 +138,15 @@ public class GameStateData {
   }
 
   private void createAgentList(Map<String, List<Position>> gameDict) {
-    for (Position agentPos : gameDict.get("Pacman")){
+    for (Position agentPos : gameDict.get("Pacman")) {
       int x = agentPos.getCoords()[0];
       int y = agentPos.getCoords()[1];
       myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
     }
 
     // if file doesn't have a ghost on it / not sure if best design in terms of flexibility?
-    if(gameDict.get("Ghost") != null){
-      for (Position agentPos : gameDict.get("Ghost")){
+    if (gameDict.get("Ghost") != null) {
+      for (Position agentPos : gameDict.get("Ghost")) {
         int x = agentPos.getCoords()[0];
         int y = agentPos.getCoords()[1];
         myAgentStates.add(agentFactory.createAgent("Ghost", x, y));
@@ -126,16 +154,16 @@ public class GameStateData {
     }
   }
 
-  private void createWallMap(Map<String, List<Position>> gameDict,int rows,int cols) {
-    for (int i = 0; i < rows; i++){
-      for (int j = 0; j < cols; j++){
+  private void createWallMap(Map<String, List<Position>> gameDict, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
         myWallMap[j][i] = false;
       }
     }
     List<Position> walls = gameDict.get("Wall");
 
-    if(walls != null){
-      for (Position wall : walls){
+    if (walls != null) {
+      for (Position wall : walls) {
         myWallMap[wall.getCoords()[0]][wall.getCoords()[1]] = true;
       }
     }

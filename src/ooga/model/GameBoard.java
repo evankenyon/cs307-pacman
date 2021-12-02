@@ -42,20 +42,18 @@ public class GameBoard {
 
   //TODO: change when we implement list of required consumables?
   public boolean checkWin() {
-    for (Agent pellet : myState.getMyOtherAgents()) {
-      if (pellet.getState() != 0) {
-        return false;
-      }
-    }
-    return true;
+    //check if the game is a win
+    return false;
   }
 
   //move every agent in the board by one step
   public void moveAll() {
     List<Agent> movers = new ArrayList<>();
-    movers.add(myState.getMyPlayer());
-    movers.addAll(myState.getMyWalls());
-    movers.addAll(myState.getMyOtherAgents());
+    //movers.add(myState.getMyPlayer());
+    //movers.addAll(myState.getMyWalls());
+    //movers.addAll(myState.getMyOtherAgents());
+    movers.add(myState.getPacman());
+    movers.addAll(myState.getGhosts());
     for (Agent agent : movers) {
       Position newPosition = agent.step();
       if (newPosition != null) {
@@ -71,7 +69,7 @@ public class GameBoard {
   }
 
   private void applyEffects(Agent agent, Position newPosition) {
-    if (myState.checkConsumables(newPosition.getCoords()[0],
+    if (myState.isFood(newPosition.getCoords()[0],
         newPosition.getCoords()[1])) {
       Consumable colliding = (Consumable) myState.findAgent(newPosition);
       myPacScore += agent.consume(colliding);
@@ -88,7 +86,7 @@ public class GameBoard {
   private boolean checkMoveValidity(Position newPosition) {
     int x = newPosition.getCoords()[0];
     int y = newPosition.getCoords()[1];
-    return myState.checkGridBounds(x, y) && !myState.checkWallCollision(x, y);
+    return myState.isInBounds(x, y) && !myState.isWall(x, y);
   }
 
   public GameState getGameState() {

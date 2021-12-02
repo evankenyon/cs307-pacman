@@ -23,14 +23,7 @@ public class GameStateNew {
   public GameStateNew(Data vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myGameStateData = new GameStateData();
-
-    List<String> requiredPellets = new ArrayList<>();
-    for (String key : vanillaGameData.pelletInfo().keySet()){
-      if (vanillaGameData.pelletInfo().get(key) == true){
-        requiredPellets.add(key);
-      }
-    }
-    myGameStateData.initialize(vanillaGameData.wallMap(), requiredPellets);
+    myGameStateData.initialize(vanillaGameData.wallMap(), vanillaGameData.pelletInfo());
   }
 
 
@@ -52,26 +45,4 @@ public class GameStateNew {
     return directions;
   }
 
-  public List<Agent> getGhostStates(){
-    return myGameStateData.getGhosts();
-  }
-
-  public Agent getPacman(){
-    return myGameStateData.getPacman();
-  }
-
-  public boolean hasFood(int x, int y){
-    return myGameStateData.isDot(x, y);
-  }
-
-  public boolean isWall(int x, int y){
-    return myGameStateData.isWall(x, y);
-  }
-
-
-
-  public void updateHandlers() {
-    getPacman().updateConsumer();
-    for (Agent a : getGhostStates()) a.updateConsumer();
-  }
 }

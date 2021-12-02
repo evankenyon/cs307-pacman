@@ -16,9 +16,8 @@ public class GameStateData {
   private int foodLeft;
   private final AgentFactory agentFactory = new AgentFactory();
   private List<Agent> myAgentStates;
-  private List<Position> myPelletStates;
+  private List<Agent> myPelletStates;
   private boolean[][] myWallMap;
-  private boolean[][] myDotMap;
 
 
 
@@ -44,7 +43,7 @@ public class GameStateData {
 
   }
 
-  public void initialize(Map<String, List<Position>> gameDict, List<String> pelletInfo){
+  public void initialize(Map<String, List<Position>> gameDict, Map<String, Boolean> pelletInfo){
     int rows = calculateDimension(gameDict, 1) + 1;
     int cols = calculateDimension(gameDict, 0) + 1;
     isWin = false;
@@ -54,9 +53,7 @@ public class GameStateData {
     myGhostScore = 0;
     myAgentStates = new ArrayList<>();
     myWallMap = new boolean[cols][rows];
-    myDotMap = new boolean[cols][rows];
     createWallMap(gameDict, rows, cols);
-    createDotMap(gameDict, rows, cols);
     createAgentList(gameDict);
     createRequiredPelletList(gameDict, pelletInfo);
   }
@@ -70,7 +67,7 @@ public class GameStateData {
     return myAgentStates;
   }
 
-  public List<Position> getMyPelletStates() {
+  public List<Agent> getMyPelletStates() {
     return myPelletStates;
   }
 
@@ -94,36 +91,37 @@ public class GameStateData {
     return myWallMap[x][y];
   }
 
-  public boolean isDot(int x, int y){
-    return myDotMap[x][y];
+  public List<Agent> getAgents(){
+    return myAgentStates;
   }
 
-  public Agent getPacman(){
-    return myAgentStates.get(0);
-  }
-
-  public List<Agent> getGhosts(){
-    return myAgentStates.subList(1, myAgentStates.size());
-  }
-
-  private void createRequiredPelletList(Map<String, List<Position>> gameDict, List<String> pelletInfo) {
-    for (String requiredPellet : pelletInfo){
-      List<Position> tempPellets = gameDict.get(requiredPellet);
-      for (Position dot : tempPellets){
-        myPelletStates.add(dot);
+  private void createRequiredPelletList(Map<String, List<Position>> gameDict, Map<String, Boolean> pelletInfo) {
+    for (String key : pelletInfo.keySet()){
+      if (pelletInfo.get(key)){
+        List<Position> tempPellets = gameDict.get(key);
+        for (Position dot : tempPellets){
+          int x = dot.getCoords()[0];
+          int y = dot.getCoords()[1];
+          myPelletStates.add(agentFactory.createAgent(key, x, y));
+        }
       }
     }
     foodLeft = myPelletStates.size();
   }
 
   private void createAgentList(Map<String, List<Position>> gameDict) {
-    for (String agent : gameDict.keySet()){
-      if (agent.equals("Pacman") || agent.equals("Ghost")){
-        for (Position agentPos : gameDict.get(agent)){
-          int x = agentPos.getCoords()[0];
-          int y = agentPos.getCoords()[1];
-          myAgentStates.add(agentFactory.createAgent(agent, x, y));
-        }
+    for (Position agentPos : gameDict.get("Pacman")){
+      int x = agentPos.getCoords()[0];
+      int y = agentPos.getCoords()[1];
+      myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
+    }
+
+    // if file doesn't have a ghost on it / not sure if best design in terms of flexibility?
+    if(gameDict.get("Ghost") != null){
+      for (Position agentPos : gameDict.get("Ghost")){
+        int x = agentPos.getCoords()[0];
+        int y = agentPos.getCoords()[1];
+        myAgentStates.add(agentFactory.createAgent("Ghost", x, y));
       }
     }
   }
@@ -131,24 +129,15 @@ public class GameStateData {
   private void createWallMap(Map<String, List<Position>> gameDict,int rows,int cols) {
     for (int i = 0; i < rows; i++){
       for (int j = 0; j < cols; j++){
-        myDotMap[j][i] = false;
-      }
-    }
-    List<Position> walls = gameDict.get("Wall");
-    for (Position wall : walls){
-      myDotMap[wall.getCoords()[0]][wall.getCoords()[1]] = true;
-    }
-  }
-
-  private void createDotMap(Map<String, List<Position>> gameDict,int rows,int cols) {
-    for (int i = 0; i < rows; i++){
-      for (int j = 0; j < cols; j++){
         myWallMap[j][i] = false;
       }
     }
-    List<Position> walls = gameDict.get("Dot");
-    for (Position wall : walls){
-      myWallMap[wall.getCoords()[0]][wall.getCoords()[1]] = true;
+    List<Position> walls = gameDict.get("Wall");
+
+    if(walls != null){
+      for (Position wall : walls){
+        myWallMap[wall.getCoords()[0]][wall.getCoords()[1]] = true;
+      }
     }
   }
 

@@ -3,7 +3,6 @@ package ooga.controller;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +21,8 @@ import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
 import ooga.view.mainView.MainView;
-import ooga.view.startupView.GameStartupPanel;
 import ooga.view.popups.ErrorPopups;
+import ooga.view.startupView.GameStartupPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -55,7 +54,8 @@ public class Controller implements ControllerInterface {
 
 
   public Controller(String language, Stage stage) {
-    magicValues = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
+    magicValues = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
     myLanguage = language;
     myStage = stage;
     myAnimation = new Timeline();
@@ -67,7 +67,8 @@ public class Controller implements ControllerInterface {
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();
     preferencesParser = new PreferencesParser();
-    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
+    gameStartupPanel = new GameStartupPanel(
+        stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
     isPaused = false;
   }
 
@@ -84,17 +85,24 @@ public class Controller implements ControllerInterface {
             vanillaGame = new VanillaGame(vanillaGameDataInterface);
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             new ErrorPopups(myLanguage, "reflectionError");
-            ResourceBundle exceptionMessages = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
+            String path = String.format("%s%s", DEFAULT_RESOURCE_PACKAGE,
+                EXCEPTION_MESSAGES_FILENAME);
+            LOG.info("resource path is {}", path);
+            ResourceBundle exceptionMessages = ResourceBundle.getBundle(
+                String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
             throw new InputMismatchException(exceptionMessages.getString("BadReflection"));
           }
         });
-    if(!JSONObjectParser.parseJSONObject(file).toMap().containsKey(magicValues.getString("PlayerKey"))) {
+    if (!JSONObjectParser.parseJSONObject(file).toMap()
+        .containsKey(magicValues.getString("PlayerKey"))) {
       preferencesParser.uploadFile(file);
       jsonParser.uploadFile(preferencesParser.getStartingConfig());
     } else {
       jsonParser.uploadFile(file);
     }
-    myPreferences = new UserPreferences(wallMap, jsonParser.getRows(), jsonParser.getCols(), preferencesParser.getImagePaths(), preferencesParser.getColors(), preferencesParser.getStyle(), myLanguage);
+    myPreferences = new UserPreferences(wallMap, jsonParser.getRows(), jsonParser.getCols(),
+        preferencesParser.getImagePaths(), preferencesParser.getColors(),
+        preferencesParser.getStyle(), myLanguage);
     return myPreferences;
   }
 
@@ -139,7 +147,9 @@ public class Controller implements ControllerInterface {
    *
    * @return double animation rate
    */
-  public double getAnimationSpeed() { return myAnimation.getRate(); }
+  public double getAnimationSpeed() {
+    return myAnimation.getRate();
+  }
 
 //  /**
 //   * Getter method to get the uploaded file. Used to reload a new game.
@@ -156,7 +166,8 @@ public class Controller implements ControllerInterface {
 //  public Stage getStage() { return myStage; }
 
   /**
-   * Restarts the game with the same file that was originally uploaded. Called from BottomView when user clicks on "Restart" button
+   * Restarts the game with the same file that was originally uploaded. Called from BottomView when
+   * user clicks on "Restart" button
    */
   public void restartGame() {
     try {

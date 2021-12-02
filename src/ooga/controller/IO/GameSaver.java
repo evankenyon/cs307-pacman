@@ -3,11 +3,13 @@ package ooga.controller.IO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import ooga.model.GameBoard;
 import ooga.model.GameState;
+import ooga.model.interfaces.Game;
 import org.json.JSONObject;
 
 
-public class SaveGame {
+public class GameSaver {
 
   private static int counter = 1;
   private static StringBuilder path = new StringBuilder();
@@ -16,9 +18,9 @@ public class SaveGame {
   private static String numberOfLives;
   private static String difficultyLevel;
   private static String wallMap;
+  // private static GameState testState = GameBoard.getGameState();
 
-  public static void saveGame() throws IOException {
-
+  public void saveGame(GameState currentState) throws IOException {
     clearBuilders();
     path.append("data/user_files/user_file");
     path.append("_"+ String.valueOf(counter));
@@ -33,7 +35,7 @@ public class SaveGame {
       configObject.put("NumberOfLives", numberOfLives);
       difficultyLevel = "Test-Difficulty-Level";
       configObject.put("WallMap", difficultyLevel);
-      wallMap ="Test-Wall-Map";
+      wallMap = currentState.getMyWalls().toString();
       configObject.put("WallMap", wallMap);
       fileToSave.write(String.valueOf(configObject));
       fileToSave.close();
@@ -43,8 +45,12 @@ public class SaveGame {
 
 
   }
+  private void setWallMap(GameState currentState) {
+    currentState.getMyWalls();
+  }
 
-  private static void clearBuilders() {
+  private void clearBuilders() {
+
     path = new StringBuilder();
   }
 

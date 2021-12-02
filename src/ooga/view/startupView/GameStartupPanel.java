@@ -190,6 +190,7 @@ public class GameStartupPanel {
       if (gameFile == null) {
         new ErrorPopups(selectedLanguage, "noFile");
       } else {
+        ex.printStackTrace();
         new ErrorPopups(selectedLanguage, "fileError");
       }
     }

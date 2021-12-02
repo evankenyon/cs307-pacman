@@ -15,4 +15,4 @@
     * i.e. consider pulling changing movement schemes, win conditions, etc. up to the interface,
       potentially.
 
-netids: sbl28, nqv2
+Collaborating NetIDs: sbl28, nqv2

@@ -35,17 +35,16 @@ public class Pacman extends AbstractAgent implements Consumable {
     setPosition(newPosition.getCoords());
   }
 
-  public Position step() {
-//    LOG.info(String.format("%d, %d", getPosition().getCoords()[0], getPosition().getCoords()[1]));
+  public Position getNextMove() {
     return myMover.move(getPosition());
   }
 
   public int consume(Consumable agent) {
-    if (agent != null) {
-      agent.getConsumed();
-      agent.applyEffects(this);
-      return agent.applyPoints();
-    }
+//    if (agent != null) {
+//      agent.getConsumed();
+//      agent.applyEffects(this);
+//      return agent.applyPoints();
+//    }
     return 0;
   }
 
@@ -58,7 +57,7 @@ public class Pacman extends AbstractAgent implements Consumable {
 
   @Override
   public void getConsumed() {
-    if (myLives != 0) myLives--;
+    //if (myLives != 0) myLives--;
   }
 
   @Override
@@ -71,9 +70,9 @@ public class Pacman extends AbstractAgent implements Consumable {
     return 0;
   }
 
-  public void loseLife(){
-    if (myLives > 0){
-      myLives--;
-    }
-  }
+//  public void loseLife(){
+//    if (myLives > 0){
+//      myLives--;
+//    }
+//  }
 }

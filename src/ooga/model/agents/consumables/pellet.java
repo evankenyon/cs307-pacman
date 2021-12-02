@@ -39,7 +39,7 @@ public class pellet extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public Position step() {
+  public Position getNextMove() {
     return myMover.move(new Position(getPosition().getCoords()[0], getPosition().getCoords()[1]));
   }
 

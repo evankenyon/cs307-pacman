@@ -23,7 +23,8 @@ public class VanillaGame implements Game {
   }
 
   public void step() {
-    myBoard.moveAll();
+    myBoard.movePawns();
+    myBoard.checkCollisions();
     updateHandlers();
   }
 

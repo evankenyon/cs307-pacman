@@ -26,7 +26,7 @@ public interface Agent {
    *
    * @return
    */
-  Position step();
+  Position getNextMove();
 
   Position getPosition();
 

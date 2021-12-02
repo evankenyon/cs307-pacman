@@ -39,7 +39,7 @@ public class Ghost extends AbstractAgent implements Consumable {
     setPosition(newPosition.getCoords());
   }
 
-  public Position step() {
+  public Position getNextMove() {
     return myMover.move(getPosition());
   }
 
@@ -55,30 +55,31 @@ public class Ghost extends AbstractAgent implements Consumable {
 
   @Override
   public void getConsumed() {
-    if (myState == AFRAID_STATE){
-      System.out.println("a ghost has been eaten");
-      myState = DEAD_STATE;
-      updateConsumer();
-    }
-    if (myState == ALIVE_STATE){
-      System.out.println("pacman tried to eat a ghost- it didn't work");
-      updateConsumer();
-    }
+//    if (myState == AFRAID_STATE){
+//      System.out.println("a ghost has been eaten");
+//      myState = DEAD_STATE;
+//      updateConsumer();
+//    }
+//    if (myState == ALIVE_STATE){
+//      System.out.println("pacman tried to eat a ghost- it didn't work");
+//      updateConsumer();
+//    }
   }
 
   @Override
   public void applyEffects(Pacman pacman) {
-    if (pacman.getState() != 2){
-       pacman.loseLife();
-       updateConsumer();
-    }
+//    if (pacman.getState() != 2){
+//       pacman.loseLife();
+//       updateConsumer();
+//    }
   }
 
   @Override
   public int applyPoints() {
-    if (myState == AFRAID_STATE){
-      return GHOST_POINTS;
-    }
-    else return 0;
+//    if (myState == AFRAID_STATE){
+//      return GHOST_POINTS;
+//    }
+//    else return 0;
+    return 0;
   }
 }

@@ -47,20 +47,20 @@ public class GameBoard {
   }
 
   //move every agent in the board by one step
-  public void moveAll() {
+  public void movePawns() {
     List<Agent> movers = new ArrayList<>();
     //movers.add(myState.getMyPlayer());
     //movers.addAll(myState.getMyWalls());
     //movers.addAll(myState.getMyOtherAgents());
     movers.add(myState.getPacman());
-    movers.addAll(myState.getGhosts());
+//    movers.addAll(myState.getGhosts());
+//    movers.addAll(myState.getFood());
+//    movers.addAll(myState.getWalls());
     for (Agent agent : movers) {
-      Position newPosition = agent.step();
+      Position newPosition = agent.getNextMove();
       if (newPosition != null) {
         //only set new coordinate value if move is valid
         if (checkMoveValidity(newPosition)) {
-          //apply effects first because if we move first we'll have two agents with the same coords
-          applyEffects(agent, newPosition);
           //set coordinates after effects have been applied
           agent.setCoords(newPosition);
         }
@@ -68,15 +68,36 @@ public class GameBoard {
     }
   }
 
-  private void applyEffects(Agent agent, Position newPosition) {
-    if (myState.isFood(newPosition.getCoords()[0],
-        newPosition.getCoords()[1])) {
-      Consumable colliding = (Consumable) myState.findAgent(newPosition);
-      myPacScore += agent.consume(colliding);
-      //call this when consumer has actually been added
-      updateScoreConsumer();
-//      LOG.info("score is now {}", myPacScore);
+  public void checkCollisions(){
+    Agent pacman = myState.getPacman();
+    Position pacPos = pacman.getPosition();
+
+    List<Agent> foods = myState.getFood();
+    List<Agent> ghosts = myState.getGhosts();
+    //movers.add(myState.getMyPlayer());
+    //movers.addAll(myState.getMyWalls());
+    //movers.addAll(myState.getMyOtherAgents());
+    for (Agent food : foods){
+      if (isOverlapping(food.getPosition(), pacman.getPosition())){
+        System.out.println("food is being eaten!");
+      }
     }
+    for (Agent ghost : ghosts){
+      if (isOverlapping(ghost.getPosition(), pacman.getPosition())){
+        System.out.println("Ghost + Pac overlap!");
+      }
+    }
+  }
+
+  private void applyEffects(Agent agent, Position newPosition) {
+//    if (myState.isFood(newPosition.getCoords()[0],
+//        newPosition.getCoords()[1])) {
+//      Consumable colliding = (Consumable) myState.findAgent(newPosition);
+//      myPacScore += agent.consume(colliding);
+//      //call this when consumer has actually been added
+//      updateScoreConsumer();
+//      LOG.info("score is now {}", myPacScore);
+//    }
   }
 
   public void setPlayerDirection(String direction) {
@@ -96,6 +117,10 @@ public class GameBoard {
 //  public int getScore() {
 //    return myScore;
 //  }
+
+  private boolean isOverlapping(Position aPos, Position bPos){
+    return (aPos.getCoords()[0] == bPos.getCoords()[0] && aPos.getCoords()[1] == bPos.getCoords()[1]);
+  }
 
   public void addScoreConsumer(Consumer<Integer> consumer) {
     myScoreConsumer = consumer;

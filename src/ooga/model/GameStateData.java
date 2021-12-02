@@ -18,6 +18,7 @@ public class GameStateData {
   private final AgentFactory agentFactory = new AgentFactory();
   private List<Agent> myAgentStates;
   private List<Agent> myPelletStates;
+  private List<Agent> myWallStates;
   private boolean[][] myWallMap;
 
 
@@ -41,6 +42,7 @@ public class GameStateData {
     myAgentStates = previous.myAgentStates;
     myPelletStates = previous.myPelletStates;
     myWallMap = previous.myWallMap;
+    myWallStates = previous.myWallStates;
 
   }
 
@@ -53,9 +55,12 @@ public class GameStateData {
     myPacScore = 0;
     myGhostScore = 0;
     myAgentStates = new ArrayList<>();
+    myPelletStates = new ArrayList<>();
+    myWallStates = new ArrayList<>();
     myWallMap = new boolean[cols][rows];
     createWallMap(gameDict, rows, cols);
     createAgentList(gameDict);
+    createWallList(gameDict);
     createRequiredPelletList(gameDict, pelletInfo);
   }
 
@@ -70,6 +75,10 @@ public class GameStateData {
 
   public List<Agent> getMyPelletStates() {
     return myPelletStates;
+  }
+
+  public List<Agent> getMyWallStates() {
+    return myWallStates;
   }
 
   public boolean isWin() {
@@ -96,7 +105,7 @@ public class GameStateData {
     return myAgentStates;
   }
 
-  //TODO: to complete refactor, need to fix this, but walls aren't agents anymore?
+  //TODO: to complete refactor, need to fix this
   public Agent findAgent(Position pos) {
     Agent potentialAgent = null;
     for (Agent agent : myAgentStates) {
@@ -113,7 +122,7 @@ public class GameStateData {
       }
     }
 
-    for (Agent agent : myWallMap) {
+    for (Agent agent : myWallStates) {
       if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
           && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
         potentialAgent = agent;
@@ -151,6 +160,14 @@ public class GameStateData {
         int y = agentPos.getCoords()[1];
         myAgentStates.add(agentFactory.createAgent("Ghost", x, y));
       }
+    }
+  }
+
+  private void createWallList(Map<String, List<Position>> gameDict) {
+    for (Position wallPos : gameDict.get("Wall")) {
+      int x = wallPos.getCoords()[0];
+      int y = wallPos.getCoords()[1];
+       myWallStates.add(agentFactory.createAgent("Wall", x, y));
     }
   }
 

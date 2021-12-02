@@ -42,9 +42,9 @@ public class PacmanTest {
   void stepTestUp() {
 
     pacman.getPosition().setDirection(tracker.getPressedKey(up));
-    Position potentialPosition = pacman.step();
-    int currentX = potentialPosition.getCoords()[0];
-    int currentY = potentialPosition.getCoords()[1];
+    Position potentialPosition = pacman.getNextMove();
+    double currentX = potentialPosition.getCoords()[0];
+    double currentY = potentialPosition.getCoords()[1];
 
     Assertions.assertEquals(1, currentX);
     Assertions.assertEquals(1, currentY);
@@ -53,9 +53,9 @@ public class PacmanTest {
   @Test
   void stepTestDown() {
     pacman.getPosition().setDirection(tracker.getPressedKey(down));
-    Position potentialPosition = pacman.step();
-    int currentX = potentialPosition.getCoords()[0];
-    int currentY = potentialPosition.getCoords()[1];
+    Position potentialPosition = pacman.getNextMove();
+    double currentX = potentialPosition.getCoords()[0];
+    double currentY = potentialPosition.getCoords()[1];
 
     Assertions.assertEquals(1, currentX);
     Assertions.assertEquals(3, currentY);
@@ -64,9 +64,9 @@ public class PacmanTest {
   @Test
   void stepTestRight() {
     pacman.getPosition().setDirection(tracker.getPressedKey(right));
-    Position potentialPosition = pacman.step();
-    int currentX = potentialPosition.getCoords()[0];
-    int currentY = potentialPosition.getCoords()[1];
+    Position potentialPosition = pacman.getNextMove();
+    double currentX = potentialPosition.getCoords()[0];
+    double currentY = potentialPosition.getCoords()[1];
 
     Assertions.assertEquals(2, currentX);
     Assertions.assertEquals(2, currentY);
@@ -75,9 +75,9 @@ public class PacmanTest {
   @Test
   void stepTestLeft() {
     pacman.getPosition().setDirection(tracker.getPressedKey(left));
-    Position potentialPosition = pacman.step();
-    int currentX = potentialPosition.getCoords()[0];
-    int currentY = potentialPosition.getCoords()[1];
+    Position potentialPosition = pacman.getNextMove();
+    double currentX = potentialPosition.getCoords()[0];
+    double currentY = potentialPosition.getCoords()[1];
 
     Assertions.assertEquals(0, currentX);
     Assertions.assertEquals(2, currentY);

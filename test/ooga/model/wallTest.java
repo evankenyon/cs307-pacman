@@ -17,9 +17,9 @@ public class wallTest {
 
   @Test
   void stepTestNothing() {
-    Position myPosition = myWall.step();
-    int currentX = myPosition.getCoords()[0];
-    int currentY = myPosition.getCoords()[1];
+    Position myPosition = myWall.getNextMove();
+    double currentX = myPosition.getCoords()[0];
+    double currentY = myPosition.getCoords()[1];
 
     Assertions.assertEquals(1, currentX);
     Assertions.assertEquals(2, currentY);

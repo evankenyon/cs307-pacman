@@ -3,12 +3,10 @@ package ooga.controller.IO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
-import ooga.controller.Controller;
 import ooga.model.GameState;
 import ooga.model.interfaces.Agent;
 import org.json.JSONArray;
@@ -52,14 +50,9 @@ public class GameSaver {
 
     try {
       FileWriter fileToSave = new FileWriter(jsonFile);
-      JSONObject configObject = new JSONObject();
-      //numberOfLives = "Test-Number-Of-Lives";
-      configObject.put("NumberOfLives", numberOfLives);
-      //difficultyLevel = "Test-Difficulty-Level";
-      configObject.put("WallMap", difficultyLevel);
-      //wallMap = currentState.getMyWalls().toString();
-      configObject.put("WallMap", wallMap);
-      fileToSave.write(String.valueOf(configObject));
+      setJSONObjects();
+      fileToSave.write(String.valueOf(player));
+      fileToSave.write(String.valueOf(wallMap));
       fileToSave.close();
     } catch (IOException e) {
       System.out.println("SaveGame Exception");
@@ -125,7 +118,7 @@ public class GameSaver {
     //numLives
   }
 
-  private void getSortedAgentArray() {
+  private void sortAgentArray() {
     agentArray.addAll(state.getMyWalls());
     agentArray.addAll(state.getMyOtherAgents());
     agentArray.add(state.getMyPlayer());
@@ -134,7 +127,7 @@ public class GameSaver {
   }
 
   private void buildWallMap() {
-    getSortedAgentArray();
+    sortAgentArray();
 
     JSONArray overallWallArray = new JSONArray();
 

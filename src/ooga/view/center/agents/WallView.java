@@ -12,9 +12,15 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import ooga.model.interfaces.Agent;
 
+/**
+ * Subclass of StationaryView, which is a subclass of AgentView. WallView creates a View Agent that
+ * shows the walls in the game.
+ *
+ * @author Dane Erickson
+ */
 public class WallView extends StationaryView {
 
-  public static final List<Double> WALL_COLOR_RGB = Arrays.asList(0.,0.,255.);
+  public static final List<Double> WALL_COLOR_RGB = Arrays.asList(0., 0., 255.);
   public static final Paint WALL_COLOR = Color.BLUE;
 
   private Agent myAgent;
@@ -26,7 +32,15 @@ public class WallView extends StationaryView {
   private double gridHeight;
   private double imageBuffer;
 
-  public WallView (Agent w, int gridRows, int gridCols) {
+  /**
+   * Constructor to create the WallView object using the default wall color for the Rectangles in
+   * WallView
+   *
+   * @param w        is the Agent from the backend that corresponds to the front end Agent
+   * @param gridRows is the row position of the Agent
+   * @param gridCols is the column position of the Agent
+   */
+  public WallView(Agent w, int gridRows, int gridCols) {
 //    this(w, WALL_COLOR_RGB, gridRows, gridCols);
     myAgent = w;
     numCols = gridCols;
@@ -35,6 +49,16 @@ public class WallView extends StationaryView {
     wallViewSetup(WALL_COLOR);
   }
 
+  /**
+   * Constructor to create the WallView object using the inputted list of RGB values to determine an
+   * inputted color for the walls from the user.
+   *
+   * @param w        is the Agent from the backend that corresponds to the front end Agent
+   * @param rgb      is the list of Doubles that represent the red, green, and blue values to
+   *                 determine the pellet's color
+   * @param gridRows is the row position of the Agent
+   * @param gridCols is the column position of the Agent
+   */
   public WallView(Agent w, List<Double> rgb, int gridRows, int gridCols) {
     myAgent = w;
     numCols = gridCols;
@@ -53,8 +77,8 @@ public class WallView extends StationaryView {
   private void wallViewSetup(Paint color) {
     myWallShape = new Rectangle(gridWidth, gridHeight, color);
     setImage(myWallShape);
-    myWallShape.setX(gridWidth*myAgent.getPosition().getCoords()[0]);
-    myWallShape.setY(gridHeight*myAgent.getPosition().getCoords()[1]);
+    myWallShape.setX(gridWidth * myAgent.getPosition().getCoords()[0]);
+    myWallShape.setY(gridHeight * myAgent.getPosition().getCoords()[1]);
     myAgent.addConsumer(updateWall);
   }
 

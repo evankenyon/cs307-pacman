@@ -1,6 +1,10 @@
 package ooga.model.agents.consumables;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 import ooga.model.agents.AbstractAgent;
+import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
@@ -16,6 +20,8 @@ public class SuperPellet extends AbstractAgent implements Consumable {
 
   private int myState;
   private MovementStrategyContext myMover;
+  protected List<Consumer<Agent>> stateConsumers;
+//  private Runnable superPelletRun;
 
   /**
    * abstract constructor for cell
@@ -27,6 +33,7 @@ public class SuperPellet extends AbstractAgent implements Consumable {
     super(x, y);
     myState = UNEATEN_STATE;
     myMover = new MovementStrategyContext(new Static());
+    stateConsumers = new ArrayList<>();
   }
 
   @Override
@@ -51,23 +58,45 @@ public class SuperPellet extends AbstractAgent implements Consumable {
 
   @Override
   public void setState(int i) {
-    myState = 1;
+    myState = i;
     updateConsumer();
   }
 
+  public void addConsumer(Consumer<Agent> consumer) {
+    stateConsumers.add(consumer);
+  }
+
+  public void updateConsumer() {
+    for (Consumer<Agent> consumer : stateConsumers) {
+      consumer.accept(this);
+    }
+  }
+
   @Override
-  public void agentReact() {
+  public void getConsumed() {
     myState = EATEN_STATE;
+    //TODO
+    // 1) update score
+    // 2) update pacman state
+    // 3) update ghost states
+    getRunnable().run();
     updateConsumer();
   }
 
   @Override
-  public void applyEffects(Agent agent) {
-    agent.setState(2);
+  public void applyEffects(Pacman pacman) {
+    pacman.setState(2);
   }
 
   @Override
   public int applyPoints() {
     return PELLET_POINT;
   }
+
+//  /**
+//   * Adds a Runnable to the SuperPellet object that updates the Ghost and Pac states when consumed
+//   *
+//   * @param runnable is the Runnable to be assigned to local Runnable variable
+//   */
+//  public void addRunnable(Runnable runnable) { superPelletRun = runnable; }
 }

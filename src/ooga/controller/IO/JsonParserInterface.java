@@ -14,4 +14,6 @@ public interface JsonParserInterface {
   public int getRows();
 
   public int getCols();
+
+  public void reset();
 }

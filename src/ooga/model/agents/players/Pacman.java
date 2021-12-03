@@ -16,6 +16,7 @@ public class Pacman extends AbstractAgent implements Consumable {
   public final static int SUPER_STATE = 2;
   public int myLives;
 
+
   private int myState;
   private MovementStrategyContext myMover;
   private static final Logger LOG = LogManager.getLogger(Pacman.class);
@@ -43,7 +44,7 @@ public class Pacman extends AbstractAgent implements Consumable {
 
   public int consume(Consumable agent) {
     if (agent != null) {
-      agent.agentReact();
+      agent.getConsumed();
       agent.applyEffects(this);
       return agent.applyPoints();
     }
@@ -58,18 +59,23 @@ public class Pacman extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public void agentReact() {
+  public void getConsumed() {
     if (myLives != 0) myLives--;
-
   }
 
   @Override
-  public void applyEffects(Agent agent) {
+  public void applyEffects(Pacman pacman) {
     //decrease lives or something?
   }
 
   @Override
   public int applyPoints() {
     return 0;
+  }
+
+  public void loseLife(){
+    if (myLives > 0){
+      myLives--;
+    }
   }
 }

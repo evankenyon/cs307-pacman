@@ -1,5 +1,6 @@
 package ooga.view.center.agents;
 
+import static ooga.model.agents.consumables.Ghost.DEAD_STATE;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 
@@ -9,11 +10,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ooga.model.interfaces.Agent;
 
+/**
+ * Subclass of MovableView, which is a subclass of AgentView. GhostView creates a View Agent that
+ * shows the ghosts in the game.
+ *
+ * @author Dane Erickson
+ */
 public class GhostView extends MovableView {
 
-  public static final String GHOST_NAMES[] = {"blue","blinky","pinky","inky","clyde"};
-
+  public static final String GHOST_NAMES[] = {"blinky", "blue", "pinky", "inky",
+      "clyde"}; //make ghost state 0=dead, 1=blinky, 2=pinky, ... , 5=blue
   public static final int CONSUMABLE_STATE = 1;
+  public static final String GHOST_PATH = "%s%s_right.gif";
+  public static final String CHARGED_GHOST_PATH = "%s%s_right_charged.gif";
 
   private ImageView ghostImage;
   private Agent myAgent;
@@ -26,16 +35,38 @@ public class GhostView extends MovableView {
   private double imageBuffer;
   private double verticalImageBuffer;
   private double horizontalImageBuffer;
+  private String myOrientation;
+  private int myState;
 
-  public GhostView(Agent ghost, int gridRows, int gridCols) { // make just 1 ghost (not 4) for first test?
-    this(ghost, String.format("%s%s_right.png", IMAGE_PATH, GHOST_NAMES[1]), gridRows, gridCols);
+  /**
+   * Constructor to create the GhostView object using the default image path for the ghost images
+   *
+   * @param ghost    is the Agent from the backend that corresponds to the front end Agent
+   * @param gridRows is the row position of the Agent
+   * @param gridCols is the column position of the Agent
+   */
+  public GhostView(Agent ghost, int gridRows,
+      int gridCols) { // make just 1 ghost (not 4) for first test?
+    this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[0]), gridRows, gridCols);
+//    this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[ghost.getState()]), gridRows, gridCols);
   }
 
-  public GhostView (Agent ghost, String imagePath, int gridRows, int gridCols) { // make just 1 ghost (not 4) for first test?
+  /**
+   * Constructor to create the GhostView object using the inputted image path for the ghost images
+   * from the preferences file.
+   *
+   * @param ghost     is the Agent from the backend that corresponds to the front end Agent
+   * @param imagePath is the inputted path from the preferences file for the Agent's image
+   * @param gridRows  is the row position of the Agent
+   * @param gridCols  is the column position of the Agent
+   */
+  public GhostView(Agent ghost, String imagePath, int gridRows,
+      int gridCols) { // make just 1 ghost (not 4) for first test?
     myAgent = ghost;
-    ghostNum = 1; //TODO: Deal with Ghost Number
+    myState = 1; //TODO: Deal with Ghost Number
     numRows = gridRows;
     numCols = gridCols;
+    myOrientation = "right";
     makeLayoutSettings();
     ghostViewSetup(imagePath);
   }
@@ -75,17 +106,19 @@ public class GhostView extends MovableView {
 
   @Override
   protected void updateState(int state) {
-    ghostImage.setVisible(state == CONSUMABLE_STATE);
+    myState = state;
+    if (state <= 0) {
+      ghostImage.setVisible(state != DEAD_STATE);
+    }
+    else {
+      ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[state-1], myOrientation)).toURI().toString()));
+    }
   }
 
   @Override
   protected void updateOrientation(String orientation) {
     //TODO: account for case of user input image
-    try {
-      ghostImage.setImage(new Image(String.format("%s%s_%s.png", IMAGE_PATH, GHOST_NAMES[ghostNum], orientation)));
-    }
-    catch (Exception e) { // Don't change the image because it's going up or down
-      return;
-    }
+    ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[myState-1], orientation)).toURI().toString()));
+    myOrientation = orientation;
   }
 }

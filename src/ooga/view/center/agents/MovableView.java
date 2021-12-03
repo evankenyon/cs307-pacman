@@ -4,11 +4,25 @@ import java.util.Map;
 import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 
+/**
+ * Subclass of AgentView and is the super class for the view agents that move on the screen
+ *
+ * @author Dane Erickson
+ */
 public abstract class MovableView extends AgentView {
 
   public static final String IMAGE_PATH = "data/images/";
   public static final Map<String, Integer> ORIENTATION_MAP =
-      Map.of("right",0,"down",90,"left",180,"up",270,"NULL", 0);
+      Map.of("right", 0, "down", 90, "left", 180, "up", 270, "NULL", 0);
+  public static final String MOVABLE_ORDER = "Front";
+
+  /**
+   * Constructor to create the MovableView Object, which is the super class for movable objects.
+   * The constructor sets this AgentView object's order to the correct location (Back or Front).
+   */
+  public MovableView() {
+    setOrder(MOVABLE_ORDER);
+  }
 
   protected abstract void moveX(int x);
 
@@ -18,8 +32,13 @@ public abstract class MovableView extends AgentView {
 
   protected abstract void updateOrientation(String orientation);
 
-//  protected abstract void consume(PlayerView prey);
-
+  /**
+   * Overridden method from AgentView super class that changes the x and y positions, image (state),
+   * and orientation of the image when the consumer for the corresponding Agent is called with
+   * accept().
+   *
+   * @param agent is the Agent interface of the agent to be updated
+   */
   @Override
   public void updateAgent(Agent agent) {
     Position p = agent.getPosition();

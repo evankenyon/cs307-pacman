@@ -12,11 +12,17 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import ooga.model.interfaces.Agent;
 
+/**
+ * Subclass of StationaryView, which is a subclass of AgentView. SuperPelletView creates a View
+ * Agent that shows the super pellets in the game.
+ *
+ * @author Dane Erickson
+ */
 public class SuperPelletView extends StationaryView {
 
   public static final double LARGE_PELLET_SIZE = 0.25; // large pellets radii are 50% of grid square
 
-//  private VanillaGame myGame;
+  //  private VanillaGame myGame;
 //  private Position myInfo;
   private Agent myAgent; //TODO: change to correct agent subclass
   private Circle myCircle;
@@ -29,6 +35,14 @@ public class SuperPelletView extends StationaryView {
   private double pelletBufferX;
   private double pelletBufferY;
 
+  /**
+   * Constructor to create the SuperPelletView object using the default pellet color for the Circles
+   * in SuperPelletView
+   *
+   * @param pelletAgent is the Agent from the backend that corresponds to the front end Agent
+   * @param gridRows    is the row position of the Agent
+   * @param gridCols    is the column position of the Agent
+   */
   public SuperPelletView(Agent pelletAgent, int gridRows, int gridCols) {
 //    this(pelletAgent, PELLET_COLOR, gridRows, gridCols);
     myAgent = pelletAgent;
@@ -39,6 +53,16 @@ public class SuperPelletView extends StationaryView {
     superPelletViewSetup();
   }
 
+  /**
+   * Constructor to create the SuperPelletView object using the inputted list of RGB values to
+   * determine an inputted color for the super pellets from the user.
+   *
+   * @param pelletAgent is the Agent from the backend that corresponds to the front end Agent
+   * @param rgb         is the list of Doubles that represent the red, green, and blue values to
+   *                    determine the super pellet's color
+   * @param gridRows    is the row position of the Agent
+   * @param gridCols    is the column position of the Agent
+   */
   public SuperPelletView(Agent pelletAgent, List<Double> rgb, int gridRows, int gridCols) {
     myAgent = pelletAgent;
     numCols = gridCols;
@@ -60,15 +84,15 @@ public class SuperPelletView extends StationaryView {
 
   private void superPelletViewSetup() {
     setImage(myCircle);
-    myCircle.setCenterX(gridWidth*myAgent.getPosition().getCoords()[0] + pelletBufferX);
-    myCircle.setCenterY(gridHeight*myAgent.getPosition().getCoords()[1] + pelletBufferY);
+    myCircle.setCenterX(gridWidth * myAgent.getPosition().getCoords()[0] + pelletBufferX);
+    myCircle.setCenterY(gridHeight * myAgent.getPosition().getCoords()[1] + pelletBufferY);
     myAgent.addConsumer(updatePellet);
   }
 
   private Circle makeCircle(Paint color) {
     int x = myAgent.getPosition().getCoords()[0];
     int y = myAgent.getPosition().getCoords()[1];
-    return new Circle(x, y, Math.min(gridHeight,gridWidth)*LARGE_PELLET_SIZE, color);
+    return new Circle(x, y, Math.min(gridHeight, gridWidth) * LARGE_PELLET_SIZE, color);
   }
 
   @Override

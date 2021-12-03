@@ -40,4 +40,6 @@ public interface Agent {
   int consume(Consumable agent);
 
   void setState(int i);
+
+  void addRunnable(Runnable runnable);
 }

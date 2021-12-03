@@ -1,10 +1,13 @@
 package ooga.model.agents.consumables;
 
+import java.sql.SQLOutput;
 import ooga.model.agents.AbstractAgent;
+import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
+import ooga.model.movement.Random;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
@@ -23,8 +26,9 @@ public class Ghost extends AbstractAgent implements Consumable {
 
   public Ghost(int x, int y) {
     super(x, y);
+    getPosition().setDirection("right");
     myState = ALIVE_STATE;
-    myMover = new MovementStrategyContext(new Static());
+    myMover = new MovementStrategyContext(new Random());
   }
 
   public int getState() {
@@ -40,11 +44,6 @@ public class Ghost extends AbstractAgent implements Consumable {
   }
 
   public int consume(Consumable agent) {
-    if (agent != null) {
-      agent.agentReact();
-      agent.applyEffects(this);
-      return agent.applyPoints();
-    }
     return 0;
   }
 
@@ -55,15 +54,24 @@ public class Ghost extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public void agentReact() {
+  public void getConsumed() {
     if (myState == AFRAID_STATE){
       System.out.println("a ghost has been eaten");
+      myState = DEAD_STATE;
+      updateConsumer();
+    }
+    if (myState == ALIVE_STATE){
+      System.out.println("pacman tried to eat a ghost- it didn't work");
+      updateConsumer();
     }
   }
 
   @Override
-  public void applyEffects(Agent agent) {
-    //decrease lives or something?
+  public void applyEffects(Pacman pacman) {
+    if (pacman.getState() != 2){
+       pacman.loseLife();
+       updateConsumer();
+    }
   }
 
   @Override

@@ -9,6 +9,8 @@ import ooga.model.util.Position;
 public class MovementStrategyContext {
 
   private Movable strategy;
+  private String[] myDirections = new String[4];
+
 
   /**
    * Constructor for a strategy context
@@ -17,6 +19,10 @@ public class MovementStrategyContext {
    */
   public MovementStrategyContext(Movable strategyType) {
     strategy = strategyType;
+    myDirections[0] = "left";
+    myDirections[1] = "right";
+    myDirections[2] = "up";
+    myDirections[3] = "down";
   }
 
   /**

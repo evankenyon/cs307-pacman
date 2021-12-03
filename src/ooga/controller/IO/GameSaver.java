@@ -3,11 +3,15 @@ package ooga.controller.IO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
+import ooga.controller.Controller;
 import ooga.model.GameState;
 import ooga.model.interfaces.Agent;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -100,22 +104,54 @@ public class GameSaver {
     }
   }
 
-  private void setObjectByAgent(Agent agent) {
-    //for (Key key: )
+
+  private String makeStringFromAgent(Agent agent) {
+    String agentString = agent.toString();
+    String cutAgentString = agentString.substring(agentString.indexOf("@"));
+    if (cutAgentString.contains("consumables")) {
+      return agentString.replace("ooga.model.agents.consumables.", "");
+    }
+    else {
+      return agentString.replace("ooga.model.agents.players.", "");
+    }
   }
 
   private void setJSONObjects() {
-    Agent P  = state.getMyPlayer();
-
-    //numberOfLives;
-    //difficultyLevel;
-    //wallMap;
+    String playerString  = makeStringFromAgent(state.getMyPlayer());
+    player.put("Player", playerString);
+    buildWallMap();
+    wallMap.put("WallMap", wallMap);
+    //difficultyLevel
+    //numLives
   }
 
   private void getSortedAgentArray() {
-
+    agentArray.addAll(state.getMyWalls());
+    agentArray.addAll(state.getMyOtherAgents());
+    agentArray.add(state.getMyPlayer());
+    Collections.sort(agentArray, new RowComparator()
+        .thenComparing(new ColComparator()));
   }
 
+  private void buildWallMap() {
+    getSortedAgentArray();
+
+    JSONArray overallWallArray = new JSONArray();
+
+    int numRows = agentArray.get(-1).getPosition().getCoords()[1] + 1;
+    int numCols = agentArray.get(-1).getPosition().getCoords()[0] + 1;
+
+    int arrayIndex = 0;
+    for (int i=0; i < numRows; i++) {
+      JSONArray rowWallArray = new JSONArray();
+      for (int j=0; j < numCols; j++) {
+        rowWallArray.put(makeStringFromAgent(agentArray.get(arrayIndex)));
+        arrayIndex ++;
+      }
+      overallWallArray.put(rowWallArray);
+    }
+
+  }
 
 
 

@@ -11,6 +11,7 @@ import ooga.controller.Controller;
 import ooga.model.Data;
 import ooga.model.GameState;
 import ooga.model.interfaces.Agent;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONWriter;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +32,7 @@ public class SaveGameTest {
 void testGameSaver()
     throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, IOException {
   //map of only pacman and dot to its right
-  Map<String, List<Position>> wallMap = Map.of( "Dot", List.of(new Position(1, 0)),
+  Map<String, List<Position>> wallMap = Map.of( "Ghost", List.of(new Position(1, 0)),
       "Pacman", List.of(new Position(1, 1)), "Wall",
       List.of(new Position(2, 0)));
   Map<String, Boolean> pelletInfo = Map.of("Dot", true);
@@ -43,7 +44,6 @@ void testGameSaver()
   List<Agent> otherAgents = currentState.getMyOtherAgents();
   System.out.println(otherAgents);
   List<Agent> walls = currentState.getMyWalls();
-
   List<Agent> agentArray = new ArrayList<>();
 
   //int x = wall.getPosition().getCoords()[0];
@@ -123,7 +123,10 @@ void testGameSaver()
 
   }
 
-  System.out.println(player.toString().contains("Pacman"));
+
+  String reduced = player.toString().replace("ooga.model.agents.players.", "");
+  int atIndex = reduced.indexOf("@");
+  System.out.println(reduced.substring(0,atIndex));
 
 
 
@@ -135,7 +138,10 @@ void testJSonFile() throws IOException {
   File jsonFile = new File(String.valueOf(path));
   FileWriter fileToSave = new FileWriter(jsonFile);
   JSONObject configObject = new JSONObject();
-  //configObject.put("PowerUps", ["Super", "Energizer"]);
+  JSONArray jsonArray = new JSONArray();
+  jsonArray.put("Super");
+  jsonArray.put("Energizer");
+  configObject.put("PowerUps", jsonArray);
   fileToSave.write(configObject.toString());
   fileToSave.close();
 

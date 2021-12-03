@@ -17,28 +17,25 @@ class ProfileGeneratorTest {
   private ProfileGenerator profileGenerator;
 
   @BeforeEach
-  void setUp() throws IOException, InterruptedException {
+  void setUp() throws IOException {
     File profiles = new File(PATH);
     PrintWriter writer = new PrintWriter(profiles);
     writer.print("{}");
     writer.close();
-    Thread.sleep(1000);
     profileGenerator = new ProfileGenerator(PATH);
   }
 
   @Test
-  void createUserSimple() throws IOException, InterruptedException {
+  void createUserSimple() throws IOException {
     profileGenerator.createUser("evankenyon", "test123");
-    Thread.sleep(1000);
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
     Assertions.assertEquals("test123", actual.getJSONObject("evankenyon").getString("password"));
   }
 
   @Test
-  void createTwoUsers() throws IOException, InterruptedException {
+  void createTwoUsers() throws IOException {
     profileGenerator.createUser("evankenyon", "test123");
     profileGenerator.createUser("evankenyon1", "test1234");
-    Thread.sleep(1000);
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
     Assertions.assertEquals("test123", actual.getJSONObject("evankenyon").getString("password"));
     Assertions.assertEquals("test1234", actual.getJSONObject("evankenyon1").getString("password"));

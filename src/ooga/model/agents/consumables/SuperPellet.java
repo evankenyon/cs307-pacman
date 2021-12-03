@@ -52,11 +52,6 @@ public class SuperPellet extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public int consume(Consumable agent) {
-    return 0;
-  }
-
-  @Override
   public void setState(int i) {
     myState = i;
     updateConsumer();
@@ -73,7 +68,7 @@ public class SuperPellet extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public void getConsumed() {
+  public int getConsumed() {
     myState = EATEN_STATE;
     //TODO
     // 1) update score
@@ -81,16 +76,12 @@ public class SuperPellet extends AbstractAgent implements Consumable {
     // 3) update ghost states
     getRunnable().run();
     updateConsumer();
+    return PELLET_POINT;
   }
 
   @Override
   public void applyEffects(Pacman pacman) {
     pacman.setState(2);
-  }
-
-  @Override
-  public int applyPoints() {
-    return PELLET_POINT;
   }
 
 //  /**

@@ -36,9 +36,6 @@ public interface Agent {
 
   void setDirection(String direction);
 
-  //not sure if this makes sense to have
-  int consume(Consumable agent);
-
   void setState(int i);
 
   void addRunnable(Runnable runnable);

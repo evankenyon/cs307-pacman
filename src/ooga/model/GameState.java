@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import ooga.factories.AgentFactory;
+import ooga.factories.ConsumableFactory;
 import ooga.model.agents.wall;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
@@ -157,7 +158,7 @@ public class GameState {
     return myGameStateData.getAgents().subList(1, myGameStateData.getAgents().size());
   }
 
-  public List<Agent> getFood(){
+  public List<Consumable> getFood(){
     return myGameStateData.getMyPelletStates();
   }
 

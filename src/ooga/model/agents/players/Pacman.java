@@ -8,7 +8,7 @@ import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Pacman extends AbstractAgent implements Consumable {
+public class Pacman extends AbstractAgent{
 
   public final static int DEAD_STATE = 0;
   public final static int ALIVE_STATE = 1;
@@ -39,35 +39,11 @@ public class Pacman extends AbstractAgent implements Consumable {
     return myMover.move(getPosition());
   }
 
-  public int consume(Consumable agent) {
-//    if (agent != null) {
-//      agent.getConsumed();
-//      agent.applyEffects(this);
-//      return agent.applyPoints();
-//    }
-    return 0;
-  }
-
   @Override
   public void setState(int i) {
     myState = i;
     LOG.info("pacman state now {}", myState);
     updateConsumer();
-  }
-
-  @Override
-  public void getConsumed() {
-    //if (myLives != 0) myLives--;
-  }
-
-  @Override
-  public void applyEffects(Pacman pacman) {
-    //decrease lives or something?
-  }
-
-  @Override
-  public int applyPoints() {
-    return 0;
   }
 
 //  public void loseLife(){

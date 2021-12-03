@@ -49,29 +49,19 @@ public class pellet extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public int consume(Consumable agent) {
-    return 0;
-  }
-
-  @Override
   public void setState(int i) {
     myState = i;
   }
 
 
   @Override
-  public void getConsumed() {
+  public int getConsumed() {
     myState = EATEN_STATE;
-    //update score
     updateConsumer();
+    return PELLET_POINT;
   }
 
   @Override
   public void applyEffects(Pacman pacman) {
-  }
-
-  @Override
-  public int applyPoints() {
-    return PELLET_POINT;
   }
 }

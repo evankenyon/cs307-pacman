@@ -72,19 +72,28 @@ public class GameBoard {
     Agent pacman = myState.getPacman();
     Position pacPos = pacman.getPosition();
 
-    List<Agent> foods = myState.getFood();
+    List<Consumable> foods = myState.getFood();
     List<Agent> ghosts = myState.getGhosts();
     //movers.add(myState.getMyPlayer());
     //movers.addAll(myState.getMyWalls());
     //movers.addAll(myState.getMyOtherAgents());
-    for (Agent food : foods){
-      if (isOverlapping(food.getPosition(), pacman.getPosition())){
-        System.out.println("food is being eaten!");
-      }
-    }
     for (Agent ghost : ghosts){
       if (isOverlapping(ghost.getPosition(), pacman.getPosition())){
+        //if game state is "Super" state
+          //update score
+          //change ghost state to dead
+        //else
+          // reduce lives by 1
+          // reset gameboard
         System.out.println("Ghost + Pac overlap!");
+      }
+    }
+    for (Consumable food : foods){
+      if (isOverlapping(food.getPosition(), pacman.getPosition())){
+        // update score & change food state to eaten.
+        myPacScore += food.getConsumed();
+        // if super pellet change game-state
+        System.out.println("food is being eaten!");
       }
     }
   }

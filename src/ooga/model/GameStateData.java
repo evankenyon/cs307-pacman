@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import ooga.factories.AgentFactory;
+import ooga.factories.ConsumableFactory;
 import ooga.model.interfaces.Agent;
+import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
 
 public class GameStateData {
@@ -16,8 +18,9 @@ public class GameStateData {
   private int myGhostScore;
   private int foodLeft;
   private final AgentFactory agentFactory = new AgentFactory();
+  private final ConsumableFactory consumableFactory = new ConsumableFactory();
   private List<Agent> myAgentStates;
-  private List<Agent> myPelletStates;
+  private List<Consumable> myPelletStates;
   private List<Agent> myWallStates;
   private boolean[][] myWallMap;
 
@@ -73,7 +76,7 @@ public class GameStateData {
     return myAgentStates;
   }
 
-  public List<Agent> getMyPelletStates() {
+  public List<Consumable> getMyPelletStates() {
     return myPelletStates;
   }
 
@@ -139,7 +142,7 @@ public class GameStateData {
         for (Position dot : tempPellets) {
           int x = dot.getCoords()[0];
           int y = dot.getCoords()[1];
-          myPelletStates.add(agentFactory.createAgent(key, x, y));
+          myPelletStates.add(consumableFactory.createConsumable(key, x, y));
         }
       }
     }

@@ -135,7 +135,7 @@ public class Controller implements ControllerInterface {
   public double getAnimationSpeed() { return myAnimation.getRate(); }
 
   public void saveFile() throws IOException {
-    GameSaver saver = new GameSaver();
-    saver.saveGame(vanillaGame.getBoard().getGameState());
+    GameSaver saver = new GameSaver(vanillaGame.getBoard().getGameState());
+    saver.saveGame();
   }
 }

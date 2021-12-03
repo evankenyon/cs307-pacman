@@ -33,9 +33,8 @@ public class pelletTest {
   void testConsumed(){
     int initState = myPellet.getState();
     Assertions.assertEquals(1,initState);
-    myPacman.consume(myPellet);
+    myPellet.getConsumed();
     Assertions.assertEquals(0,myPellet.getState());
-
   }
 
 }

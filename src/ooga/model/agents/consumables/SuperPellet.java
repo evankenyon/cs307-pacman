@@ -74,7 +74,7 @@ public class SuperPellet extends AbstractAgent implements Consumable {
     // 1) update score
     // 2) update pacman state
     // 3) update ghost states
-    getRunnable().run();
+    //getRunnable().run();
     updateConsumer();
     return PELLET_POINT;
   }

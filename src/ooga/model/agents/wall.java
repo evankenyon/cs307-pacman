@@ -35,11 +35,6 @@ public class wall extends AbstractAgent {
   }
 
   @Override
-  public int consume(Consumable agent) {
-    return 0;
-  }
-
-  @Override
   public void setState(int i) {
     myState = i;
   }

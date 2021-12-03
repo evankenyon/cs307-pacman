@@ -88,7 +88,7 @@ public class PacmanTest {
     //create pellet at 2,2 and pacman at 1,2 then move pacman towards pellet
     pellet myPellet = new pellet(2, 2);
     pacman.getPosition().setDirection("right");
-    int pointsGained = pacman.consume(myPellet);
+    int pointsGained = myPellet.getConsumed();
 
     Assertions.assertEquals(2, pointsGained);
   }

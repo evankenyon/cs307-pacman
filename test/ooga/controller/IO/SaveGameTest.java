@@ -2,25 +2,18 @@ package ooga.controller.IO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import javafx.stage.Stage;
-import ooga.controller.Controller;
+import java.util.List;
+import java.util.Map;
 import ooga.model.Data;
 import ooga.model.GameState;
 import ooga.model.interfaces.Agent;
+import ooga.model.util.Position;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONWriter;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Map;
-import ooga.model.util.Position;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
@@ -41,9 +34,9 @@ void testGameSaver()
 
   Agent player = currentState.getMyPlayer();
   System.out.println(player);
-  List<Agent> otherAgents = currentState.getMyOtherAgents();
+  List<Agent> otherAgents = currentState.getGhosts();
   System.out.println(otherAgents);
-  List<Agent> walls = currentState.getMyWalls();
+  List<Agent> walls = currentState.getWalls();
   List<Agent> agentArray = new ArrayList<>();
 
   //int x = wall.getPosition().getCoords()[0];

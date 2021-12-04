@@ -63,12 +63,13 @@ public class GameSaver {
 
   /**
    * for now - handles all json & broader file responsibilities
+   *
    * @throws IOException
    */
   public void saveGame() throws IOException {
     clearBuilders();
     path.append("data/user_files/user_file");
-    path.append("_"+ String.valueOf(counter));
+    path.append("_" + String.valueOf(counter));
     path.append(".json");
     counter++;
     File jsonFile = new File(String.valueOf(path));
@@ -101,11 +102,9 @@ public class GameSaver {
     public int compare(Agent a1, Agent a2) {
       if (a1.getPosition().getCoords()[0] == a2.getPosition().getCoords()[0]) {
         return 0;
-      }
-      else if (a1.getPosition().getCoords()[1] > a2.getPosition().getCoords()[1]) {
+      } else if (a1.getPosition().getCoords()[1] > a2.getPosition().getCoords()[1]) {
         return 1;
-      }
-      else {
+      } else {
         return -1;
       }
     }
@@ -117,11 +116,9 @@ public class GameSaver {
     public int compare(Agent a1, Agent a2) {
       if (a1.getPosition().getCoords()[0] == a2.getPosition().getCoords()[0]) {
         return 0;
-      }
-      else if (a1.getPosition().getCoords()[1] > a2.getPosition().getCoords()[1]) {
+      } else if (a1.getPosition().getCoords()[1] > a2.getPosition().getCoords()[1]) {
         return 1;
-      }
-      else {
+      } else {
         return -1;
       }
     }
@@ -133,16 +130,17 @@ public class GameSaver {
     String cutAgentString = agentString.substring(agentString.indexOf("@"));
     if (cutAgentString.contains("consumables")) {
       return agentString.replace("ooga.model.agents.consumables.", "");
-    }
-    else {
+    } else {
       return agentString.replace("ooga.model.agents.players.", "");
     }
   }
 
   private void sortAgentArray() {
-    agentArray.addAll(state.getMyWalls());
-    agentArray.addAll(state.getMyOtherAgents());
+    agentArray.addAll(state.getWalls());
+    agentArray.addAll(state.getGhosts());
+    agentArray.addAll(state.getFood());
     agentArray.add(state.getMyPlayer());
+
     Collections.sort(agentArray, new RowComparator()
         .thenComparing(new ColComparator()));
   }
@@ -156,11 +154,11 @@ public class GameSaver {
     int numCols = agentArray.get(-1).getPosition().getCoords()[0] + 1;
 
     int arrayIndex = 0;
-    for (int i=0; i < numRows; i++) {
+    for (int i = 0; i < numRows; i++) {
       JSONArray rowWallArray = new JSONArray();
-      for (int j=0; j < numCols; j++) {
+      for (int j = 0; j < numCols; j++) {
         rowWallArray.put(makeStringFromAgent(agentArray.get(arrayIndex)));
-        arrayIndex ++;
+        arrayIndex++;
       }
       overallWallArray.put(rowWallArray);
     }
@@ -168,7 +166,6 @@ public class GameSaver {
     return overallWallArray;
 
   }
-
 
 
 }

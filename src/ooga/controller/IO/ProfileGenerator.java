@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import ooga.controller.IO.utils.JSONObjectParser;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ProfileGenerator {
@@ -20,13 +21,17 @@ public class ProfileGenerator {
     this.path = path;
   }
 
-  public void createUser(String username, String password) throws IOException {
+  public void createUser(String username, String password) throws IOException, NullPointerException, JSONException {
     PrintWriter profilesFileWriter = new PrintWriter(path);
     JSONObject oldFile = JSONObjectParser.parseJSONObject(new File(path));
+    if (oldFile.has(username)) {
+      throw new IllegalArgumentException("Username already exists, please choose a different one");
+    }
     JSONObject props = new JSONObject();
     props.put("password", password);
     oldFile.put(username, props);
-    profilesFileWriter.print(oldFile);
+    profilesFileWriter.println(oldFile);
+    profilesFileWriter.flush();
     profilesFileWriter.close();
   }
 

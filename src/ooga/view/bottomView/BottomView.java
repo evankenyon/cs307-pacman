@@ -123,7 +123,13 @@ public class BottomView {
   }
 
   private void initiateBottomView(VBox root) {
-    //ImageView saveButton = makeGraphicButton("save", e -> saveGame());
+    ImageView saveButton = makeGraphicButton("save", e -> {
+      try {
+        saveGame();
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      }
+    });
     ImageView statsButton = makeGraphicButton("stats", e -> showStats());
     ImageView restartButton = makeGraphicButton("restart", e -> restartGame());
     VBox graphicButtons = new VBox();
@@ -151,7 +157,8 @@ public class BottomView {
 
   private void saveGame() throws IOException {
     // TODO: Fix SaveGame when merged
-    //new myController.saveFile();
+//    new SaveGame().saveGame();
+    myController.saveFile();
   }
 
   private ImageView makeGraphicButton(String key, EventHandler handler) {

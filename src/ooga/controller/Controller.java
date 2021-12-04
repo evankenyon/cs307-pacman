@@ -127,7 +127,7 @@ public class Controller implements ControllerInterface {
   @Override
   public void updatePressedKey(KeyEvent event) {
 //    LOG.info("updating pressed key to {}", event.getCode());
-    vanillaGame.getBoard().setPlayerDirection(keyTracker.getPressedKey(event));
+    vanillaGame.setPlayerDirection(keyTracker.getPressedKey(event));
   }
 
   /**

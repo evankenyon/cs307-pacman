@@ -1,14 +1,10 @@
 package ooga.model.agents.consumables;
 
-import java.sql.SQLOutput;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.agents.players.Pacman;
-import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
-import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Random;
-import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
 
@@ -51,12 +47,12 @@ public class Ghost extends AbstractAgent implements Consumable {
 
   @Override
   public int getConsumed() {
-    if (myState == AFRAID_STATE){
+    if (myState == AFRAID_STATE) {
       myState = DEAD_STATE;
       updateConsumer();
       return GHOST_POINTS;
     }
-    if (myState == ALIVE_STATE){
+    if (myState == ALIVE_STATE) {
       System.out.println("pacman tried to eat a ghost- it didn't work");
       updateConsumer();
     }

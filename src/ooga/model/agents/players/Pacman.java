@@ -1,14 +1,13 @@
 package ooga.model.agents.players;
 
 import ooga.model.agents.AbstractAgent;
-import ooga.model.interfaces.Consumable;
 import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Pacman extends AbstractAgent{
+public class Pacman extends AbstractAgent {
 
   public final static int DEAD_STATE = 0;
   public final static int ALIVE_STATE = 1;
@@ -44,6 +43,10 @@ public class Pacman extends AbstractAgent{
     myState = i;
     LOG.info("pacman state now {}", myState);
     updateConsumer();
+  }
+
+  public void loseOneLife() {
+    myLives--;
   }
 
 //  public void loseLife(){

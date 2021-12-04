@@ -116,7 +116,7 @@ public class BoardView {
 
   private AgentView makeAgentViewColor(String type, Position position, List<Double> rgb) {
     String className = String.format("ooga.view.center.agents.%sView", type);
-    Agent agent = myGame.getBoard().getGameState().findAgent(position);
+    Agent agent = myGame.findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, List.class, int.class, int.class)
@@ -128,7 +128,7 @@ public class BoardView {
 
   private AgentView makeAgentViewImage(String type, Position position, String imagePath) {
     String className = String.format("ooga.view.center.agents.%sView", type);
-    Agent agent = myGame.getBoard().getGameState().findAgent(position);
+    Agent agent = myGame.findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, String.class, int.class,
@@ -141,7 +141,7 @@ public class BoardView {
 
   private AgentView makeAgentView(String type, Position position) {
     String className = String.format("ooga.view.center.agents.%sView", type);
-    Agent agent = myGame.getBoard().getGameState().findAgent(position);
+    Agent agent = myGame.findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, int.class, int.class)

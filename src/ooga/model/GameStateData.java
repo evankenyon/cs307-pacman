@@ -1,5 +1,7 @@
 package ooga.model;
 
+import static ooga.model.agents.consumables.Ghost.AFRAID_STATE;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,7 @@ import ooga.factories.ConsumableFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
+
 
 public class GameStateData {
 
@@ -46,7 +49,6 @@ public class GameStateData {
     myPelletStates = previous.myPelletStates;
     myWallMap = previous.myWallMap;
     myWallStates = previous.myWallStates;
-
   }
 
   public void initialize(Map<String, List<Position>> gameDict, Map<String, Boolean> pelletInfo) {
@@ -70,10 +72,6 @@ public class GameStateData {
   public int getFoodLeft() {
     foodLeft = myPelletStates.size();
     return foodLeft;
-  }
-
-  public List<Agent> getMyAgentStates() {
-    return myAgentStates;
   }
 
   public List<Consumable> getMyPelletStates() {
@@ -108,7 +106,6 @@ public class GameStateData {
     return myAgentStates;
   }
 
-  //TODO: to complete refactor, need to fix this
   public Agent findAgent(Position pos) {
     Agent potentialAgent = null;
     for (Agent agent : myAgentStates) {
@@ -134,6 +131,16 @@ public class GameStateData {
     return potentialAgent;
   }
 
+  public boolean isSuper() {
+    return isSuper;
+  }
+
+  private void setSuperStates() {
+    for (Agent agent : myAgentStates) {
+      agent.setState(AFRAID_STATE);
+    }
+  }
+
   private void createRequiredPelletList(Map<String, List<Position>> gameDict,
       Map<String, Boolean> pelletInfo) {
     for (String key : pelletInfo.keySet()) {
@@ -156,7 +163,6 @@ public class GameStateData {
       myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
     }
 
-    // if file doesn't have a ghost on it / not sure if best design in terms of flexibility?
     if (gameDict.get("Ghost") != null) {
       for (Position agentPos : gameDict.get("Ghost")) {
         int x = agentPos.getCoords()[0];
@@ -170,7 +176,7 @@ public class GameStateData {
     for (Position wallPos : gameDict.get("Wall")) {
       int x = wallPos.getCoords()[0];
       int y = wallPos.getCoords()[1];
-       myWallStates.add(agentFactory.createAgent("Wall", x, y));
+      myWallStates.add(agentFactory.createAgent("Wall", x, y));
     }
   }
 

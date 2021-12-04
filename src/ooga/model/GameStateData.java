@@ -20,6 +20,7 @@ public class GameStateData {
   private final AgentFactory agentFactory = new AgentFactory();
   private final ConsumableFactory consumableFactory = new ConsumableFactory();
   private List<Agent> myAgentStates;
+  private List<Agent> myInitAgentStates;
   private List<Consumable> myPelletStates;
   private List<Agent> myWallStates;
   private boolean[][] myWallMap;
@@ -154,6 +155,7 @@ public class GameStateData {
       int x = agentPos.getCoords()[0];
       int y = agentPos.getCoords()[1];
       myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
+
     }
 
     // if file doesn't have a ghost on it / not sure if best design in terms of flexibility?

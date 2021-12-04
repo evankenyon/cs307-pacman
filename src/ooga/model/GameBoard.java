@@ -32,20 +32,6 @@ public class GameBoard {
     myGhostScore = 0;
   }
 
-  private void addScore(Integer score) {
-    //called whenever a pellet/super-pellet/ghost is consumed, add the score of that pellet to the total score
-  }
-
-  private void superState() {
-    //set the state of the game to "super" which in turn sets the states of ghosts + pacman to super and starts a countdown
-  }
-
-  //TODO: change when we implement list of required consumables?
-  public boolean checkWin() {
-    //check if the game is a win
-    return false;
-  }
-
   //move every agent in the board by one step
   public void movePawns() {
     List<Agent> movers = new ArrayList<>();
@@ -71,7 +57,6 @@ public class GameBoard {
   public void checkCollisions(){
     Agent pacman = myState.getPacman();
     Position pacPos = pacman.getPosition();
-
     List<Consumable> foods = myState.getFood();
     List<Agent> ghosts = myState.getGhosts();
     //movers.add(myState.getMyPlayer());

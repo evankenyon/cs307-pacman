@@ -1,16 +1,12 @@
 {
-  "Title":"Simple Pacman",
   "Player":"Pacman",
-  "RequiredPellets":["Dot"],
+  "RequiredPellets":["Dot", "Super"],
   "OptionalPellets":[],
-  "PowerUps":[],
   "NumberOfLives":3,
-  "OpponentTypes":[],
-  "Difficulty-Level":1,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall"],
     ["Wall","Pacman","Wall","Dot", "Dot", "Wall"],
-    ["Wall","Dot","Dot","Dot","Dot","Wall"],
+    ["Wall","Super","Dot","Ghost","Dot","Wall"],
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
   ]
 }

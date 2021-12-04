@@ -142,10 +142,12 @@ public class Controller implements ControllerInterface {
    */
   public double getAnimationSpeed() { return myAnimation.getRate(); }
 
+
   public void saveFile() throws IOException {
-    GameSaver saver = new GameSaver(vanillaGame.getBoard().getGameState());
+    GameSaver saver = new GameSaver(vanillaGame);
     saver.saveGame();
   }
+
 //  /**
 //   * Getter method to get the uploaded file. Used to reload a new game.
 //   *

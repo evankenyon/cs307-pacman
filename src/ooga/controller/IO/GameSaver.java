@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import ooga.model.GameState;
+import ooga.model.VanillaGame;
 import ooga.model.interfaces.Agent;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,22 +24,42 @@ public class GameSaver {
   private JSONObject config;
 
   private List<Agent> agentArray = new ArrayList<>();
+  private Map<String, Boolean> pelletInfoMap;
 
   //for constructor
   private GameState state;
+  private VanillaGame myVanillaGame;
+  private ResourceBundle agentNames;
 
-  public GameSaver(GameState currentState) {
-    state = currentState;
+  public GameSaver(VanillaGame vanillaGame) {
+    myVanillaGame = vanillaGame;
+    state = myVanillaGame.getBoard().getGameState();
+    agentNames =  ResourceBundle.getBundle("ooga.controller.IO.resources.agentNamesForWallMap");
   }
 
   private void setConfig() {
     JSONObject configBuilder = new JSONObject();
     configBuilder.put("Player", makeStringFromAgent(state.getMyPlayer()));
+    configBuilder.put("RequiredPellets", buildPelletArray(true));
+    configBuilder.put("OptionalPellets", buildPelletArray(false));
     configBuilder.put("NumberOfLives", 3);
-    configBuilder.put("Difficulty-Level", 2);
     configBuilder.put("WallMap", buildWallMap());
     config = configBuilder;
   }
+
+  private JSONArray buildPelletArray(Boolean isRequired) {
+    Map<String, Boolean> pelletMap = myVanillaGame.getPelletInfo();
+
+    JSONArray pelletArray = new JSONArray();
+    for (String key: pelletMap.keySet()) {
+      if (pelletMap.get(key) == isRequired) {
+        pelletArray.put(key);
+      }
+    }
+    return pelletArray;
+  }
+
+
 
 
   /**
@@ -73,7 +96,7 @@ public class GameSaver {
 
     @Override
     public int compare(Agent a1, Agent a2) {
-      if (a1.getPosition().getCoords()[0] == a2.getPosition().getCoords()[0]) {
+      if (a1.getPosition().getCoords()[1] == a2.getPosition().getCoords()[1]) {
         return 0;
       }
       else if (a1.getPosition().getCoords()[1] > a2.getPosition().getCoords()[1]) {
@@ -92,7 +115,7 @@ public class GameSaver {
       if (a1.getPosition().getCoords()[0] == a2.getPosition().getCoords()[0]) {
         return 0;
       }
-      else if (a1.getPosition().getCoords()[1] > a2.getPosition().getCoords()[1]) {
+      else if (a1.getPosition().getCoords()[0] > a2.getPosition().getCoords()[0]) {
         return 1;
       }
       else {
@@ -104,16 +127,17 @@ public class GameSaver {
 
   private String makeStringFromAgent(Agent agent) {
     String agentString = agent.toString();
-    String cutAgentString = agentString.substring(0,agentString.indexOf("@"));
-    if (cutAgentString.contains("consumables")) {
-      return cutAgentString.replace("ooga.model.agents.consumables.", "").strip();
-    }
-    else if (cutAgentString.contains("players")) {
-      return cutAgentString.replace("ooga.model.agents.players.", "").strip();
-    }
-    else {
-      return cutAgentString.replace("ooga.model.agents.", "").strip();
-    }
+    return agentNames.getString(agentString.substring(0,agentString.indexOf("@")));
+    //String cutAgentString = agentString.substring(0,agentString.indexOf("@"));
+    //if (cutAgentString.contains("consumables")) {
+     // return cutAgentString.replace("ooga.model.agents.consumables.", "").strip();
+    //}
+    //else if (cutAgentString.contains("players")) {
+     // return cutAgentString.replace("ooga.model.agents.players.", "").strip();
+    //}
+    //else {
+      //return cutAgentString.replace("ooga.model.agents.", "").strip();
+    //}
   }
 
   private void sortAgentArray() {
@@ -122,7 +146,11 @@ public class GameSaver {
     agentArray.add(state.getMyPlayer());
     Collections.sort(agentArray, new RowComparator()
         .thenComparing(new ColComparator()));
+    for (Agent a: agentArray) {
+      System.out.println(a);
+    }
   }
+
 
 
   private JSONArray buildWallMap() {
@@ -131,8 +159,9 @@ public class GameSaver {
     JSONArray overallWallArray = new JSONArray();
 
     // TODO: (non-code) verify that rows are actually rows and cols are actually cols
-    int numCols = agentArray.get(agentArray.size()-1).getPosition().getCoords()[1] + 1;
-    int numRows = agentArray.get(agentArray.size()-1).getPosition().getCoords()[0] + 1;
+
+    int numCols = agentArray.get(agentArray.size()-1).getPosition().getCoords()[0] + 1;
+    int numRows = agentArray.get(agentArray.size()-1).getPosition().getCoords()[1] + 1;
 
     int arrayIndex = 0;
     for (int i=0; i < numRows; i++) {
@@ -143,6 +172,9 @@ public class GameSaver {
       }
       overallWallArray.put(rowWallArray);
     }
+
+
+    System.out.println(overallWallArray);
 
     return overallWallArray;
 

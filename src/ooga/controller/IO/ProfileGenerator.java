@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import ooga.controller.IO.utils.JSONObjectParser;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +37,7 @@ public class ProfileGenerator {
     props.put("high-score", 0);
     props.put("wins", 0);
     props.put("losses", 0);
+    props.put("favorite-files", new JSONArray());
     oldFile.put(username, props);
     profilesFileWriter.println(oldFile);
     profilesFileWriter.close();

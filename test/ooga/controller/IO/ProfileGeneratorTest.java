@@ -37,7 +37,8 @@ class ProfileGeneratorTest {
     Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("high-score"));
     Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("wins"));
     Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("losses"));
-    Assertions.assertEquals(DEFAULT_IMAGE.getPath(), actual.getJSONObject("evankenyon").getInt("image-path"));
+    Assertions.assertEquals(DEFAULT_IMAGE.getPath(), actual.getJSONObject("evankenyon").getString("image-path"));
+    Assertions.assertTrue(actual.getJSONObject("evankenyon").getJSONArray("favorite-files").isEmpty());
   }
 
   @Test

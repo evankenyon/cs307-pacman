@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 class ProfileGeneratorTest {
   private static final String PATH = "./data/profiles_test.json";
+  private static final File DEFAULT_IMAGE = new File("./data/ms_pacman.png");
   private ProfileGenerator profileGenerator;
 
   @BeforeEach
@@ -30,18 +31,19 @@ class ProfileGeneratorTest {
 
   @Test
   void createUserSimple() throws IOException, InterruptedException {
-    profileGenerator.createUser("evankenyon", "test123");
+    profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
     Assertions.assertEquals("test123", actual.getJSONObject("evankenyon").getString("password"));
     Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("high-score"));
     Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("wins"));
     Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("losses"));
+    Assertions.assertEquals(DEFAULT_IMAGE.getPath(), actual.getJSONObject("evankenyon").getInt("image-path"));
   }
 
   @Test
   void createTwoUsers() throws IOException, InterruptedException {
-    profileGenerator.createUser("evankenyon", "test123");
-    profileGenerator.createUser("evankenyon1", "test1234");
+    profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
+    profileGenerator.createUser("evankenyon1", "test1234", DEFAULT_IMAGE);
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
     Assertions.assertEquals("test123", actual.getJSONObject("evankenyon").getString("password"));
     Assertions.assertEquals("test1234", actual.getJSONObject("evankenyon1").getString("password"));
@@ -50,24 +52,24 @@ class ProfileGeneratorTest {
   @Test
   void profileGeneratorWrongPath() {
     profileGenerator = new ProfileGenerator("bad");
-    Assertions.assertThrows(NullPointerException.class, () -> profileGenerator.createUser("test", "test"));
+    Assertions.assertThrows(NullPointerException.class, () -> profileGenerator.createUser("test", "test", DEFAULT_IMAGE));
   }
 
   @Test
   void profileGeneratorBadJson() {
     profileGenerator = new ProfileGenerator("./data/no_json.json");
-    Assertions.assertThrows(JSONException.class, () -> profileGenerator.createUser("test", "test"));
+    Assertions.assertThrows(JSONException.class, () -> profileGenerator.createUser("test", "test", DEFAULT_IMAGE));
   }
 
   @Test
   void profileGeneratorTwoSameUsers() throws IOException {
-    profileGenerator.createUser("evankenyon", "test123");
-    Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.createUser("evankenyon", "test1234"));
+    profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
+    Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.createUser("evankenyon", "test1234", DEFAULT_IMAGE));
   }
 
   @Test
   void loginSimple() throws IOException {
-    profileGenerator.createUser("evankenyon", "test123");
+    profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     Assertions.assertEquals("evankenyon", profileGenerator.login("evankenyon", "test123").username());
   }
 
@@ -78,13 +80,13 @@ class ProfileGeneratorTest {
 
   @Test
   void loginWrongPassword() throws IOException {
-    profileGenerator.createUser("evankenyon", "test123");
+    profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.login("evankenyon", "test1234"));
   }
 
   @Test
   void updateUserStatsBasic() throws IOException {
-    profileGenerator.createUser("evankenyon", "test123");
+    profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     profileGenerator.updateUserStats("evankenyon", "test123", 10, false);
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
     Assertions.assertEquals(10, actual.getJSONObject("evankenyon").getInt("high-score"));

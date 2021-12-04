@@ -21,14 +21,17 @@ public class ProfileGenerator {
     this.path = path;
   }
 
-  public void createUser(String username, String password) throws IOException, NullPointerException, JSONException {
+  public void createUser(String username, String password, File imageFile) throws IOException, NullPointerException, JSONException {
     PrintWriter profilesFileWriter = new PrintWriter(path);
     JSONObject oldFile = JSONObjectParser.parseJSONObject(new File(path));
     if (oldFile.has(username)) {
+      profilesFileWriter.println(oldFile);
+      profilesFileWriter.close();
       throw new IllegalArgumentException("Username already exists, please choose a different one");
     }
     JSONObject props = new JSONObject();
     props.put("password", password);
+    props.put("image-path", imageFile.getPath());
     props.put("high-score", 0);
     props.put("wins", 0);
     props.put("losses", 0);

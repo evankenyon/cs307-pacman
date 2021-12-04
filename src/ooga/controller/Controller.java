@@ -77,8 +77,8 @@ public class Controller implements ControllerInterface {
     isPaused = false;
   }
 
-  public void createUser(String username, String password) throws IOException {
-    profileGenerator.createUser(username, password);
+  public void createUser(String username, String password, File imageFile) throws IOException {
+    profileGenerator.createUser(username, password, imageFile);
   }
 
   public User login(String username, String password) throws IOException {

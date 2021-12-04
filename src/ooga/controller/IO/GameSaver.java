@@ -3,10 +3,10 @@ package ooga.controller.IO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.ResourceBundle;
 import ooga.model.GameState;
 import ooga.model.interfaces.Agent;
 import org.json.JSONArray;
@@ -18,48 +18,26 @@ public class GameSaver {
   private int counter = 1;
   private StringBuilder path = new StringBuilder();
 
-  //json values
-  private JSONObject player;
-  private JSONObject numberOfLives;
-  private JSONObject difficultyLevel;
-  private JSONObject wallMap;
+  private JSONObject config;
 
-  //arraylist of Agents
-  private List<Agent> agentArray;
+  private List<Agent> agentArray = new ArrayList<>();
 
   //for constructor
   private GameState state;
-  private ResourceBundle agentTranslator;
 
   public GameSaver(GameState currentState) {
     state = currentState;
-    agentTranslator = ResourceBundle.getBundle(String.format("%s%s", "AgentsToJSONObjects"));
   }
 
-  //TODO: refactor replicated code in 4 below setter methods
-  private void setPlayer() {
-    JSONObject playerObject = new JSONObject();
-    playerObject.put("Player", makeStringFromAgent(state.getMyPlayer()));
-    player = playerObject;
+  private void setConfig() {
+    JSONObject configBuilder = new JSONObject();
+    configBuilder.put("Player", makeStringFromAgent(state.getMyPlayer()));
+    configBuilder.put("NumberOfLives", 3);
+    configBuilder.put("Difficulty-Level", 2);
+    configBuilder.put("WallMap", buildWallMap());
+    config = configBuilder;
   }
 
-  private void setNumberOfLives() {
-    JSONObject numLivesObject = new JSONObject();
-    numLivesObject.put("NumberOfLives", 3); //TODO: accurate dynamic value for num lives
-    numberOfLives = numLivesObject;
-  }
-
-  private void setDifficultyLevel() {
-    JSONObject difficultyLevelObject = new JSONObject();
-    difficultyLevelObject.put("Difficulty-Level", 3); //TODO: accurate dynamic value for num lives
-    difficultyLevel = difficultyLevelObject;
-  }
-
-  private void setWallMap() {
-    JSONObject wallMapObject = new JSONObject();
-    wallMapObject.put("WallMap", buildWallMap());
-    wallMap = wallMapObject;
-  }
 
   /**
    * for now - handles all json & broader file responsibilities
@@ -71,18 +49,14 @@ public class GameSaver {
     path.append("_"+ String.valueOf(counter));
     path.append(".json");
     counter++;
-    File jsonFile = new File(String.valueOf(path));
 
+    setConfig();
+
+    File jsonFile = new File(String.valueOf(path));
     try {
       FileWriter fileToSave = new FileWriter(jsonFile);
-      setPlayer();
-      setNumberOfLives();
-      setDifficultyLevel();
-      setWallMap();
-      fileToSave.write(String.valueOf(player));
-      fileToSave.write(String.valueOf(numberOfLives));
-      fileToSave.write(String.valueOf(difficultyLevel));
-      fileToSave.write(String.valueOf(wallMap));
+      fileToSave.write(String.valueOf(config));
+
       fileToSave.close();
     } catch (IOException e) {
       System.out.println("SaveGame Exception");
@@ -130,12 +104,15 @@ public class GameSaver {
 
   private String makeStringFromAgent(Agent agent) {
     String agentString = agent.toString();
-    String cutAgentString = agentString.substring(agentString.indexOf("@"));
+    String cutAgentString = agentString.substring(0,agentString.indexOf("@"));
     if (cutAgentString.contains("consumables")) {
-      return agentString.replace("ooga.model.agents.consumables.", "");
+      return cutAgentString.replace("ooga.model.agents.consumables.", "").strip();
+    }
+    else if (cutAgentString.contains("players")) {
+      return cutAgentString.replace("ooga.model.agents.players.", "").strip();
     }
     else {
-      return agentString.replace("ooga.model.agents.players.", "");
+      return cutAgentString.replace("ooga.model.agents.", "").strip();
     }
   }
 
@@ -147,13 +124,15 @@ public class GameSaver {
         .thenComparing(new ColComparator()));
   }
 
+
   private JSONArray buildWallMap() {
     sortAgentArray();
 
     JSONArray overallWallArray = new JSONArray();
 
-    int numRows = agentArray.get(-1).getPosition().getCoords()[1] + 1;
-    int numCols = agentArray.get(-1).getPosition().getCoords()[0] + 1;
+    // TODO: (non-code) verify that rows are actually rows and cols are actually cols
+    int numCols = agentArray.get(agentArray.size()-1).getPosition().getCoords()[1] + 1;
+    int numRows = agentArray.get(agentArray.size()-1).getPosition().getCoords()[0] + 1;
 
     int arrayIndex = 0;
     for (int i=0; i < numRows; i++) {

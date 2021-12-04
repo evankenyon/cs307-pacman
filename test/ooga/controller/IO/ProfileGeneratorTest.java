@@ -33,6 +33,9 @@ class ProfileGeneratorTest {
     profileGenerator.createUser("evankenyon", "test123");
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
     Assertions.assertEquals("test123", actual.getJSONObject("evankenyon").getString("password"));
+    Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("high-score"));
+    Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("wins"));
+    Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("losses"));
   }
 
   @Test
@@ -77,5 +80,15 @@ class ProfileGeneratorTest {
   void loginWrongPassword() throws IOException {
     profileGenerator.createUser("evankenyon", "test123");
     Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.login("evankenyon", "test1234"));
+  }
+
+  @Test
+  void updateUserStatsBasic() throws IOException {
+    profileGenerator.createUser("evankenyon", "test123");
+    profileGenerator.updateUserStats("evankenyon", "test123", 10, false);
+    JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
+    Assertions.assertEquals(10, actual.getJSONObject("evankenyon").getInt("high-score"));
+    Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("wins"));
+    Assertions.assertEquals(1, actual.getJSONObject("evankenyon").getInt("losses"));
   }
 }

@@ -34,7 +34,6 @@ public class ProfileGenerator {
     props.put("losses", 0);
     oldFile.put(username, props);
     profilesFileWriter.println(oldFile);
-    profilesFileWriter.flush();
     profilesFileWriter.close();
   }
 
@@ -48,9 +47,20 @@ public class ProfileGenerator {
 
   public void updateUserStats(String username, String password, int score, boolean won)
       throws IOException {
-    User user = login(username, password);
+    login(username, password);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
     JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
     JSONObject userInfo = allUsersInfo.getJSONObject(username);
+    if(userInfo.getInt("high-score") < score) {
+      userInfo.put("high-score", score);
+    }
+    if(won) {
+      userInfo.put("wins", userInfo.getInt("wins") + 1);
+    } else {
+      userInfo.put("losses", userInfo.getInt("losses") + 1);
+    }
+    allUsersInfo.put(username, userInfo);
+    profilesFileWriter.println(allUsersInfo);
+    profilesFileWriter.close();
   }
-
 }

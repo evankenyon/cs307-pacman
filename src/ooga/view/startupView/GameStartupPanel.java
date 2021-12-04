@@ -109,8 +109,8 @@ public class GameStartupPanel {
 
     ImageView selectModeLabel = new ImageView(new Image(new File("data/images/selectViewingMode.png").toURI().toString()));
     setImgWidth(selectModeLabel, SCREEN_WIDTH/2);
-    String[] viewModes = {myResources.getString("Light"), myResources.getString("Dark"),
-        myResources.getString("Duke")};
+    String[] viewModes = {myResources.getString("Dark"), myResources.getString("Duke"),
+        myResources.getString("Light")};
     selectViewMode = makeDropDown("viewing mode", viewModes);
     Text spacingFix = new Text();
     spacingFix.setText(".");
@@ -170,7 +170,7 @@ public class GameStartupPanel {
     selectedViewMode = selectViewMode.getValue();
     if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
       runFile();
-      openInstructions(selectedLanguage, selectedGameType);
+      openInstructions(selectedLanguage, selectedGameType, selectedViewMode);
       selectGameType.setValue(null);
       selectLanguage.setValue(null);
       selectViewMode.setValue(null);
@@ -182,9 +182,9 @@ public class GameStartupPanel {
     }
   }
 
-  private void openInstructions(String selectedLanguage, String selectedGameType) {
+  private void openInstructions(String selectedLanguage, String selectedGameType, String selectedViewMode) {
     Stage instructionsStage = new Stage();
-    InstructionsView instructionsView = new InstructionsView(instructionsStage, selectedLanguage, selectedGameType);
+    InstructionsView instructionsView = new InstructionsView(instructionsStage, selectedLanguage, selectedGameType, selectedViewMode);
   }
 
   private void runFile() {

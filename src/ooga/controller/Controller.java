@@ -18,6 +18,7 @@ import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.PreferencesParser;
 import ooga.controller.IO.ProfileGenerator;
 import ooga.controller.IO.GameSaver;
+import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
 import ooga.controller.IO.keyTracker;
 import ooga.controller.IO.utils.JSONObjectParser;
@@ -52,6 +53,7 @@ public class Controller implements ControllerInterface {
   private Stage myStage;
   private UserPreferences myPreferences;
   private ProfileGenerator profileGenerator;
+  private User currUser;
   private static final Logger LOG = LogManager.getLogger(Controller.class);
 
   private ResourceBundle magicValues;
@@ -77,6 +79,10 @@ public class Controller implements ControllerInterface {
 
   public void createUser(String username, String password) throws IOException {
     profileGenerator.createUser(username, password);
+  }
+
+  public User login(String username, String password) throws IOException {
+    return profileGenerator.login(username, password);
   }
 
   // TODO: properly handle exception

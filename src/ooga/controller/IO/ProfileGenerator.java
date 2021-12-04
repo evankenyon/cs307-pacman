@@ -29,10 +29,28 @@ public class ProfileGenerator {
     }
     JSONObject props = new JSONObject();
     props.put("password", password);
+    props.put("high-score", 0);
+    props.put("wins", 0);
+    props.put("losses", 0);
     oldFile.put(username, props);
     profilesFileWriter.println(oldFile);
     profilesFileWriter.flush();
     profilesFileWriter.close();
+  }
+
+  public User login(String username, String password) throws IOException {
+    JSONObject profiles = JSONObjectParser.parseJSONObject(new File(path));
+    if (!profiles.has(username) || !profiles.getJSONObject(username).getString("password").equals(password)) {
+      throw new IllegalArgumentException("Username or password incorrect");
+    }
+    return new User(username);
+  }
+
+  public void updateUserStats(String username, String password, int score, boolean won)
+      throws IOException {
+    User user = login(username, password);
+    JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
+    JSONObject userInfo = allUsersInfo.getJSONObject(username);
   }
 
 }

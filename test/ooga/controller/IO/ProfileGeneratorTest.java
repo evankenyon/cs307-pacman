@@ -62,4 +62,20 @@ class ProfileGeneratorTest {
     Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.createUser("evankenyon", "test1234"));
   }
 
+  @Test
+  void loginSimple() throws IOException {
+    profileGenerator.createUser("evankenyon", "test123");
+    Assertions.assertEquals("evankenyon", profileGenerator.login("evankenyon", "test123").username());
+  }
+
+  @Test
+  void loginNoUsername() {
+    Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.login("evankenyon", "test123"));
+  }
+
+  @Test
+  void loginWrongPassword() throws IOException {
+    profileGenerator.createUser("evankenyon", "test123");
+    Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.login("evankenyon", "test1234"));
+  }
 }

@@ -77,6 +77,7 @@ public class GameBoard {
       if (isOverlapping(food.getPosition(), pacman.getPosition())){
         // update score & change food state to eaten.
         myPacScore += food.getConsumed();
+        updateScoreConsumer();
         // if super pellet change game-state
         System.out.println("food is being eaten!");
       }

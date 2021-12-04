@@ -36,6 +36,15 @@ public class ErrorPopups {
     }
   }
 
+  private void saveErrorPopup() {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setTitle(myResources.getString("Error"));
+    alert.setHeaderText(myResources.getString("SaveErrorHeader"));
+    alertMessage = myResources.getString("SaveErrorMessage");
+    alert.setContentText(alertMessage);
+    alert.showAndWait();
+  }
+
   private void fileErrorPopup() {
     Alert alert = new Alert(AlertType.ERROR);
     alert.setTitle(myResources.getString("Error"));

@@ -5,6 +5,7 @@ import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAG
 import static ooga.view.mainView.MainView.BG_COLOR;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,7 +22,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import ooga.controller.Controller;
+import ooga.controller.IO.GameSaver;
 import ooga.model.VanillaGame;
+import ooga.view.popups.ErrorPopups;
 
 /**
  * Class that creates a VBox to be placed in the bottom of the BorderPane in MainView. This class
@@ -150,7 +153,12 @@ public class BottomView {
 
   private void saveGame() {
     // TODO: Fix SaveGame when merged
-//    new SaveGame().saveGame();
+    try {
+      myController.saveFile();
+    } catch (IOException e) {
+      new ErrorPopups(myLanguage,"saveError");
+      e.printStackTrace();
+    }
   }
 
   private ImageView makeGraphicButton(String key, EventHandler handler) {

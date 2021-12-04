@@ -17,6 +17,7 @@ import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.PreferencesParser;
 import ooga.controller.IO.ProfileGenerator;
+import ooga.controller.IO.GameSaver;
 import ooga.controller.IO.UserPreferences;
 import ooga.controller.IO.keyTracker;
 import ooga.controller.IO.utils.JSONObjectParser;
@@ -148,6 +149,10 @@ public class Controller implements ControllerInterface {
    */
   public double getAnimationSpeed() { return myAnimation.getRate(); }
 
+  public void saveFile() throws IOException {
+    GameSaver saver = new GameSaver(vanillaGame.getBoard().getGameState());
+    saver.saveGame();
+  }
 //  /**
 //   * Getter method to get the uploaded file. Used to reload a new game.
 //   *

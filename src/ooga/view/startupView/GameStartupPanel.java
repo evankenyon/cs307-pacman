@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
 import ooga.view.mainView.MainView;
+import ooga.view.instructions.InstructionsView;
 import ooga.view.popups.ErrorPopups;
 
 public class GameStartupPanel {
@@ -148,6 +149,7 @@ public class GameStartupPanel {
   private File fileExplorer() {
     // Credit to Carl Fisher for writing this code in Cell Society team 6
     FileChooser myFileChooser = new FileChooser();
+    myFileChooser.setInitialDirectory(new File("data/basic_examples"));
     return myFileChooser.showOpenDialog(stage);
   }
 
@@ -168,6 +170,7 @@ public class GameStartupPanel {
     selectedViewMode = selectViewMode.getValue();
     if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
       runFile();
+      openInstructions(selectedLanguage, selectedGameType);
       selectGameType.setValue(null);
       selectLanguage.setValue(null);
       selectViewMode.setValue(null);
@@ -177,6 +180,11 @@ public class GameStartupPanel {
       }
       new ErrorPopups(selectedLanguage, "requiredFields");
     }
+  }
+
+  private void openInstructions(String selectedLanguage, String selectedGameType) {
+    Stage instructionsStage = new Stage();
+    InstructionsView instructionsView = new InstructionsView(instructionsStage, selectedLanguage, selectedGameType);
   }
 
   private void runFile() {
@@ -195,6 +203,7 @@ public class GameStartupPanel {
       }
     }
   }
+
 
   private ComboBox makeDropDown(String category, String[] options) {
     ComboBox<String> newComboBox = new ComboBox<>();

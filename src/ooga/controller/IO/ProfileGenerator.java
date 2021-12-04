@@ -1,13 +1,10 @@
 package ooga.controller.IO;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 import ooga.controller.IO.utils.JSONObjectParser;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +33,7 @@ public class ProfileGenerator {
     props.put("high-score", 0);
     props.put("wins", 0);
     props.put("losses", 0);
+    props.put("favorite-files", new JSONArray());
     oldFile.put(username, props);
     profilesFileWriter.println(oldFile);
     profilesFileWriter.close();
@@ -56,6 +54,35 @@ public class ProfileGenerator {
     JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
     JSONObject userInfo = allUsersInfo.getJSONObject(username);
     userInfo.put("image-path", imageFile.getPath());
+    allUsersInfo.put(username, userInfo);
+    profilesFileWriter.println(allUsersInfo);
+    profilesFileWriter.close();
+  }
+
+  public void addFavoriteFile(String username, String password, File filePath)
+      throws IOException {
+    login(username, password);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
+    JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
+    JSONObject userInfo = allUsersInfo.getJSONObject(username);
+    userInfo.getJSONArray("favorite-files").put(filePath.getPath());
+    allUsersInfo.put(username, userInfo);
+    profilesFileWriter.println(allUsersInfo);
+    profilesFileWriter.close();
+  }
+
+  public void removeFavoriteFile(String username, String password, String filePath)
+      throws IOException {
+    login(username, password);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
+    JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
+    JSONObject userInfo = allUsersInfo.getJSONObject(username);
+    for (int index = 0; index < userInfo.getJSONArray("favorite-files").length(); index++) {
+      if (userInfo.getJSONArray("favorite-files").getString(index).equals(filePath)) {
+        userInfo.getJSONArray("favorite-files").remove(index);
+        break;
+      }
+    }
     allUsersInfo.put(username, userInfo);
     profilesFileWriter.println(allUsersInfo);
     profilesFileWriter.close();

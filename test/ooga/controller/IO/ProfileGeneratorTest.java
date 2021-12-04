@@ -37,7 +37,8 @@ class ProfileGeneratorTest {
     Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("high-score"));
     Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("wins"));
     Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("losses"));
-    Assertions.assertEquals(DEFAULT_IMAGE.getPath(), actual.getJSONObject("evankenyon").getInt("image-path"));
+    Assertions.assertEquals(DEFAULT_IMAGE.getPath(), actual.getJSONObject("evankenyon").getString("image-path"));
+    Assertions.assertTrue(actual.getJSONObject("evankenyon").getJSONArray("favorite-files").isEmpty());
   }
 
   @Test
@@ -121,5 +122,27 @@ class ProfileGeneratorTest {
     profileGenerator.changeProfilePassword("evankenyon", "test123", "test1234");
     actual = JSONObjectParser.parseJSONObject(new File(PATH));
     Assertions.assertEquals("test1234", actual.getJSONObject("evankenyon").getString("password"));
+  }
+
+  @Test
+  void addFavoriteFile() throws IOException {
+    profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
+    profileGenerator.addFavoriteFile("evankenyon", "test123",
+        new File("./data/basic_examples/ghost_test_implementation.json"));
+    JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
+    Assertions.assertEquals("./data/basic_examples/ghost_test_implementation.json", actual.getJSONObject("evankenyon").getJSONArray("favorite-files").getString(0));
+  }
+
+  @Test
+  void removeFavoriteFile() throws IOException {
+    profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
+    profileGenerator.addFavoriteFile("evankenyon", "test123",
+        new File("./data/basic_examples/ghost_test_implementation.json"));
+    JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
+    Assertions.assertEquals("./data/basic_examples/ghost_test_implementation.json", actual.getJSONObject("evankenyon").getJSONArray("favorite-files").getString(0));
+    profileGenerator.removeFavoriteFile("evankenyon", "test123",
+        "./data/basic_examples/ghost_test_implementation.json");
+    actual = JSONObjectParser.parseJSONObject(new File(PATH));
+    Assertions.assertTrue(actual.getJSONObject("evankenyon").getJSONArray("favorite-files").isEmpty());
   }
 }

@@ -15,8 +15,8 @@ import org.json.JSONObject;
 
 public class GameSaver {
 
-  private static int counter = 1;
-  private static StringBuilder path = new StringBuilder();
+  private int counter = 1;
+  private StringBuilder path = new StringBuilder();
 
   //json values
   private JSONObject player;
@@ -36,8 +36,33 @@ public class GameSaver {
     agentTranslator = ResourceBundle.getBundle(String.format("%s%s", "AgentsToJSONObjects"));
   }
 
+  //TODO: refactor replicated code in 4 below setter methods
+  private void setPlayer() {
+    JSONObject playerObject = new JSONObject();
+    playerObject.put("Player", makeStringFromAgent(state.getMyPlayer()));
+    player = playerObject;
+  }
+
+  private void setNumberOfLives() {
+    JSONObject numLivesObject = new JSONObject();
+    numLivesObject.put("NumberOfLives", 3); //TODO: accurate dynamic value for num lives
+    numberOfLives = numLivesObject;
+  }
+
+  private void setDifficultyLevel() {
+    JSONObject difficultyLevelObject = new JSONObject();
+    difficultyLevelObject.put("Difficulty-Level", 3); //TODO: accurate dynamic value for num lives
+    difficultyLevel = difficultyLevelObject;
+  }
+
+  private void setWallMap() {
+    JSONObject wallMapObject = new JSONObject();
+    wallMapObject.put("WallMap", buildWallMap());
+    wallMap = wallMapObject;
+  }
+
   /**
-   * for now - handles all json & broader file responsibiilites
+   * for now - handles all json & broader file responsibilities
    * @throws IOException
    */
   public void saveGame() throws IOException {
@@ -50,8 +75,13 @@ public class GameSaver {
 
     try {
       FileWriter fileToSave = new FileWriter(jsonFile);
-      setJSONObjects();
+      setPlayer();
+      setNumberOfLives();
+      setDifficultyLevel();
+      setWallMap();
       fileToSave.write(String.valueOf(player));
+      fileToSave.write(String.valueOf(numberOfLives));
+      fileToSave.write(String.valueOf(difficultyLevel));
       fileToSave.write(String.valueOf(wallMap));
       fileToSave.close();
     } catch (IOException e) {
@@ -109,15 +139,6 @@ public class GameSaver {
     }
   }
 
-  private void setJSONObjects() {
-    String playerString  = makeStringFromAgent(state.getMyPlayer());
-    player.put("Player", playerString);
-    buildWallMap();
-    wallMap.put("WallMap", wallMap);
-    //difficultyLevel
-    //numLives
-  }
-
   private void sortAgentArray() {
     agentArray.addAll(state.getMyWalls());
     agentArray.addAll(state.getMyOtherAgents());
@@ -126,7 +147,7 @@ public class GameSaver {
         .thenComparing(new ColComparator()));
   }
 
-  private void buildWallMap() {
+  private JSONArray buildWallMap() {
     sortAgentArray();
 
     JSONArray overallWallArray = new JSONArray();
@@ -143,6 +164,8 @@ public class GameSaver {
       }
       overallWallArray.put(rowWallArray);
     }
+
+    return overallWallArray;
 
   }
 

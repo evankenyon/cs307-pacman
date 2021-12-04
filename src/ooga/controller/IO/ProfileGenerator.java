@@ -71,8 +71,21 @@ public class ProfileGenerator {
     profilesFileWriter.close();
   }
 
-  public void removeFavoriteFile(String username, String password, String filePath) {
-
+  public void removeFavoriteFile(String username, String password, String filePath)
+      throws IOException {
+    login(username, password);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
+    JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
+    JSONObject userInfo = allUsersInfo.getJSONObject(username);
+    for (int index = 0; index < userInfo.getJSONArray("favorite-files").length(); index++) {
+      if (userInfo.getJSONArray("favorite-files").getString(index).equals(filePath)) {
+        userInfo.getJSONArray("favorite-files").remove(index);
+        break;
+      }
+    }
+    allUsersInfo.put(username, userInfo);
+    profilesFileWriter.println(allUsersInfo);
+    profilesFileWriter.close();
   }
 
   public void changeProfileUsername(String oldUsername, String password, String newUsername)

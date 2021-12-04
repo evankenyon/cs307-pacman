@@ -84,7 +84,7 @@ public class Controller implements ControllerInterface {
           try {
             vanillaGame = new VanillaGame(vanillaGameDataInterface);
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
-            new ErrorPopups(myLanguage, "reflectionError");
+            new ErrorPopups(myLanguage, "ReflectionError");
             ResourceBundle exceptionMessages = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
             throw new InputMismatchException(exceptionMessages.getString("BadReflection"));
           }

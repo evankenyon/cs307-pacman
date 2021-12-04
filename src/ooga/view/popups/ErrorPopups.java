@@ -27,56 +27,14 @@ public class ErrorPopups {
    */
   public ErrorPopups(String language, String type) {
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
-    String methodName = String.format("%sPopup", type);
-    try {
-      Method m = ErrorPopups.class.getDeclaredMethod(methodName, null);
-      m.invoke(this, null);
-    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-      reflectionErrorPopup();
-    }
+    errorPopup(myResources.getString(type));
   }
 
-  private void saveErrorPopup() {
+  private void errorPopup(String type) {
     Alert alert = new Alert(AlertType.ERROR);
     alert.setTitle(myResources.getString("Error"));
-    alert.setHeaderText(myResources.getString("SaveErrorHeader"));
-    alertMessage = myResources.getString("SaveErrorMessage");
-    alert.setContentText(alertMessage);
-    alert.showAndWait();
-  }
-
-  private void fileErrorPopup() {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.setTitle(myResources.getString("Error"));
-    alert.setHeaderText(myResources.getString("InvalidFileHeader"));
-    alertMessage = myResources.getString("InvalidFileMessage");
-    alert.setContentText(alertMessage);
-    alert.showAndWait();
-  }
-
-  private void noFilePopup() {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.setTitle(myResources.getString("Error"));
-    alert.setHeaderText(myResources.getString("NoFileHeader"));
-    alertMessage = myResources.getString("NoFileMessage");
-    alert.setContentText(alertMessage);
-    alert.showAndWait();
-  }
-
-  private void requiredFieldsPopup() {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.setTitle(myResources.getString("Error"));
-    alert.setHeaderText(myResources.getString("RequiredFieldsHeader"));
-    alertMessage = myResources.getString("RequiredFieldsMessage");
-    alert.setContentText(alertMessage);
-    alert.showAndWait();
-  }
-
-  private void reflectionErrorPopup() {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.setTitle(myResources.getString("Error"));
-    alert.setHeaderText(myResources.getString("ReflectionErrorHeader"));
-    alertMessage = myResources.getString("ReflectionErrorMessage");
+    alert.setHeaderText(myResources.getString(String.format("%sHeader",type)));
+    alertMessage = myResources.getString(String.format("%sMessage",type));
     alert.setContentText(alertMessage);
     alert.showAndWait();
   }

@@ -156,7 +156,7 @@ public class BottomView {
     try {
       myController.saveFile();
     } catch (IOException e) {
-      new ErrorPopups(myLanguage,"saveError");
+      new ErrorPopups(myLanguage,"SaveError");
       e.printStackTrace();
     }
   }

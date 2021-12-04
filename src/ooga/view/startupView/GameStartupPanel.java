@@ -183,7 +183,7 @@ public class GameStartupPanel {
       if (selectedLanguage == null) {
         selectedLanguage = DEFAULT_LANGUAGE;
       }
-      new ErrorPopups(selectedLanguage, "requiredFields");
+      new ErrorPopups(selectedLanguage, "RequiredFields");
     }
   }
 
@@ -196,10 +196,9 @@ public class GameStartupPanel {
           userPreferences);
     } catch (Exception ex) {
       if (gameFile == null) {
-        new ErrorPopups(selectedLanguage, "noFile");
+        new ErrorPopups(selectedLanguage, "NoFile");
       } else {
-        ex.printStackTrace();
-        new ErrorPopups(selectedLanguage, "fileError");
+        new ErrorPopups(selectedLanguage, "InvalidFile");
       }
     }
   }

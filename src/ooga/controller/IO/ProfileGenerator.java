@@ -1,12 +1,8 @@
 package ooga.controller.IO;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 import ooga.controller.IO.utils.JSONObjectParser;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,6 +57,22 @@ public class ProfileGenerator {
     allUsersInfo.put(username, userInfo);
     profilesFileWriter.println(allUsersInfo);
     profilesFileWriter.close();
+  }
+
+  public void addFavoriteFile(String username, String password, File filePath)
+      throws IOException {
+    login(username, password);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
+    JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
+    JSONObject userInfo = allUsersInfo.getJSONObject(username);
+    userInfo.getJSONArray("favorite-files").put(filePath.getPath());
+    allUsersInfo.put(username, userInfo);
+    profilesFileWriter.println(allUsersInfo);
+    profilesFileWriter.close();
+  }
+
+  public void removeFavoriteFile(String username, String password, String filePath) {
+
   }
 
   public void changeProfileUsername(String oldUsername, String password, String newUsername)

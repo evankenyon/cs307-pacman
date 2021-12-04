@@ -123,4 +123,13 @@ class ProfileGeneratorTest {
     actual = JSONObjectParser.parseJSONObject(new File(PATH));
     Assertions.assertEquals("test1234", actual.getJSONObject("evankenyon").getString("password"));
   }
+
+  @Test
+  void addFavoriteFile() throws IOException {
+//    profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
+    profileGenerator.addFavoriteFile("evankenyon", "test123",
+        new File("./data/basic_examples/ghost_test_implementation.json"));
+    JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
+    Assertions.assertEquals("./data/basic_examples/ghost_test_implementation.json", actual.getJSONObject("evankenyon").getJSONArray("favorite-files").getString(0));
+  }
 }

@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
@@ -21,6 +20,7 @@ public class GameBoard {
   private int myPacScore;
   private int myGhostScore;
   private Consumer<Integer> myScoreConsumer;
+
 
 
   // TODO: handle exceptions

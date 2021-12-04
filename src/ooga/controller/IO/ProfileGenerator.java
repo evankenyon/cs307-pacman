@@ -1,6 +1,7 @@
 package ooga.controller.IO;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,6 +47,18 @@ public class ProfileGenerator {
       throw new IllegalArgumentException("Username or password incorrect");
     }
     return new User(username);
+  }
+
+  public void updateProfilePicture(String username, String password, File imageFile)
+      throws IOException {
+    login(username, password);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
+    JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
+    JSONObject userInfo = allUsersInfo.getJSONObject(username);
+    userInfo.put("image-path", imageFile.getPath());
+    allUsersInfo.put(username, userInfo);
+    profilesFileWriter.println(allUsersInfo);
+    profilesFileWriter.close();
   }
 
   public void updateUserStats(String username, String password, int score, boolean won)

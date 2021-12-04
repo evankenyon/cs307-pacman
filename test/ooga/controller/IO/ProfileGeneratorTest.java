@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 
 class ProfileGeneratorTest {
   private static final String PATH = "./data/profiles_test.json";
-  private static final File DEFAULT_IMAGE = new File("./data/ms_pacman.png");
+  private static final File DEFAULT_IMAGE = new File("./data/images/ms_pacman.png");
   private ProfileGenerator profileGenerator;
 
   @BeforeEach
@@ -92,5 +92,14 @@ class ProfileGeneratorTest {
     Assertions.assertEquals(10, actual.getJSONObject("evankenyon").getInt("high-score"));
     Assertions.assertEquals(0, actual.getJSONObject("evankenyon").getInt("wins"));
     Assertions.assertEquals(1, actual.getJSONObject("evankenyon").getInt("losses"));
+  }
+
+  @Test
+  void updateUserProfileImage() throws IOException {
+    profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
+    profileGenerator.updateProfilePicture("evankenyon", "test123",
+        new File("./data/images/fruit.png"));
+    JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
+    Assertions.assertEquals("./data/images/fruit.png", actual.getJSONObject("evankenyon").getString("image-path"));
   }
 }

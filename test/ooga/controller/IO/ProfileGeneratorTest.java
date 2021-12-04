@@ -102,4 +102,14 @@ class ProfileGeneratorTest {
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
     Assertions.assertEquals("./data/images/fruit.png", actual.getJSONObject("evankenyon").getString("image-path"));
   }
+
+  @Test
+  void updateProfileUsername() throws IOException {
+    profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
+    JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
+    Assertions.assertTrue(actual.has("evankenyon"));
+    profileGenerator.changeProfileUsername("evankenyon", "test123", "evankenyon1");
+    actual = JSONObjectParser.parseJSONObject(new File(PATH));
+    Assertions.assertTrue(actual.has("evankenyon1"));
+  }
 }

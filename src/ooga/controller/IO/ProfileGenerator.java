@@ -61,6 +61,18 @@ public class ProfileGenerator {
     profilesFileWriter.close();
   }
 
+  public void changeProfileUsername(String oldUsername, String password, String newUsername)
+      throws IOException {
+    login(oldUsername, password);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
+    JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
+    JSONObject userInfo = allUsersInfo.getJSONObject(oldUsername);
+    allUsersInfo.remove(oldUsername);
+    allUsersInfo.put(newUsername, userInfo);
+    profilesFileWriter.println(allUsersInfo);
+    profilesFileWriter.close();
+  }
+
   public void updateUserStats(String username, String password, int score, boolean won)
       throws IOException {
     login(username, password);

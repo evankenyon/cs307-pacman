@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,6 +37,7 @@ public class GameStartupPanel {
   private ComboBox<String> selectGameType;
   private ComboBox<String> selectLanguage;
   private ComboBox<String> selectViewMode;
+  private ComboBox<String> selectFile;
   private Button fileUploadButton;
   private File gameFile;
   private String selectedGameType;
@@ -58,6 +60,7 @@ public class GameStartupPanel {
       "GhostPacman"};
   public static final String LANGUAGE_KEYS[] = {"English", "Spanish", "Lang3", "Lang4", "Lang5"};
   public static final String VIEW_MODE_KEYS[] = {"Light", "Dark", "Duke"};
+  public static final String LOAD_FILE_KEYS[] = {"SelectLocally","SelectFromDatabase"};
 
   public GameStartupPanel(Stage stage) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
@@ -99,14 +102,29 @@ public class GameStartupPanel {
     selectLanguage = makeSelectorBox(selectCol1R, "Language", LANGUAGE_KEYS);
     addToCluster(root, selectCol1L, selectCol1R, selectCluster1, 2);
     selectViewMode = makeSelectorBox(selectCol2L, "ViewingMode", VIEW_MODE_KEYS);
-    ImageView selectGameFileLabel = new ImageView(
-        new Image(new File("data/images/selectGameFile.png").toURI().toString()));
-    setImgWidth(selectGameFileLabel, SCREEN_WIDTH / 2);
-    Button fileUploadButton = makeFileUploadButton();
-    selectCol2R.getChildren().addAll(selectGameFileLabel, fileUploadButton);
-    selectCol2R.setAlignment(Pos.CENTER);
+    selectFile = makeSelectorBox(selectCol2R, "GameFile", LOAD_FILE_KEYS);
+    selectFile.setOnAction(e -> selectFileAction());
     displayFileName = makeText(Color.LIGHTGRAY, NO_FILE_TEXT, selectCol2R);
     addToCluster(root, selectCol2L, selectCol2R, selectCluster2, 3);
+  }
+
+  private void selectFileAction() {
+    String location = selectFile.getValue();
+    if (location.equals(myResources.getString(LOAD_FILE_KEYS[0]))) {
+      uploadFile();
+    }
+    else if (location.equals(myResources.getString(LOAD_FILE_KEYS[1]))) {
+      makeChoiceDialog();
+    }
+  }
+
+  private void makeChoiceDialog() {
+    String choices[] = {"hi","hey","hello"};
+    ChoiceDialog databaseChoices = new ChoiceDialog<>(choices[0],choices);
+    databaseChoices.setHeaderText("Select File from Database");
+    databaseChoices.setTitle("Database Files");
+    String fileName = databaseChoices.getSelectedItem().toString();
+    databaseChoices.showAndWait();
   }
 
   private Text makeText(Paint color, String message, VBox vBox) {
@@ -149,7 +167,9 @@ public class GameStartupPanel {
 
   private void uploadFile() {
     gameFile = fileExplorer();
-    displayFileName.setText(gameFile.getName());
+    if (gameFile != null) {
+      displayFileName.setText(gameFile.getName());
+    }
   }
 
   private File fileExplorer() {

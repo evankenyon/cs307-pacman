@@ -14,11 +14,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.IO.FirebaseReader;
+import ooga.controller.IO.GameSaver;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.PreferencesParser;
 import ooga.controller.IO.ProfileGenerator;
-import ooga.controller.IO.GameSaver;
 import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
 import ooga.controller.IO.keyTracker;
@@ -125,7 +125,6 @@ public class Controller implements ControllerInterface {
             vanillaGame = new VanillaGame(vanillaGameDataInterface);
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             new ErrorPopups(myLanguage, "reflectionError");
-            LOG.info("my exception is {}", e.toString());
             ResourceBundle exceptionMessages = ResourceBundle.getBundle(
                 String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
             throw new InputMismatchException(exceptionMessages.getString("BadReflection"));

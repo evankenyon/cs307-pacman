@@ -34,6 +34,7 @@ public class Ghost extends AbstractAgent implements Consumable {
 
   public void setCoords(Position newPosition) {
     setPosition(newPosition.getCoords());
+    updateConsumer();
   }
 
   public Position getNextMove(GameState state) {

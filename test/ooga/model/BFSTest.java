@@ -32,8 +32,8 @@ public class BFSTest {
 
     Ghost myGhost = new Ghost(0, 2);
     GameState state = new GameState(vanillaGameData);
-    myGhost.getNextMove(state);
     int[] expected = {0, 1};
+    myGhost.setCoords(myGhost.getNextMove(state));
     Assertions.assertArrayEquals(expected,
         myGhost.getPosition().getCoords());
   }

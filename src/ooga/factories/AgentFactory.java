@@ -20,11 +20,13 @@ public class AgentFactory {
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, PACKAGES_FILENAME));
     ResourceBundle classNames = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, CLASS_NAMES_FILENAME));
     String actualAgent = "";
+
     try {
       actualAgent = classNames.getString(agent);
     } catch (MissingResourceException e) {
       actualAgent = agent;
     }
+
     for (String aPackage : packages.keySet()) {
       try {
         createdAgent = (Agent) Class.forName(
@@ -38,6 +40,7 @@ public class AgentFactory {
     if (numNot == packages.keySet().size()) {
       throw new IllegalArgumentException();
     }
+
     return createdAgent;
   }
 }

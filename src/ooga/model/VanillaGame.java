@@ -10,7 +10,6 @@ import ooga.model.util.Position;
 
 public class VanillaGame implements Game {
 
-  private static final String BOARD_CONFIGURATION = "board";
   private GameBoard myBoard;
   private Map<String, Boolean> pelletInfoMap;
   private List<Consumer<String>> myObservers;
@@ -30,17 +29,8 @@ public class VanillaGame implements Game {
   public void step() {
     myBoard.movePawns();
     myBoard.checkCollisions();
-    isWin();
-    isLoss();
+    myBoard.checkGameEnd();
     updateHandlers();
-  }
-
-  public boolean isWin() {
-    return true;
-  }
-
-  public boolean isLoss() {
-    return false;
   }
 
   private void updateHandlers() {

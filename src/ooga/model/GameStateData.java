@@ -183,10 +183,6 @@ public class GameStateData {
     }
   }
 
-  public int getPacmanLives() {
-    return pacmanLives;
-  }
-
   private void createWallList(Map<String, List<Position>> gameDict) {
     if (gameDict.get("Wall") != null) {
       for (Position wallPos : gameDict.get("Wall")) {

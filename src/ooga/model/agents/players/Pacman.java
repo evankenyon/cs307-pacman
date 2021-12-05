@@ -1,5 +1,7 @@
 package ooga.model.agents.players;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import ooga.model.GameState;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.movement.Controllable;
@@ -44,6 +46,19 @@ public class Pacman extends AbstractAgent {
     myState = i;
     LOG.info("pacman state now {}", myState);
     updateConsumer();
+    attachStateTimer();
+  }
+
+  private void attachStateTimer() {
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        if (myState == SUPER_STATE) {
+          myState = ALIVE_STATE;
+        }
+      }
+    }, 4000);
   }
 
   public int getLives() {

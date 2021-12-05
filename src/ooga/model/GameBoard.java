@@ -46,6 +46,7 @@ public class GameBoard {
       if (newPosition != null) {
         //only set new coordinate value if move is valid
         if (checkMoveValidity(newPosition)) {
+          newPosition = myState.portal(newPosition);
           //set coordinates after effects have been applied
           agent.setCoords(newPosition);
         }
@@ -102,7 +103,7 @@ public class GameBoard {
   private boolean checkMoveValidity(Position newPosition) {
     int x = newPosition.getCoords()[0];
     int y = newPosition.getCoords()[1];
-    return myState.isInBounds(x, y) && !myState.isWall(x, y);
+    return !myState.isWall(x, y);
   }
 
   public GameState getGameState() {

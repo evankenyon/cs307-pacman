@@ -47,6 +47,36 @@ public class GameState {
     return true;
   }
 
+  public Position portal(Position oldPosition) {
+    if (atXEdge(oldPosition)) {
+      return new Position(0, oldPosition.getCoords()[1]);
+    } else if (atYEdge(oldPosition)) {
+      return new Position(oldPosition.getCoords()[0], 0);
+    } else if (atXZero(oldPosition)) {
+      return new Position(myCols - 1, oldPosition.getCoords()[1]);
+    } else if (atYZero(oldPosition)) {
+      return new Position(oldPosition.getCoords()[0], myRows - 1);
+    }
+    return oldPosition;
+  }
+
+  private boolean atXZero(Position position) {
+    return position.getCoords()[0] == 0;
+  }
+
+  private boolean atYZero(Position position) {
+    return position.getCoords()[1] == 0;
+  }
+
+
+  private boolean atXEdge(Position position) {
+    return position.getCoords()[0] == myCols;
+  }
+
+  private boolean atYEdge(Position position) {
+    return position.getCoords()[1] == myRows;
+  }
+
   private int calculateDimension(Map<String, List<Position>> initialStates, int dim) {
     int maxCol = 0;
     for (String key : initialStates.keySet()) {

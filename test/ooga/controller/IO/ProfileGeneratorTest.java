@@ -11,6 +11,7 @@ import java.util.InputMismatchException;
 import ooga.controller.IO.utils.JSONObjectParser;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,6 +51,7 @@ class ProfileGeneratorTest {
     Assertions.assertEquals("test1234", actual.getJSONObject("evankenyon1").getString("password"));
   }
 
+  //TODO: fix
   @Test
   void profileGeneratorWrongPath() {
     profileGenerator = new ProfileGenerator("bad");
@@ -63,13 +65,13 @@ class ProfileGeneratorTest {
   }
 
   @Test
-  void profileGeneratorTwoSameUsers() throws IOException {
+  void profileGeneratorTwoSameUsers() throws IOException, InterruptedException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.createUser("evankenyon", "test1234", DEFAULT_IMAGE));
   }
 
   @Test
-  void loginSimple() throws IOException {
+  void loginSimple() throws IOException, InterruptedException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     Assertions.assertEquals("evankenyon", profileGenerator.login("evankenyon", "test123").username());
   }
@@ -80,13 +82,13 @@ class ProfileGeneratorTest {
   }
 
   @Test
-  void loginWrongPassword() throws IOException {
+  void loginWrongPassword() throws IOException, InterruptedException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.login("evankenyon", "test1234"));
   }
 
   @Test
-  void updateUserStatsBasic() throws IOException {
+  void updateUserStatsBasic() throws IOException, InterruptedException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     profileGenerator.updateUserStats("evankenyon", "test123", 10, false);
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
@@ -96,7 +98,7 @@ class ProfileGeneratorTest {
   }
 
   @Test
-  void updateUserProfileImage() throws IOException {
+  void updateUserProfileImage() throws IOException, InterruptedException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     profileGenerator.updateProfilePicture("evankenyon", "test123",
         new File("./data/images/fruit.png"));
@@ -105,7 +107,7 @@ class ProfileGeneratorTest {
   }
 
   @Test
-  void updateProfileUsername() throws IOException {
+  void updateProfileUsername() throws IOException, InterruptedException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
     Assertions.assertTrue(actual.has("evankenyon"));
@@ -115,7 +117,7 @@ class ProfileGeneratorTest {
   }
 
   @Test
-  void updateProfilePassword() throws IOException {
+  void updateProfilePassword() throws IOException, InterruptedException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
     Assertions.assertEquals("test123", actual.getJSONObject("evankenyon").getString("password"));
@@ -125,7 +127,7 @@ class ProfileGeneratorTest {
   }
 
   @Test
-  void addFavoriteFile() throws IOException {
+  void addFavoriteFile() throws IOException, InterruptedException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     profileGenerator.addFavoriteFile("evankenyon", "test123",
         new File("./data/basic_examples/ghost_test_implementation.json"));
@@ -134,7 +136,7 @@ class ProfileGeneratorTest {
   }
 
   @Test
-  void removeFavoriteFile() throws IOException {
+  void removeFavoriteFile() throws IOException, InterruptedException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     profileGenerator.addFavoriteFile("evankenyon", "test123",
         new File("./data/basic_examples/ghost_test_implementation.json"));

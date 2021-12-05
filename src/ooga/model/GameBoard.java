@@ -125,4 +125,6 @@ public class GameBoard {
   public void updateScoreConsumer() {
     myScoreConsumer.accept(myPacScore);
   }
+
+  public int getMyPacScore() {return myPacScore;}
 }

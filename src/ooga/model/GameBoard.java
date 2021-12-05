@@ -127,4 +127,5 @@ public class GameBoard {
   }
 
   public int getMyPacScore() {return myPacScore;}
+  public int getMyGhostScore() {return myGhostScore;}
 }

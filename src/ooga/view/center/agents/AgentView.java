@@ -2,6 +2,7 @@ package ooga.view.center.agents;
 
 import javafx.scene.Node;
 import ooga.model.interfaces.Agent;
+import ooga.view.center.agents.interfaces.AgentViewInterface;
 
 /**
  * This is the super class for all the items placed on the Pac-Man Board screen in the view. Each
@@ -11,7 +12,7 @@ import ooga.model.interfaces.Agent;
  *
  * @author Dane Erickson
  */
-public abstract class AgentView {
+public abstract class AgentView implements AgentViewInterface {
 
   public static final double IMAGE_BUFFER_FACTOR = 0.9; // Images fill 90% of grid squares
 

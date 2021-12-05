@@ -45,11 +45,11 @@ public class BottomViewTest extends DukeApplicationTest {
 
   @Test
   void testPlayPause() throws InterruptedException {
+    clickOn(myPlayPauseButton);
+    assertEquals(false, myController.getPlayPause());
     press(KeyCode.D);
     clickOn(myPlayPauseButton);
     assertEquals(true, myController.getPlayPause());
-    clickOn(myPlayPauseButton);
-    assertEquals(false, myController.getPlayPause());
   }
 
   @Test

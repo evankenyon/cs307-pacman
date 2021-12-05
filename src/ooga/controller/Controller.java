@@ -13,7 +13,7 @@ import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-//import ooga.controller.IO.FirebaseReader;
+import ooga.controller.IO.FirebaseReader;
 import ooga.controller.IO.GameSaver;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
@@ -25,6 +25,7 @@ import ooga.controller.IO.keyTracker;
 import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
+import ooga.view.loginView.LoginView;
 import ooga.view.mainView.MainView;
 import ooga.view.popups.ErrorPopups;
 import ooga.view.startupView.GameStartupPanel;
@@ -51,7 +52,7 @@ public class Controller implements ControllerInterface {
   private final String myViewMode;
   private int rows;
   private int cols;
-  //private FirebaseReader firebaseReader;
+  private FirebaseReader firebaseReader;
   private JSONObject originalStartingConfigJson;
   private final Stage myStage;
   private UserPreferences myPreferences;
@@ -78,26 +79,30 @@ public class Controller implements ControllerInterface {
     keyTracker = new keyTracker();
     preferencesParser = new PreferencesParser();
     profileGenerator = new ProfileGenerator();
-//    try {
-//      //firebaseReader = new FirebaseReader();
-//    } catch (IOException e) {
-//      // TODO: fix
-//      e.printStackTrace();
-//    }
-
-    gameStartupPanel = new GameStartupPanel(
-        stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
+    try {
+      firebaseReader = new FirebaseReader();
+    } catch (IOException e) {
+      // TODO: fix
+      e.printStackTrace();
+    }
+    new LoginView(myStage, this);
+//    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
     isPaused = true;
-
   }
 
 //  public Set<String> getFirebaseFilenames() throws InterruptedException {
 //    return firebaseReader.getFileNames();
 //  }
 
-  public void createUser(String username, String password, File imageFile)
+//  @Deprecated
+//  public void createUser(String username, String password, File imageFile) throws IOException {
+//    profileGenerator.createUser(username, password, imageFile);
+//  }
+
+  public User createUser(String username, String password, File imageFile)
       throws IOException, InterruptedException {
     profileGenerator.createUser(username, password, imageFile);
+    return login(username, password);
   }
 
   public User login(String username, String password) throws IOException {

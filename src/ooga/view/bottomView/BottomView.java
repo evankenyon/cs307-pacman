@@ -22,7 +22,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import ooga.controller.Controller;
+import ooga.controller.IO.GameSaver;
 import ooga.model.VanillaGame;
+import ooga.view.popups.ErrorPopups;
 
 /**
  * Class that creates a VBox to be placed in the bottom of the BorderPane in MainView. This class
@@ -45,7 +47,7 @@ public class BottomView {
   public static final int ICON_SIZE = 30;
   public static final int SIM_BUTTON_SIZE = 120;
   public static final double MIN_SLIDER_VAL = 0.5;
-  public static final double MAX_SLIDER_VAL = 5;
+  public static final double MAX_SLIDER_VAL = 2;
   public static final double INITIAL_RATE = 1;
   public static final int SLIDER_LENGTH = 200;
   private static final int GRAPHIC_BUTTON_HEIGHT = 25;
@@ -58,7 +60,7 @@ public class BottomView {
   private Button playPauseButton;
   private Button stepButton;
   private String myLanguage;
-  private boolean isPaused = false;
+  private boolean isPaused;
 
   /**
    * Constructor to create a BottomView, which makes simulation and game buttons on the bottom of
@@ -74,6 +76,7 @@ public class BottomView {
     myGame = game;
     myLanguage = language;
     bottomView = new VBox();
+    isPaused = true;
     bottomView.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     bottomView.getStyleClass().add("root");
     bottomView.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
@@ -123,13 +126,7 @@ public class BottomView {
   }
 
   private void initiateBottomView(VBox root) {
-    ImageView saveButton = makeGraphicButton("save", e -> {
-      try {
-        saveGame();
-      } catch (IOException ex) {
-        ex.printStackTrace();
-      }
-    });
+    ImageView saveButton = makeGraphicButton("save", e -> saveGame());
     ImageView statsButton = makeGraphicButton("stats", e -> showStats());
     ImageView restartButton = makeGraphicButton("restart", e -> restartGame());
     VBox graphicButtons = new VBox();
@@ -137,7 +134,7 @@ public class BottomView {
     graphicButtons.getStyleClass().add("graphic-buttons");
     graphicButtons.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
-    playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
+    playPauseButton = makeSimButton(makeButtonImage(PLAY_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
         e -> togglePlayPause());
     playPauseButton.setId("playPauseButton");
     stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
@@ -155,10 +152,14 @@ public class BottomView {
     root.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
-  private void saveGame() throws IOException {
+  private void saveGame() {
     // TODO: Fix SaveGame when merged
-//    new SaveGame().saveGame();
-    myController.saveFile();
+    try {
+      myController.saveFile();
+    } catch (IOException e) {
+      new ErrorPopups(myLanguage,"SaveError");
+      e.printStackTrace();
+    }
   }
 
   private ImageView makeGraphicButton(String key, EventHandler handler) {

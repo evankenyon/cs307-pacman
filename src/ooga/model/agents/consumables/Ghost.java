@@ -6,8 +6,9 @@ import ooga.model.GameState;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Consumable;
+import ooga.model.movement.BFS;
 import ooga.model.movement.MovementStrategyContext;
-import ooga.model.movement.Random;
+import ooga.model.movement.Scatter;
 import ooga.model.util.Position;
 
 
@@ -27,7 +28,7 @@ public class Ghost extends AbstractAgent implements Consumable {
     super(x, y);
     getPosition().setDirection("right");
     myState = ALIVE_STATE;
-    myMover = new MovementStrategyContext(new Random());
+    myMover = new MovementStrategyContext(new BFS());
   }
 
   public int getState() {
@@ -46,6 +47,7 @@ public class Ghost extends AbstractAgent implements Consumable {
   @Override
   public void setState(int i) {
     myState = i;
+    myMover.setStrategy(new Scatter());
     updateConsumer();
     attachStateTimer();
   }
@@ -58,6 +60,7 @@ public class Ghost extends AbstractAgent implements Consumable {
       public void run() {
         if (myState == AFRAID_STATE) {
           myState = ALIVE_STATE;
+          myMover.setStrategy(new BFS());
         }
       }
     }, 4000);

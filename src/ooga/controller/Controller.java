@@ -51,7 +51,7 @@ public class Controller implements ControllerInterface {
   private int rows;
   private int cols;
   private FirebaseReader firebaseReader;
-  private JSONObject originalJson;
+  private JSONObject originalStartingConfigJson;
   private final Stage myStage;
   private UserPreferences myPreferences;
   private ProfileGenerator profileGenerator;
@@ -92,8 +92,6 @@ public class Controller implements ControllerInterface {
     return firebaseReader.getFileNames();
   }
 
-
-
   public void createUser(String username, String password, File imageFile)
       throws IOException, InterruptedException {
     profileGenerator.createUser(username, password, imageFile);
@@ -103,10 +101,22 @@ public class Controller implements ControllerInterface {
     return profileGenerator.login(username, password);
   }
 
+  public UserPreferences uploadFirebaseFile(String fileName)
+      throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException {
+    setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));
+    return myPreferences;
+  }
+
   // TODO: properly handle exception
   @Override
   public UserPreferences uploadFile(File file)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    setupPreferencesAndVanillaGame(JSONObjectParser.parseJSONObject(file));
+    return myPreferences;
+  }
+
+  private void setupPreferencesAndVanillaGame(JSONObject json)
+      throws IOException, NoSuchMethodException, IllegalAccessException {
     jsonParser.addVanillaGameDataConsumer(
         vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.wallMap());
     jsonParser.addVanillaGameDataConsumer(
@@ -121,18 +131,17 @@ public class Controller implements ControllerInterface {
             throw new InputMismatchException(exceptionMessages.getString("BadReflection"));
           }
         });
-    if (!JSONObjectParser.parseJSONObject(file).toMap()
+    if (!json.toMap()
         .containsKey(magicValues.getString("PlayerKey"))) {
-      preferencesParser.uploadFile(file);
-      originalJson = JSONObjectParser.parseJSONObject(preferencesParser.getStartingConfig());
+      preferencesParser.parseJSON(json);
+      originalStartingConfigJson = JSONObjectParser.parseJSONObject(preferencesParser.getStartingConfig());
     } else {
-      originalJson = JSONObjectParser.parseJSONObject(file);
+      originalStartingConfigJson = json;
     }
-    jsonParser.parseJSON(originalJson);
+    jsonParser.parseJSON(originalStartingConfigJson);
     myPreferences = new UserPreferences(wallMap, jsonParser.getRows(), jsonParser.getCols(),
         preferencesParser.getImagePaths(), preferencesParser.getColors(),
         preferencesParser.getStyle(), myLanguage);
-    return myPreferences;
   }
 
   @Override
@@ -205,7 +214,7 @@ public class Controller implements ControllerInterface {
    * user clicks on "Restart" button
    */
   public void restartGame() {
-    jsonParser.parseJSON(originalJson);
+    jsonParser.parseJSON(originalStartingConfigJson);
     new MainView(this, getVanillaGame(), myStage, myPreferences);
   }
 }

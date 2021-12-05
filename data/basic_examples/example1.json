@@ -3,6 +3,7 @@
   "RequiredPellets":["Dot"],
   "OptionalPellets":["Fruit"],
   "NumberOfLives":3,
+  "PlayerScore":0,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall"],
     ["Wall","Pacman", "pellet", "Wall", "Wall", "Wall"],

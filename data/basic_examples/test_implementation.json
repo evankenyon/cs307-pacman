@@ -1,12 +1,9 @@
 {
-  "Title":"Pacman Test",
   "Player":"Pacman",
   "RequiredPellets":["Dot", "Super"],
   "OptionalPellets":[],
-  "PowerUps":["Super"],
   "NumberOfLives":3,
-  "OpponentTypes":[],
-  "Difficulty-Level":1,
+  "PlayerScore":0,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall"],
     ["Wall","Super","Dot","Dot", "Dot","Dot", "Dot","Dot", "Dot","Super", "Wall"],

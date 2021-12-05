@@ -1,17 +1,10 @@
 package ooga.model;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import ooga.factories.AgentFactory;
 import ooga.model.interfaces.Agent;
-import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class GameStateNew {
   private GameStateData myGameStateData;
@@ -20,7 +13,7 @@ public class GameStateNew {
 
 
 
-  public GameStateNew(Data vanillaGameData)
+  public GameStateNew(GameData vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myGameStateData = new GameStateData();
 

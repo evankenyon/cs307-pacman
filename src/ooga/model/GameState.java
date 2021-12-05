@@ -34,7 +34,7 @@ public class GameState {
   private final AgentFactory agentFactory;
   private static final Logger LOG = LogManager.getLogger(GameState.class);
 
-  public GameState(Data vanillaGameData)
+  public GameState(GameData vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     System.out.println(vanillaGameData.wallMap().toString());
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;

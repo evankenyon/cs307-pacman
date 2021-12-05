@@ -24,7 +24,7 @@ public class GameBoard {
 
 
   // TODO: handle exceptions
-  public GameBoard(Data vanillaGameData)
+  public GameBoard(GameData vanillaGameData)
       throws
       InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myState = new GameState(vanillaGameData);

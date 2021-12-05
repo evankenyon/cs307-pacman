@@ -1,21 +1,19 @@
 package ooga.model.agents.players;
 
+import ooga.model.GameState;
 import ooga.model.agents.AbstractAgent;
-import ooga.model.interfaces.Agent;
-import ooga.model.interfaces.Consumable;
 import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Pacman extends AbstractAgent implements Consumable {
+public class Pacman extends AbstractAgent {
 
   public final static int DEAD_STATE = 0;
   public final static int ALIVE_STATE = 1;
   public final static int SUPER_STATE = 2;
   public int myLives;
-
 
   private int myState;
   private MovementStrategyContext myMover;
@@ -37,18 +35,8 @@ public class Pacman extends AbstractAgent implements Consumable {
     setPosition(newPosition.getCoords());
   }
 
-  public Position step() {
-//    LOG.info(String.format("%d, %d", getPosition().getCoords()[0], getPosition().getCoords()[1]));
-    return myMover.move(getPosition());
-  }
-
-  public int consume(Consumable agent) {
-    if (agent != null) {
-      agent.getConsumed();
-      agent.applyEffects(this);
-      return agent.applyPoints();
-    }
-    return 0;
+  public Position getNextMove(GameState state) {
+    return myMover.move(state, getPosition());
   }
 
   @Override
@@ -58,24 +46,17 @@ public class Pacman extends AbstractAgent implements Consumable {
     updateConsumer();
   }
 
-  @Override
-  public void getConsumed() {
-    if (myLives != 0) myLives--;
+  public int getLives() {
+    return myLives;
   }
 
-  @Override
-  public void applyEffects(Pacman pacman) {
-    //decrease lives or something?
+  public void loseOneLife() {
+    myLives--;
   }
 
-  @Override
-  public int applyPoints() {
-    return 0;
-  }
-
-  public void loseLife(){
-    if (myLives > 0){
-      myLives--;
-    }
-  }
+//  public void loseLife(){
+//    if (myLives > 0){
+//      myLives--;
+//    }
+//  }
 }

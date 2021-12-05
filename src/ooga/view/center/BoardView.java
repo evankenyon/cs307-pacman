@@ -6,23 +6,26 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import ooga.controller.Controller;
-import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.UserPreferences;
 import ooga.model.VanillaGame;
 import ooga.model.agents.wall;
-import ooga.model.util.Position;
 import ooga.model.interfaces.Agent;
+import ooga.model.util.Position;
 import ooga.view.center.agents.AgentView;
 import ooga.view.center.agents.WallView;
 import ooga.view.popups.ErrorPopups;
@@ -50,6 +53,7 @@ public class BoardView {
   private int numRows;
   private int numCols;
   private String myLanguage;
+  private int ghostCount;
 
   /**
    * Constructor to create a BoardView object based on UserPreferences from the inputted file and
@@ -73,11 +77,11 @@ public class BoardView {
     myBoardPane.setBackground(
         new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     myBoardPane.setBorder(new Border(
-            new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(10))));
+        new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, new CornerRadii(5),
+            new BorderWidths(10))));
   }
 
   private void initiateBoard(UserPreferences userPreferences) {
-    System.out.println(userPreferences.wallMap().keySet().toString());
     for (String type : userPreferences.wallMap().keySet()) {
       for (Position p : userPreferences.wallMap().get(type)) {
         AgentView agentView = null;
@@ -112,7 +116,7 @@ public class BoardView {
 
   private AgentView makeAgentViewColor(String type, Position position, List<Double> rgb) {
     String className = String.format("ooga.view.center.agents.%sView", type);
-    Agent agent = myGame.getBoard().getGameState().findAgent(position);
+    Agent agent = myGame.findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, List.class, int.class, int.class)
@@ -124,7 +128,7 @@ public class BoardView {
 
   private AgentView makeAgentViewImage(String type, Position position, String imagePath) {
     String className = String.format("ooga.view.center.agents.%sView", type);
-    Agent agent = myGame.getBoard().getGameState().findAgent(position);
+    Agent agent = myGame.findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, String.class, int.class,
@@ -137,7 +141,7 @@ public class BoardView {
 
   private AgentView makeAgentView(String type, Position position) {
     String className = String.format("ooga.view.center.agents.%sView", type);
-    Agent agent = myGame.getBoard().getGameState().findAgent(position);
+    Agent agent = myGame.findAgent(position);
     try {
       Class<?> clazz = Class.forName(className);
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, int.class, int.class)
@@ -160,5 +164,19 @@ public class BoardView {
   public Node getBoardPane() {
     return myBoardPane;
   }
+
+//  /**
+//   * Setter method to add 1 to the ghost count to know which image to make the new ghost
+//   */
+//  public void incrementGhostCount() {
+//    ghostCount++;
+//  }
+//
+//  /**
+//   * Getter method to get the ghost count to know what image to make the ghost
+//   *
+//   * @return int ghostCount
+//   */
+//  public int getGhostCount() { return ghostCount; }
 
 }

@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
 import ooga.view.mainView.MainView;
 import ooga.view.startupView.GameStartupPanel;
@@ -28,6 +29,6 @@ public class StartUpPanelTests extends DukeApplicationTest {
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myController = new Controller(LANGUAGE, stage);
     UserPreferences prefs = myController.uploadFile(new File(TEST_FILE));
-    myStartupPanel = new GameStartupPanel(stage);
+    myStartupPanel = new GameStartupPanel(stage, new User("test"));
   }
 }

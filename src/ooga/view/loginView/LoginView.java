@@ -66,7 +66,7 @@ public class LoginView {
       //TODO: make signup exception popup
       e.printStackTrace();
     }
-    new GameStartupPanel(myStage);
+    new GameStartupPanel(myStage, myUser);
   }
 
   private void signInAction() {
@@ -78,7 +78,7 @@ public class LoginView {
       //TODO: make sign in exception popup
       e.printStackTrace();
     }
-    new GameStartupPanel(myStage);
+    new GameStartupPanel(myStage, myUser);
   }
 
   private File fileExplorer() {

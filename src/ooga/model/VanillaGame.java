@@ -4,8 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Game;
-import org.json.JSONArray;
+import ooga.model.util.Position;
 
 public class VanillaGame implements Game {
 
@@ -31,12 +32,13 @@ public class VanillaGame implements Game {
   }
 
   public void step() {
-    myBoard.moveAll();
+    myBoard.movePawns();
+    myBoard.checkCollisions();
     updateHandlers();
   }
 
   public boolean isWin() {
-    return myBoard.checkWin();
+    return true;
   }
 
   public boolean isLoss() {
@@ -50,6 +52,14 @@ public class VanillaGame implements Game {
 
   public GameBoard getBoard() {
     return myBoard;
+  }
+
+  public void setPlayerDirection(String direction) {
+    myBoard.setPlayerDirection(direction);
+  }
+
+  public Agent findAgent(Position position) {
+    return myBoard.getGameState().findAgent(position);
   }
 }
 

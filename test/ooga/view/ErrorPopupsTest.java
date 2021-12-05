@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ResourceBundle;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.controller.IO.User;
 import ooga.view.popups.ErrorPopups;
 import ooga.view.startupView.GameStartupPanel;
 import org.junit.jupiter.api.Test;
@@ -17,10 +18,12 @@ public class ErrorPopupsTest extends DukeApplicationTest {
 
   private ResourceBundle myResources;
   private Controller myController;
+  private User myUser;
 
   @Start
   public void start (Stage stage) {
-    new GameStartupPanel(stage);
+    myUser = new User("test");
+    new GameStartupPanel(stage, myUser);
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, LANGUAGE));
   }
 

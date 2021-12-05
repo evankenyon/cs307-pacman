@@ -166,6 +166,10 @@ public class GameStateData {
     foodLeft = myPelletStates.size();
   }
 
+  public int getPacmanLives() {
+    return pacmanLives;
+  }
+
   private void createAgentList(Map<String, List<Position>> gameDict) {
     for (Position agentPos : gameDict.get("Pacman")) {
       int x = agentPos.getCoords()[0];
@@ -217,5 +221,6 @@ public class GameStateData {
     }
     return maxCol;
   }
+
 
 }

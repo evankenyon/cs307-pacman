@@ -85,6 +85,7 @@ public class GameBoard {
       if (isOverlapping(food.getPosition(), pacman.getPosition())) {
         // update score & change food state to eaten.
         myPacScore += food.getConsumed();
+        LOG.info("my score is {}", myPacScore);
         updateScoreConsumer();
 //        System.out.println("food is being eaten!");
       }
@@ -154,6 +155,11 @@ public class GameBoard {
 //    myGameStatusConsumer.accept(currentGameStatus);
 //  }
 
-  public int getMyPacScore() {return myPacScore;}
-  public int getMyGhostScore() {return myGhostScore;}
+  public int getMyPacScore() {
+    return myPacScore;
+  }
+
+  public int getMyGhostScore() {
+    return myGhostScore;
+  }
 }

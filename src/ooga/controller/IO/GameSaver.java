@@ -133,9 +133,11 @@ public class GameSaver {
   }
 
   private void sortAgentArray() {
-    agentArray.addAll(state.getMyWalls());
-    agentArray.addAll(state.getMyOtherAgents());
+    agentArray.addAll(state.getWalls());
+    agentArray.addAll(state.getGhosts());
+    agentArray.addAll(state.getFood());
     agentArray.add(state.getMyPlayer());
+
     Collections.sort(agentArray, new RowComparator()
         .thenComparing(new ColComparator()));
     //for (Agent a: agentArray) {

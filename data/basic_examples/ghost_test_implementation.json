@@ -15,6 +15,6 @@
     ["Wall","Dot","Dot","Dot", "Wall","Dot", "Wall","Wall", "Dot","Dot", "Wall"],
     ["Wall","Dot","Wall","Dot", "Dot","Dot", "Dot","Dot", "Dot","Dot", "Wall"],
     ["Wall","Super","Dot","Dot", "Dot","Ghost", "Dot","Dot", "Dot","Super", "Wall"],
-    ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall"],
+    ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall"]
   ]
 }

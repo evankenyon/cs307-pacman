@@ -90,8 +90,8 @@ public class SuperPelletView extends StationaryView {
   }
 
   private Circle makeCircle(Paint color) {
-    int x = myAgent.getPosition().getCoords()[0];
-    int y = myAgent.getPosition().getCoords()[1];
+    double x = myAgent.getPosition().getCoords()[0];
+    double y = myAgent.getPosition().getCoords()[1];
     return new Circle(x, y, Math.min(gridHeight, gridWidth) * LARGE_PELLET_SIZE, color);
   }
 

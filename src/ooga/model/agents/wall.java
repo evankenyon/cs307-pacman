@@ -1,7 +1,7 @@
 package ooga.model.agents;
 
 
-import ooga.model.interfaces.Consumable;
+import ooga.model.GameState;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
@@ -21,8 +21,8 @@ public class wall extends AbstractAgent {
   }
 
   @Override
-  public Position step() {
-    return myMover.move(new Position(getPosition().getCoords()[0], getPosition().getCoords()[1]));
+  public Position getNextMove(GameState state) {
+    return myMover.move(state, getPosition());
   }
 
   @Override
@@ -32,11 +32,6 @@ public class wall extends AbstractAgent {
 
   @Override
   public void setDirection(String direction) {
-  }
-
-  @Override
-  public int consume(Consumable agent) {
-    return 0;
   }
 
   @Override

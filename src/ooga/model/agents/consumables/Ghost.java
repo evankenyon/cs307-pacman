@@ -1,14 +1,11 @@
 package ooga.model.agents.consumables;
 
-import java.sql.SQLOutput;
+import ooga.model.GameState;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.agents.players.Pacman;
-import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
-import ooga.model.movement.Controllable;
+import ooga.model.movement.BFS;
 import ooga.model.movement.MovementStrategyContext;
-import ooga.model.movement.Random;
-import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
 
@@ -21,14 +18,14 @@ public class Ghost extends AbstractAgent implements Consumable {
   private final static int GHOST_POINTS = 20;
 
   private int myState;
-  private MovementStrategyContext myMover;
+  private final MovementStrategyContext myMover;
 
 
   public Ghost(int x, int y) {
     super(x, y);
     getPosition().setDirection("right");
     myState = ALIVE_STATE;
-    myMover = new MovementStrategyContext(new Random());
+    myMover = new MovementStrategyContext(new BFS());
   }
 
   public int getState() {
@@ -39,12 +36,8 @@ public class Ghost extends AbstractAgent implements Consumable {
     setPosition(newPosition.getCoords());
   }
 
-  public Position step() {
-    return myMover.move(getPosition());
-  }
-
-  public int consume(Consumable agent) {
-    return 0;
+  public Position getNextMove(GameState state) {
+    return myMover.move(state, getPosition());
   }
 
   @Override
@@ -54,31 +47,24 @@ public class Ghost extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public void getConsumed() {
-    if (myState == AFRAID_STATE){
-      System.out.println("a ghost has been eaten");
+  public int getConsumed() {
+    if (myState == AFRAID_STATE) {
       myState = DEAD_STATE;
       updateConsumer();
+      return GHOST_POINTS;
     }
-    if (myState == ALIVE_STATE){
+    if (myState == ALIVE_STATE) {
       System.out.println("pacman tried to eat a ghost- it didn't work");
       updateConsumer();
     }
+    return 0;
   }
 
   @Override
   public void applyEffects(Pacman pacman) {
-    if (pacman.getState() != 2){
-       pacman.loseLife();
-       updateConsumer();
-    }
-  }
-
-  @Override
-  public int applyPoints() {
-    if (myState == AFRAID_STATE){
-      return GHOST_POINTS;
-    }
-    else return 0;
+//    if (pacman.getState() != 2){
+//       pacman.loseLife();
+//       updateConsumer();
+//    }
   }
 }

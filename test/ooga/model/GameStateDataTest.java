@@ -18,14 +18,15 @@ public class GameStateDataTest {
 
   private GameStateData myData;
   private Map<String, List<Position>> myWallMap;
-  private List<String> myPelletInfo;
+  private Map<String, Boolean> myPelletInfo;
 
   @BeforeEach
   void setUp() throws IOException {
     myWallMap = createWallMap();
     myData = new GameStateData();
-    myPelletInfo = new ArrayList<>();
-    myPelletInfo.add("Dot");
+    myPelletInfo = new HashMap<>();
+    myPelletInfo.put("Dot", Boolean.TRUE);
+    myData.initialize(myWallMap, myPelletInfo);
   }
 
   private Map<String, List<Position>> createWallMap() {
@@ -70,22 +71,28 @@ public class GameStateDataTest {
 
   @Test
   void testInitialize() {
-    myData.initialize(myWallMap, myPelletInfo);
     Assertions.assertEquals(1, myData.getFoodLeft());
     Assertions.assertEquals(false, myData.isWin());
     Assertions.assertEquals(false, myData.isLose());
     Assertions.assertEquals(0, myData.getMyGhostScore());
     Assertions.assertEquals(0, myData.getMyPacScore());
-    Assertions.assertEquals(1, myData.getPacman().getPosition().getCoords()[0]);
-    Assertions.assertEquals(1, myData.getPacman().getPosition().getCoords()[1]);
-    Assertions.assertEquals(3, myData.getGhosts().get(0).getPosition().getCoords()[0]);
-    Assertions.assertEquals(1, myData.getGhosts().get(0).getPosition().getCoords()[1]);
+    Assertions.assertEquals(1, myData.getAgents().get(0).getPosition().getCoords()[0]);
+    Assertions.assertEquals(1, myData.getAgents().get(0).getPosition().getCoords()[1]);
+    Assertions.assertEquals(3, myData.getAgents().get(1).getPosition().getCoords()[0]);
+    Assertions.assertEquals(1, myData.getAgents().get(1).getPosition().getCoords()[1]);
   }
 
   @Test
   void testWallMap(){
-    myData.initialize(myWallMap, myPelletInfo);
+    System.out.println("HHH");
+    for (int i = 0; i < 3; i++){
+      for (int j = 0; j < 5; j++){
+        System.out.print(myData.isWall(j,i));
+      }
+      System.out.println();
+    }
     for (int i=0 ; i < 5; i++){
+      System.out.println(i);
       Assertions.assertEquals(true, myData.isWall(i,0));
       Assertions.assertEquals(true, myData.isWall(i,2));
     }

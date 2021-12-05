@@ -2,17 +2,29 @@ package ooga.controller.IO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import ooga.model.GameData;
+=======
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import ooga.model.Data;
+>>>>>>> 3f4f19f7bb1cbdb49c0fd6223091f2c97054c31f
 import ooga.model.GameState;
 import ooga.model.interfaces.Agent;
+import ooga.model.util.Position;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+<<<<<<< HEAD
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import ooga.model.util.Position;
+=======
+>>>>>>> 3f4f19f7bb1cbdb49c0fd6223091f2c97054c31f
 
 
 public class SaveGameTest {
@@ -32,9 +44,9 @@ void testGameSaver()
 
   Agent player = currentState.getMyPlayer();
   System.out.println(player);
-  List<Agent> otherAgents = currentState.getMyOtherAgents();
+  List<Agent> otherAgents = currentState.getGhosts();
   System.out.println(otherAgents);
-  List<Agent> walls = currentState.getMyWalls();
+  List<Agent> walls = currentState.getWalls();
   List<Agent> agentArray = new ArrayList<>();
 
   //int x = wall.getPosition().getCoords()[0];
@@ -114,7 +126,7 @@ void testJSonFile() throws IOException {
   Map<String, Boolean> pelletInfo = Map.of("Dot", true);
   GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
   GameState currentState = new GameState(vanillaGameData);
-  Agent agent = currentState.getMyOtherAgents().get(0);
+  Agent agent = currentState.getGhosts().get(0);
   String agentString = agent.toString();
   String cutAgentString = agentString.substring(0,agentString.indexOf("@"));
   if (cutAgentString.contains("consumables")) {

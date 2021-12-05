@@ -1,12 +1,8 @@
 {
-  "Title":"Big Board",
   "Player":"Pacman",
   "RequiredPellets":["Dot", "Super"],
   "OptionalPellets":[],
-  "PowerUps":["Super"],
   "NumberOfLives":3,
-  "OpponentTypes":[],
-  "Difficulty-Level":1,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall","Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall","Wall","Wall","Wall","Wall"],
     ["Wall","Super","Wall","Dot", "Dot","Dot", "Dot","Dot", "Dot","Dot", "Dot","Dot", "Dot","Dot", "Dot","Dot","Dot","Wall","Dot", "Dot","Dot", "Dot","Dot", "Dot","Super", "Wall"],

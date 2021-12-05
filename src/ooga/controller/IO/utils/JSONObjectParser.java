@@ -1,15 +1,17 @@
 package ooga.controller.IO.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JSONObjectParser {
 
-  public static JSONObject parseJSONObject(File file) throws IOException {
+  public static JSONObject parseJSONObject(File file) throws IOException, JSONException {
     File currFile = file;
     StringBuilder pathName = new StringBuilder(file.getName());
     while (!currFile.getParentFile().getName().equals("data")) {

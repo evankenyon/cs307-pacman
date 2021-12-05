@@ -28,6 +28,8 @@ public class JsonParser implements JsonParserInterface {
   private static final String EXCEPTION_MESSAGES_FILENAME = "Exceptions";
   private static final String MAGIC_VALUES_FILENAME = "JsonParserMagicValues";
 
+  private int numLives;
+
   private Map<String, List<Position>> wallMap;
   private int mapCols;
   private int mapRows;
@@ -61,9 +63,10 @@ public class JsonParser implements JsonParserInterface {
     checkForRequiredKeys(json.keySet());
     setupPlayer(json.getString(magicValues.getString("PlayerKey")));
     setupPelletInfo(json.getJSONArray(magicValues.getString("RequiredPelletsKey")), json.getJSONArray(magicValues.getString("OptionalPelletsKey")));
+    setupNumLives(json.getInt(magicValues.getString("NumberOfLivesKey")));
     setupWallMap(json.getJSONArray(magicValues.getString("WallMapKey")));
     checkWallMapForRequirements();
-    updateConsumers(new Data(wallMap, player, pelletInfo, mapCols, mapRows));
+    updateConsumers(new Data(wallMap, player, numLives, pelletInfo, mapCols, mapRows));
   }
 
   @Override
@@ -98,6 +101,9 @@ public class JsonParser implements JsonParserInterface {
     this.player = player;
   }
 
+  private void setupNumLives(int numLives) {this.numLives = numLives;}
+
+
   private void setupPelletInfo(JSONArray requiredPellets, JSONArray optionalPellets) {
     requiredPellets.iterator().forEachRemaining(pellet -> pelletInfo.put((String) pellet, true));
     optionalPellets.iterator().forEachRemaining(pellet -> pelletInfo.put((String) pellet, false));
@@ -116,6 +122,7 @@ public class JsonParser implements JsonParserInterface {
     mapCols = expectedNumCols;
     mapRows = expectedNumRows;
   }
+
 
   private void checkWallMapForRequirements() throws InputMismatchException {
     checkForOnlyOnePlayer();

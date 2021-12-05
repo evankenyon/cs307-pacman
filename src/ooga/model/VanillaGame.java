@@ -24,10 +24,6 @@ public class VanillaGame implements Game {
     pelletInfoMap = vanillaGameData.pelletInfo();
   }
 
-  public void initializeGame() {
-
-  }
-
   public Map<String, Boolean> getPelletInfo() {
     return pelletInfoMap;
   }
@@ -35,6 +31,8 @@ public class VanillaGame implements Game {
   public void step() {
     myBoard.movePawns();
     myBoard.checkCollisions();
+    isWin();
+    isLoss();
     updateHandlers();
   }
 

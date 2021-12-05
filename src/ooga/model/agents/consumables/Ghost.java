@@ -1,11 +1,13 @@
 package ooga.model.agents.consumables;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import ooga.model.GameState;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Consumable;
-import ooga.model.movement.BFS;
 import ooga.model.movement.MovementStrategyContext;
+import ooga.model.movement.Random;
 import ooga.model.util.Position;
 
 
@@ -25,7 +27,7 @@ public class Ghost extends AbstractAgent implements Consumable {
     super(x, y);
     getPosition().setDirection("right");
     myState = ALIVE_STATE;
-    myMover = new MovementStrategyContext(new BFS());
+    myMover = new MovementStrategyContext(new Random());
   }
 
   public int getState() {
@@ -34,6 +36,7 @@ public class Ghost extends AbstractAgent implements Consumable {
 
   public void setCoords(Position newPosition) {
     setPosition(newPosition.getCoords());
+    updateConsumer();
   }
 
   public Position getNextMove(GameState state) {
@@ -44,6 +47,20 @@ public class Ghost extends AbstractAgent implements Consumable {
   public void setState(int i) {
     myState = i;
     updateConsumer();
+    attachStateTimer();
+  }
+
+  //makes it go back to normal after 4 seconds
+  private void attachStateTimer() {
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        if (myState == AFRAID_STATE) {
+          myState = ALIVE_STATE;
+        }
+      }
+    }, 4000);
   }
 
   @Override

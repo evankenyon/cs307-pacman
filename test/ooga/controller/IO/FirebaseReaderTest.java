@@ -13,12 +13,12 @@ class FirebaseReaderTest {
   private FirebaseReader firebaseReader;
 
   @BeforeEach
-  void setUp() throws IOException, FirebaseException {
+  void setUp() throws IOException {
     firebaseReader = new FirebaseReader();
   }
 
   @Test
-  void getFileSimple() throws FirebaseException, IOException {
+  void getFileSimple() throws InterruptedException {
     JSONObject json = firebaseReader.getFile("test1");
     Assertions.assertEquals("Pacman", json.getString("Player"));
     Assertions.assertEquals(3, json.getInt("NumberOfLives"));
@@ -29,11 +29,11 @@ class FirebaseReaderTest {
 
   @Test
   void getFileError() {
-    Assertions.assertThrows(JSONException.class, () -> firebaseReader.getFile("bad"));
+    Assertions.assertThrows(IllegalArgumentException.class, () -> firebaseReader.getFile("bad"));
   }
 
   @Test
-  void getFilenames() throws FirebaseException, UnsupportedEncodingException {
+  void getFilenames() throws InterruptedException {
     Assertions.assertTrue(firebaseReader.getFileNames().contains("test1"));
     Assertions.assertTrue(firebaseReader.getFileNames().contains("test2"));
   }

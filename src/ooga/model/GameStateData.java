@@ -88,11 +88,11 @@ public class GameStateData {
     return isWin;
   }
 
-  public boolean isSuper(){
+  public boolean isSuper() {
     return isSuper;
   }
 
-  public void setSuper(){
+  public void setSuper() {
     isSuper = true;
   }
 
@@ -109,10 +109,10 @@ public class GameStateData {
   }
 
   public boolean isWall(int x, int y) {
-    if (x >= 0 && y >= 0) {
+    try {
       return myWallMap[x][y];
-    } else {
-      throw new IllegalArgumentException("Wall query out of bounds!");
+    } catch (Exception e) {
+      return false;
     }
   }
 

@@ -38,7 +38,7 @@ public class GameBoard {
     //movers.addAll(myState.getMyWalls());
     //movers.addAll(myState.getMyOtherAgents());
     movers.add(myState.getPacman());
-//    movers.addAll(myState.getGhosts());
+    movers.addAll(myState.getGhosts());
 //    movers.addAll(myState.getFood());
 //    movers.addAll(myState.getWalls());
     for (Agent agent : movers) {
@@ -46,6 +46,7 @@ public class GameBoard {
       if (newPosition != null) {
         //only set new coordinate value if move is valid
         if (checkMoveValidity(newPosition)) {
+          newPosition = myState.portal(newPosition);
           //set coordinates after effects have been applied
           agent.setCoords(newPosition);
         }
@@ -63,7 +64,7 @@ public class GameBoard {
     //movers.addAll(myState.getMyOtherAgents());
     for (Agent ghost : ghosts) {
       if (isOverlapping(ghost.getPosition(), pacman.getPosition())) {
-        if (myState.isSuper()) {
+        if (myState.isSuper() && ghost.getState() != 0) {
           Consumable g = (Consumable) ghost;
           myPacScore += g.getConsumed();
           updateScoreConsumer();
@@ -79,7 +80,7 @@ public class GameBoard {
         // update score & change food state to eaten.
         myPacScore += food.getConsumed();
         updateScoreConsumer();
-        System.out.println("food is being eaten!");
+//        System.out.println("food is being eaten!");
       }
     }
   }
@@ -102,7 +103,7 @@ public class GameBoard {
   private boolean checkMoveValidity(Position newPosition) {
     int x = newPosition.getCoords()[0];
     int y = newPosition.getCoords()[1];
-    return myState.isInBounds(x, y) && !myState.isWall(x, y);
+    return !myState.isWall(x, y);
   }
 
   public GameState getGameState() {

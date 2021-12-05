@@ -1,7 +1,6 @@
 package ooga.model.movement;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,56 +21,52 @@ public class BFS implements Movable {
 
   @Override
   public Position move(GameState state, Position currentPos) {
-    int[] pacPos = state.getPacman().getPosition().getCoords();
+    Position pacPos = state.getPacman().getPosition();
     Queue<Position> BFSqueue = new LinkedList<>();
-    Map<int[], int[]> myPath = new HashMap<>();
+    Map<Position, Position> myPath = new HashMap<>();
     List<Position> visited = new ArrayList<>();
+    List<Position> optimalPath = new ArrayList<>();
 
     BFSqueue.add(currentPos);
 
     while (BFSqueue.size() != 0) {
       Position current = BFSqueue.poll();
       visited.add(current);
-
-      myPath.put(current.getCoords(), null);
       List<Position> availablePositions = state.getPotentialMoveTargets(current);
 
       for (Position next : availablePositions) {
         if (!visited.contains(next)) {
           BFSqueue.add(next);
-          myPath.put(current.getCoords(), next.getCoords());
-          System.out.println(myPath.keySet());
+          myPath.put(next, current);
         }
       }
 
       BFSqueue.remove(current);
-
       if (current.equals(pacPos)) {
-        System.out.println("found pacman!");
         BFSqueue.clear();
         break;
       }
     }
 
-    List<int[]> optimalPath = new ArrayList<>();
-    int[] prev = pacPos;
+    Position first = pacPos;
 
-    System.out.println(Arrays.toString(myPath.get(prev)));
-//    System.out.println(Arrays.toString(myPath.get(new int[]{0, 2})));
-//    myPath.keySet().forEach(s -> System.out.println(Arrays.toString(s)));
-    while (prev != null) {
-      optimalPath.add(prev);
-      prev = myPath.get(prev);
-
-//      System.out.println(Arrays.toString(prev.getCoords()));
+    while (first != null) {
+      optimalPath.add(first);
+      first = myPath.get(first);
     }
-    System.out.println(myPath);
 
-//    optimalPath.forEach(s -> System.out.println(Arrays.toString(s)));
+//    myPath.forEach(
+//        (key, value) -> System.out.println(Arrays.toString(key.getCoords()) + ":" + Arrays.toString(
+//            value.getCoords())));
+//    optimalPath.forEach(s -> System.out.println(Arrays.toString(s.getCoords())));
 
-    //take second to last item which is next step from currentPos
-    return new Position(optimalPath.get(optimalPath.size())[0],
-        optimalPath.get(optimalPath.size())[1]);
+    if (optimalPath.size() == 1) {
+      //this should never happen unless literally stuck in a box
+      return optimalPath.get(0);
+    } else {
+      //take second index which is next step from currentPos
+      return optimalPath.get(optimalPath.size() - 2);
+    }
   }
 
 }

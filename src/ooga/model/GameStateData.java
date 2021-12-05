@@ -89,6 +89,10 @@ public class GameStateData {
     return isWin;
   }
 
+  public boolean isSuper(){
+    return isSuper;
+  }
+
   public boolean isLose() {
     return isLose;
   }

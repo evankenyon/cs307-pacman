@@ -64,12 +64,15 @@ public class GameBoard {
     //movers.addAll(myState.getMyOtherAgents());
     for (Agent ghost : ghosts){
       if (isOverlapping(ghost.getPosition(), pacman.getPosition())){
-        //if game state is "Super" state
-          //update score
-          //change ghost state to dead
-        //else
+        if (myState.isSuper()){
+          Consumable g = (Consumable) ghost;
+          myPacScore += g.getConsumed();
+          updateScoreConsumer();
+        }
+        else{
           // reduce lives by 1
           // reset gameboard
+        }
         System.out.println("Ghost + Pac overlap!");
       }
     }

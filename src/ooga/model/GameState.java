@@ -149,7 +149,9 @@ public class GameState {
     return false;
   }
 
-
+  public boolean isSuper(){
+    return myGameStateData.isSuper();
+  }
   public Agent getPacman(){
     return myGameStateData.getAgents().get(0);
   }

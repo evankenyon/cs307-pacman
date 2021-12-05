@@ -6,10 +6,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Game;
-<<<<<<< HEAD
-=======
+
 import ooga.model.util.Position;
->>>>>>> 3f4f19f7bb1cbdb49c0fd6223091f2c97054c31f
 
 public class VanillaGame implements Game {
 

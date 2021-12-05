@@ -1,5 +1,4 @@
 package ooga.controller.IO;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import ooga.model.GameBoard;
 import ooga.model.GameState;
 import ooga.model.VanillaGame;
 import ooga.model.interfaces.Agent;
@@ -29,27 +29,41 @@ public class GameSaver {
   //for constructor
   private GameState state;
   private VanillaGame myVanillaGame;
+  private GameBoard board;
   private ResourceBundle agentNames;
 
   public GameSaver(VanillaGame vanillaGame) {
     myVanillaGame = vanillaGame;
-    state = myVanillaGame.getBoard().getGameState();
+    board = myVanillaGame.getBoard();
+    state = board.getGameState();
     agentNames =  ResourceBundle.getBundle("ooga.controller.IO.resources.agentNamesForWallMap");
   }
 
   private void setConfig() {
     JSONObject configBuilder = new JSONObject();
-    configBuilder.put("Player", makeStringFromAgent(state.getMyPlayer()));
+    String playerString = makeStringFromAgent(state.getMyPlayer());
+    configBuilder.put("Player", playerString);
     configBuilder.put("RequiredPellets", buildPelletArray(true));
     configBuilder.put("OptionalPellets", buildPelletArray(false));
-    configBuilder.put("NumberOfLives", 3); // TODO: add accurate num lives remaining
-    configBuilder.put("PlayerScore", 0); // TODO: add accurate player score
+    configBuilder.put("NumberOfLives", setNumberOfLives()); // TODO: add accurate num lives remaining
+    configBuilder.put("PlayerScore", setPlayerScore(playerString));
     configBuilder.put("WallMap", buildWallMap());
     config = configBuilder;
   }
 
-  //private int setNumberOfLives() {}
-  //private int setPlayerScore {}
+  //TODO: account for when ghost is player
+  private int setNumberOfLives() {
+    return state.getLives();
+  }
+
+  private int setPlayerScore(String playerAgentString) {
+    if (playerAgentString.contains("Pacman")){
+      return board.getMyPacScore();
+    }
+    else {
+      return board.getMyGhostScore();
+    }
+  }
 
   private JSONArray buildPelletArray(Boolean isRequired) {
     Map<String, Boolean> pelletMap = myVanillaGame.getPelletInfo();
@@ -86,7 +100,6 @@ public class GameSaver {
     } catch (IOException e) {
       System.out.println("SaveGame Exception");
     }
-
 
   }
 

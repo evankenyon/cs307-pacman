@@ -89,6 +89,7 @@ public class GameState {
 //  }
 
 
+
   private void implementRunnables() {
     for (Agent a : getFood()) {
       Runnable r = () -> setSuperState();
@@ -206,5 +207,9 @@ public class GameState {
 
   public List<Agent> getWalls(){
     return myGameStateData.getMyWallStates();
+  }
+
+  public int getLives() {
+    return myGameStateData.getPacmanLives();
   }
 }

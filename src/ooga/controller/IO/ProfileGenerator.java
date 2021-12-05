@@ -19,11 +19,12 @@ public class ProfileGenerator {
     this.path = path;
   }
 
-  public void createUser(String username, String password, File imageFile) throws IOException, NullPointerException, JSONException {
-    PrintWriter profilesFileWriter = new PrintWriter(path);
+  public void createUser(String username, String password, File imageFile)
+      throws IOException, NullPointerException, JSONException, InterruptedException {
     JSONObject oldFile = JSONObjectParser.parseJSONObject(new File(path));
+    PrintWriter profilesFileWriter = new PrintWriter(path);
     if (oldFile.has(username)) {
-      profilesFileWriter.println(oldFile);
+      profilesFileWriter.print(oldFile);
       profilesFileWriter.close();
       throw new IllegalArgumentException("Username already exists, please choose a different one");
     }
@@ -50,9 +51,9 @@ public class ProfileGenerator {
   public void updateProfilePicture(String username, String password, File imageFile)
       throws IOException {
     login(username, password);
-    PrintWriter profilesFileWriter = new PrintWriter(path);
     JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
     JSONObject userInfo = allUsersInfo.getJSONObject(username);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
     userInfo.put("image-path", imageFile.getPath());
     allUsersInfo.put(username, userInfo);
     profilesFileWriter.println(allUsersInfo);
@@ -62,9 +63,9 @@ public class ProfileGenerator {
   public void addFavoriteFile(String username, String password, File filePath)
       throws IOException {
     login(username, password);
-    PrintWriter profilesFileWriter = new PrintWriter(path);
     JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
     JSONObject userInfo = allUsersInfo.getJSONObject(username);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
     userInfo.getJSONArray("favorite-files").put(filePath.getPath());
     allUsersInfo.put(username, userInfo);
     profilesFileWriter.println(allUsersInfo);
@@ -74,9 +75,9 @@ public class ProfileGenerator {
   public void removeFavoriteFile(String username, String password, String filePath)
       throws IOException {
     login(username, password);
-    PrintWriter profilesFileWriter = new PrintWriter(path);
     JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
     JSONObject userInfo = allUsersInfo.getJSONObject(username);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
     for (int index = 0; index < userInfo.getJSONArray("favorite-files").length(); index++) {
       if (userInfo.getJSONArray("favorite-files").getString(index).equals(filePath)) {
         userInfo.getJSONArray("favorite-files").remove(index);
@@ -91,9 +92,9 @@ public class ProfileGenerator {
   public void changeProfileUsername(String oldUsername, String password, String newUsername)
       throws IOException {
     login(oldUsername, password);
-    PrintWriter profilesFileWriter = new PrintWriter(path);
     JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
     JSONObject userInfo = allUsersInfo.getJSONObject(oldUsername);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
     allUsersInfo.remove(oldUsername);
     allUsersInfo.put(newUsername, userInfo);
     profilesFileWriter.println(allUsersInfo);
@@ -103,9 +104,9 @@ public class ProfileGenerator {
   public void changeProfilePassword(String username, String password, String newPassword)
       throws IOException {
     login(username, password);
-    PrintWriter profilesFileWriter = new PrintWriter(path);
     JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
     JSONObject userInfo = allUsersInfo.getJSONObject(username);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
     userInfo.put("password", newPassword);
     allUsersInfo.put(username, userInfo);
     profilesFileWriter.println(allUsersInfo);
@@ -115,9 +116,9 @@ public class ProfileGenerator {
   public void updateUserStats(String username, String password, int score, boolean won)
       throws IOException {
     login(username, password);
-    PrintWriter profilesFileWriter = new PrintWriter(path);
     JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
     JSONObject userInfo = allUsersInfo.getJSONObject(username);
+    PrintWriter profilesFileWriter = new PrintWriter(path);
     if(userInfo.getInt("high-score") < score) {
       userInfo.put("high-score", score);
     }

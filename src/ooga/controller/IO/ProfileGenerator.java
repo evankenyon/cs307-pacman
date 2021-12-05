@@ -45,7 +45,8 @@ public class ProfileGenerator {
     if (!profiles.has(username) || !profiles.getJSONObject(username).getString("password").equals(password)) {
       throw new IllegalArgumentException("Username or password incorrect");
     }
-    return new User(username);
+    JSONObject userInfo = JSONObjectParser.parseJSONObject(new File(path)).getJSONObject(username);
+    return new User(username, userInfo.getString("image-path"), userInfo.getInt("high-score"), userInfo.getInt("wins"), userInfo.getInt("losses"), null);
   }
 
   public void updateProfilePicture(String username, String password, File imageFile)

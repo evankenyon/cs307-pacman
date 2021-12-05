@@ -4,16 +4,16 @@
   "OptionalPellets":[],
   "NumberOfLives":3,
   "WallMap":[
-    ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall"],
+    ["Wall", "Wall", "Wall","Wall","Wall","Dot", "Wall", "Wall","Wall", "Wall","Wall"],
     ["Wall","Super","Dot","Dot", "Dot","Dot", "Dot","Dot", "Dot","Super", "Wall"],
     ["Wall","Dot","Dot","Dot", "Dot","Dot", "Dot","Dot", "Wall","Dot", "Wall"],
     ["Wall","Dot","Dot","Wall", "Wall","Dot", "Wall","Dot", "Dot","Dot", "Wall"],
     ["Wall","Dot","Dot","Wall", "Wall","Dot", "Wall","Wall", "Dot","Dot", "Wall"],
-    ["Wall","Dot","Dot","Dot", "Dot","Pacman", "Dot","Dot", "Dot","Dot", "Wall"],
+    ["Dot","Dot","Dot","Dot", "Dot","Pacman", "Dot","Dot", "Dot","Dot", "Dot"],
     ["Wall","Dot","Dot","Wall", "Wall","Dot", "Wall","Wall", "Dot","Dot", "Wall"],
     ["Wall","Dot","Dot","Dot", "Wall","Dot", "Wall","Wall", "Dot","Dot", "Wall"],
     ["Wall","Dot","Wall","Dot", "Dot","Dot", "Dot","Dot", "Dot","Dot", "Wall"],
     ["Wall","Super","Dot","Dot", "Dot","Ghost", "Dot","Dot", "Dot","Super", "Wall"],
-    ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall"],
+    ["Wall", "Wall", "Wall","Wall","Wall","Dot", "Wall", "Wall","Wall", "Wall","Wall"]
   ]
 }

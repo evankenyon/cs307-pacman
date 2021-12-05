@@ -32,7 +32,7 @@ class GameBoardTest {
     Map<String, Boolean> pelletInfo = new HashMap<>();
     pelletInfo.put("pellet", Boolean.TRUE);
 
-    Data vanillaGame = new Data(initialStates, "Pacman", 3, pelletInfo, 1, 1);
+    Data vanillaGame = new Data(initialStates, "Pacman", 0, 3, pelletInfo, 1, 1);
 
     gameBoard = new GameBoard(vanillaGame);
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 0)) instanceof Pacman);
@@ -51,7 +51,7 @@ class GameBoardTest {
     Map<String, Boolean> pelletInfo = new HashMap<>();
     pelletInfo.put("pellet", Boolean.TRUE);
 
-    Data vanillaGame = new Data(initialStates, "Pacman", 3, pelletInfo, 1, 1);
+    Data vanillaGame = new Data(initialStates, "Pacman", 0, 3, pelletInfo, 1, 1);
 
     gameBoard = new GameBoard(vanillaGame);
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof pellet);
@@ -70,7 +70,7 @@ class GameBoardTest {
     Map<String, Boolean> pelletInfo = new HashMap<>();
     pelletInfo.put("pellet", Boolean.TRUE);
 
-    Data vanillaGame = new Data(initialStates, "Pacman", 3, pelletInfo, 1, 1);
+    Data vanillaGame = new Data(initialStates, "Pacman", 0, 3, pelletInfo, 1, 1);
 
     gameBoard = new GameBoard(vanillaGame);
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof wall);
@@ -91,7 +91,7 @@ class GameBoardTest {
     Map<String, Boolean> pelletInfo = new HashMap<>();
     pelletInfo.put("Dot", Boolean.TRUE);
 
-    Data vanillaGame = new Data(initialStates, "Pacman", 3, pelletInfo, 1, 1);
+    Data vanillaGame = new Data(initialStates, "Pacman", 0, 3, pelletInfo, 1, 1);
 
     gameBoard = new GameBoard(vanillaGame);
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof wall);

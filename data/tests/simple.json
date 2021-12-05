@@ -1,12 +1,8 @@
 {
-  "Title":"Test",
   "Player":"Pacman",
   "RequiredPellets":["Dot"],
   "OptionalPellets":[],
-  "PowerUps":[],
   "NumberOfLives":3,
-  "OpponentTypes":["Inky", "Pinky", "Clyde"],
-  "Difficulty-Level":2,
   "WallMap":[
     ["Wall", "Pacman", "Dot"]
   ]

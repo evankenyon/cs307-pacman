@@ -5,6 +5,7 @@ import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAG
 import static ooga.view.mainView.MainView.BG_COLOR;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -122,14 +123,20 @@ public class BottomView {
   }
 
   private void initiateBottomView(VBox root) {
-    ImageView saveButton = makeGraphicButton("save", e -> saveGame());
+    ImageView saveButton = makeGraphicButton("save", e -> {
+      try {
+        saveGame();
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      }
+    });
     ImageView statsButton = makeGraphicButton("stats", e -> showStats());
     ImageView restartButton = makeGraphicButton("restart", e -> restartGame());
     VBox graphicButtons = new VBox();
     graphicButtons.setSpacing(6);
     graphicButtons.getStyleClass().add("graphic-buttons");
     graphicButtons.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
-    graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
+    //graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
     playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
         e -> togglePlayPause());
     playPauseButton.setId("playPauseButton");
@@ -148,9 +155,10 @@ public class BottomView {
     root.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
-  private void saveGame() {
+  private void saveGame() throws IOException {
     // TODO: Fix SaveGame when merged
 //    new SaveGame().saveGame();
+    myController.saveFile();
   }
 
   private ImageView makeGraphicButton(String key, EventHandler handler) {

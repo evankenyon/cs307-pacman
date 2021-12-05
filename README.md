@@ -18,7 +18,8 @@ Hours Spent:
 
 
 ### Resources Used
-
+* Used the following library for Firebase stuff: https://github.com/bane73/firebase4j
+* Used the following library for JSON stuff: 
 
 ### Running the Program
 

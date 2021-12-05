@@ -15,6 +15,9 @@ import javafx.util.Duration;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.PreferencesParser;
+import ooga.controller.IO.ProfileGenerator;
+import ooga.controller.IO.GameSaver;
+import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
 import ooga.controller.IO.keyTracker;
 import ooga.controller.IO.utils.JSONObjectParser;
@@ -47,6 +50,8 @@ public class Controller implements ControllerInterface {
   private File myFile;
   private final Stage myStage;
   private UserPreferences myPreferences;
+  private ProfileGenerator profileGenerator;
+  private User currUser;
   private static final Logger LOG = LogManager.getLogger(Controller.class);
 
   private final ResourceBundle magicValues;
@@ -66,9 +71,17 @@ public class Controller implements ControllerInterface {
     jsonParser = new JsonParser();
     keyTracker = new keyTracker();
     preferencesParser = new PreferencesParser();
-    GameStartupPanel gameStartupPanel = new GameStartupPanel(
-        stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
+    profileGenerator = new ProfileGenerator();
+    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
     isPaused = false;
+  }
+
+  public void createUser(String username, String password, File imageFile) throws IOException {
+    profileGenerator.createUser(username, password, imageFile);
+  }
+
+  public User login(String username, String password) throws IOException {
+    return profileGenerator.login(username, password);
   }
 
   // TODO: properly handle exception
@@ -146,6 +159,12 @@ public class Controller implements ControllerInterface {
    */
   public double getAnimationSpeed() {
     return myAnimation.getRate();
+  }
+
+
+  public void saveFile() throws IOException {
+    GameSaver saver = new GameSaver(vanillaGame);
+    saver.saveGame();
   }
 
 //  /**

@@ -34,10 +34,10 @@ public class MainView {
 
   public static final int SCENE_WIDTH = 650;
   public static final int SCENE_HEIGHT = 750;
+  public static final int BOARD_WIDTH = 600;
   public static final String MAINVIEW_PACKAGE = "ooga.view.mainView.";
-  public static final String STYLESHEET = String.format("/%sMainView.css",
-      MAINVIEW_PACKAGE.replace(".", "/"));
-  public static final Color BG_COLOR = Color.BLACK;
+  public static final Color BG_COLOR = Color.TRANSPARENT;
+  private static final Logger LOG = LogManager.getLogger(MainView.class);
 
   private BottomView myBottomView;
   private TopView myTopView;
@@ -48,7 +48,7 @@ public class MainView {
   private VanillaGame myGame;
   private BorderPane root;
   private GameStartupPanel gameStartupPanel;
-  private static final Logger LOG = LogManager.getLogger(MainView.class);
+  private String STYLESHEET;
 
   /**
    * Constructor to create a MainView object to make the scene based on the constructed BorderPane
@@ -59,8 +59,9 @@ public class MainView {
    * @param stage is the Stage where the scene from MainView is set
    * @param userPreferences is the UserPreferences object from the uploaded file
    */
-  public MainView(Controller controller, VanillaGame game, Stage stage,
-      UserPreferences userPreferences) {
+  public MainView(Controller controller, VanillaGame game, Stage stage, String selectedViewMode,
+                  UserPreferences userPreferences) {
+    this.STYLESHEET = "/ooga/view/resources/" + selectedViewMode + ".css";
     myController = controller;
     controller.setAnimationSpeed(1);
     myGame = game;
@@ -79,6 +80,9 @@ public class MainView {
   }
 
   private Scene makeScene() {
+    Group myGroup = new Group();
+    Rectangle bgRect = new Rectangle(0,0,SCENE_WIDTH,SCENE_HEIGHT);
+    bgRect.setId("myBackgroundColor");
     root = new BorderPane();
     root.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     setStyles();
@@ -87,7 +91,10 @@ public class MainView {
     root.setBottom(myBottomView.getBottomViewGP());
     root.setTop(myTopView.getTopViewGP());
     BorderPane.setAlignment(myTopView.getTopViewGP(), Pos.BOTTOM_CENTER);
-    Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+    myGroup.getChildren().addAll(bgRect,root);
+    root.setPadding(new Insets(0,0,0,(SCENE_WIDTH - BOARD_WIDTH) / 2));
+    Scene scene = new Scene(myGroup, SCENE_WIDTH, SCENE_HEIGHT);
+    scene.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     scene.setOnKeyPressed(e -> {
       myController.updatePressedKey(e);
 //      LOG.info("key was pressed");

@@ -13,7 +13,7 @@ import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import ooga.controller.IO.FirebaseReader;
+//import ooga.controller.IO.FirebaseReader;
 import ooga.controller.IO.GameSaver;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
@@ -48,9 +48,10 @@ public class Controller implements ControllerInterface {
   private Map<String, List<Position>> wallMap;
   private boolean isPaused;
   private final String myLanguage;
+  private final String myViewMode;
   private int rows;
   private int cols;
-  private FirebaseReader firebaseReader;
+  //private FirebaseReader firebaseReader;
   private JSONObject originalStartingConfigJson;
   private final Stage myStage;
   private UserPreferences myPreferences;
@@ -61,10 +62,11 @@ public class Controller implements ControllerInterface {
 
   private final ResourceBundle magicValues;
 
-  public Controller(String language, Stage stage) {
+  public Controller(String language, Stage stage, String viewMode) {
     magicValues = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
     myLanguage = language;
+    myViewMode = viewMode;
     myStage = stage;
     myAnimation = new Timeline();
     myAnimation.setCycleCount(Timeline.INDEFINITE);
@@ -76,21 +78,21 @@ public class Controller implements ControllerInterface {
     keyTracker = new keyTracker();
     preferencesParser = new PreferencesParser();
     profileGenerator = new ProfileGenerator();
-    try {
-      firebaseReader = new FirebaseReader();
-    } catch (IOException e) {
-      // TODO: fix
-      e.printStackTrace();
-    }
+//    try {
+//      //firebaseReader = new FirebaseReader();
+//    } catch (IOException e) {
+//      // TODO: fix
+//      e.printStackTrace();
+//    }
 
     gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
     isPaused = false;
 
   }
 
-  public Set<String> getFirebaseFilenames() throws InterruptedException {
-    return firebaseReader.getFileNames();
-  }
+//  public Set<String> getFirebaseFilenames() throws InterruptedException {
+//    return firebaseReader.getFileNames();
+//  }
 
   public void createUser(String username, String password, File imageFile)
       throws IOException, InterruptedException {
@@ -101,11 +103,11 @@ public class Controller implements ControllerInterface {
     return profileGenerator.login(username, password);
   }
 
-  public UserPreferences uploadFirebaseFile(String fileName)
-      throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException {
-    setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));
-    return myPreferences;
-  }
+//  public UserPreferences uploadFirebaseFile(String fileName)
+//      throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException {
+//    //setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));
+//    return myPreferences;
+//  }
 
   // TODO: properly handle exception
   @Override
@@ -214,6 +216,6 @@ public class Controller implements ControllerInterface {
    */
   public void restartGame() {
     jsonParser.parseJSON(originalStartingConfigJson);
-    new MainView(this, getVanillaGame(), myStage, myPreferences);
+    new MainView(this, getVanillaGame(), myStage, myViewMode, myPreferences);
   }
 }

@@ -136,7 +136,7 @@ public class BottomView {
     graphicButtons.setSpacing(6);
     graphicButtons.getStyleClass().add("graphic-buttons");
     graphicButtons.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
-    //graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
+    graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
     playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
         e -> togglePlayPause());
     playPauseButton.setId("playPauseButton");
@@ -169,14 +169,6 @@ public class BottomView {
     myImgView.setFitHeight(36);
     myImgView.setOnMouseReleased(handler);
     return myImgView;
-  }
-
-  private void makeGameEasy() {
-    // TODO: Implement
-  }
-
-  private void makeGameHard() {
-    // TODO: Implement
   }
 
   private void showStats() {

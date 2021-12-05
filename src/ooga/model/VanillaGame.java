@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Game;
+
 import ooga.model.util.Position;
 
 public class VanillaGame implements Game {
@@ -16,7 +17,7 @@ public class VanillaGame implements Game {
 
   //private GameScore myScore; potential data structure to hold score, highscore, time played, etc.?
 
-  public VanillaGame(Data vanillaGameData)
+  public VanillaGame(GameData vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     myBoard = new GameBoard(vanillaGameData);
     pelletInfoMap = vanillaGameData.pelletInfo();

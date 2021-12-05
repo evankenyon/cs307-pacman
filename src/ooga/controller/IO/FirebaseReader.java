@@ -24,7 +24,7 @@ public class FirebaseReader {
   public FirebaseReader() throws IOException {
     // Borrowed code for basic setup from
     // https://github.com/bane73/firebase4j
-    FileInputStream fis = new FileInputStream("/Users/evankenyon1/Desktop/School_Stuff/CS307/ooga-57bdb-firebase-adminsdk-5d0am-78aa9ce61c.json");
+    FileInputStream fis = new FileInputStream("./data/ooga-57bdb-firebase-adminsdk-5d0am-78aa9ce61c.json");
 
     FirebaseOptions options = FirebaseOptions.builder()
         .setCredentials(GoogleCredentials.fromStream(fis))

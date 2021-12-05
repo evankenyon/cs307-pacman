@@ -20,7 +20,7 @@ public class VanillaGameTest {
     Map<String, List<Position>> wallMap = Map.of("Pacman", List.of(new Position(0, 0)), "Dot",
         List.of(new Position(1, 0)));
     Map<String, Boolean> pelletInfo = Map.of("Dot", true);
-    Data vanillaGameData = new Data(wallMap, "Pacman", 3, pelletInfo, 1, 1);
+    GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 1);
     myGame = new VanillaGame(vanillaGameData);
     myGame.getBoard().setPlayerDirection("right");
     myGame.step();

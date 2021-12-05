@@ -87,4 +87,5 @@ public class Ghost extends AbstractAgent implements Consumable {
 //       updateConsumer();
 //    }
   }
+
 }

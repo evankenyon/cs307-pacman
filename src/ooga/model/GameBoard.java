@@ -26,7 +26,7 @@ public class GameBoard {
 
 
   // TODO: handle exceptions
-  public GameBoard(Data vanillaGameData)
+  public GameBoard(GameData vanillaGameData)
       throws
       InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myState = new GameState(vanillaGameData);
@@ -153,4 +153,7 @@ public class GameBoard {
 //  public void updateGameStatusConsumer() {
 //    myGameStatusConsumer.accept(currentGameStatus);
 //  }
+
+  public int getMyPacScore() {return myPacScore;}
+  public int getMyGhostScore() {return myGhostScore;}
 }

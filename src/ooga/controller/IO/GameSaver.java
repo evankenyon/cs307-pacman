@@ -1,5 +1,4 @@
 package ooga.controller.IO;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import ooga.model.GameBoard;
 import ooga.model.GameState;
 import ooga.model.VanillaGame;
 import ooga.model.interfaces.Agent;
@@ -29,22 +29,40 @@ public class GameSaver {
   //for constructor
   private GameState state;
   private VanillaGame myVanillaGame;
+  private GameBoard board;
   private ResourceBundle agentNames;
 
   public GameSaver(VanillaGame vanillaGame) {
     myVanillaGame = vanillaGame;
-    state = myVanillaGame.getBoard().getGameState();
+    board = myVanillaGame.getBoard();
+    state = board.getGameState();
     agentNames =  ResourceBundle.getBundle("ooga.controller.IO.resources.agentNamesForWallMap");
   }
 
   private void setConfig() {
     JSONObject configBuilder = new JSONObject();
-    configBuilder.put("Player", makeStringFromAgent(state.getMyPlayer()));
+    String playerString = makeStringFromAgent(state.getMyPlayer());
+    configBuilder.put("Player", playerString);
     configBuilder.put("RequiredPellets", buildPelletArray(true));
     configBuilder.put("OptionalPellets", buildPelletArray(false));
-    configBuilder.put("NumberOfLives", 3);
+    configBuilder.put("NumberOfLives", setNumberOfLives()); // TODO: add accurate num lives remaining
+    configBuilder.put("PlayerScore", setPlayerScore(playerString));
     configBuilder.put("WallMap", buildWallMap());
     config = configBuilder;
+  }
+
+  //TODO: account for when ghost is player
+  private int setNumberOfLives() {
+    return state.getLives();
+  }
+
+  private int setPlayerScore(String playerAgentString) {
+    if (playerAgentString.contains("Pacman")){
+      return board.getMyPacScore();
+    }
+    else {
+      return board.getMyGhostScore();
+    }
   }
 
   private JSONArray buildPelletArray(Boolean isRequired) {
@@ -82,7 +100,6 @@ public class GameSaver {
     } catch (IOException e) {
       System.out.println("SaveGame Exception");
     }
-
 
   }
 
@@ -126,16 +143,6 @@ public class GameSaver {
   private String makeStringFromAgent(Agent agent) {
     String agentString = agent.toString();
     return agentNames.getString(agentString.substring(0,agentString.indexOf("@")));
-    //String cutAgentString = agentString.substring(0,agentString.indexOf("@"));
-    //if (cutAgentString.contains("consumables")) {
-     // return cutAgentString.replace("ooga.model.agents.consumables.", "").strip();
-    //}
-    //else if (cutAgentString.contains("players")) {
-     // return cutAgentString.replace("ooga.model.agents.players.", "").strip();
-    //}
-    //else {
-      //return cutAgentString.replace("ooga.model.agents.", "").strip();
-    //}
   }
 
   private void sortAgentArray() {
@@ -146,23 +153,17 @@ public class GameSaver {
 
     Collections.sort(agentArray, new RowComparator()
         .thenComparing(new ColComparator()));
-    for (Agent a: agentArray) {
-      System.out.println(a);
-    }
+    //for (Agent a: agentArray) {
+     // System.out.println(a);
+    //}
   }
-
 
 
   private JSONArray buildWallMap() {
     sortAgentArray();
-
     JSONArray overallWallArray = new JSONArray();
-
-    // TODO: (non-code) verify that rows are actually rows and cols are actually cols
-
     int numCols = agentArray.get(agentArray.size()-1).getPosition().getCoords()[0] + 1;
     int numRows = agentArray.get(agentArray.size()-1).getPosition().getCoords()[1] + 1;
-
     int arrayIndex = 0;
     for (int i=0; i < numRows; i++) {
       JSONArray rowWallArray = new JSONArray();
@@ -172,10 +173,7 @@ public class GameSaver {
       }
       overallWallArray.put(rowWallArray);
     }
-
-
-    System.out.println(overallWallArray);
-
+    //System.out.println(overallWallArray);
     return overallWallArray;
 
   }

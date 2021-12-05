@@ -1,8 +1,8 @@
 package ooga.model.agents.consumables;
 
+import ooga.model.GameState;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.agents.players.Pacman;
-import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
@@ -39,18 +39,13 @@ public class pellet extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public Position step() {
-    return myMover.move(new Position(getPosition().getCoords()[0], getPosition().getCoords()[1]));
+  public Position getNextMove(GameState state) {
+    return myMover.move(state, getPosition());
   }
 
   @Override
   public void setCoords(Position newPosition) {
     setPosition(newPosition.getCoords());
-  }
-
-  @Override
-  public int consume(Consumable agent) {
-    return 0;
   }
 
   @Override
@@ -60,18 +55,13 @@ public class pellet extends AbstractAgent implements Consumable {
 
 
   @Override
-  public void getConsumed() {
+  public int getConsumed() {
     myState = EATEN_STATE;
-    //update score
     updateConsumer();
+    return PELLET_POINT * myState;
   }
 
   @Override
   public void applyEffects(Pacman pacman) {
-  }
-
-  @Override
-  public int applyPoints() {
-    return PELLET_POINT;
   }
 }

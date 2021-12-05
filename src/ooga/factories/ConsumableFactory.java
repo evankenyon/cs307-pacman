@@ -3,6 +3,7 @@ package ooga.factories;
 import java.lang.reflect.InvocationTargetException;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 
 public class ConsumableFactory {
@@ -13,7 +14,9 @@ public class ConsumableFactory {
   private static final String CLASS_NAMES_FILENAME = "classNames";
 
   public Consumable createConsumable(String consumable, int x, int y)
-      throws IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+      throws IllegalArgumentException{
+    Consumable createdConsumable = null;
+    int numNot = 0;
     ResourceBundle packages = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, PACKAGES_FILENAME));
     ResourceBundle classNames = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, CLASS_NAMES_FILENAME));
@@ -24,8 +27,19 @@ public class ConsumableFactory {
       actualConsumable = consumable;
     }
 
-    return (Consumable) Class.forName(
-            String.format("%s%s", packages.getString("consumables"), actualConsumable)).getConstructor(int.class, int.class)
-        .newInstance(x, y);
+    for (String aPackage : packages.keySet()) {
+      try {
+        createdConsumable = (Consumable) Class.forName(
+                String.format("%s%s", packages.getString(aPackage), actualConsumable)).getConstructor(int.class, int.class)
+            .newInstance(x, y);
+      } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+        numNot++;
+      }
+    }
+    if (numNot == packages.keySet().size()) {
+      throw new IllegalArgumentException();
+    }
+    return createdConsumable;
   }
+
 }

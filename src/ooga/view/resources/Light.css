@@ -5,3 +5,7 @@
 .text {
     -fx-fill: BLACK;
 }
+
+#myBackgroundColor {
+    -fx-fill: WHITESMOKE;
+}

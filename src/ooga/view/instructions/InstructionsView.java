@@ -133,7 +133,7 @@ public class InstructionsView {
         header.setTextAlignment(TextAlignment.CENTER);
         header.setFont(Font.font ("Verdana", FontWeight.BOLD, 20));
         header.setWrappingWidth(SCENE_WIDTH - (2 * PADDING));
-        header.getStyleClass().add("header");
+        header.getStyleClass().add("text");
         ImageView image = makeTopImg(imageFile);
         Text text = new Text(instructionText);
         text.getStyleClass().add("text");

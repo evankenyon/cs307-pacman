@@ -88,6 +88,14 @@ public class GameStateData {
     return isWin;
   }
 
+  public boolean isSuper(){
+    return isSuper;
+  }
+
+  public void setSuper(){
+    isSuper = true;
+  }
+
   public boolean isLose() {
     return isLose;
   }
@@ -135,10 +143,6 @@ public class GameStateData {
       }
     }
     return potentialAgent;
-  }
-
-  public boolean isSuper() {
-    return isSuper;
   }
 
   private void setSuperStates() {

@@ -38,7 +38,6 @@ public class GameBoard {
     //movers.addAll(myState.getMyWalls());
     //movers.addAll(myState.getMyOtherAgents());
     movers.add(myState.getPacman());
-    movers.addAll(myState.getGhosts());
 //    movers.addAll(myState.getGhosts());
 //    movers.addAll(myState.getFood());
 //    movers.addAll(myState.getWalls());
@@ -49,7 +48,6 @@ public class GameBoard {
         if (checkMoveValidity(newPosition)) {
           //set coordinates after effects have been applied
           agent.setCoords(newPosition);
-          checkCollisions();
         }
       }
     }
@@ -65,12 +63,14 @@ public class GameBoard {
     //movers.addAll(myState.getMyOtherAgents());
     for (Agent ghost : ghosts) {
       if (isOverlapping(ghost.getPosition(), pacman.getPosition())) {
-        //if game state is "Super" state
-        //update score
-        //change ghost state to dead
-        //else
-        // reduce lives by 1
-        // reset gameboard
+        if (myState.isSuper()) {
+          Consumable g = (Consumable) ghost;
+          myPacScore += g.getConsumed();
+          updateScoreConsumer();
+        } else {
+          // lose life
+          // reset gameboard
+        }
         System.out.println("Ghost + Pac overlap!");
       }
     }
@@ -79,7 +79,6 @@ public class GameBoard {
         // update score & change food state to eaten.
         myPacScore += food.getConsumed();
         updateScoreConsumer();
-        // if super pellet change game-state
         System.out.println("food is being eaten!");
       }
     }
@@ -100,14 +99,6 @@ public class GameBoard {
     myState.setPlayerDirection(direction);
   }
 
-  public boolean checkLoss() {
-    return false;
-  }
-
-  public boolean checkWin() {
-    return false;
-  }
-
   private boolean checkMoveValidity(Position newPosition) {
     int x = newPosition.getCoords()[0];
     int y = newPosition.getCoords()[1];
@@ -117,6 +108,10 @@ public class GameBoard {
   public GameState getGameState() {
     return myState;
   }
+
+//  public int getScore() {
+//    return myScore;
+//  }
 
   private boolean isOverlapping(Position aPos, Position bPos) {
     return (aPos.getCoords()[0] == bPos.getCoords()[0]

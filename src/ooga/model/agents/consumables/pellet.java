@@ -58,7 +58,7 @@ public class pellet extends AbstractAgent implements Consumable {
   public int getConsumed() {
     myState = EATEN_STATE;
     updateConsumer();
-    return PELLET_POINT;
+    return PELLET_POINT * myState;
   }
 
   @Override

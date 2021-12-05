@@ -81,15 +81,17 @@ public class GameBoard {
         System.out.println("Ghost + Pac overlap!");
       }
     }
+    List<Position> foodsToDelete = new ArrayList<>();
     for (Consumable food : foods) {
       if (isOverlapping(food.getPosition(), pacman.getPosition())) {
         // update score & change food state to eaten.
         myPacScore += food.getConsumed();
-        LOG.info("my score is {}", myPacScore);
+        foodsToDelete.add(food.getPosition());
         updateScoreConsumer();
-//        System.out.println("food is being eaten!");
       }
     }
+    myState.deleteFoods(foodsToDelete);
+    LOG.info("food size is {}", myState.getFood().size());
   }
 
   public void checkGameEnd() {
@@ -98,24 +100,19 @@ public class GameBoard {
   }
 
   public void checkWin() {
-//    updateGameStatusConsumer();
+    if (myState.getRequiredPelletsLeft() == 0) {
+      currentGameStatus = GameStatus.WIN;
+      updateGameStatusConsumer();
+    }
   }
 
   public void checkLoss() {
-//    updateGameStatusConsumer();
+    if (myState.getLives() == 0) {
+      currentGameStatus = GameStatus.LOSS;
+      updateGameStatusConsumer();
+    }
   }
-
-  private void applyEffects(Agent agent, Position newPosition) {
-//    if (myState.isFood(newPosition.getCoords()[0],
-//        newPosition.getCoords()[1])) {
-//      Consumable colliding = (Consumable) myState.findAgent(newPosition);
-//      myPacScore += agent.consume(colliding);
-//      //call this when consumer has actually been added
-//      updateScoreConsumer();
-//      LOG.info("score is now {}", myPacScore);
-//    }
-  }
-
+  
   public void setPlayerDirection(String direction) {
     myState.setPlayerDirection(direction);
   }
@@ -130,9 +127,6 @@ public class GameBoard {
     return myState;
   }
 
-//  public int getScore() {
-//    return myScore;
-//  }
 
   private boolean isOverlapping(Position aPos, Position bPos) {
     return (aPos.getCoords()[0] == bPos.getCoords()[0]
@@ -151,9 +145,9 @@ public class GameBoard {
     myGameStatusConsumer = consumer;
   }
 
-//  public void updateGameStatusConsumer() {
-//    myGameStatusConsumer.accept(currentGameStatus);
-//  }
+  public void updateGameStatusConsumer() {
+    myGameStatusConsumer.accept(currentGameStatus);
+  }
 
   public int getMyPacScore() {
     return myPacScore;

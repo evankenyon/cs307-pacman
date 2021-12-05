@@ -2,29 +2,23 @@ package ooga.controller.IO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-<<<<<<< HEAD
 import java.util.ArrayList;
 import ooga.model.GameData;
-=======
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import ooga.model.Data;
->>>>>>> 3f4f19f7bb1cbdb49c0fd6223091f2c97054c31f
+import ooga.model.GameData;
 import ooga.model.GameState;
 import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-<<<<<<< HEAD
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import ooga.model.util.Position;
-=======
->>>>>>> 3f4f19f7bb1cbdb49c0fd6223091f2c97054c31f
 
 
 public class SaveGameTest {

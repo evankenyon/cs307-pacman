@@ -42,7 +42,8 @@ public class GameSaver {
     configBuilder.put("Player", makeStringFromAgent(state.getMyPlayer()));
     configBuilder.put("RequiredPellets", buildPelletArray(true));
     configBuilder.put("OptionalPellets", buildPelletArray(false));
-    configBuilder.put("NumberOfLives", 3);
+    configBuilder.put("NumberOfLives", 3); // TODO: add accurate num lives remaining
+    configBuilder.put("PlayerScore", 0); // TODO: add accurate player score
     configBuilder.put("WallMap", buildWallMap());
     config = configBuilder;
   }
@@ -58,8 +59,6 @@ public class GameSaver {
     }
     return pelletArray;
   }
-
-
 
 
   /**
@@ -128,16 +127,6 @@ public class GameSaver {
   private String makeStringFromAgent(Agent agent) {
     String agentString = agent.toString();
     return agentNames.getString(agentString.substring(0,agentString.indexOf("@")));
-    //String cutAgentString = agentString.substring(0,agentString.indexOf("@"));
-    //if (cutAgentString.contains("consumables")) {
-     // return cutAgentString.replace("ooga.model.agents.consumables.", "").strip();
-    //}
-    //else if (cutAgentString.contains("players")) {
-     // return cutAgentString.replace("ooga.model.agents.players.", "").strip();
-    //}
-    //else {
-      //return cutAgentString.replace("ooga.model.agents.", "").strip();
-    //}
   }
 
   private void sortAgentArray() {
@@ -146,23 +135,18 @@ public class GameSaver {
     agentArray.add(state.getMyPlayer());
     Collections.sort(agentArray, new RowComparator()
         .thenComparing(new ColComparator()));
-    for (Agent a: agentArray) {
-      System.out.println(a);
-    }
+    //for (Agent a: agentArray) {
+     // System.out.println(a);
+    //}
   }
 
 
 
   private JSONArray buildWallMap() {
     sortAgentArray();
-
     JSONArray overallWallArray = new JSONArray();
-
-    // TODO: (non-code) verify that rows are actually rows and cols are actually cols
-
     int numCols = agentArray.get(agentArray.size()-1).getPosition().getCoords()[0] + 1;
     int numRows = agentArray.get(agentArray.size()-1).getPosition().getCoords()[1] + 1;
-
     int arrayIndex = 0;
     for (int i=0; i < numRows; i++) {
       JSONArray rowWallArray = new JSONArray();
@@ -172,10 +156,7 @@ public class GameSaver {
       }
       overallWallArray.put(rowWallArray);
     }
-
-
-    System.out.println(overallWallArray);
-
+    //System.out.println(overallWallArray);
     return overallWallArray;
 
   }

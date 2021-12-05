@@ -68,7 +68,7 @@ public class JsonParser implements JsonParserInterface {
     setupNumLives(json.getInt(magicValues.getString("NumberOfLivesKey")));
     setupWallMap(json.getJSONArray(magicValues.getString("WallMapKey")));
     checkWallMapForRequirements();
-    updateConsumers(new Data(wallMap, player, numLives, pelletInfo, mapCols, mapRows));
+    updateConsumers(new GameData(wallMap, player, numLives, playerScore, pelletInfo, mapCols, mapRows));
   }
 
   @Deprecated

@@ -1,12 +1,9 @@
 package ooga.model;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import ooga.factories.AgentFactory;
-import ooga.factories.ConsumableFactory;
-import ooga.model.agents.wall;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
@@ -37,6 +34,7 @@ public class GameState {
 
     myGameStateData = new GameStateData();
     myGameStateData.initialize(vanillaGameData.wallMap(), vanillaGameData.pelletInfo());
+    implementRunnables();
 
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.wallMap(), 0) + 1;
@@ -88,6 +86,26 @@ public class GameState {
 //  private void addToOtherAgents(String agent, int x, int y) {
 //    myOtherAgents.add(agentFactory.createAgent(agent, x, y));
 //  }
+
+
+  private void implementRunnables() {
+    for (Agent a : getFood()) {
+      Runnable r = () -> setSuperState();
+      a.addRunnable(r);
+    }
+  }
+
+//  private void processPlayerRunnable() {
+//    //TODO: Change for when player is a ghost not Pacman
+//    myPlayer.setState(SUPER_STATE);
+//  }
+
+  private void setSuperState() {
+    myGameStateData.setSuper();
+    for (Agent ghost : getGhosts()){
+      ghost.setState(2);
+    }
+  }
 
 
   public Agent findAgent(Position pos) {

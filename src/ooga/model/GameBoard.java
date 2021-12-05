@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
@@ -70,7 +71,7 @@ public class GameBoard {
           updateScoreConsumer();
         }
         else{
-          // reduce lives by 1
+          // lose life
           // reset gameboard
         }
         System.out.println("Ghost + Pac overlap!");
@@ -81,7 +82,6 @@ public class GameBoard {
         // update score & change food state to eaten.
         myPacScore += food.getConsumed();
         updateScoreConsumer();
-        // if super pellet change game-state
         System.out.println("food is being eaten!");
       }
     }

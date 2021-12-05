@@ -189,7 +189,7 @@ public class Controller implements ControllerInterface {
    */
   public void restartGame() {
     try {
-      jsonParser.reset();
+//      jsonParser.reset();
       jsonParser.uploadFile(myFile);
     } catch (IOException e) {
       // TODO: Remove e.printStackTrace()

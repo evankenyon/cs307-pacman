@@ -15,5 +15,5 @@ public interface JsonParserInterface {
 
   public int getCols();
 
-  public void reset();
+//  public void reset();
 }

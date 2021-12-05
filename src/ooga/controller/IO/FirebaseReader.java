@@ -47,8 +47,12 @@ public class FirebaseReader {
 
   public Set<String> getFileNames()
       throws InterruptedException {
+    // Inspired to use CountDownLatch based on conversation with TA Billy Luqiu
     CountDownLatch startSignal = new CountDownLatch(1);
     Set<String> fileNames = new HashSet<>();
+
+    // Used some code from official Google documentation to help me set this up
+    // https://firebase.google.com/docs/database/admin/retrieve-data
     db.getReference("").addValueEventListener(new ValueEventListener() {
 
       public void onDataChange(DataSnapshot dataSnapshot) {
@@ -62,6 +66,8 @@ public class FirebaseReader {
       }
     });
 
+    // Borrowed code to succesfully use CountDownLatch from
+    // https://stackoverflow.com/questions/16730113/current-thread-not-owner-exception
     synchronized (startSignal) {
       startSignal.await();
     }

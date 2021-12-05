@@ -36,7 +36,7 @@ public class GameStartupPanel {
 
   public static final String NO_FILE_TEXT = "No file selected";
   private Stage stage;
-  private ComboBox<String> selectGameType;
+  private Button viewProfile;
   private ComboBox<String> selectLanguage;
   private ComboBox<String> selectViewMode;
   private ComboBox<String> selectFile;
@@ -51,6 +51,7 @@ public class GameStartupPanel {
 
   private static final int SCREEN_WIDTH = 400;
   private static final int SCREEN_HEIGHT = 425;
+  public static final int SELECTOR_WIDTH = 150;
   public static final Paint BACKGROUND = Color.BLACK;
   public static final String STARTUP_PACKAGE = "ooga.view.startupView.";
   public static final String DEFAULT_STYLESHEET = String.format("/%sGameStartupPanel.css",
@@ -112,13 +113,13 @@ public class GameStartupPanel {
     VBox selectCol2R = new VBox();
     HBox selectCluster1 = new HBox();
     HBox selectCluster2 = new HBox();
-    selectGameType = makeSelectorBox(selectCol1L, "GameType", GAME_TYPE_KEYS);
-    selectLanguage = makeSelectorBox(selectCol1R, "Language", LANGUAGE_KEYS);
+    viewProfile = makeButton("viewProfile", selectCol1L);
+    selectLanguage = makeSelectorBox(selectCol2L, "Language", LANGUAGE_KEYS);
     addToCluster(root, selectCol1L, selectCol1R, selectCluster1, 2);
-    selectViewMode = makeSelectorBox(selectCol2L, "ViewingMode", VIEW_MODE_KEYS);
-    selectFile = makeSelectorBox(selectCol2R, "GameFile", LOAD_FILE_KEYS);
+    selectViewMode = makeSelectorBox(selectCol2R, "ViewingMode", VIEW_MODE_KEYS);
+    selectFile = makeSelectorBox(selectCol1R, "GameFile", LOAD_FILE_KEYS);
     selectFile.setOnAction(e -> selectFileAction());
-    displayFileName = makeText(Color.LIGHTGRAY, NO_FILE_TEXT, selectCol2R);
+    displayFileName = makeText(Color.LIGHTGRAY, NO_FILE_TEXT, selectCol1R);
     addToCluster(root, selectCol2L, selectCol2R, selectCluster2, 3);
   }
 
@@ -170,13 +171,14 @@ public class GameStartupPanel {
     root.add(hBoxParent, 1, row);
   }
 
-  private Button makeFileUploadButton() {
-    fileUploadButton = new Button();
-    fileUploadButton.setMinWidth(150);
-    fileUploadButton.setId("fileUploadButton");
-    fileUploadButton.setText(myResources.getString("UploadFile"));
-    fileUploadButton.setOnAction(e -> uploadFile());
-    return fileUploadButton;
+  private Button makeButton(String id, VBox vbox) {
+    Button button = new Button();
+    button.setMinWidth(SELECTOR_WIDTH);
+    button.setId(id);
+    button.setText(myUser.username());
+//    button.setOnAction(e -> new UserInformationView(myUser));
+    vbox.getChildren().add(button);
+    return button;
   }
 
   private void uploadFile() {
@@ -206,13 +208,11 @@ public class GameStartupPanel {
   }
 
   private void startButtonAction() {
-    selectedGameType = selectGameType.getValue();
     selectedLanguage = selectLanguage.getValue();
     selectedViewMode = selectViewMode.getValue();
     if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
       runFile();
       openInstructions(selectedLanguage, selectedGameType, selectedViewMode);
-      selectGameType.setValue(null);
       selectLanguage.setValue(null);
       selectViewMode.setValue(null);
     } else {
@@ -251,7 +251,7 @@ public class GameStartupPanel {
     for (String option : options) {
       newComboBox.getItems().add(option);
     }
-    newComboBox.setMinWidth(150);
+    newComboBox.setMinWidth(SELECTOR_WIDTH);
     newComboBox.setId(category);
     return newComboBox;
   }

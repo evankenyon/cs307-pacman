@@ -1,18 +1,1 @@
-{
-  "dane1": {
-    "wins": 0,
-    "password": "dane1",
-    "high-score": 0,
-    "image-path": "C:\\Users\\xinyu\\classwork\\cs307\\ooga_team11\\data\\images\\bigPauseIcon.png",
-    "losses": 0,
-    "favorite-files": []
-  },
-  "dane": {
-    "wins": 0,
-    "password": "dane",
-    "high-score": 0,
-    "image-path": "C:\\Users\\xinyu\\classwork\\cs307\\ooga_team11\\data\\images\\backButton-arriere.png",
-    "losses": 0,
-    "favorite-files": []
-  }
-}
+{"evan":{"wins":0,"password":"evan","high-score":0,"image-path":"./data/images/blinky_left_charged.gif","losses":0,"favorite-files":[]},"dane1":{"wins":0,"password":"dane1","high-score":0,"image-path":"./data/images/bigPauseIcon.png","losses":0,"favorite-files":[]},"dane":{"wins":0,"password":"dane","high-score":0,"image-path":"./data/images/backButton-arriere.png","losses":0,"favorite-files":[]}}

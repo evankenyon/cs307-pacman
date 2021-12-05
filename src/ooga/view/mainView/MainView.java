@@ -1,25 +1,28 @@
 package ooga.view.mainView;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
+import java.util.function.Consumer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
 import ooga.model.VanillaGame;
-import ooga.model.util.Position;
-import ooga.view.startupView.GameStartupPanel;
+import ooga.model.util.GameStatus;
 import ooga.view.bottomView.BottomView;
 import ooga.view.center.BoardView;
+import ooga.view.popups.GameEndPopups;
+import ooga.view.startupView.GameStartupPanel;
 import ooga.view.topView.TopView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +50,13 @@ public class MainView {
   private Scene myScene;
   private VanillaGame myGame;
   private BorderPane root;
+  private Consumer<GameStatus> gameEndConsumer = status -> {
+    if (status == GameStatus.WIN) {
+      new GameEndPopups().winLosePopup("win", 0, 0);
+    } else if (status == GameStatus.LOSS) {
+      new GameEndPopups().winLosePopup("lose", 0, 0);
+    }
+  };
   private GameStartupPanel gameStartupPanel;
   private String STYLESHEET;
 
@@ -54,17 +64,18 @@ public class MainView {
    * Constructor to create a MainView object to make the scene based on the constructed BorderPane
    * with each view object in the correct location.
    *
-   * @param controller is the Controller object used to communicate between the model and view
-   * @param game is the VanillaGame object that is used in the model
-   * @param stage is the Stage where the scene from MainView is set
+   * @param controller      is the Controller object used to communicate between the model and view
+   * @param game            is the VanillaGame object that is used in the model
+   * @param stage           is the Stage where the scene from MainView is set
    * @param userPreferences is the UserPreferences object from the uploaded file
    */
   public MainView(Controller controller, VanillaGame game, Stage stage, String selectedViewMode,
-                  UserPreferences userPreferences) {
+      UserPreferences userPreferences) {
     this.STYLESHEET = "/ooga/view/resources/" + selectedViewMode + ".css";
     myController = controller;
     controller.setAnimationSpeed(1);
     myGame = game;
+    myGame.getBoard().addGameStatusConsumer(gameEndConsumer);
     myBottomView = new BottomView(myController, myGame, userPreferences.language());
 //    gameStartupPanel = new GameStartupPanel(myStage);
     myStage = stage;
@@ -81,18 +92,19 @@ public class MainView {
 
   private Scene makeScene() {
     Group myGroup = new Group();
-    Rectangle bgRect = new Rectangle(0,0,SCENE_WIDTH,SCENE_HEIGHT);
+    Rectangle bgRect = new Rectangle(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
     bgRect.setId("myBackgroundColor");
     root = new BorderPane();
-    root.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
+    root.setBackground(
+        new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     setStyles();
     Node centerNode = myBoardView.getBoardPane();
     root.setCenter(centerNode);
     root.setBottom(myBottomView.getBottomViewGP());
     root.setTop(myTopView.getTopViewGP());
     BorderPane.setAlignment(myTopView.getTopViewGP(), Pos.BOTTOM_CENTER);
-    myGroup.getChildren().addAll(bgRect,root);
-    root.setPadding(new Insets(0,0,0,(SCENE_WIDTH - BOARD_WIDTH) / 2));
+    myGroup.getChildren().addAll(bgRect, root);
+    root.setPadding(new Insets(0, 0, 0, (SCENE_WIDTH - BOARD_WIDTH) / 2));
     Scene scene = new Scene(myGroup, SCENE_WIDTH, SCENE_HEIGHT);
     scene.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     scene.setOnKeyPressed(e -> {

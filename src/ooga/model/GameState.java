@@ -181,7 +181,7 @@ public class GameState {
   }
 
   public boolean isFood(int x, int y) {
-    for (Agent pellet : myGameStateData.getMyPelletStates()) {
+    for (Agent pellet : myGameStateData.getMyRequiredPelletStates()) {
       //if not consumed yet
       if (pellet.getState() == 1) {
         //if collides
@@ -191,6 +191,15 @@ public class GameState {
       }
     }
     return false;
+  }
+
+  public void deleteFoods(List<Position> positions) {
+    myGameStateData.getMyRequiredPelletStates()
+        .removeIf(food -> positions.contains(food.getPosition()));
+  }
+
+  public int getRequiredPelletsLeft() {
+    return myGameStateData.getFoodLeft();
   }
 
   public boolean isSuper() {
@@ -206,7 +215,7 @@ public class GameState {
   }
 
   public List<Consumable> getFood() {
-    return myGameStateData.getMyPelletStates();
+    return myGameStateData.getMyRequiredPelletStates();
   }
 
   public List<Agent> getWalls() {

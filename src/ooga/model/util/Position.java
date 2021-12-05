@@ -1,7 +1,6 @@
 package ooga.model.util;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class Position {
 
@@ -47,8 +46,7 @@ public class Position {
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(myDirection);
-    result = 31 * result + Arrays.hashCode(myCoords);
+    int result = Arrays.hashCode(myCoords);
     return result;
   }
 }

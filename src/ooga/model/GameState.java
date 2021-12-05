@@ -22,16 +22,12 @@ public class GameState {
 
   private final int myRows;
   private final int myCols;
-
-//  private List<Agent> myOtherAgents;
-//
-//  private List<Agent> myWalls;
   private final AgentFactory agentFactory;
   private static final Logger LOG = LogManager.getLogger(GameState.class);
 
   public GameState(Data vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    System.out.println(vanillaGameData.wallMap().toString());
+//    System.out.println(vanillaGameData.wallMap().toString());
 
     myGameStateData = new GameStateData();
     myGameStateData.initialize(vanillaGameData.wallMap(), vanillaGameData.pelletInfo());
@@ -39,13 +35,11 @@ public class GameState {
 
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.wallMap(), 0) + 1;
-//    myOtherAgents = new ArrayList<>();
     agentFactory = new AgentFactory();
-//    populateLists(vanillaGameData.wallMap());
   }
 
   public boolean isInBounds(int x, int y) {
-    if (x > myRows || y > myCols) {
+    if (x >= myRows || y >= myCols) {
       return false;
     } else if (x < 0 || y < 0) {
       return false;
@@ -103,7 +97,7 @@ public class GameState {
 
   private void setSuperState() {
     myGameStateData.setSuper();
-    for (Agent ghost : getGhosts()){
+    for (Agent ghost : getGhosts()) {
       ghost.setState(2);
     }
   }
@@ -111,34 +105,14 @@ public class GameState {
 
   public Agent findAgent(Position pos) {
     return myGameStateData.findAgent(pos);
-//    if (getPacman().getPosition().getCoords()[0] == pos.getCoords()[0]
-//        && getPacman().getPosition().getCoords()[1] == pos.getCoords()[1]) {
-//      return getPacman();
-//    }
-//    Agent potentialAgent = null;
-//    for (Agent agent : myOtherAgents) {
-//      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
-//          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
-//        potentialAgent = agent;
-//      }
-//    }
-//
-//    for (Agent agent : myWalls) {
-//      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
-//          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
-//        potentialAgent = agent;
-//      }
-//    }
-//    return potentialAgent;
   }
-
 
   public void setPlayerDirection(String direction) {
     getPacman().setDirection(direction);
   }
 
   public boolean isWall(int x, int y) {
-    return myGameStateData.isWall(x,y);
+    return myGameStateData.isWall(x, y);
   }
 
   public List<Position> getPotentialMoveTargets(Position pos) {
@@ -189,22 +163,23 @@ public class GameState {
     return false;
   }
 
-  public boolean isSuper(){
+  public boolean isSuper() {
     return myGameStateData.isSuper();
   }
-  public Agent getPacman(){
+
+  public Agent getPacman() {
     return myGameStateData.getAgents().get(0);
   }
 
-  public List<Agent> getGhosts(){
+  public List<Agent> getGhosts() {
     return myGameStateData.getAgents().subList(1, myGameStateData.getAgents().size());
   }
 
-  public List<Consumable> getFood(){
+  public List<Consumable> getFood() {
     return myGameStateData.getMyPelletStates();
   }
 
-  public List<Agent> getWalls(){
+  public List<Agent> getWalls() {
     return myGameStateData.getMyWallStates();
   }
 }

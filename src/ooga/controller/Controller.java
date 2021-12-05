@@ -28,6 +28,7 @@ import ooga.view.popups.ErrorPopups;
 import ooga.view.startupView.GameStartupPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 public class Controller implements ControllerInterface {
 
@@ -47,7 +48,7 @@ public class Controller implements ControllerInterface {
   private final String myLanguage;
   private int rows;
   private int cols;
-  private File myFile;
+  private JSONObject originalJson;
   private final Stage myStage;
   private UserPreferences myPreferences;
   private ProfileGenerator profileGenerator;
@@ -90,7 +91,6 @@ public class Controller implements ControllerInterface {
   @Override
   public UserPreferences uploadFile(File file)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    myFile = file;
     jsonParser.addVanillaGameDataConsumer(
         vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.wallMap());
     jsonParser.addVanillaGameDataConsumer(
@@ -108,10 +108,11 @@ public class Controller implements ControllerInterface {
     if (!JSONObjectParser.parseJSONObject(file).toMap()
         .containsKey(magicValues.getString("PlayerKey"))) {
       preferencesParser.uploadFile(file);
-      jsonParser.uploadFile(preferencesParser.getStartingConfig());
+      originalJson = JSONObjectParser.parseJSONObject(preferencesParser.getStartingConfig());
     } else {
-      jsonParser.uploadFile(file);
+      originalJson = JSONObjectParser.parseJSONObject(file);
     }
+    jsonParser.parseJSON(originalJson);
     myPreferences = new UserPreferences(wallMap, jsonParser.getRows(), jsonParser.getCols(),
         preferencesParser.getImagePaths(), preferencesParser.getColors(),
         preferencesParser.getStyle(), myLanguage);
@@ -188,12 +189,7 @@ public class Controller implements ControllerInterface {
    * user clicks on "Restart" button
    */
   public void restartGame() {
-    try {
-      jsonParser.uploadFile(myFile);
-    } catch (IOException e) {
-      // TODO: Remove e.printStackTrace()
-      e.printStackTrace();
-    }
+    jsonParser.parseJSON(originalJson);
     new MainView(this, getVanillaGame(), myStage, myPreferences);
   }
 }

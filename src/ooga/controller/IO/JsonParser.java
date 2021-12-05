@@ -69,7 +69,7 @@ public class JsonParser implements JsonParserInterface {
     checkWallMapForRequirements();
     updateConsumers(new Data(wallMap, player, numLives, pelletInfo, mapCols, mapRows));
   }
-  
+
   @Deprecated
   @Override
   public void uploadFile(File file) throws IOException, InputMismatchException, JSONException {

@@ -24,6 +24,7 @@ import ooga.controller.IO.keyTracker;
 import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
+import ooga.view.loginView.LoginView;
 import ooga.view.mainView.MainView;
 import ooga.view.startupView.GameStartupPanel;
 import ooga.view.popups.ErrorPopups;
@@ -73,12 +74,19 @@ public class Controller implements ControllerInterface {
     keyTracker = new keyTracker();
     preferencesParser = new PreferencesParser();
     profileGenerator = new ProfileGenerator();
-    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
+    new LoginView(myStage, this);
+//    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
     isPaused = false;
   }
 
-  public void createUser(String username, String password, File imageFile) throws IOException {
+//  @Deprecated
+//  public void createUser(String username, String password, File imageFile) throws IOException {
+//    profileGenerator.createUser(username, password, imageFile);
+//  }
+
+  public User createUser(String username, String password, File imageFile) throws IOException {
     profileGenerator.createUser(username, password, imageFile);
+    return login(username, password);
   }
 
   public User login(String username, String password) throws IOException {

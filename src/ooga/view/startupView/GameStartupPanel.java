@@ -26,6 +26,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
 import ooga.view.mainView.MainView;
 import ooga.view.instructions.InstructionsView;
@@ -46,7 +47,7 @@ public class GameStartupPanel {
   private String selectedViewMode;
   private ResourceBundle myResources;
   private Text displayFileName;
-  private int test = 1;
+  private User myUser;
 
   private static final int SCREEN_WIDTH = 400;
   private static final int SCREEN_HEIGHT = 425;
@@ -63,9 +64,21 @@ public class GameStartupPanel {
   public static final String VIEW_MODE_KEYS[] = {"Dark", "Duke", "Light"};
   public static final String LOAD_FILE_KEYS[] = {"SelectLocally","SelectFromDatabase"};
 
-  public GameStartupPanel(Stage stage) {
+//  @Deprecated
+//  public GameStartupPanel(Stage stage) {
+//    myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
+//    this.stage = stage;
+//    this.stage.setScene(createStartupScene());
+//    this.stage.setTitle("PACMAN STARTUP");
+//    Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
+//    this.stage.getIcons().add(favicon);
+//    this.stage.show();
+//  }
+
+  public GameStartupPanel(Stage stage, User user) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
     this.stage = stage;
+    myUser = user;
     this.stage.setScene(createStartupScene());
     this.stage.setTitle("PACMAN STARTUP");
     Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
@@ -128,7 +141,6 @@ public class GameStartupPanel {
     databaseChoices.showAndWait();
   }
 
-//<<<<<<< HEAD
   private Text makeText(Paint color, String message, VBox vBox) {
     Text text = new Text();
     text.setFont(Font.font("Verdana", FontPosture.ITALIC, 11));
@@ -156,50 +168,6 @@ public class GameStartupPanel {
       int row) {
     hBoxParent.getChildren().addAll(vBoxChild1, vBoxChild2);
     root.add(hBoxParent, 1, row);
-//=======
-//    ImageView selectGameLabel = new ImageView(new Image(new File("data/images/selectGameType.png").toURI().toString()));
-//    setImgWidth(selectGameLabel, SCREEN_WIDTH/2);
-//    String[] gameTypes = {myResources.getString("VanillaPacman"),
-//        myResources.getString("SuperPacman"), myResources.getString("MrsPacman"),
-//        myResources.getString("GhostPacman")};
-//    selectGameType = makeDropDown("game type", gameTypes);
-//    selectCol1L.getChildren().addAll(selectGameLabel, selectGameType);
-//    selectCol1L.setAlignment(Pos.CENTER);
-//
-//    ImageView selectLanguageLabel = new ImageView(new Image(new File("data/images/selectLanguage.png").toURI().toString()));
-//    setImgWidth(selectLanguageLabel, SCREEN_WIDTH/2);
-//    String[] languages = {"English", "French", "German", "Italian", "Spanish"};
-//    selectLanguage = makeDropDown("language", languages);
-//    selectCol1R.getChildren().addAll(selectLanguageLabel, selectLanguage);
-//    selectCol1R.setAlignment(Pos.CENTER);
-//
-//    selectCluster1.getChildren().addAll(selectCol1L, selectCol1R);
-//    root.add(selectCluster1, 1, 2);
-//
-//    ImageView selectModeLabel = new ImageView(new Image(new File("data/images/selectViewingMode.png").toURI().toString()));
-//    setImgWidth(selectModeLabel, SCREEN_WIDTH/2);
-//    String[] viewModes = {myResources.getString("Dark"), myResources.getString("Duke"),
-//        myResources.getString("Light")};
-//    selectViewMode = makeDropDown("viewing mode", viewModes);
-//    Text spacingFix = new Text();
-//    spacingFix.setText(".");
-//    spacingFix.setFont(Font.font("Verdana", FontPosture.ITALIC, 11));
-//    selectCol2L.getChildren().addAll(selectModeLabel, selectViewMode, spacingFix);
-//    selectCol2L.setAlignment(Pos.CENTER);
-//
-//    ImageView selectGameFileLabel = new ImageView(new Image(new File("data/images/selectGameFile.png").toURI().toString()));
-//    setImgWidth(selectGameFileLabel, SCREEN_WIDTH/2);
-//    Button fileUploadButton = makeFileUploadButton();
-//    displayFileName = new Text();
-//    displayFileName.setFont(Font.font("Verdana", FontPosture.ITALIC, 11));
-//    displayFileName.setFill(Color.LIGHTGRAY);
-//    displayFileName.setText("No file selected");
-//    selectCol2R.getChildren().addAll(selectGameFileLabel, fileUploadButton, displayFileName);
-//    selectCol2R.setAlignment(Pos.CENTER);
-//
-//    selectCluster2.getChildren().addAll(selectCol2L, selectCol2R);
-//    root.add(selectCluster2, 1, 3);
-//>>>>>>> master
   }
 
   private Button makeFileUploadButton() {

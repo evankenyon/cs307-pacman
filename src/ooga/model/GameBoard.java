@@ -38,7 +38,7 @@ public class GameBoard {
     //movers.addAll(myState.getMyWalls());
     //movers.addAll(myState.getMyOtherAgents());
     movers.add(myState.getPacman());
-//    movers.addAll(myState.getGhosts());
+    movers.addAll(myState.getGhosts());
 //    movers.addAll(myState.getFood());
 //    movers.addAll(myState.getWalls());
     for (Agent agent : movers) {
@@ -63,7 +63,7 @@ public class GameBoard {
     //movers.addAll(myState.getMyOtherAgents());
     for (Agent ghost : ghosts) {
       if (isOverlapping(ghost.getPosition(), pacman.getPosition())) {
-        if (myState.isSuper()) {
+        if (myState.isSuper() && ghost.getState() != 0) {
           Consumable g = (Consumable) ghost;
           myPacScore += g.getConsumed();
           updateScoreConsumer();
@@ -79,7 +79,7 @@ public class GameBoard {
         // update score & change food state to eaten.
         myPacScore += food.getConsumed();
         updateScoreConsumer();
-        System.out.println("food is being eaten!");
+//        System.out.println("food is being eaten!");
       }
     }
   }

@@ -12,11 +12,11 @@ import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import ooga.controller.IO.GameSaver;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.PreferencesParser;
 import ooga.controller.IO.ProfileGenerator;
-import ooga.controller.IO.GameSaver;
 import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
 import ooga.controller.IO.keyTracker;
@@ -73,8 +73,9 @@ public class Controller implements ControllerInterface {
     keyTracker = new keyTracker();
     preferencesParser = new PreferencesParser();
     profileGenerator = new ProfileGenerator();
-    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
-    isPaused = false;
+    gameStartupPanel = new GameStartupPanel(
+        stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
+    isPaused = true;
   }
 
   public void createUser(String username, String password, File imageFile)
@@ -99,7 +100,6 @@ public class Controller implements ControllerInterface {
             vanillaGame = new VanillaGame(vanillaGameDataInterface);
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             new ErrorPopups(myLanguage, "reflectionError");
-            LOG.info("my exception is {}", e.toString());
             ResourceBundle exceptionMessages = ResourceBundle.getBundle(
                 String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
             throw new InputMismatchException(exceptionMessages.getString("BadReflection"));

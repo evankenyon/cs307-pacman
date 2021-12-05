@@ -69,35 +69,35 @@ public class InstructionsView {
 
     private VBox top1(String selectedGameType) {
         String headerText = myResources.getString("header1");
-        String imageFile = myResources.getString("imageFile1");
+        String imageFile = "pacmanEatingPellets.gif";
         String instructionText = myResources.getString("instructionText1");
         return makeTopVBox(headerText, imageFile, instructionText);
     }
 
     private VBox top2() {
         String headerText = myResources.getString("header2");
-        String imageFile = myResources.getString("imageFile2");
+        String imageFile = "WASD.gif";
         String instructionText = myResources.getString("instructionText2");
         return makeTopVBox(headerText, imageFile, instructionText);
     }
 
     private VBox top3() {
         String headerText = myResources.getString("header3");
-        String imageFile = myResources.getString("imageFile3");
+        String imageFile = "play-pause.png";
         String instructionText = myResources.getString("instructionText3");
         return makeTopVBox(headerText, imageFile, instructionText);
     }
 
     private VBox top4() {
         String headerText = myResources.getString("header4");
-        String imageFile = myResources.getString("imageFile4");
+        String imageFile = "bigSkipIcon.png";
         String instructionText = myResources.getString("instructionText4");
         return makeTopVBox(headerText, imageFile, instructionText);
     }
 
     private VBox top5() {
         String headerText = myResources.getString("header5");
-        String imageFile = myResources.getString("imageFile5");
+        String imageFile = "sliderImg.png";
         String instructionText = myResources.getString("instructionText5");
         return makeTopVBox(headerText, imageFile, instructionText);
     }
@@ -117,9 +117,9 @@ public class InstructionsView {
     }
 
     private VBox top8() {
-        String headerText = "HOW TO RESTART THE GAME";
+        String headerText = myResources.getString("header8");
         String imageFile = "restartButton-" + myResources.getString("restart") + ".png";
-        String instructionText = "Click the RESTART button to restart the game from fresh.";
+        String instructionText = myResources.getString("instructionText8");
         return makeTopVBox(headerText, imageFile, instructionText);
     }
 
@@ -129,8 +129,10 @@ public class InstructionsView {
         topHolder.setAlignment(Pos.TOP_CENTER);
         topHolder.setMinHeight(TOP_HEIGHT);
         topHolder.setSpacing(SPACING);
-        Label header = new Label(headerText);
+        Text header = new Text(headerText);
+        header.setTextAlignment(TextAlignment.CENTER);
         header.setFont(Font.font ("Verdana", FontWeight.BOLD, 20));
+        header.setWrappingWidth(SCENE_WIDTH - (2 * PADDING));
         header.getStyleClass().add("header");
         ImageView image = makeTopImg(imageFile);
         Text text = new Text(instructionText);

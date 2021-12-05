@@ -15,6 +15,8 @@ import org.json.JSONObject;
 public class JSONObjectParser {
 
   public static JSONObject parseJSONObject(File file) throws IOException, JSONException {
+    //Borrowed method for turning file into String from
+    // https://howtodoinjava.com/java/io/java-read-file-to-string-examples/
     return new JSONObject(new String(Files.readAllBytes(Path.of(file.getPath()))));
   }
 }

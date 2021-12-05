@@ -1,5 +1,4 @@
 {
-  "Title": "Pacman with Super Power Up",
   "Player": "Pacman",
   "RequiredPellets": [
     "Dot"
@@ -7,17 +6,7 @@
   "OptionalPellets": [
     "Fruit"
   ],
-  "PowerUps": [
-    "Super",
-    "Energizer"
-  ],
   "NumberOfLives": 3,
-  "OpponentTypes": [
-    "Inky",
-    "Pinky",
-    "Clyde"
-  ],
-  "Difficulty-Level": 2,
   "WallMap": [
     [
       "Dot",

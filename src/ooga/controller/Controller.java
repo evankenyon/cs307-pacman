@@ -3,7 +3,6 @@ package ooga.controller;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +24,8 @@ import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.VanillaGame;
 import ooga.model.util.Position;
 import ooga.view.mainView.MainView;
-import ooga.view.startupView.GameStartupPanel;
 import ooga.view.popups.ErrorPopups;
+import ooga.view.startupView.GameStartupPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,30 +36,31 @@ public class Controller implements ControllerInterface {
   private static final String EXCEPTION_MESSAGES_FILENAME = "Exceptions";
   private static final String MAGIC_VALUES_FILENAME = "ControllerMagicValues";
 
-  private JsonParserInterface jsonParser;
-  private keyTracker keyTracker;
+  private final JsonParserInterface jsonParser;
+  private final keyTracker keyTracker;
   private VanillaGame vanillaGame;
-  private GameStartupPanel gameStartupPanel;
-  private Timeline myAnimation;
-  private PreferencesParser preferencesParser;
+  private final Timeline myAnimation;
+  private final PreferencesParser preferencesParser;
   private GameStartupPanel panel;
   private Map<String, List<Position>> wallMap;
   private boolean isPaused;
-  private String myLanguage;
+  private final String myLanguage;
   private int rows;
   private int cols;
   private File myFile;
-  private Stage myStage;
+  private final Stage myStage;
   private UserPreferences myPreferences;
   private ProfileGenerator profileGenerator;
+  private GameStartupPanel gameStartupPanel;
   private User currUser;
   private static final Logger LOG = LogManager.getLogger(Controller.class);
 
-  private ResourceBundle magicValues;
+  private final ResourceBundle magicValues;
 
 
   public Controller(String language, Stage stage) {
-    magicValues = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
+    magicValues = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
     myLanguage = language;
     myStage = stage;
     myAnimation = new Timeline();
@@ -99,17 +99,22 @@ public class Controller implements ControllerInterface {
             vanillaGame = new VanillaGame(vanillaGameDataInterface);
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             new ErrorPopups(myLanguage, "reflectionError");
-            ResourceBundle exceptionMessages = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
+            LOG.info("my exception is {}", e.toString());
+            ResourceBundle exceptionMessages = ResourceBundle.getBundle(
+                String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
             throw new InputMismatchException(exceptionMessages.getString("BadReflection"));
           }
         });
-    if(!JSONObjectParser.parseJSONObject(file).toMap().containsKey(magicValues.getString("PlayerKey"))) {
+    if (!JSONObjectParser.parseJSONObject(file).toMap()
+        .containsKey(magicValues.getString("PlayerKey"))) {
       preferencesParser.uploadFile(file);
       jsonParser.uploadFile(preferencesParser.getStartingConfig());
     } else {
       jsonParser.uploadFile(file);
     }
-    myPreferences = new UserPreferences(wallMap, jsonParser.getRows(), jsonParser.getCols(), preferencesParser.getImagePaths(), preferencesParser.getColors(), preferencesParser.getStyle(), myLanguage);
+    myPreferences = new UserPreferences(wallMap, jsonParser.getRows(), jsonParser.getCols(),
+        preferencesParser.getImagePaths(), preferencesParser.getColors(),
+        preferencesParser.getStyle(), myLanguage);
     return myPreferences;
   }
 
@@ -137,7 +142,7 @@ public class Controller implements ControllerInterface {
   @Override
   public void updatePressedKey(KeyEvent event) {
 //    LOG.info("updating pressed key to {}", event.getCode());
-    vanillaGame.getBoard().setPlayerDirection(keyTracker.getPressedKey(event));
+    vanillaGame.setPlayerDirection(keyTracker.getPressedKey(event));
   }
 
   /**
@@ -154,7 +159,9 @@ public class Controller implements ControllerInterface {
    *
    * @return double animation rate
    */
-  public double getAnimationSpeed() { return myAnimation.getRate(); }
+  public double getAnimationSpeed() {
+    return myAnimation.getRate();
+  }
 
 
   public void saveFile() throws IOException {
@@ -177,7 +184,8 @@ public class Controller implements ControllerInterface {
 //  public Stage getStage() { return myStage; }
 
   /**
-   * Restarts the game with the same file that was originally uploaded. Called from BottomView when user clicks on "Restart" button
+   * Restarts the game with the same file that was originally uploaded. Called from BottomView when
+   * user clicks on "Restart" button
    */
   public void restartGame() {
     try {

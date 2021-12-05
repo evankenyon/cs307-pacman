@@ -1,5 +1,8 @@
 package ooga.model.util;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Position {
 
   private static final String NULL = "NULL";
@@ -22,11 +25,30 @@ public class Position {
     myCoords[1] = y;
   }
 
-  public void setDirection(String direction){
+  public void setDirection(String direction) {
     myDirection = direction;
   }
 
-  public String getDirection(){
+  public String getDirection() {
     return myDirection;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Position position = (Position) o;
+    return myCoords[0] == position.myCoords[0] && myCoords[1] == position.myCoords[1];
+  }
+
+  @Override
+  public int hashCode() {
+    int result = Objects.hash(myDirection);
+    result = 31 * result + Arrays.hashCode(myCoords);
+    return result;
   }
 }

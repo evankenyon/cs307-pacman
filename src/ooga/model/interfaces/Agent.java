@@ -2,6 +2,7 @@ package ooga.model.interfaces;
 
 
 import java.util.function.Consumer;
+import ooga.model.GameState;
 import ooga.model.util.Position;
 
 /**
@@ -24,9 +25,10 @@ public interface Agent {
   /**
    * Moves agent.
    *
+   * @param state
    * @return
    */
-  Position step();
+  Position getNextMove(GameState state);
 
   Position getPosition();
 
@@ -35,9 +37,6 @@ public interface Agent {
   void setCoords(Position newPosition);
 
   void setDirection(String direction);
-
-  //not sure if this makes sense to have
-  int consume(Consumable agent);
 
   void setState(int i);
 

@@ -1,5 +1,6 @@
 package ooga.model.movement;
 
+import ooga.model.GameState;
 import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
 
@@ -9,12 +10,7 @@ import ooga.model.util.Position;
 public class Static implements Movable {
 
   @Override
-  public Position move(Position pos) {
+  public Position move(GameState state, Position pos) {
     return pos;
-  }
-
-  @Override
-  public boolean isNull() {
-    return true;
   }
 }

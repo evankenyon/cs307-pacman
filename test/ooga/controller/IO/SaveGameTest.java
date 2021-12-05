@@ -2,17 +2,23 @@ package ooga.controller.IO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import ooga.model.GameData;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import ooga.model.Data;
+import ooga.model.GameData;
 import ooga.model.GameState;
 import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Map;
+import ooga.model.util.Position;
 
 
 public class SaveGameTest {
@@ -27,7 +33,7 @@ void testGameSaver()
       "Pacman", List.of(new Position(1, 1)), "Wall",
       List.of(new Position(2, 0)));
   Map<String, Boolean> pelletInfo = Map.of("pellet", true);
-  Data vanillaGameData = new Data(wallMap, "Pacman", 3, pelletInfo, 1, 2);
+  GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
   GameState currentState = new GameState(vanillaGameData);
 
   Agent player = currentState.getMyPlayer();
@@ -112,7 +118,7 @@ void testJSonFile() throws IOException {
       "Pacman", List.of(new Position(1, 1)), "Wall",
       List.of(new Position(2, 0)));
   Map<String, Boolean> pelletInfo = Map.of("Dot", true);
-  Data vanillaGameData = new Data(wallMap, "Pacman", 3, pelletInfo, 1, 2);
+  GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
   GameState currentState = new GameState(vanillaGameData);
   Agent agent = currentState.getGhosts().get(0);
   String agentString = agent.toString();

@@ -62,7 +62,7 @@ public class LoginView {
     File image = fileExplorer();
     try {
       myUser = myController.createUser(username, password, image);
-    } catch (IOException e) {
+    } catch (IOException | InterruptedException e) {
       //TODO: make signup exception popup
       e.printStackTrace();
     }

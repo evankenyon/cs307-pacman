@@ -60,7 +60,7 @@ public class BottomView {
   private Button playPauseButton;
   private Button stepButton;
   private String myLanguage;
-  private boolean isPaused = false;
+  private boolean isPaused;
 
   /**
    * Constructor to create a BottomView, which makes simulation and game buttons on the bottom of
@@ -76,6 +76,7 @@ public class BottomView {
     myGame = game;
     myLanguage = language;
     bottomView = new VBox();
+    isPaused = true;
     bottomView.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     bottomView.getStyleClass().add("root");
     bottomView.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
@@ -133,7 +134,7 @@ public class BottomView {
     graphicButtons.getStyleClass().add("graphic-buttons");
     graphicButtons.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
-    playPauseButton = makeSimButton(makeButtonImage(PAUSE_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
+    playPauseButton = makeSimButton(makeButtonImage(PLAY_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
         e -> togglePlayPause());
     playPauseButton.setId("playPauseButton");
     stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,

@@ -8,7 +8,7 @@ import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public abstract class AbstractAgent implements Agent {
+public abstract class AbstractAgent implements Agent  {
 
   /*** cell list of consumers*/
   protected List<Consumer<Agent>> stateConsumers;

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import ooga.model.agents.consumables.Ghost;
+import ooga.model.interfaces.Game;
 import ooga.model.movement.BFS;
 import ooga.model.util.Position;
 import org.junit.jupiter.api.Assertions;
@@ -28,12 +29,12 @@ public class BFSTest {
             new Position(2, 1), new Position(1, 1), new Position(2, 2)),
         "Ghost", List.of(new Position(0, 2)));
     Map<String, Boolean> pelletInfo = Map.of("Dot", true);
-    Data vanillaGameData = new Data(wallMap, "Pacman", 3, pelletInfo, 3, 3);
+    GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 3, 3);
 
     Ghost myGhost = new Ghost(0, 2);
     GameState state = new GameState(vanillaGameData);
-    myGhost.getNextMove(state);
     int[] expected = {0, 1};
+    myGhost.setCoords(myGhost.getNextMove(state));
     Assertions.assertArrayEquals(expected,
         myGhost.getPosition().getCoords());
   }

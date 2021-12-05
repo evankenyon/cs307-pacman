@@ -71,14 +71,18 @@ public class SuperPellet extends AbstractAgent implements Consumable {
 
   @Override
   public int getConsumed() {
-    myState = EATEN_STATE;
-    //TODO
-    // 1) update score
-    // 2) update pacman state
-    // 3) update ghost states
-    getRunnable().run();
-    updateConsumer();
-    return PELLET_POINT * myState;
+    if (myState != EATEN_STATE) {
+      myState = EATEN_STATE;
+      //TODO
+      // 1) update score
+      // 2) update pacman state
+      // 3) update ghost states
+      getRunnable().run();
+      updateConsumer();
+      return PELLET_POINT * myState;
+    } else {
+      return 0;
+    }
   }
 
   @Override

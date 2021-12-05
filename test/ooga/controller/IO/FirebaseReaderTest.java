@@ -11,12 +11,18 @@ class FirebaseReaderTest {
   private FirebaseReader firebaseReader;
 
   @BeforeEach
-  void setUp() throws IOException {
+  void setUp() throws IOException, FirebaseException {
     firebaseReader = new FirebaseReader();
   }
 
   @Test
   void getValue() throws FirebaseException, UnsupportedEncodingException {
     Assertions.assertEquals("test", firebaseReader.getFile("test"));
+  }
+
+  @Test
+  void getFilenames() throws FirebaseException, UnsupportedEncodingException {
+    Assertions.assertTrue(firebaseReader.getFileNames().contains("test1"));
+    Assertions.assertTrue(firebaseReader.getFileNames().contains("test2"));
   }
 }

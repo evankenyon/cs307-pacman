@@ -1,6 +1,7 @@
 package ooga.view;
 
 import static ooga.Main.LANGUAGE;
+import static ooga.Main.VIEW_MODE;
 import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,8 +23,8 @@ public class ErrorPopupsTest extends DukeApplicationTest {
 
   @Start
   public void start (Stage stage) {
-    myUser = new User("test");
-    new GameStartupPanel(stage, myUser);
+    myController = new Controller(LANGUAGE, stage, VIEW_MODE);
+    new GameStartupPanel(stage, null, myController);
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, LANGUAGE));
   }
 

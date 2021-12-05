@@ -47,6 +47,24 @@ public class PreferencesParser {
     colors = new HashMap<>();
   }
 
+
+  public void parseJSON(JSONObject json)
+      throws NoSuchMethodException, IllegalAccessException, InputMismatchException{
+    preferencesJson = json;
+    checkForExtraKeys(preferencesJson.keySet());
+    for (String key : preferencesJson.keySet()) {
+      Method method = this.getClass()
+          .getDeclaredMethod(String.format(magicValues.getString("addToMethod"), possiblePreferences.getString(key)), String.class);
+      method.setAccessible(true);
+      try {
+        method.invoke(this, key);
+      } catch (InvocationTargetException e) {
+        throw (InputMismatchException) e.getCause();
+      }
+    }
+  }
+
+  @Deprecated
   public void uploadFile(File file)
       throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InputMismatchException{
     preferencesJson = JSONObjectParser.parseJSONObject(file);

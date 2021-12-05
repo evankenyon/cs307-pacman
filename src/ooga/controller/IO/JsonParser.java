@@ -57,6 +57,20 @@ public class JsonParser implements JsonParserInterface {
     pelletInfo = new HashMap<>();
   }
 
+
+  @Override
+  public void parseJSON(JSONObject json) throws InputMismatchException, JSONException {
+    reset();
+    checkForRequiredKeys(json.keySet());
+    setupPlayer(json.getString(magicValues.getString("PlayerKey")));
+    setupPelletInfo(json.getJSONArray(magicValues.getString("RequiredPelletsKey")), json.getJSONArray(magicValues.getString("OptionalPelletsKey")));
+    setupNumLives(json.getInt(magicValues.getString("NumberOfLivesKey")));
+    setupWallMap(json.getJSONArray(magicValues.getString("WallMapKey")));
+    checkWallMapForRequirements();
+    updateConsumers(new Data(wallMap, player, numLives, pelletInfo, mapCols, mapRows));
+  }
+
+  @Deprecated
   @Override
   public void uploadFile(File file) throws IOException, InputMismatchException, JSONException {
     reset();

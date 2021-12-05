@@ -7,11 +7,13 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import ooga.controller.IO.FirebaseReader;
 import ooga.controller.IO.GameSaver;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
@@ -28,6 +30,7 @@ import ooga.view.popups.ErrorPopups;
 import ooga.view.startupView.GameStartupPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 public class Controller implements ControllerInterface {
 
@@ -47,7 +50,8 @@ public class Controller implements ControllerInterface {
   private final String myLanguage;
   private int rows;
   private int cols;
-  private File myFile;
+  private FirebaseReader firebaseReader;
+  private JSONObject originalStartingConfigJson;
   private final Stage myStage;
   private UserPreferences myPreferences;
   private ProfileGenerator profileGenerator;
@@ -56,7 +60,6 @@ public class Controller implements ControllerInterface {
   private static final Logger LOG = LogManager.getLogger(Controller.class);
 
   private final ResourceBundle magicValues;
-
 
   public Controller(String language, Stage stage) {
     magicValues = ResourceBundle.getBundle(
@@ -73,9 +76,20 @@ public class Controller implements ControllerInterface {
     keyTracker = new keyTracker();
     preferencesParser = new PreferencesParser();
     profileGenerator = new ProfileGenerator();
-    gameStartupPanel = new GameStartupPanel(
-        stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
-    isPaused = true;
+    try {
+      firebaseReader = new FirebaseReader();
+    } catch (IOException e) {
+      // TODO: fix
+      e.printStackTrace();
+    }
+
+    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
+    isPaused = false;
+
+  }
+
+  public Set<String> getFirebaseFilenames() throws InterruptedException {
+    return firebaseReader.getFileNames();
   }
 
   public void createUser(String username, String password, File imageFile)
@@ -87,11 +101,22 @@ public class Controller implements ControllerInterface {
     return profileGenerator.login(username, password);
   }
 
+  public UserPreferences uploadFirebaseFile(String fileName)
+      throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException {
+    setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));
+    return myPreferences;
+  }
+
   // TODO: properly handle exception
   @Override
   public UserPreferences uploadFile(File file)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    myFile = file;
+    setupPreferencesAndVanillaGame(JSONObjectParser.parseJSONObject(file));
+    return myPreferences;
+  }
+
+  private void setupPreferencesAndVanillaGame(JSONObject json)
+      throws IOException, NoSuchMethodException, IllegalAccessException {
     jsonParser.addVanillaGameDataConsumer(
         vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.wallMap());
     jsonParser.addVanillaGameDataConsumer(
@@ -105,17 +130,17 @@ public class Controller implements ControllerInterface {
             throw new InputMismatchException(exceptionMessages.getString("BadReflection"));
           }
         });
-    if (!JSONObjectParser.parseJSONObject(file).toMap()
+    if (!json.toMap()
         .containsKey(magicValues.getString("PlayerKey"))) {
-      preferencesParser.uploadFile(file);
-      jsonParser.uploadFile(preferencesParser.getStartingConfig());
+      preferencesParser.parseJSON(json);
+      originalStartingConfigJson = JSONObjectParser.parseJSONObject(preferencesParser.getStartingConfig());
     } else {
-      jsonParser.uploadFile(file);
+      originalStartingConfigJson = json;
     }
+    jsonParser.parseJSON(originalStartingConfigJson);
     myPreferences = new UserPreferences(wallMap, jsonParser.getRows(), jsonParser.getCols(),
         preferencesParser.getImagePaths(), preferencesParser.getColors(),
         preferencesParser.getStyle(), myLanguage);
-    return myPreferences;
   }
 
   @Override
@@ -188,13 +213,7 @@ public class Controller implements ControllerInterface {
    * user clicks on "Restart" button
    */
   public void restartGame() {
-    try {
-//      jsonParser.reset();
-      jsonParser.uploadFile(myFile);
-    } catch (IOException e) {
-      // TODO: Remove e.printStackTrace()
-      e.printStackTrace();
-    }
+    jsonParser.parseJSON(originalStartingConfigJson);
     new MainView(this, getVanillaGame(), myStage, myPreferences);
   }
 }

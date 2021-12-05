@@ -48,6 +48,9 @@ public class GameSaver {
     config = configBuilder;
   }
 
+  //private int setNumberOfLives() {}
+  //private int setPlayerScore {}
+
   private JSONArray buildPelletArray(Boolean isRequired) {
     Map<String, Boolean> pelletMap = myVanillaGame.getPelletInfo();
 
@@ -139,7 +142,6 @@ public class GameSaver {
      // System.out.println(a);
     //}
   }
-
 
 
   private JSONArray buildWallMap() {

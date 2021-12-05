@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
+import ooga.model.util.GameStatus;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +21,8 @@ public class GameBoard {
   private int myPacScore;
   private int myGhostScore;
   private Consumer<Integer> myScoreConsumer;
+  private Consumer<GameStatus> myGameStatusConsumer;
+  private GameStatus currentGameStatus;
 
 
   // TODO: handle exceptions
@@ -29,6 +32,8 @@ public class GameBoard {
     myState = new GameState(vanillaGameData);
     myPacScore = 0;
     myGhostScore = 0;
+    currentGameStatus = GameStatus.RUNNING;
+//    updateGameStatusConsumer();
   }
 
   //move every agent in the board by one step
@@ -67,6 +72,7 @@ public class GameBoard {
         if (myState.isSuper() && ghost.getState() != 0) {
           Consumable g = (Consumable) ghost;
           myPacScore += g.getConsumed();
+          LOG.info("score is {}", myPacScore);
           updateScoreConsumer();
         } else {
           // lose life
@@ -79,10 +85,24 @@ public class GameBoard {
       if (isOverlapping(food.getPosition(), pacman.getPosition())) {
         // update score & change food state to eaten.
         myPacScore += food.getConsumed();
+        LOG.info("my score is {}", myPacScore);
         updateScoreConsumer();
 //        System.out.println("food is being eaten!");
       }
     }
+  }
+
+  public void checkGameEnd() {
+    checkWin();
+    checkLoss();
+  }
+
+  public void checkWin() {
+//    updateGameStatusConsumer();
+  }
+
+  public void checkLoss() {
+//    updateGameStatusConsumer();
   }
 
   private void applyEffects(Agent agent, Position newPosition) {
@@ -127,6 +147,19 @@ public class GameBoard {
     myScoreConsumer.accept(myPacScore);
   }
 
-  public int getMyPacScore() {return myPacScore;}
-  public int getMyGhostScore() {return myGhostScore;}
+  public void addGameStatusConsumer(Consumer<GameStatus> consumer) {
+    myGameStatusConsumer = consumer;
+  }
+
+//  public void updateGameStatusConsumer() {
+//    myGameStatusConsumer.accept(currentGameStatus);
+//  }
+
+  public int getMyPacScore() {
+    return myPacScore;
+  }
+
+  public int getMyGhostScore() {
+    return myGhostScore;
+  }
 }

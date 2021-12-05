@@ -2,15 +2,19 @@ package ooga.controller.IO;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import net.thegreshams.firebase4j.error.FirebaseException;
 import net.thegreshams.firebase4j.service.Firebase;
 import java.io.IOException;
+import org.json.JSONObject;
 
 public class FirebaseReader {
   private Firebase firebase;
 
   public FirebaseReader() throws IOException, FirebaseException {
+    // Borrowed code for basic setup from
+    // https://github.com/bane73/firebase4j
     String firebase_baseUrl = "https://ooga-57bdb-default-rtdb.firebaseio.com/";
     firebase = new Firebase(firebase_baseUrl);
   }
@@ -19,9 +23,8 @@ public class FirebaseReader {
     return firebase.get("").getBody().keySet();
   }
 
-  public String getFile(String key) throws FirebaseException, UnsupportedEncodingException {
-    // Borrowed code for basic setup from
-    // https://github.com/bane73/firebase4j
-    return (String) firebase.get("/test").getBody().get("alanisawesome");
+  public JSONObject getFile(String fileName) throws FirebaseException, UnsupportedEncodingException {
+    String rawBody = firebase.get(fileName).getRawBody();
+    return new JSONObject(rawBody);
   }
 }

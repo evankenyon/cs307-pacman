@@ -7,11 +7,13 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import ooga.controller.IO.FirebaseReader;
 import ooga.controller.IO.JsonParser;
 import ooga.controller.IO.JsonParserInterface;
 import ooga.controller.IO.PreferencesParser;
@@ -48,6 +50,7 @@ public class Controller implements ControllerInterface {
   private final String myLanguage;
   private int rows;
   private int cols;
+  private FirebaseReader firebaseReader;
   private JSONObject originalJson;
   private final Stage myStage;
   private UserPreferences myPreferences;
@@ -57,7 +60,6 @@ public class Controller implements ControllerInterface {
   private static final Logger LOG = LogManager.getLogger(Controller.class);
 
   private final ResourceBundle magicValues;
-
 
   public Controller(String language, Stage stage) {
     magicValues = ResourceBundle.getBundle(
@@ -74,9 +76,23 @@ public class Controller implements ControllerInterface {
     keyTracker = new keyTracker();
     preferencesParser = new PreferencesParser();
     profileGenerator = new ProfileGenerator();
+    try {
+      firebaseReader = new FirebaseReader();
+    } catch (IOException e) {
+      // TODO: fix
+      e.printStackTrace();
+    }
+
     gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
     isPaused = false;
+
   }
+
+  public Set<String> getFirebaseFilenames() throws InterruptedException {
+    return firebaseReader.getFileNames();
+  }
+
+
 
   public void createUser(String username, String password, File imageFile)
       throws IOException, InterruptedException {

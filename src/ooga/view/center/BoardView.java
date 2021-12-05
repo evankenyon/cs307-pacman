@@ -53,6 +53,7 @@ public class BoardView {
   private int numRows;
   private int numCols;
   private String myLanguage;
+  private int ghostCount;
 
   /**
    * Constructor to create a BoardView object based on UserPreferences from the inputted file and
@@ -81,7 +82,6 @@ public class BoardView {
   }
 
   private void initiateBoard(UserPreferences userPreferences) {
-    System.out.println(userPreferences.wallMap().keySet().toString());
     for (String type : userPreferences.wallMap().keySet()) {
       for (Position p : userPreferences.wallMap().get(type)) {
         AgentView agentView = null;
@@ -147,7 +147,6 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, int.class, int.class)
           .newInstance(agent, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-//      System.out.println(e.getCause().toString());
       e.printStackTrace();
       return new WallView(new wall(position.getCoords()[0], position.getCoords()[1]), numRows,
           numCols);
@@ -165,5 +164,19 @@ public class BoardView {
   public Node getBoardPane() {
     return myBoardPane;
   }
+
+//  /**
+//   * Setter method to add 1 to the ghost count to know which image to make the new ghost
+//   */
+//  public void incrementGhostCount() {
+//    ghostCount++;
+//  }
+//
+//  /**
+//   * Getter method to get the ghost count to know what image to make the ghost
+//   *
+//   * @return int ghostCount
+//   */
+//  public int getGhostCount() { return ghostCount; }
 
 }

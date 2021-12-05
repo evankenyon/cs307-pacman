@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Consumer;
 import ooga.controller.IO.utils.JSONObjectParser;
-import ooga.model.Data;
+import ooga.model.GameData;
 import ooga.model.util.Position;
 // Decided to use this library after reading article from
 // https://coderolls.com/parse-json-in-java/
@@ -29,13 +29,14 @@ public class JsonParser implements JsonParserInterface {
   private static final String MAGIC_VALUES_FILENAME = "JsonParserMagicValues";
 
   private int numLives;
+  private int playerScore;
 
   private Map<String, List<Position>> wallMap;
   private int mapCols;
   private int mapRows;
   private Map<String, Boolean> pelletInfo;
   private String player;
-  private List<Consumer<Data>> vanillaGameDataConsumers;
+  private List<Consumer<GameData>> vanillaGameDataConsumers;
 
   private ResourceBundle requiredKeys;
   private ResourceBundle exceptionMessages;
@@ -79,13 +80,14 @@ public class JsonParser implements JsonParserInterface {
     setupPlayer(json.getString(magicValues.getString("PlayerKey")));
     setupPelletInfo(json.getJSONArray(magicValues.getString("RequiredPelletsKey")), json.getJSONArray(magicValues.getString("OptionalPelletsKey")));
     setupNumLives(json.getInt(magicValues.getString("NumberOfLivesKey")));
+    setupPlayerScore(json.getInt(magicValues.getString("PlayerScoreKey")));
     setupWallMap(json.getJSONArray(magicValues.getString("WallMapKey")));
     checkWallMapForRequirements();
-    updateConsumers(new Data(wallMap, player, numLives, pelletInfo, mapCols, mapRows));
+    updateConsumers(new GameData(wallMap, player, numLives, playerScore, pelletInfo, mapCols, mapRows));
   }
 
   @Override
-  public void addVanillaGameDataConsumer(Consumer<Data> consumer) {
+  public void addVanillaGameDataConsumer(Consumer<GameData> consumer) {
     vanillaGameDataConsumers.add(consumer);
   }
 
@@ -117,6 +119,8 @@ public class JsonParser implements JsonParserInterface {
   }
 
   private void setupNumLives(int numLives) {this.numLives = numLives;}
+
+  private void setupPlayerScore(int score) {this.playerScore = score;}
 
 
   private void setupPelletInfo(JSONArray requiredPellets, JSONArray optionalPellets) {
@@ -175,8 +179,8 @@ public class JsonParser implements JsonParserInterface {
     }
   }
 
-  private void updateConsumers(Data vanillaGameData) {
-    for (Consumer<Data> consumer : vanillaGameDataConsumers) {
+  private void updateConsumers(GameData vanillaGameData) {
+    for (Consumer<GameData> consumer : vanillaGameDataConsumers) {
       consumer.accept(vanillaGameData);
     }
   }

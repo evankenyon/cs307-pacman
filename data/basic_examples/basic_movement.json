@@ -1,5 +1,6 @@
+{
+  "Player": "Pacman",
 
-{"Player": "Pacman",
   "RequiredPellets": [
     "Dot"
   ],
@@ -7,6 +8,7 @@
     "Fruit"
   ],
   "NumberOfLives": 3,
+  "PlayerScore":0,
   "WallMap": [
     [
       "Dot",

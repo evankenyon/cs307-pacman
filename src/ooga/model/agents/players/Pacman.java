@@ -69,6 +69,7 @@ public class Pacman extends AbstractAgent {
     myLives--;
   }
 
+
 //  public void loseLife(){
 //    if (myLives > 0){
 //      myLives--;

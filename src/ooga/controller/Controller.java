@@ -85,8 +85,9 @@ public class Controller implements ControllerInterface {
 //      e.printStackTrace();
 //    }
 
-    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
-    isPaused = false;
+    gameStartupPanel = new GameStartupPanel(
+        stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
+    isPaused = true;
 
   }
 
@@ -135,7 +136,8 @@ public class Controller implements ControllerInterface {
     if (!json.toMap()
         .containsKey(magicValues.getString("PlayerKey"))) {
       preferencesParser.parseJSON(json);
-      originalStartingConfigJson = JSONObjectParser.parseJSONObject(preferencesParser.getStartingConfig());
+      originalStartingConfigJson = JSONObjectParser.parseJSONObject(
+          preferencesParser.getStartingConfig());
     } else {
       originalStartingConfigJson = json;
     }

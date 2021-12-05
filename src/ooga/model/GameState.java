@@ -25,7 +25,7 @@ public class GameState {
   private final AgentFactory agentFactory;
   private static final Logger LOG = LogManager.getLogger(GameState.class);
 
-  public GameState(Data vanillaGameData)
+  public GameState(GameData vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
 //    System.out.println(vanillaGameData.wallMap().toString());
 
@@ -111,6 +111,7 @@ public class GameState {
 //  private void addToOtherAgents(String agent, int x, int y) {
 //    myOtherAgents.add(agentFactory.createAgent(agent, x, y));
 //  }
+
 
 
   private void implementRunnables() {
@@ -211,5 +212,9 @@ public class GameState {
 
   public List<Agent> getWalls() {
     return myGameStateData.getMyWallStates();
+  }
+
+  public int getLives() {
+    return myGameStateData.getPacmanLives();
   }
 }

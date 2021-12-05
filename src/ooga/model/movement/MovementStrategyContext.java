@@ -1,5 +1,6 @@
 package ooga.model.movement;
 
+import ooga.model.GameState;
 import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
 
@@ -26,7 +27,7 @@ public class MovementStrategyContext {
   }
 
   //to get it to work through reflection, call setStrategy on an agent when looking at data file
-  public void setStrategy(Movable strategyType){
+  public void setStrategy(Movable strategyType) {
     strategy = strategyType;
   }
 
@@ -36,7 +37,7 @@ public class MovementStrategyContext {
    * @param pos old agent position
    * @return new agentInfo state
    */
-  public Position move(Position pos) {
-    return strategy.move(pos);
+  public Position move(GameState state, Position pos) {
+    return strategy.move(state, pos);
   }
 }

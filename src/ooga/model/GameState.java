@@ -1,9 +1,11 @@
 package ooga.model;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import ooga.factories.AgentFactory;
+import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
@@ -60,7 +62,6 @@ public class GameState {
     return maxCol;
   }
 
-
 //  private void populateLists(Map<String, List<Position>> initialStates)
 //      throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
 //    for (String state : initialStates.keySet()) {
@@ -95,12 +96,37 @@ public class GameState {
     getPacman().setDirection(direction);
   }
 
+  public List<Position> getPotentialMoveTargets(Position pos) {
+    List<Position> potentialSpots = new ArrayList<>();
+    if (isInBounds(pos.getCoords()[0] + 1,
+        pos.getCoords()[1]) && !isWall(pos.getCoords()[0] + 1, pos.getCoords()[1])) {
+      potentialSpots.add(new Position(pos.getCoords()[0] + 1, pos.getCoords()[1]));
+    }
+    if (isInBounds(pos.getCoords()[0] - 1,
+        pos.getCoords()[1]) && !isWall(pos.getCoords()[0] - 1, pos.getCoords()[1])) {
+      potentialSpots.add(new Position(pos.getCoords()[0] - 1, pos.getCoords()[1]));
+    }
+    if (isInBounds(pos.getCoords()[0],
+        pos.getCoords()[1] + 1) && !isWall(pos.getCoords()[0], pos.getCoords()[1] + 1)) {
+      potentialSpots.add(new Position(pos.getCoords()[0], pos.getCoords()[1] + 1));
+    }
+    if (isInBounds(pos.getCoords()[0],
+        pos.getCoords()[1] - 1) && !isWall(pos.getCoords()[0], pos.getCoords()[1] - 1)) {
+      potentialSpots.add(new Position(pos.getCoords()[0], pos.getCoords()[1] - 1));
+    }
+    return potentialSpots;
+  }
+
   public boolean isWall(int x, int y) {
     return myGameStateData.isWall(x, y);
   }
 
   public Agent getMyPlayer() {
     return getPacman();
+  }
+
+  public int getPacmanLives() {
+    return myGameStateData.getPacmanLives();
   }
 
   public void updateHandlers() {
@@ -122,8 +148,8 @@ public class GameState {
     return false;
   }
 
-  public Agent getPacman() {
-    return myGameStateData.getAgents().get(0);
+  public Pacman getPacman() {
+    return (Pacman) myGameStateData.getAgents().get(0);
   }
 
   public List<Agent> getGhosts() {

@@ -1,6 +1,7 @@
 package ooga.model.agents;
 
 
+import ooga.model.GameState;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
@@ -20,8 +21,8 @@ public class wall extends AbstractAgent {
   }
 
   @Override
-  public Position getNextMove() {
-    return myMover.move(new Position(getPosition().getCoords()[0], getPosition().getCoords()[1]));
+  public Position getNextMove(GameState state) {
+    return myMover.move(state, getPosition());
   }
 
   @Override

@@ -2,6 +2,7 @@ package ooga.model.interfaces;
 
 
 import java.util.function.Consumer;
+import ooga.model.GameState;
 import ooga.model.util.Position;
 
 /**
@@ -24,9 +25,10 @@ public interface Agent {
   /**
    * Moves agent.
    *
+   * @param state
    * @return
    */
-  Position getNextMove();
+  Position getNextMove(GameState state);
 
   Position getPosition();
 

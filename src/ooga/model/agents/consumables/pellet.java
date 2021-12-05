@@ -1,8 +1,8 @@
 package ooga.model.agents.consumables;
 
+import ooga.model.GameState;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.agents.players.Pacman;
-import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
@@ -39,8 +39,8 @@ public class pellet extends AbstractAgent implements Consumable {
   }
 
   @Override
-  public Position getNextMove() {
-    return myMover.move(new Position(getPosition().getCoords()[0], getPosition().getCoords()[1]));
+  public Position getNextMove(GameState state) {
+    return myMover.move(state, getPosition());
   }
 
   @Override

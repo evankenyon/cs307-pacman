@@ -1,5 +1,6 @@
 package ooga.model.agents.players;
 
+import ooga.model.GameState;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
@@ -34,8 +35,8 @@ public class Pacman extends AbstractAgent {
     setPosition(newPosition.getCoords());
   }
 
-  public Position getNextMove() {
-    return myMover.move(getPosition());
+  public Position getNextMove(GameState state) {
+    return myMover.move(state, getPosition());
   }
 
   @Override
@@ -43,6 +44,10 @@ public class Pacman extends AbstractAgent {
     myState = i;
     LOG.info("pacman state now {}", myState);
     updateConsumer();
+  }
+
+  public int getLives() {
+    return myLives;
   }
 
   public void loseOneLife() {

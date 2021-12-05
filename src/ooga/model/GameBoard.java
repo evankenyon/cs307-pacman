@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.util.Position;
@@ -32,69 +31,69 @@ public class GameBoard {
     myGhostScore = 0;
   }
 
-  private void addScore(Integer score) {
-    //called whenever a pellet/super-pellet/ghost is consumed, add the score of that pellet to the total score
-  }
-
-  private void superState() {
-    //set the state of the game to "super" which in turn sets the states of ghosts + pacman to super and starts a countdown
-  }
-
-  //TODO: change when we implement list of required consumables?
-  public boolean checkWin() {
-    //check if the game is a win
-    return false;
-  }
-
   //move every agent in the board by one step
-  public void moveAgents() {
+  public void movePawns() {
     List<Agent> movers = new ArrayList<>();
-    //makes assumptions that pacman and ghosts are only things that move)
+    //movers.add(myState.getMyPlayer());
+    //movers.addAll(myState.getMyWalls());
+    //movers.addAll(myState.getMyOtherAgents());
     movers.add(myState.getPacman());
     movers.addAll(myState.getGhosts());
+//    movers.addAll(myState.getGhosts());
+//    movers.addAll(myState.getFood());
+//    movers.addAll(myState.getWalls());
     for (Agent agent : movers) {
-      Position newPosition = agent.getNextMove();
+      Position newPosition = agent.getNextMove(myState);
       if (newPosition != null) {
         //only set new coordinate value if move is valid
         if (checkMoveValidity(newPosition)) {
-          //set actual new coordinates, check for collisions and apply collision side effects
+          //set coordinates after effects have been applied
           agent.setCoords(newPosition);
-          checkCollisions(agent);
+          checkCollisions();
         }
       }
     }
   }
 
-  //not using checkCollisions separately because that makes pacman and ghost phase through each other
-  private void checkCollisions(Agent collider) {
-    //makes assumptions that pacman and ghosts are only things that move)
-    List<Consumable> consumed = new ArrayList<>(myState.getFood());
-
-    for (Consumable collided : consumed) {
-      //we don't check for collisions with ourselves
-      if (collider != collided) {
-        // if they collide
-        if (isOverlapping(collider.getPosition(), collided.getPosition())) {
-          // apply effects
-          int scoreToAdd = collided.getConsumed();
-          // making assumption that only ghosts return 0 when consumed
-          if (scoreToAdd == 0) {
-            // lots of casting
-            Pacman pacman = (Pacman) myState.getPacman();
-            pacman.loseOneLife();
-          } else {
-            myPacScore += scoreToAdd;
-          }
-
-          if (myScoreConsumer != null) {
-            updateScoreConsumer();
-          } else {
-            // should have added score consumer in the front end first
-            throw new IllegalStateException();
-          }
-        }
+  public void checkCollisions() {
+    Agent pacman = myState.getPacman();
+    Position pacPos = pacman.getPosition();
+    List<Consumable> foods = myState.getFood();
+    List<Agent> ghosts = myState.getGhosts();
+    //movers.add(myState.getMyPlayer());
+    //movers.addAll(myState.getMyWalls());
+    //movers.addAll(myState.getMyOtherAgents());
+    for (Agent ghost : ghosts) {
+      if (isOverlapping(ghost.getPosition(), pacman.getPosition())) {
+        //if game state is "Super" state
+        //update score
+        //change ghost state to dead
+        //else
+        // reduce lives by 1
+        // reset gameboard
+        System.out.println("Ghost + Pac overlap!");
       }
     }
+    for (Consumable food : foods) {
+      if (isOverlapping(food.getPosition(), pacman.getPosition())) {
+        // update score & change food state to eaten.
+        myPacScore += food.getConsumed();
+        updateScoreConsumer();
+        // if super pellet change game-state
+        System.out.println("food is being eaten!");
+      }
+    }
+  }
+
+  private void applyEffects(Agent agent, Position newPosition) {
+//    if (myState.isFood(newPosition.getCoords()[0],
+//        newPosition.getCoords()[1])) {
+//      Consumable colliding = (Consumable) myState.findAgent(newPosition);
+//      myPacScore += agent.consume(colliding);
+//      //call this when consumer has actually been added
+//      updateScoreConsumer();
+//      LOG.info("score is now {}", myPacScore);
+//    }
   }
 
   public void setPlayerDirection(String direction) {
@@ -102,6 +101,10 @@ public class GameBoard {
   }
 
   public boolean checkLoss() {
+    return false;
+  }
+
+  public boolean checkWin() {
     return false;
   }
 

@@ -1,10 +1,11 @@
 package ooga.model.agents.consumables;
 
+import ooga.model.GameState;
 import ooga.model.agents.AbstractAgent;
 import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Consumable;
+import ooga.model.movement.BFS;
 import ooga.model.movement.MovementStrategyContext;
-import ooga.model.movement.Random;
 import ooga.model.util.Position;
 
 
@@ -17,14 +18,14 @@ public class Ghost extends AbstractAgent implements Consumable {
   private final static int GHOST_POINTS = 20;
 
   private int myState;
-  private MovementStrategyContext myMover;
+  private final MovementStrategyContext myMover;
 
 
   public Ghost(int x, int y) {
     super(x, y);
     getPosition().setDirection("right");
     myState = ALIVE_STATE;
-    myMover = new MovementStrategyContext(new Random());
+    myMover = new MovementStrategyContext(new BFS());
   }
 
   public int getState() {
@@ -35,8 +36,8 @@ public class Ghost extends AbstractAgent implements Consumable {
     setPosition(newPosition.getCoords());
   }
 
-  public Position getNextMove() {
-    return myMover.move(getPosition());
+  public Position getNextMove(GameState state) {
+    return myMover.move(state, getPosition());
   }
 
   @Override

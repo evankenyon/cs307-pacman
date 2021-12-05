@@ -16,7 +16,7 @@ public class VanillaGame implements Game {
   }
 
   public void step() {
-    myBoard.moveAgents();
+    myBoard.movePawns();
     myBoard.checkWin();
     myBoard.checkLoss();
     updateHandlers();

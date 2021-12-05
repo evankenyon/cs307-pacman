@@ -27,6 +27,7 @@ public class GameStateData {
   private List<Consumable> myPelletStates;
   private List<Agent> myWallStates;
   private boolean[][] myWallMap;
+  private int pacmanLives;
 
 
   public GameStateData() {
@@ -100,7 +101,11 @@ public class GameStateData {
   }
 
   public boolean isWall(int x, int y) {
-    return myWallMap[x][y];
+    if (x >= 0 && y >= 0) {
+      return myWallMap[x][y];
+    } else {
+      throw new IllegalArgumentException("Wall query out of bounds!");
+    }
   }
 
   public List<Agent> getAgents() {
@@ -162,7 +167,7 @@ public class GameStateData {
       int x = agentPos.getCoords()[0];
       int y = agentPos.getCoords()[1];
       myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
-
+      pacmanLives = 3;
     }
 
     if (gameDict.get("Ghost") != null) {
@@ -174,11 +179,17 @@ public class GameStateData {
     }
   }
 
+  public int getPacmanLives() {
+    return pacmanLives;
+  }
+
   private void createWallList(Map<String, List<Position>> gameDict) {
-    for (Position wallPos : gameDict.get("Wall")) {
-      int x = wallPos.getCoords()[0];
-      int y = wallPos.getCoords()[1];
-      myWallStates.add(agentFactory.createAgent("Wall", x, y));
+    if (gameDict.get("Wall") != null) {
+      for (Position wallPos : gameDict.get("Wall")) {
+        int x = wallPos.getCoords()[0];
+        int y = wallPos.getCoords()[1];
+        myWallStates.add(agentFactory.createAgent("Wall", x, y));
+      }
     }
   }
 

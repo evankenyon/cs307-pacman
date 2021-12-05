@@ -167,7 +167,7 @@ class JsonParserTest {
   void properReset() throws IOException {
     jsonParser.uploadFile(new File("data/tests/basicWallMap.json"));
     Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.uploadFile(new File("data/tests/basicWallMap.json")));
-    jsonParser.reset();
+//    jsonParser.reset();
     Assertions.assertDoesNotThrow(() -> jsonParser.uploadFile(new File("data/tests/basicWallMap.json")));
   }
 

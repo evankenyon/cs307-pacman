@@ -52,13 +52,14 @@ public class JsonParser implements JsonParserInterface {
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
   }
 
-  public void reset() {
+  private void reset() {
     wallMap = new HashMap<>();
     pelletInfo = new HashMap<>();
   }
 
   @Override
   public void uploadFile(File file) throws IOException, InputMismatchException, JSONException {
+    reset();
     JSONObject json = JSONObjectParser.parseJSONObject(file);
     checkForRequiredKeys(json.keySet());
     setupPlayer(json.getString(magicValues.getString("PlayerKey")));

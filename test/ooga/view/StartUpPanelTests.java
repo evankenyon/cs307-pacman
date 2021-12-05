@@ -30,6 +30,5 @@ public class StartUpPanelTests extends DukeApplicationTest {
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myController = new Controller(LANGUAGE, stage, VIEW_MODE);
     UserPreferences prefs = myController.uploadFile(new File(TEST_FILE));
-    myStartupPanel = new GameStartupPanel(stage, new User("test"));
   }
 }

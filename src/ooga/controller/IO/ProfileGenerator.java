@@ -30,7 +30,15 @@ public class ProfileGenerator {
     }
     JSONObject props = new JSONObject();
     props.put("password", password);
-    props.put("image-path", imageFile.getPath());
+    File currFile = imageFile;
+    StringBuilder pathName = new StringBuilder(imageFile.getName());
+    while (!currFile.getParentFile().getName().equals("data")) {
+      pathName.insert(0, String.format("%s/", currFile.getParentFile().getName()));
+      currFile = currFile.getParentFile();
+    }
+    pathName.insert(0, "./data/");
+
+    props.put("image-path", pathName);
     props.put("high-score", 0);
     props.put("wins", 0);
     props.put("losses", 0);
@@ -45,7 +53,8 @@ public class ProfileGenerator {
     if (!profiles.has(username) || !profiles.getJSONObject(username).getString("password").equals(password)) {
       throw new IllegalArgumentException("Username or password incorrect");
     }
-    return new User(username);
+    JSONObject userInfo = JSONObjectParser.parseJSONObject(new File(path)).getJSONObject(username);
+    return new User(username, userInfo.getString("image-path"), userInfo.getInt("high-score"), userInfo.getInt("wins"), userInfo.getInt("losses"), null);
   }
 
   public void updateProfilePicture(String username, String password, File imageFile)

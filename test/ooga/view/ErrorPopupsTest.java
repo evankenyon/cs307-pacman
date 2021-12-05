@@ -22,7 +22,7 @@ public class ErrorPopupsTest extends DukeApplicationTest {
 
   @Start
   public void start (Stage stage) {
-    myUser = new User("test");
+//    myUser = new User("test");
     new GameStartupPanel(stage, myUser);
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, LANGUAGE));
   }

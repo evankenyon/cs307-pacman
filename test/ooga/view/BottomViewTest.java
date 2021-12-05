@@ -1,6 +1,7 @@
 package ooga.view;
 
 import static ooga.Main.LANGUAGE;
+import static ooga.Main.VIEW_MODE;
 import static ooga.view.bottomView.BottomView.MAX_SLIDER_VAL;
 import static ooga.view.bottomView.BottomView.MIN_SLIDER_VAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,9 +35,9 @@ public class BottomViewTest extends DukeApplicationTest {
   @Override
   public void start (Stage stage)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    myController = new Controller(LANGUAGE, stage);
+    myController = new Controller(LANGUAGE, stage, VIEW_MODE);
     UserPreferences prefs = myController.uploadFile(new File(TEST_FILE));
-    myMainView = new MainView(myController, myController.getVanillaGame(), stage, prefs);
+    myMainView = new MainView(myController, myController.getVanillaGame(), stage, VIEW_MODE, prefs);
     myPlayPauseButton = lookup("#playPauseButton").query();
     mySpeedSlider = lookup("#speedSlider").query();
 

@@ -230,10 +230,10 @@ public class GameStartupPanel {
 
   private void runFile() {
     Stage gameStage = new Stage();
-    Controller application = new Controller(selectedLanguage, gameStage);
+    Controller application = new Controller(selectedLanguage, gameStage, selectedViewMode);
     try {
       UserPreferences userPreferences = application.uploadFile(gameFile);
-      MainView mainView = new MainView(application, application.getVanillaGame(), gameStage,
+      MainView mainView = new MainView(application, application.getVanillaGame(), gameStage, selectedViewMode,
           userPreferences);
     } catch (Exception ex) {
       if (gameFile == null) {

@@ -5,3 +5,7 @@
 .text {
     -fx-fill: LIGHTGRAY;
 }
+
+#myBackgroundColor {
+    -fx-fill: DARKBLUE;
+}

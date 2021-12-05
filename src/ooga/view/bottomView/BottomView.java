@@ -172,14 +172,6 @@ public class BottomView {
     return myImgView;
   }
 
-  private void makeGameEasy() {
-    // TODO: Implement
-  }
-
-  private void makeGameHard() {
-    // TODO: Implement
-  }
-
   private void showStats() {
     togglePlayPause();
     Alert statsPopup = new Alert(AlertType.INFORMATION);

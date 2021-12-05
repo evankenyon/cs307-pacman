@@ -1,6 +1,7 @@
 package ooga.view;
 
 import static ooga.Main.LANGUAGE;
+import static ooga.Main.VIEW_MODE;
 import static ooga.view.BottomViewTest.TEST_FILE;
 
 import java.io.File;
@@ -27,7 +28,7 @@ public class StartUpPanelTests extends DukeApplicationTest {
   @Override
   public void start (Stage stage)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    myController = new Controller(LANGUAGE, stage);
+    myController = new Controller(LANGUAGE, stage, VIEW_MODE);
     UserPreferences prefs = myController.uploadFile(new File(TEST_FILE));
     myStartupPanel = new GameStartupPanel(stage, new User("test"));
   }

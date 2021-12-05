@@ -1,1 +1,19 @@
-{"dane":{"wins":0,"password":"dane","high-score":0,"image-path":"/Users/daneterickson/CS307/Projects/ooga_team11/data/images/backButton-back.png","losses":0,"favorite-files":[]},"evankenyon":{"wins":0,"password":"test123","high-score":0,"image-path":"/Users/daneterickson/CS307/Projects/ooga_team11/data/images/bigSkipIcon.png","losses":0,"favorite-files":[]}}
+
+{
+  "dane1": {
+    "wins": 0,
+    "password": "dane1",
+    "high-score": 0,
+    "image-path": "C:\\Users\\xinyu\\classwork\\cs307\\ooga_team11\\data\\images\\bigPauseIcon.png",
+    "losses": 0,
+    "favorite-files": []
+  },
+  "dane": {
+    "wins": 0,
+    "password": "dane",
+    "high-score": 0,
+    "image-path": "C:\\Users\\xinyu\\classwork\\cs307\\ooga_team11\\data\\images\\backButton-arriere.png",
+    "losses": 0,
+    "favorite-files": []
+  }
+}

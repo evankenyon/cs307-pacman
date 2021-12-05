@@ -113,7 +113,6 @@ public class GameState {
 //  }
 
 
-
   private void implementRunnables() {
     for (Agent a : getFood()) {
       Runnable r = () -> setSuperState();

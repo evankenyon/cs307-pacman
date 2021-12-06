@@ -8,6 +8,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
@@ -92,9 +93,9 @@ public class Controller implements ControllerInterface {
     isPaused = true;
   }
 
-//  public Set<String> getFirebaseFilenames() throws InterruptedException {
-//    return firebaseReader.getFileNames();
-//  }
+  public Set<String> getFirebaseFilenames() throws InterruptedException {
+    return firebaseReader.getFileNames();
+  }
 
 //  @Deprecated
 //  public void createUser(String username, String password, File imageFile) throws IOException {
@@ -157,11 +158,11 @@ public class Controller implements ControllerInterface {
 
 
 
-//  public UserPreferences uploadFirebaseFile(String fileName)
-//      throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException {
-//    //setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));
-//    return myPreferences;
-//  }
+  public UserPreferences uploadFirebaseFile(String fileName)
+      throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException {
+    setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));
+    return myPreferences;
+  }
 
   // TODO: properly handle exception
   @Override

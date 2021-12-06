@@ -122,11 +122,30 @@ public class Controller implements ControllerInterface {
     currUser = login(updatedUsername, password);
   }
 
+  public void updatePassword(String updatedPassword) throws IOException {
+    profileGenerator.changeProfilePassword(currUser.username(), password, updatedPassword);
+    password = updatedPassword;
+  }
+
+  public void removeFile(String file) throws IOException {
+    profileGenerator.removeFavoriteFile(currUser.username(), password, file);
+    currUser = login(currUser.username(), password);
+  }
+
   @Deprecated
   public void updateImage(File updatedImageFile) throws IOException {
     profileGenerator.updateProfilePicture(currUser.username(), password, updatedImageFile);
     currUser = login(currUser.username(), password);
   }
+
+//  public void updateString(String string, String type)
+//      throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+//    ResourceBundle methodMappings = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, METHOD_MAPPINGS_FILENAME));
+//    Method fileUpdateMethod = ProfileGenerator.class.getDeclaredMethod(methodMappings.getString(type), String.class, String.class, String.class);
+//    fileUpdateMethod.invoke(profileGenerator, currUser.username(), password, string);
+//    currUser = login(currUser.username(), password);
+//    System.out.println(currUser.username());
+//  }
 
   public void updateFile(File file, String type)
       throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -136,10 +155,7 @@ public class Controller implements ControllerInterface {
     currUser = login(currUser.username(), password);
   }
 
-  public void updatePassword(String updatedPassword) throws IOException {
-    profileGenerator.changeProfilePassword(currUser.username(), password, updatedPassword);
-    password = updatedPassword;
-  }
+
 
 //  public UserPreferences uploadFirebaseFile(String fileName)
 //      throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException {

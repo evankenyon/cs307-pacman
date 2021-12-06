@@ -50,7 +50,7 @@ public class ProfileGenerator {
     for(int index = 0; index < favorites.length; index++) {
       favorites[index] = userInfo.getJSONArray("favorite-files").getString(index);
     }
-    return new User(username, userInfo.getString("image-path"), userInfo.getInt("high-score"), userInfo.getInt("wins"), userInfo.getInt("losses"), favorites);
+    return new User(username, password, userInfo.getString("image-path"), userInfo.getInt("high-score"), userInfo.getInt("wins"), userInfo.getInt("losses"), favorites);
   }
 
   public void updateProfilePicture(String username, String password, File imageFile)

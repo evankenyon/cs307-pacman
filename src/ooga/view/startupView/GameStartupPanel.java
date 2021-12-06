@@ -242,6 +242,7 @@ public class GameStartupPanel {
 
   private void uploadFile() {
     gameFile = fileExplorer();
+    fileString = gameFile.getPath();
     if (gameFile != null) {
       displayFileName.setText(gameFile.getName());
     }
@@ -295,11 +296,11 @@ public class GameStartupPanel {
     try {
       //TODO: FIX THIS DESIGN!!
       if (runMethodName.equals(RUN_LOCAL_FILE_METHOD)) {
-        userPreferences = myController.uploadFile(gameFile);
+        userPreferences = myController.uploadFile(fileString);
       } else if (runMethodName.equals(RUN_FIREBASE_FILE_METHOD)) {
         userPreferences = myController.uploadFirebaseFile(fileString);
       } else {
-        userPreferences = myController.uploadFile(new File(fileString));
+        userPreferences = myController.uploadFile(fileString);
       }
       if (!myController.getPlayPause()) {
         myController.pauseOrResume();

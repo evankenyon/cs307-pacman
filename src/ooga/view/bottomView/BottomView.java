@@ -1,5 +1,6 @@
 package ooga.view.bottomView;
 
+import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
 import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
 import static ooga.view.mainView.MainView.BG_COLOR;
@@ -131,10 +132,10 @@ public class BottomView {
   private void togglePlayPause() {
     myController.pauseOrResume();
     if (isPaused) {
-      playPauseButton = makeGraphicButton(PAUSE_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
+      playPauseButton.setImage(new Image(new File(String.format("%s%s", IMAGE_PATH, PAUSE_IMAGE)).toURI().toString()));
       isPaused = false;
     } else {
-      playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
+      playPauseButton.setImage(new Image(new File(String.format("%s%s", IMAGE_PATH, PLAY_IMAGE)).toURI().toString()));
       isPaused = true;
     }
   }
@@ -152,7 +153,7 @@ public class BottomView {
     graphicButtons.getStyleClass().add("graphic-buttons");
     graphicButtons.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
-    ImageView playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
+    playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
     ImageView stepButton = makeGraphicButton(STEP_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, STEP_BUTTON_ID);
     HBox buttonsPane = new HBox();
     buttonsPane.setAlignment(Pos.TOP_CENTER);
@@ -201,7 +202,7 @@ public class BottomView {
   }
 
   private ImageView makeGraphicButton(String filename, EventHandler handler, int height, String id) {
-    String imagePath = "data/images/" + filename;
+    String imagePath = String.format("%s%s", IMAGE_PATH, filename);
     ImageView myImgView = new ImageView(new Image(new File(imagePath).toURI().toString()));
     myImgView.setPreserveRatio(true);
     myImgView.setFitHeight(height);

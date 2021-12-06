@@ -46,5 +46,5 @@ class FirebaseReaderTest {
     Assertions.assertTrue(List.of(firebaseReader.getFileNames().toArray(new String[0])).contains("test1"));
     Assertions.assertTrue(List.of(firebaseReader.getFileNames().toArray(new String[0])).contains("test2"));
   }
-  
+
 }

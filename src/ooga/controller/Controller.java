@@ -2,6 +2,7 @@ package ooga.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.InputMismatchException;
@@ -15,6 +16,7 @@ import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import net.thegreshams.firebase4j.error.FirebaseException;
 import ooga.controller.IO.FirebaseReader;
 import ooga.controller.IO.GameSaver;
 import ooga.controller.IO.JsonParser;
@@ -85,7 +87,7 @@ public class Controller implements ControllerInterface {
     profileGenerator = new ProfileGenerator();
     try {
       firebaseReader = new FirebaseReader();
-    } catch (IOException e) {
+    } catch (FirebaseException e) {
       new ErrorPopups(myLanguage, "FirebaseError");
     }
 
@@ -93,7 +95,8 @@ public class Controller implements ControllerInterface {
     isPaused = true;
   }
 
-  public Set<String> getFirebaseFilenames() throws InterruptedException {
+  public Set<String> getFirebaseFilenames()
+      throws FirebaseException, UnsupportedEncodingException {
     return firebaseReader.getFileNames();
   }
 
@@ -159,7 +162,7 @@ public class Controller implements ControllerInterface {
 
 
   public UserPreferences uploadFirebaseFile(String fileName)
-      throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException {
+      throws IOException, NoSuchMethodException, IllegalAccessException, FirebaseException {
     setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));
     return myPreferences;
   }

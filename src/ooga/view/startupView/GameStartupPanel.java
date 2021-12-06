@@ -7,6 +7,7 @@ import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 import javafx.event.ActionEvent;
@@ -29,6 +30,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import net.thegreshams.firebase4j.error.FirebaseException;
 import ooga.controller.Controller;
 import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
@@ -187,7 +189,7 @@ public class GameStartupPanel {
   private void firebaseHelper() {
     try {
       makeChoiceDialog(myController.getFirebaseFilenames(), LOAD_FILE_KEYS[1]);
-    } catch (InterruptedException e) {
+    } catch (FirebaseException | UnsupportedEncodingException e) {
       new ErrorPopups(selectedLanguage, "FirebaseError");
     }
   }

@@ -51,9 +51,11 @@ public class GameBoard {
       if (newPosition != null) {
         //only set new coordinate value if move is valid
         if (checkMoveValidity(newPosition)) {
-          newPosition = myState.portal(newPosition);
           //set coordinates after effects have been applied
-          agent.setCoords(newPosition);
+          newPosition = myState.portal(newPosition);
+          if (myState.isInBounds(newPosition.getCoords()[0], newPosition.getCoords()[1])) {
+            agent.setCoords(newPosition);
+          }
         }
       }
     }
@@ -112,7 +114,7 @@ public class GameBoard {
       updateGameStatusConsumer();
     }
   }
-  
+
   public void setPlayerDirection(String direction) {
     myState.setPlayerDirection(direction);
   }

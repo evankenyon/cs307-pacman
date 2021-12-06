@@ -126,6 +126,11 @@ public class Controller implements ControllerInterface {
     currUser = login(updatedUsername, password);
   }
 
+  public void updatePassword(String updatedPassword) throws IOException {
+    profileGenerator.changeProfilePassword(currUser.username(), password, updatedPassword);
+    password = updatedPassword;
+  }
+
 //  public UserPreferences uploadFirebaseFile(String fileName)
 //      throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException {
 //    //setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));

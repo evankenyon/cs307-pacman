@@ -2,6 +2,7 @@ package ooga.view.userProfileView;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -39,8 +40,10 @@ public class UserInformationView {
     root.getStyleClass().add("grid-pane");
     addProfileImage(root, user);
     addTextInfo(root, "Username", user.username(), 1, 2);
-    Button editUsernameButton = makeButton("Edit Username", e -> editForm());
+    Button editUsernameButton = makeButton("Edit Username", e -> editForm("Username", "Please enter a new username"));
     root.add(editUsernameButton, 2, 2);
+    Button editPasswordButton = makeButton("Edit Password", e -> editForm("Password", "Please enter a new password"));
+    root.add(editPasswordButton, 2, 3);
     addTextInfo(root, "High Score", String.valueOf(user.highScore()), 1, 3);
     addTextInfo(root, "Number of wins", String.valueOf(user.wins()), 1, 4);
     addTextInfo(root, "Number of losses", String.valueOf(user.losses()), 1, 5);
@@ -73,10 +76,11 @@ public class UserInformationView {
     img.setFitWidth(width);
   }
 
-  private void editForm() {
+  private void editForm(String title, String header) {
     try {
-      controller.updateUsername(makeTextInputDialog("Username", "Please enter a new username"));
-    } catch (IOException e) {
+      Method updateMethod = Controller.class.getDeclaredMethod(String.format("update%s", title), String.class);
+      updateMethod.invoke(controller, makeTextInputDialog(title, header));
+    } catch (Exception e) {
       // TODO: handle
     }
     reset(controller.getUser());

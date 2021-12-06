@@ -20,7 +20,8 @@ public class ProfileGenerator {
   }
 
   public void createUser(String username, String password, File imageFile)
-      throws IOException, NullPointerException, JSONException, InterruptedException {
+      throws IOException, NullPointerException, JSONException, InterruptedException, IllegalArgumentException {
+    if (username == null || password == null || imageFile == null) throw new IOException();
     JSONObject oldFile = JSONObjectParser.parseJSONObject(new File(path));
     PrintWriter profilesFileWriter = new PrintWriter(path);
     if (oldFile.has(username)) {
@@ -30,7 +31,7 @@ public class ProfileGenerator {
     }
     JSONObject props = new JSONObject();
     props.put("password", password);
-    props.put("image-path", imageFile.getPath());
+    props.put("image-path", getRelativePath(imageFile));
     props.put("high-score", 0);
     props.put("wins", 0);
     props.put("losses", 0);
@@ -45,19 +46,38 @@ public class ProfileGenerator {
     if (!profiles.has(username) || !profiles.getJSONObject(username).getString("password").equals(password)) {
       throw new IllegalArgumentException("Username or password incorrect");
     }
-    return new User(username);
+    JSONObject userInfo = JSONObjectParser.parseJSONObject(new File(path)).getJSONObject(username);
+    String[] favorites = new String[userInfo.getJSONArray("favorite-files").length()];
+    for(int index = 0; index < favorites.length; index++) {
+      favorites[index] = userInfo.getJSONArray("favorite-files").getString(index);
+    }
+    return new User(username, password, userInfo.getString("image-path"), userInfo.getInt("high-score"), userInfo.getInt("wins"), userInfo.getInt("losses"), favorites);
   }
 
   public void updateProfilePicture(String username, String password, File imageFile)
       throws IOException {
+    if(imageFile == null) {
+      throw new IOException();
+    }
     login(username, password);
     JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
     JSONObject userInfo = allUsersInfo.getJSONObject(username);
     PrintWriter profilesFileWriter = new PrintWriter(path);
-    userInfo.put("image-path", imageFile.getPath());
+    userInfo.put("image-path", getRelativePath(imageFile));
     allUsersInfo.put(username, userInfo);
     profilesFileWriter.println(allUsersInfo);
     profilesFileWriter.close();
+  }
+
+  private String getRelativePath(File imageFile) {
+    File currFile = imageFile;
+    StringBuilder pathName = new StringBuilder(imageFile.getName());
+    while (!currFile.getParentFile().getName().equals("data")) {
+      pathName.insert(0, String.format("%s/", currFile.getParentFile().getName()));
+      currFile = currFile.getParentFile();
+    }
+    pathName.insert(0, "./data/");
+    return pathName.toString();
   }
 
   public void addFavoriteFile(String username, String password, File filePath)
@@ -66,7 +86,7 @@ public class ProfileGenerator {
     JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
     JSONObject userInfo = allUsersInfo.getJSONObject(username);
     PrintWriter profilesFileWriter = new PrintWriter(path);
-    userInfo.getJSONArray("favorite-files").put(filePath.getPath());
+    userInfo.getJSONArray("favorite-files").put(getRelativePath(filePath));
     allUsersInfo.put(username, userInfo);
     profilesFileWriter.println(allUsersInfo);
     profilesFileWriter.close();

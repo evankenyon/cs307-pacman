@@ -1,13 +1,21 @@
 package ooga.view.startupView;
 
 import static java.util.Objects.isNull;
+import static ooga.Main.LANGUAGE;
+import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 
 import java.io.File;
-import java.util.ResourceBundle;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,48 +28,85 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import net.thegreshams.firebase4j.error.FirebaseException;
 import ooga.controller.Controller;
+import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
 import ooga.view.mainView.MainView;
 import ooga.view.instructions.InstructionsView;
 import ooga.view.popups.ErrorPopups;
+import ooga.view.userProfileView.UserInformationView;
 
 public class GameStartupPanel {
 
-  private Stage stage;
-  private ComboBox<String> selectGameType;
+  public static final String NO_FILE_TEXT = "No file selected";
+  public static final String EXAMPLES_PATH = "data/basic_examples";
+  public static final String RUN_LOCAL_FILE_METHOD = "uploadLocalFile";
+  public static final String RUN_FAVORITE_FILE_METHOD = "uploadFavoriteFile";
+  public static final String RUN_FIREBASE_FILE_METHOD = "uploadFirebaseFile";
+  private static final int SCREEN_WIDTH = 400;
+  private static final int SCREEN_HEIGHT = 530;
+  public static final int SELECTOR_WIDTH = 150;
+  public static final int SPACING = 10;
+  public static final Paint BACKGROUND = Color.BLACK;
+  public static final String STARTUP_PACKAGE = "ooga.view.startupView.";
+  public static final String DEFAULT_STYLESHEET = String.format("/%sGameStartupPanel.css",
+      STARTUP_PACKAGE.replace(".", "/"));
+  public static final String RESOURCES_PATH_WITH_LANGUAGE = "ooga.view.resources.English";
+  public static final String RESOURCES_PATH = "ooga.view.resources.";
+  public static final String DEFAULT_LANGUAGE = "English";
+  public static final String GAME_TYPE_KEYS[] = {"VanillaPacman", "SuperPacman", "MrsPacman",
+      "GhostPacman"};
+  public static final String LANGUAGE_KEYS[] = {"English", "French", "German", "Italian", "Spanish"};
+  public static final String VIEW_MODE_KEYS[] = {"Dark", "Duke", "Light"};
+  public static final String LOAD_FILE_KEYS[] = {"SelectLocally","SelectFromDatabase","SelectFromFavorites"};
+
+  private Stage startupStage;
+  private Stage mainStage;
+  private Button viewProfile;
   private ComboBox<String> selectLanguage;
   private ComboBox<String> selectViewMode;
+  private ComboBox<String> selectFile;
   private Button fileUploadButton;
   private File gameFile;
+  private String fileString;
   private String selectedGameType;
   private String selectedLanguage;
   private String selectedViewMode;
   private ResourceBundle myResources;
   private Text displayFileName;
+  private User myUser;
+  private Controller myController;
+  private String runMethodName;
 
-  private static final int SCREEN_WIDTH = 400;
-  private static final int SCREEN_HEIGHT = 425;
-  public static final Paint BACKGROUND = Color.BLACK;
-  public static final String STARTUP_PACKAGE = "ooga.view.startupView.";
-  public static final String DEFAULT_STYLESHEET = String.format("/%sGameStartupPanel.css",
-          STARTUP_PACKAGE.replace(".", "/"));
-  public static final String RESOURCES_PATH_WITH_LANGUAGE = "ooga.view.resources.English";
-  public static final String RESOURCES_PATH = "ooga.view.resources.";
-  public static final String DEFAULT_LANGUAGE = "English";
 
-  public GameStartupPanel(Stage stage) {
+//  @Deprecated
+//  public GameStartupPanel(Stage stage) {
+//    myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
+//    this.stage = stage;
+//    this.stage.setScene(createStartupScene());
+//    this.stage.setTitle("PACMAN STARTUP");
+//    Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
+//    this.stage.getIcons().add(favicon);
+//    this.stage.show();
+//  }
+
+  public GameStartupPanel(Stage stage, User user, Controller controller) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
-    this.stage = stage;
-    this.stage.setScene(createStartupScene());
-    this.stage.setTitle("PACMAN STARTUP");
+    startupStage = stage;
+    myUser = user;
+    myController = controller;
+    selectedLanguage = LANGUAGE;
+    startupStage.setScene(createStartupScene());
+    startupStage.setTitle("PACMAN STARTUP");
     Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
-    this.stage.getIcons().add(favicon);
-    this.stage.show();
+    startupStage.getIcons().add(favicon);
+    startupStage.show();
   }
 
   private Scene createStartupScene() {
-    GridPane root = new GridPane();
+    VBox root = new VBox();
+    root.setSpacing(SPACING);
     root.getStyleClass().add("grid-pane");
     makeBackground(root);
     addPacMan307Img(root);
@@ -72,132 +117,202 @@ public class GameStartupPanel {
     return myScene;
   }
 
-  private void addPacMan307Img(GridPane root) {
-    ImageView pm307 = new ImageView(new Image(new File("data/images/pac_man_307.png").toURI().toString()));
+  private void addPacMan307Img(VBox root) {
+    ImageView pm307 = new ImageView(
+        new Image(new File("data/images/pac_man_307.png").toURI().toString()));
     setImgWidth(pm307, SCREEN_WIDTH);
-    root.add(pm307, 1, 1);
+    root.getChildren().add(pm307);
   }
 
-  private void addStartupOptions(GridPane root) {
-    VBox selectCol1L = new VBox();
-    VBox selectCol1R = new VBox();
-    VBox selectCol2L = new VBox();
-    VBox selectCol2R = new VBox();
+  private void addStartupOptions(VBox root) {
+    VBox profileCluster = new VBox();
+    VBox gameFileCluster = new VBox();
+    VBox languageCluster = new VBox();
+    VBox viewModeCluster = new VBox();
     HBox selectCluster1 = new HBox();
     HBox selectCluster2 = new HBox();
-
-    ImageView selectGameLabel = new ImageView(new Image(new File("data/images/selectGameType.png").toURI().toString()));
-    setImgWidth(selectGameLabel, SCREEN_WIDTH/2);
-    String[] gameTypes = {myResources.getString("VanillaPacman"),
-        myResources.getString("SuperPacman"), myResources.getString("MrsPacman"),
-        myResources.getString("GhostPacman")};
-    selectGameType = makeDropDown("game type", gameTypes);
-    selectCol1L.getChildren().addAll(selectGameLabel, selectGameType);
-    selectCol1L.setAlignment(Pos.CENTER);
-
-    ImageView selectLanguageLabel = new ImageView(new Image(new File("data/images/selectLanguage.png").toURI().toString()));
-    setImgWidth(selectLanguageLabel, SCREEN_WIDTH/2);
-    String[] languages = {"English", "French", "German", "Italian", "Spanish"};
-    selectLanguage = makeDropDown("language", languages);
-    selectCol1R.getChildren().addAll(selectLanguageLabel, selectLanguage);
-    selectCol1R.setAlignment(Pos.CENTER);
-
-    selectCluster1.getChildren().addAll(selectCol1L, selectCol1R);
-    root.add(selectCluster1, 1, 2);
-
-    ImageView selectModeLabel = new ImageView(new Image(new File("data/images/selectViewingMode.png").toURI().toString()));
-    setImgWidth(selectModeLabel, SCREEN_WIDTH/2);
-    String[] viewModes = {myResources.getString("Dark"), myResources.getString("Duke"),
-        myResources.getString("Light")};
-    selectViewMode = makeDropDown("viewing mode", viewModes);
-    Text spacingFix = new Text();
-    spacingFix.setText(".");
-    spacingFix.setFont(Font.font("Verdana", FontPosture.ITALIC, 11));
-    selectCol2L.getChildren().addAll(selectModeLabel, selectViewMode, spacingFix);
-    selectCol2L.setAlignment(Pos.CENTER);
-
-    ImageView selectGameFileLabel = new ImageView(new Image(new File("data/images/selectGameFile.png").toURI().toString()));
-    setImgWidth(selectGameFileLabel, SCREEN_WIDTH/2);
-    Button fileUploadButton = makeFileUploadButton();
-    displayFileName = new Text();
-    displayFileName.setFont(Font.font("Verdana", FontPosture.ITALIC, 11));
-    displayFileName.setFill(Color.LIGHTGRAY);
-    displayFileName.setText("No file selected");
-    selectCol2R.getChildren().addAll(selectGameFileLabel, fileUploadButton, displayFileName);
-    selectCol2R.setAlignment(Pos.CENTER);
-
-    selectCluster2.getChildren().addAll(selectCol2L, selectCol2R);
-    root.add(selectCluster2, 1, 3);
+    root.getChildren().add(makeProfileInfo());
+    viewProfile = makeButton("viewProfile", profileCluster, e -> makeProfileView());
+    selectLanguage = makeSelectorBox(languageCluster, "Language", LANGUAGE_KEYS);
+    addToCluster(root, profileCluster, gameFileCluster, selectCluster1, 3);
+    selectViewMode = makeSelectorBox(viewModeCluster, "ViewingMode", VIEW_MODE_KEYS);
+    selectFile = makeSelectorBox(gameFileCluster, "GameFile", LOAD_FILE_KEYS);
+    selectFile.setOnAction(e -> selectFileAction());
+    displayFileName = makeText(Color.LIGHTGRAY, NO_FILE_TEXT, FontWeight.NORMAL,
+            FontPosture.ITALIC, 11, gameFileCluster);
+    addToCluster(root, languageCluster, viewModeCluster, selectCluster2, 4);
   }
 
-  private Button makeFileUploadButton() {
-    fileUploadButton = new Button();
-    fileUploadButton.setMinWidth(150);
-    fileUploadButton.setId("fileUploadButton");
-    fileUploadButton.setText(myResources.getString("UploadFile"));
-    fileUploadButton.setOnAction(e -> uploadFile());
-    return fileUploadButton;
+  private VBox makeProfileInfo() {
+    VBox profileInfo = new VBox();
+    profileInfo.setSpacing(3);
+    profileInfo.setAlignment(Pos.TOP_CENTER);
+    HBox pfpBorder = new HBox();
+    ImageView profilePic = new ImageView(new Image(new File(myUser.imagePath()).toURI().toString()));
+    double sideLen = Math.min(profilePic.getFitWidth(), profilePic.getFitHeight());
+    profilePic.setViewport(new Rectangle2D(0, 0, sideLen, sideLen));
+    setImgWidth(profilePic, SCREEN_WIDTH / 4);
+    pfpBorder.getChildren().add(profilePic);
+    pfpBorder.setMaxWidth(SCREEN_WIDTH / 4);
+    pfpBorder.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID,
+            new CornerRadii(5), new BorderWidths(6))));
+    profileInfo.getChildren().add(pfpBorder);
+    Text username = makeText(Color.LIGHTGRAY,
+            "WELCOME, " + myUser.username().toUpperCase(Locale.ROOT) + "!",
+            FontWeight.BLACK, FontPosture.REGULAR, 16, profileInfo);
+    return profileInfo;
+  }
+
+  private void makeProfileView() {
+    Stage newStage = new Stage();
+    new UserInformationView(myController, myUser, newStage, selectedLanguage);
+  }
+
+  private void selectFileAction() {
+    String location = selectFile.getValue();
+    if (location.equals(myResources.getString(LOAD_FILE_KEYS[0]))) {
+      runMethodName = RUN_LOCAL_FILE_METHOD;
+      uploadFile();
+    }
+    else if (location.equals(myResources.getString(LOAD_FILE_KEYS[1]))) {
+      runMethodName = RUN_FIREBASE_FILE_METHOD;
+      try {
+        makeChoiceDialog(myController.getFirebaseFilenames(), LOAD_FILE_KEYS[1]);
+      } catch (FirebaseException | UnsupportedEncodingException e) {
+        new ErrorPopups(selectedLanguage, "FirebaseError");
+      }
+    }
+    else if (location.equals(myResources.getString(LOAD_FILE_KEYS[2]))) {
+      runMethodName = RUN_FAVORITE_FILE_METHOD;
+      makeChoiceDialog(Arrays.asList(myUser.favorites()), LOAD_FILE_KEYS[2]);
+    }
+  }
+
+  private void makeChoiceDialog(Collection files, String resourcesKey) {
+    ChoiceDialog fileChoices = new ChoiceDialog<>(myResources.getString(resourcesKey), files);
+    fileChoices.setHeaderText(myResources.getString(String.format("%sHeader",resourcesKey)));
+    fileChoices.setTitle(myResources.getString(String.format("%sTitle",resourcesKey)));
+    fileChoices.showAndWait();
+    fileString = fileChoices.getSelectedItem().toString();
+    String splitFileString[] = fileString.split("/");
+    displayFileName.setText(splitFileString[splitFileString.length-1]);
+  }
+
+  private Text makeText(Paint color, String message, FontWeight fontWeight,
+                        FontPosture fontPosture, int fontSize, VBox vBox) {
+    Text text = new Text();
+    text.setFont(Font.font("Verdana", fontWeight, fontPosture, fontSize));
+    text.setFill(color);
+    text.setText(message);
+    vBox.getChildren().add(text);
+    return text;
+  }
+
+  private ComboBox<String> makeSelectorBox(VBox vBox, String category, String keys[]) {
+    ImageView imageLabel = new ImageView(
+        new Image(new File(String.format("%sselect%s.png", IMAGE_PATH, category)).toURI().toString()));
+    setImgWidth(imageLabel, SCREEN_WIDTH / 2);
+    List<String> choices = new ArrayList<>();
+    for (String s : keys) {
+      choices.add(myResources.getString(s));
+    }
+    ComboBox<String> comboBox = makeDropDown(category, choices.toArray(new String[0]));
+    vBox.getChildren().addAll(imageLabel, comboBox);
+    vBox.setAlignment(Pos.TOP_CENTER);
+    return comboBox;
+  }
+
+  private void addToCluster(VBox root, VBox vBoxChild1, VBox vBoxChild2, HBox hBoxParent,
+      int row) {
+    hBoxParent.setAlignment(Pos.TOP_CENTER);
+    hBoxParent.getChildren().addAll(vBoxChild1, vBoxChild2);
+    root.getChildren().add(hBoxParent);
+  }
+
+  private Button makeButton(String id, VBox vbox, EventHandler<ActionEvent> handler) {
+    ImageView buttonLabel = new ImageView(new Image(
+            new File("data/images/" + id + ".png").toURI().toString()));
+    setImgWidth(buttonLabel, SCREEN_WIDTH / 2);
+    Button button = new Button();
+    button.setMinWidth(SELECTOR_WIDTH);
+    button.setId(id);
+    button.setText(myUser.username());
+    button.setOnAction(handler);
+    vbox.setAlignment(Pos.TOP_CENTER);
+    vbox.getChildren().addAll(buttonLabel, button);
+    return button;
   }
 
   private void uploadFile() {
     gameFile = fileExplorer();
-    displayFileName.setText(gameFile.getName());
+    if (gameFile != null) {
+      displayFileName.setText(gameFile.getName());
+    }
   }
 
   private File fileExplorer() {
     // Credit to Carl Fisher for writing this code in Cell Society team 6
     FileChooser myFileChooser = new FileChooser();
-    myFileChooser.setInitialDirectory(new File("data/basic_examples"));
-    return myFileChooser.showOpenDialog(stage);
+    myFileChooser.setInitialDirectory(new File(EXAMPLES_PATH));
+    return myFileChooser.showOpenDialog(startupStage);
   }
 
-  private void addStartButton(GridPane root) {
-    ImageView startButton = new ImageView(new Image(new File("data/images/playButton.png").toURI().toString()));
+  private void addStartButton(VBox root) {
+    ImageView startButton = new ImageView(
+        new Image(new File("data/images/playButton.png").toURI().toString()));
     setImgWidth(startButton, SCREEN_WIDTH / 4);
     startButton.setId("startButton");
     startButton.setOnMouseReleased(e -> startButtonAction());
     HBox playBox = new HBox();
     playBox.getChildren().add(startButton);
     playBox.setAlignment(Pos.CENTER);
-    root.add(playBox, 1, 4);
+    root.getChildren().add(playBox);
   }
 
   private void startButtonAction() {
-    selectedGameType = selectGameType.getValue();
     selectedLanguage = selectLanguage.getValue();
     selectedViewMode = selectViewMode.getValue();
-    if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
+    if (!isNull(selectedLanguage) && !isNull(selectedViewMode)) {
       runFile();
-      openInstructions(selectedLanguage, selectedGameType, selectedViewMode);
-      selectGameType.setValue(null);
+      openInstructions(selectedLanguage, selectedViewMode);
       selectLanguage.setValue(null);
       selectViewMode.setValue(null);
     } else {
       if (selectedLanguage == null) {
         selectedLanguage = DEFAULT_LANGUAGE;
       }
-      new ErrorPopups(selectedLanguage, "requiredFields");
+      new ErrorPopups(selectedLanguage, "RequiredFields");
     }
   }
 
-  private void openInstructions(String selectedLanguage, String selectedGameType, String selectedViewMode) {
+  private void openInstructions(String selectedLanguage, String selectedViewMode) {
     Stage instructionsStage = new Stage();
-    InstructionsView instructionsView = new InstructionsView(instructionsStage, selectedLanguage, selectedGameType, selectedViewMode);
+    InstructionsView instructionsView = new InstructionsView(instructionsStage, selectedLanguage, selectedViewMode);
   }
 
   private void runFile() {
-    Stage gameStage = new Stage();
-    Controller application = new Controller(selectedLanguage, gameStage, selectedViewMode);
+    mainStage = new Stage();
+//    Controller application = new Controller(selectedLanguage, mainStage, selectedViewMode);
+    UserPreferences userPreferences;
     try {
-      UserPreferences userPreferences = application.uploadFile(gameFile);
-      MainView mainView = new MainView(application, application.getVanillaGame(), gameStage, selectedViewMode,
-          userPreferences);
-    } catch (Exception ex) {
+      //TODO: FIX THIS DESIGN!!
+      if (runMethodName.equals(RUN_LOCAL_FILE_METHOD)) {
+        userPreferences = myController.uploadFile(gameFile);
+      }
+      else if (runMethodName.equals(RUN_FIREBASE_FILE_METHOD)) {
+        userPreferences = myController.uploadFirebaseFile(fileString);
+      }
+      else {
+        userPreferences = myController.uploadFile(new File(fileString));
+      }
+      if (!myController.getPlayPause()) myController.pauseOrResume();
+      MainView mainView = new MainView(myController, myController.getVanillaGame(),
+              mainStage, selectedViewMode, userPreferences, myUser);
+    } catch (Exception | FirebaseException ex) {
       if (gameFile == null) {
-        new ErrorPopups(selectedLanguage, "noFile");
+        new ErrorPopups(selectedLanguage, "NoFile");
       } else {
-        ex.printStackTrace();
-        new ErrorPopups(selectedLanguage, "fileError");
+        new ErrorPopups(selectedLanguage, "InvalidFile");
       }
     }
   }
@@ -205,18 +320,18 @@ public class GameStartupPanel {
 
   private ComboBox makeDropDown(String category, String[] options) {
     ComboBox<String> newComboBox = new ComboBox<>();
-    newComboBox.setPromptText(myResources.getString("Select") + " " + category);
+    newComboBox.setPromptText(myResources.getString(String.format("Select%s",category)));
     for (String option : options) {
       newComboBox.getItems().add(option);
     }
-    newComboBox.setMinWidth(150);
+    newComboBox.setMinWidth(SELECTOR_WIDTH);
     newComboBox.setId(category);
     return newComboBox;
   }
 
-  private void makeBackground(GridPane root) {
+  private void makeBackground(VBox root) {
     BackgroundFill background_fill = new BackgroundFill(BACKGROUND,
-            CornerRadii.EMPTY, Insets.EMPTY);
+        CornerRadii.EMPTY, Insets.EMPTY);
     Background background = new Background(background_fill);
     root.setBackground(background);
   }
@@ -225,5 +340,13 @@ public class GameStartupPanel {
     img.setPreserveRatio(true);
     img.setFitWidth(width);
   }
+
+  /**
+   * Getter method to get the selected language.
+   * Used in user profile info screen.
+   *
+   * @return String selectedLanguage
+   */
+  public String getLanguage() { return selectedLanguage; }
 
 }

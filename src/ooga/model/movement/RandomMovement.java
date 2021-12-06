@@ -10,7 +10,7 @@ import ooga.model.util.Utility;
 /**
  * Implements one type of automatic movement for agent.
  */
-public class Random implements Movable {
+public class RandomMovement implements Movable {
 
   private List<String> myDirections;
 

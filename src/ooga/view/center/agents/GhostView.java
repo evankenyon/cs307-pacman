@@ -5,6 +5,7 @@ import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 
 import java.io.File;
+import java.util.Random;
 import java.util.function.Consumer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,15 +19,15 @@ import ooga.model.interfaces.Agent;
  */
 public class GhostView extends MovableView {
 
-  public static final String GHOST_NAMES[] = {"blinky", "blue", "pinky", "inky",
-      "clyde"}; //make ghost state 0=dead, 1=blinky, 2=pinky, ... , 5=blue
+  public static final String GHOST_NAMES[] = {"blinky", "pinky", "inky", "clyde", "blue"}; // blue (consumable) ghost must be the last one
   public static final int CONSUMABLE_STATE = 1;
   public static final String GHOST_PATH = "%s%s_right.gif";
   public static final String CHARGED_GHOST_PATH = "%s%s_right_charged.gif";
 
   private ImageView ghostImage;
   private Agent myAgent;
-  private int ghostNum;
+  private int currGhostNum;
+  private int ogGhostNum;
   private Consumer<Agent> updateGhost = newInfo -> updateAgent(newInfo);
   private int numCols;
   private int numRows;
@@ -45,10 +46,8 @@ public class GhostView extends MovableView {
    * @param gridRows is the row position of the Agent
    * @param gridCols is the column position of the Agent
    */
-  public GhostView(Agent ghost, int gridRows,
-      int gridCols) { // make just 1 ghost (not 4) for first test?
-    this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[0]), gridRows, gridCols);
-//    this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[ghost.getState()]), gridRows, gridCols);
+  public GhostView(Agent ghost, int gridRows, int gridCols) {
+    this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[new Random().nextInt(GHOST_NAMES.length-1)]), gridRows, gridCols);
   }
 
   /**
@@ -63,12 +62,24 @@ public class GhostView extends MovableView {
   public GhostView(Agent ghost, String imagePath, int gridRows,
       int gridCols) { // make just 1 ghost (not 4) for first test?
     myAgent = ghost;
-    myState = 1; //TODO: Deal with Ghost Number
+    myState = 1;
     numRows = gridRows;
     numCols = gridCols;
     myOrientation = "right";
+    ogGhostNum = getGhostNum(imagePath);
     makeLayoutSettings();
     ghostViewSetup(imagePath);
+  }
+
+  private int getGhostNum(String imagePath) {
+    if (imagePath != null) {
+      String name = imagePath.split("/")[2].split("_")[0];
+      for (int i = 0; i < GHOST_NAMES.length; i++) {
+        if (GHOST_NAMES[i].equals(name))
+          currGhostNum = i;
+      }
+    }
+    return currGhostNum;
   }
 
   private void makeLayoutSettings() {
@@ -107,18 +118,23 @@ public class GhostView extends MovableView {
   @Override
   protected void updateState(int state) {
     myState = state;
-    if (state <= 0) {
-      ghostImage.setVisible(state != DEAD_STATE);
-    }
-    else {
-      ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[state-1], myOrientation)).toURI().toString()));
+    switch (state) {
+      case 0 -> ghostImage.setVisible(state != DEAD_STATE);
+      case 1 -> {
+        ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[currGhostNum], myOrientation)).toURI().toString()));
+        currGhostNum = ogGhostNum;
+      }
+      case 2 -> {
+        ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[GHOST_NAMES.length-1], myOrientation)).toURI().toString()));
+        currGhostNum = GHOST_NAMES.length-1;
+      }
     }
   }
 
   @Override
   protected void updateOrientation(String orientation) {
     //TODO: account for case of user input image
-    ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[myState-1], orientation)).toURI().toString()));
+    ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[currGhostNum], orientation)).toURI().toString()));
     myOrientation = orientation;
   }
 }

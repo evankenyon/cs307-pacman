@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
+import ooga.model.util.GameStatus;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +21,8 @@ public class GameBoard {
   private int myPacScore;
   private int myGhostScore;
   private Consumer<Integer> myScoreConsumer;
+  private Consumer<GameStatus> myGameStatusConsumer;
+  private GameStatus currentGameStatus;
 
 
   // TODO: handle exceptions
@@ -29,6 +32,8 @@ public class GameBoard {
     myState = new GameState(vanillaGameData);
     myPacScore = 0;
     myGhostScore = 0;
+    currentGameStatus = GameStatus.RUNNING;
+//    updateGameStatusConsumer();
   }
 
   //move every agent in the board by one step
@@ -46,9 +51,11 @@ public class GameBoard {
       if (newPosition != null) {
         //only set new coordinate value if move is valid
         if (checkMoveValidity(newPosition)) {
-          newPosition = myState.portal(newPosition);
           //set coordinates after effects have been applied
-          agent.setCoords(newPosition);
+          newPosition = myState.portal(newPosition);
+          if (myState.isInBounds(newPosition.getCoords()[0], newPosition.getCoords()[1])) {
+            agent.setCoords(newPosition);
+          }
         }
       }
     }
@@ -67,33 +74,44 @@ public class GameBoard {
         if (myState.isSuper() && ghost.getState() != 0) {
           Consumable g = (Consumable) ghost;
           myPacScore += g.getConsumed();
+          LOG.info("score is {}", myPacScore);
           updateScoreConsumer();
         } else {
           // lose life
           // reset gameboard
         }
-        System.out.println("Ghost + Pac overlap!");
+//        System.out.println("Ghost + Pac overlap!");
       }
     }
+    List<Position> foodsToDelete = new ArrayList<>();
     for (Consumable food : foods) {
       if (isOverlapping(food.getPosition(), pacman.getPosition())) {
         // update score & change food state to eaten.
         myPacScore += food.getConsumed();
+        foodsToDelete.add(food.getPosition());
         updateScoreConsumer();
-//        System.out.println("food is being eaten!");
       }
+    }
+    myState.deleteFoods(foodsToDelete);
+  }
+
+  public void checkGameEnd() {
+    checkWin();
+    checkLoss();
+  }
+
+  public void checkWin() {
+    if (myState.getRequiredPelletsLeft() == 0) {
+      currentGameStatus = GameStatus.WIN;
+      updateGameStatusConsumer();
     }
   }
 
-  private void applyEffects(Agent agent, Position newPosition) {
-//    if (myState.isFood(newPosition.getCoords()[0],
-//        newPosition.getCoords()[1])) {
-//      Consumable colliding = (Consumable) myState.findAgent(newPosition);
-//      myPacScore += agent.consume(colliding);
-//      //call this when consumer has actually been added
-//      updateScoreConsumer();
-//      LOG.info("score is now {}", myPacScore);
-//    }
+  public void checkLoss() {
+    if (myState.getLives() == 0) {
+      currentGameStatus = GameStatus.LOSS;
+      updateGameStatusConsumer();
+    }
   }
 
   public void setPlayerDirection(String direction) {
@@ -110,9 +128,6 @@ public class GameBoard {
     return myState;
   }
 
-//  public int getScore() {
-//    return myScore;
-//  }
 
   private boolean isOverlapping(Position aPos, Position bPos) {
     return (aPos.getCoords()[0] == bPos.getCoords()[0]
@@ -127,6 +142,19 @@ public class GameBoard {
     myScoreConsumer.accept(myPacScore);
   }
 
-  public int getMyPacScore() {return myPacScore;}
-  public int getMyGhostScore() {return myGhostScore;}
+  public void addGameStatusConsumer(Consumer<GameStatus> consumer) {
+    myGameStatusConsumer = consumer;
+  }
+
+  public void updateGameStatusConsumer() {
+    myGameStatusConsumer.accept(currentGameStatus);
+  }
+
+  public int getMyPacScore() {
+    return myPacScore;
+  }
+
+  public int getMyGhostScore() {
+    return myGhostScore;
+  }
 }

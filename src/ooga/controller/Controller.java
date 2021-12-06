@@ -165,10 +165,17 @@ public class Controller implements ControllerInterface {
   }
 
   // TODO: properly handle exception
+  @Deprecated
   @Override
   public UserPreferences uploadFile(File file)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     setupPreferencesAndVanillaGame(JSONObjectParser.parseJSONObject(file));
+    return myPreferences;
+  }
+
+  public UserPreferences uploadFile(String filename)
+      throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    setupPreferencesAndVanillaGame(JSONObjectParser.parseJSONObject(new File(filename)));
     return myPreferences;
   }
 

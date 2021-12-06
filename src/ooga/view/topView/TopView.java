@@ -83,6 +83,7 @@ public class TopView {
         scoreDisplay.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
         scoreDisplay.setAlignment(Pos.BOTTOM_CENTER);
         scoreDisplay.getChildren().addAll(scoreLabelImg, scoreNumber);
+        updateScoreDisplay(0);
     }
 
     private void loadGame() {

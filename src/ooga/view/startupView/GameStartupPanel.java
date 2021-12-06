@@ -4,15 +4,13 @@ import static java.util.Objects.isNull;
 import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
@@ -147,14 +145,17 @@ public class GameStartupPanel {
     profileInfo.setAlignment(Pos.TOP_CENTER);
     HBox pfpBorder = new HBox();
     ImageView profilePic = new ImageView(new Image(new File(myUser.imagePath()).toURI().toString()));
+    double sideLen = Math.min(profilePic.getFitWidth(), profilePic.getFitHeight());
+    profilePic.setViewport(new Rectangle2D(0, 0, sideLen, sideLen));
     setImgWidth(profilePic, SCREEN_WIDTH / 4);
     pfpBorder.getChildren().add(profilePic);
     pfpBorder.setMaxWidth(SCREEN_WIDTH / 4);
     pfpBorder.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID,
             new CornerRadii(5), new BorderWidths(6))));
     profileInfo.getChildren().add(pfpBorder);
-    Text username = makeText(Color.LIGHTGRAY, "Welcome, " + myUser.username() + "!", FontWeight.BOLD,
-            FontPosture.REGULAR, 16, profileInfo);
+    Text username = makeText(Color.LIGHTGRAY,
+            "WELCOME, " + myUser.username().toUpperCase(Locale.ROOT) + "!",
+            FontWeight.BLACK, FontPosture.REGULAR, 16, profileInfo);
     return profileInfo;
   }
 
@@ -302,8 +303,8 @@ public class GameStartupPanel {
         userPreferences = myController.uploadFile(new File(fileString));
       }
       if (!myController.getPlayPause()) myController.pauseOrResume();
-      MainView mainView = new MainView(myController, myController.getVanillaGame(), mainStage, selectedViewMode, userPreferences);
-//      MainView mainView = new MainView(application, application.getVanillaGame(), mainStage, selectedViewMode, userPreferences);
+      MainView mainView = new MainView(myController, myController.getVanillaGame(),
+              mainStage, selectedViewMode, userPreferences, myUser);
     } catch (Exception ex) {
       if (gameFile == null) {
         ex.printStackTrace();

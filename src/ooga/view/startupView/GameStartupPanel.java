@@ -253,11 +253,12 @@ public class GameStartupPanel {
 
   private void runFile() {
     mainStage = new Stage();
-//    Controller application = new Controller(selectedLanguage, gameStage, selectedViewMode);
+//    Controller application = new Controller(selectedLanguage, mainStage, selectedViewMode);
     try {
       UserPreferences userPreferences = myController.uploadFile(gameFile);
-      MainView mainView = new MainView(myController, myController.getVanillaGame(), mainStage, selectedViewMode,
-          userPreferences);
+      if (!myController.getPlayPause()) myController.pauseOrResume();
+      MainView mainView = new MainView(myController, myController.getVanillaGame(), mainStage, selectedViewMode, userPreferences);
+//      MainView mainView = new MainView(application, application.getVanillaGame(), mainStage, selectedViewMode, userPreferences);
     } catch (Exception ex) {
       if (gameFile == null) {
         new ErrorPopups(selectedLanguage, "NoFile");

@@ -21,7 +21,7 @@ public class WinLossPopup {
   public static final int WIN_LOSS_HEIGHT = 200;
   public static final String PLAY_AGAIN_BUTTON_KEY = "PlayAgain";
   public static final int WIN_LOSS_SPACING = 50;
-  
+
   private ResourceBundle myResources;
   private Stage mainStage;
   private Stage winLossStage;

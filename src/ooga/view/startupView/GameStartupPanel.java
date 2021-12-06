@@ -66,7 +66,7 @@ public class GameStartupPanel {
       "GhostPacman"};
   public static final String LANGUAGE_KEYS[] = {"English", "French", "German", "Italian", "Spanish"};
   public static final String VIEW_MODE_KEYS[] = {"Dark", "Duke", "Light"};
-  public static final String LOAD_FILE_KEYS[] = {"SelectLocally","SelectFromDatabase"};
+  public static final String LOAD_FILE_KEYS[] = {"SelectLocally","SelectFromDatabase","SelectFromFavorites"};
 
 //  @Deprecated
 //  public GameStartupPanel(Stage stage) {
@@ -149,17 +149,20 @@ public class GameStartupPanel {
       uploadFile();
     }
     else if (location.equals(myResources.getString(LOAD_FILE_KEYS[1]))) {
-      makeChoiceDialog();
+      String choices[] = {"hi","hey","hello"};
+      makeChoiceDialog(choices, LOAD_FILE_KEYS[1]);
+    }
+    else if (location.equals(myResources.getString(LOAD_FILE_KEYS[2]))) {
+      makeChoiceDialog(myUser.favorites(), LOAD_FILE_KEYS[2]);
     }
   }
 
-  private void makeChoiceDialog() {
-    String choices[] = {"hi","hey","hello"};
-    ChoiceDialog databaseChoices = new ChoiceDialog<>(choices[0],choices);
-    databaseChoices.setHeaderText("Select File from Database");
-    databaseChoices.setTitle("Database Files");
-    String fileName = databaseChoices.getSelectedItem().toString();
-    databaseChoices.showAndWait();
+  private void makeChoiceDialog(String files[], String resourcesKey) {
+    ChoiceDialog fileChoices = new ChoiceDialog<>(myResources.getString(resourcesKey), files);
+    fileChoices.setHeaderText(myResources.getString(String.format("%sHeader",resourcesKey)));
+    fileChoices.setTitle(myResources.getString(String.format("%sTitle",resourcesKey)));
+    fileChoices.showAndWait();
+    String fileName = fileChoices.getSelectedItem().toString();
   }
 
   private Text makeText(Paint color, String message, VBox vBox) {
@@ -268,7 +271,7 @@ public class GameStartupPanel {
 
   private ComboBox makeDropDown(String category, String[] options) {
     ComboBox<String> newComboBox = new ComboBox<>();
-    newComboBox.setPromptText(myResources.getString("Select") + " " + category);
+    newComboBox.setPromptText(myResources.getString(String.format("Select%s",category)));
     for (String option : options) {
       newComboBox.getItems().add(option);
     }

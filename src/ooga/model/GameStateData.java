@@ -5,10 +5,13 @@ import static ooga.model.agents.consumables.Ghost.AFRAID_STATE;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import ooga.factories.AgentFactory;
 import ooga.factories.ConsumableFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
+import ooga.model.movement.BFS;
 import ooga.model.util.Position;
 
 
@@ -23,7 +26,7 @@ public class GameStateData {
   private final AgentFactory agentFactory = new AgentFactory();
   private final ConsumableFactory consumableFactory = new ConsumableFactory();
   private List<Agent> myAgentStates;
-  private List<Agent> myInitAgentStates;
+  private List<Position> myInitAgentPositions;
   private List<Consumable> myRequiredPelletStates;
   private List<Agent> myWallStates;
   private boolean[][] myWallMap;
@@ -64,6 +67,7 @@ public class GameStateData {
     myAgentStates = new ArrayList<>();
     myRequiredPelletStates = new ArrayList<>();
     myWallStates = new ArrayList<>();
+    myInitAgentPositions = new ArrayList<>();
     myWallMap = new boolean[cols][rows];
     createWallMap(gameDict, rows, cols);
     createAgentList(gameDict);
@@ -94,6 +98,18 @@ public class GameStateData {
 
   public void setSuper() {
     isSuper = true;
+    attachSuperTimer();
+
+  }
+
+  private void attachSuperTimer() {
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        isSuper = false;
+      }
+    }, 5000);
   }
 
   public boolean isLose() {
@@ -145,12 +161,6 @@ public class GameStateData {
     return potentialAgent;
   }
 
-  private void setSuperStates() {
-    for (Agent agent : myAgentStates) {
-      agent.setState(AFRAID_STATE);
-    }
-  }
-
   private void createRequiredPelletList(Map<String, List<Position>> gameDict,
       Map<String, Boolean> pelletInfo) {
     for (String key : pelletInfo.keySet()) {
@@ -178,6 +188,7 @@ public class GameStateData {
     for (Position agentPos : gameDict.get("Pacman")) {
       int x = agentPos.getCoords()[0];
       int y = agentPos.getCoords()[1];
+      myInitAgentPositions.add(new Position(x,y));
       myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
       pacmanLives = 3;
     }
@@ -186,6 +197,7 @@ public class GameStateData {
       for (Position agentPos : gameDict.get("Ghost")) {
         int x = agentPos.getCoords()[0];
         int y = agentPos.getCoords()[1];
+        myInitAgentPositions.add(new Position(x,y));
         myAgentStates.add(agentFactory.createAgent("Ghost", x, y));
       }
     }
@@ -199,6 +211,14 @@ public class GameStateData {
         myWallStates.add(agentFactory.createAgent("Wall", x, y));
       }
     }
+  }
+
+  public void decreaseLives(){
+    pacmanLives--;
+  }
+
+  public List<Position> getMyInitAgentPositions() {
+    return myInitAgentPositions;
   }
 
   private void createWallMap(Map<String, List<Position>> gameDict, int rows, int cols) {

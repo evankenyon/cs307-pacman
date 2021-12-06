@@ -41,7 +41,7 @@ public class TopView {
     private Label scoreNumber;
     private VanillaGame myGame;
     private Consumer<Integer> scoreConsumer = score -> updateScoreDisplay(score);
-    private Consumer<Boolean> livesConsumer = lost -> updateLivesDisplay(lost);
+    private Consumer<Integer> livesConsumer = lives -> updateLivesDisplay(lives);
     private ResourceBundle myResources;
     private VBox topFull;
 
@@ -49,6 +49,7 @@ public class TopView {
         myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
         myGame = game;
         game.getBoard().addScoreConsumer(scoreConsumer);
+        game.getBoard().addLivesConsumer(livesConsumer);
         initiateTopView();
         topGrid.getStyleClass().add("root");
         topGrid.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
@@ -121,10 +122,10 @@ public class TopView {
     }
 
     // TODO: implement lives consumer to change the hearts on the screen
-    private void updateLivesDisplay(boolean lost) {
-        if (lost) {
-            lifeDisplay.getChildren().remove(lifeDisplay.getChildren().size()-1);
-        }
+    private void updateLivesDisplay(int lives) {
+        lifeDisplay.getChildren().remove(1);
+        ImageView heartDisplay = makeIcon("data/images/hearts-" + Integer.valueOf(lives) + ".png");
+        lifeDisplay.getChildren().add(heartDisplay);
     }
 
     public VBox getTopViewGP() {

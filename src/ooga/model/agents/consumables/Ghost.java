@@ -9,6 +9,7 @@ import ooga.model.interfaces.Consumable;
 import ooga.model.movement.BFS;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Scatter;
+import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
 
@@ -47,8 +48,16 @@ public class Ghost extends AbstractAgent implements Consumable {
   @Override
   public void setState(int i) {
     myState = i;
-    myMover.setStrategy(new Scatter());
     updateConsumer();
+    if (i == AFRAID_STATE){
+      myMover.setStrategy(new Scatter());
+    }
+    else if(i == DEAD_STATE){
+      myMover.setStrategy(new Static());
+    }
+    else{
+      myMover.setStrategy(new BFS());
+    }
     attachStateTimer();
   }
 
@@ -58,19 +67,18 @@ public class Ghost extends AbstractAgent implements Consumable {
     timer.schedule(new TimerTask() {
       @Override
       public void run() {
-        if (myState == AFRAID_STATE) {
-          myState = ALIVE_STATE;
-          myMover.setStrategy(new BFS());
-        }
+        myState = ALIVE_STATE;
+        myMover.setStrategy(new BFS());
       }
-    }, 4000);
+    }, 5000);
   }
 
   @Override
   public int getConsumed() {
     if (myState == AFRAID_STATE) {
-      myState = DEAD_STATE;
-      updateConsumer();
+//      myState = DEAD_STATE;
+//      updateConsumer();
+      myMover.setStrategy(new BFS());
       return GHOST_POINTS;
     }
     if (myState == ALIVE_STATE) {

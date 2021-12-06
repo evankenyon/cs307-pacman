@@ -4,9 +4,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import ooga.factories.AgentFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
+import ooga.model.movement.BFS;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +19,7 @@ public class GameState {
   private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",
       GameBoard.class.getPackageName());
   private static final String TYPES_FILENAME = "types";
+  private static final int ALIVE_STATE = 1;
 
   private GameStateData myGameStateData;
   private final int DX = 1;
@@ -135,6 +139,7 @@ public class GameState {
   }
 
 
+
   public Agent findAgent(Position pos) {
     return myGameStateData.findAgent(pos);
   }
@@ -226,5 +231,23 @@ public class GameState {
 
   public int getLives() {
     return myGameStateData.getPacmanLives();
+  }
+
+  public void decreaseLives(){
+    myGameStateData.decreaseLives();
+  }
+
+  public void resetGhosts() {
+    int i = 1;
+    for (Agent a : getGhosts()){
+      a.setCoords(myGameStateData.getMyInitAgentPositions().get(i));
+      a.setState(ALIVE_STATE);
+      i++;
+    }
+  }
+
+  public void resetPacman() {
+    getPacman().setState(ALIVE_STATE);
+    getPacman().setCoords(myGameStateData.getMyInitAgentPositions().get(0));
   }
 }

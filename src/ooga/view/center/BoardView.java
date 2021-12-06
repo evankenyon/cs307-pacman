@@ -27,6 +27,7 @@ import ooga.model.agents.wall;
 import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 import ooga.view.center.agents.AgentView;
+import ooga.view.center.agents.EmptyView;
 import ooga.view.center.agents.WallView;
 import ooga.view.popups.ErrorPopups;
 
@@ -148,7 +149,7 @@ public class BoardView {
           .newInstance(agent, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       new ErrorPopups(myLanguage, "ReflectionError");
-      return new WallView(new wall(position.getCoords()[0], position.getCoords()[1]), numRows,
+      return new EmptyView(new wall(position.getCoords()[0], position.getCoords()[1]), numRows,
           numCols);
     }
   }

@@ -2,15 +2,15 @@ package ooga.view;
 
 import static ooga.Main.LANGUAGE;
 import static ooga.Main.VIEW_MODE;
+import static ooga.view.popups.ErrorPopupsTest.TEST_IMAGE;
 import static ooga.view.bottomView.BottomView.MAX_SLIDER_VAL;
 import static ooga.view.bottomView.BottomView.MIN_SLIDER_VAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import ooga.view.userProfileView.UserInformationView;
 
-import java.awt.Button;
+import ooga.controller.IO.User;
+
 import java.io.File;
 import java.io.IOException;
-import java.lang.management.BufferPoolMXBean;
 import java.lang.reflect.InvocationTargetException;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
@@ -20,7 +20,6 @@ import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
 import ooga.view.mainView.MainView;
 import org.junit.jupiter.api.Test;
-import org.testfx.framework.junit5.Start;
 import util.DukeApplicationTest;
 
 public class BottomViewTest extends DukeApplicationTest {
@@ -32,13 +31,15 @@ public class BottomViewTest extends DukeApplicationTest {
   private Node myPlayPauseButton;
   private MainView myMainView;
   private Slider mySpeedSlider;
+  private User myUser;
 
   @Override
   public void start (Stage stage)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myController = new Controller(LANGUAGE, stage, VIEW_MODE);
     UserPreferences prefs = myController.uploadFile(new File(TEST_FILE));
-    //myMainView = new MainView(myController, myController.getVanillaGame(), stage, VIEW_MODE, prefs);
+    myUser = new User("test", "test", TEST_IMAGE, 0,0,0, null);
+    myMainView = new MainView(myController, myController.getVanillaGame(), stage, VIEW_MODE, prefs, myUser);
     myPlayPauseButton = lookup("#playPauseButton").query();
     mySpeedSlider = lookup("#speedSlider").query();
   }

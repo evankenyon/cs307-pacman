@@ -4,7 +4,6 @@ import static ooga.model.agents.wall.UNPASSABLE;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import javafx.scene.paint.Color;
@@ -18,14 +17,13 @@ import ooga.model.interfaces.Agent;
  *
  * @author Dane Erickson
  */
-public class WallView extends StationaryView {
+public class EmptyView extends StationaryView {
 
-  public static final List<Double> WALL_COLOR_RGB = Arrays.asList(0., 0., 255.);
-  public static final Paint WALL_COLOR = Color.BLUE;
+  public static final Paint EMPTY_COLOR = Color.TRANSPARENT;
 
   private Agent myAgent;
-  private Rectangle myWallShape;
-  private Consumer<Agent> updateWall = newInfo -> updateAgent(newInfo);
+  private Rectangle myEmptyShape;
+  private Consumer<Agent> updateEmpty = newInfo -> updateAgent(newInfo);
   private int numCols;
   private int numRows;
   private double gridWidth;
@@ -36,17 +34,16 @@ public class WallView extends StationaryView {
    * Constructor to create the WallView object using the default wall color for the Rectangles in
    * WallView
    *
-   * @param w        is the Agent from the backend that corresponds to the front end Agent
+   * @param empty    is the Agent from the backend that corresponds to the front end Agent
    * @param gridRows is the row position of the Agent
    * @param gridCols is the column position of the Agent
    */
-  public WallView(Agent w, int gridRows, int gridCols) {
-//    this(w, WALL_COLOR_RGB, gridRows, gridCols);
-    myAgent = w;
+  public EmptyView(Agent empty, int gridRows, int gridCols) {
+    myAgent = empty;
     numCols = gridCols;
     numRows = gridRows;
     makeLayoutSettings();
-    wallViewSetup(WALL_COLOR);
+    wallViewSetup(EMPTY_COLOR);
   }
 
   /**
@@ -55,17 +52,16 @@ public class WallView extends StationaryView {
    *
    * @param w        is the Agent from the backend that corresponds to the front end Agent
    * @param rgb      is the list of Doubles that represent the red, green, and blue values to
-   *                 determine the wall's color
+   *                 determine the color - not used in EmptyView since it's transparent
    * @param gridRows is the row position of the Agent
    * @param gridCols is the column position of the Agent
    */
-  public WallView(Agent w, List<Double> rgb, int gridRows, int gridCols) {
+  public EmptyView(Agent w, List<Double> rgb, int gridRows, int gridCols) {
     myAgent = w;
     numCols = gridCols;
     numRows = gridRows;
     makeLayoutSettings();
-    Color wallColor = new Color(rgb.get(0), rgb.get(1), rgb.get(2), 1);
-    wallViewSetup(wallColor);
+    wallViewSetup(EMPTY_COLOR);
   }
 
   private void makeLayoutSettings() {
@@ -75,15 +71,15 @@ public class WallView extends StationaryView {
   }
 
   private void wallViewSetup(Paint color) {
-    myWallShape = new Rectangle(gridWidth, gridHeight, color);
-    setImage(myWallShape);
-    myWallShape.setX(gridWidth * myAgent.getPosition().getCoords()[0]);
-    myWallShape.setY(gridHeight * myAgent.getPosition().getCoords()[1]);
-    myAgent.addConsumer(updateWall);
+    myEmptyShape = new Rectangle(gridWidth, gridHeight, color);
+    setImage(myEmptyShape);
+    myEmptyShape.setX(gridWidth * myAgent.getPosition().getCoords()[0]);
+    myEmptyShape.setY(gridHeight * myAgent.getPosition().getCoords()[1]);
+    myAgent.addConsumer(updateEmpty);
   }
 
   @Override
   protected void updateState(int newState) {
-    myWallShape.setVisible(newState == UNPASSABLE);
+    myEmptyShape.setVisible(newState == UNPASSABLE);
   }
 }

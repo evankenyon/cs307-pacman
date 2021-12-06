@@ -40,11 +40,14 @@ public class LoginView {
   public static final int BUTTON_SPACING = 8;
   public static final String SIGN_IN_KEY = "SignIn";
   public static final String SIGN_UP_KEY = "SignUp";
+  public static final String SIGN_IN_ID = "signInButton";
+  public static final String SIGN_UP_ID = "signUpButton";
 
   private ResourceBundle myResources;
   private Stage myStage;
   private Controller myController;
   private User myUser;
+  private ErrorPopups myError;
 
   public LoginView (Stage stage, Controller controller) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
@@ -67,8 +70,8 @@ public class LoginView {
             new File("data/images/welcome.png").toURI().toString()));
     welcome.setPreserveRatio(true);
     welcome.setFitWidth(LOGIN_WIDTH - (2 * PADDING));
-    ImageView signInButton = makeButton("signIn", e -> signInAction());
-    ImageView signUpButton = makeButton("signUp", e -> signUpAction());
+    ImageView signInButton = makeButton("signIn", e -> signInAction(), SIGN_IN_ID);
+    ImageView signUpButton = makeButton("signUp", e -> signUpAction(), SIGN_UP_ID);
     HBox buttonBox = new HBox();
     buttonBox.setAlignment(Pos.CENTER);
     buttonBox.setSpacing(BUTTON_SPACING);
@@ -89,7 +92,7 @@ public class LoginView {
       myUser = myController.createUser(username, password, image);
       new GameStartupPanel(myStage, myUser, myController);
     } catch (IOException | InterruptedException | IllegalArgumentException e) {
-      new ErrorPopups(LANGUAGE, "SignUpError");
+      myError = new ErrorPopups(LANGUAGE, "SignUpError");
     }
   }
 
@@ -100,7 +103,7 @@ public class LoginView {
       myUser = myController.login(username, password);
       new GameStartupPanel(myStage, myUser, myController);
     } catch (IOException | IllegalArgumentException e) {
-      new ErrorPopups(LANGUAGE, "SignInError");
+      myError = new ErrorPopups(LANGUAGE, "SignInError");
     }
   }
 
@@ -118,13 +121,26 @@ public class LoginView {
     return textInput.getEditor().getText();
   }
 
-  private ImageView makeButton(String id, EventHandler handler) {
+  private ImageView makeButton(String imageName, EventHandler handler, String id) {
     ImageView buttonImg = new ImageView(new Image(
-            new File("data/images/" + id + ".png").toURI().toString()));
+            new File("data/images/" + imageName + ".png").toURI().toString()));
     buttonImg.setPreserveRatio(true);
     buttonImg.setFitWidth(BUTTON_WIDTH);
     buttonImg.setOnMouseReleased(handler);
+    buttonImg.setId(id);
     return buttonImg;
   }
+
+  // Used for testing
+  protected User getUser() { return myUser; }
+
+  // Used for testing
+  protected User makeUserNoImage(String username, String password, String imagePath)
+      throws IOException, InterruptedException {
+    return myController.createUser(username, password, new File(imagePath));
+  }
+
+  // Used for testing
+  protected ErrorPopups getError() { return myError; }
 
 }

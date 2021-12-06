@@ -63,14 +63,14 @@ public class Ghost extends AbstractAgent implements Consumable {
           myMover.setStrategy(new BFS());
         }
       }
-    }, 4000);
+    }, 6000);
   }
 
   @Override
   public int getConsumed() {
     if (myState == AFRAID_STATE) {
-      myState = DEAD_STATE;
-      updateConsumer();
+//      myState = DEAD_STATE;
+//      updateConsumer();
       return GHOST_POINTS;
     }
     if (myState == ALIVE_STATE) {

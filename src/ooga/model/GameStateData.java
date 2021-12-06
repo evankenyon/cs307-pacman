@@ -23,7 +23,7 @@ public class GameStateData {
   private final AgentFactory agentFactory = new AgentFactory();
   private final ConsumableFactory consumableFactory = new ConsumableFactory();
   private List<Agent> myAgentStates;
-  private List<Agent> myInitAgentStates;
+  private List<Position> myInitAgentPositions;
   private List<Consumable> myRequiredPelletStates;
   private List<Agent> myWallStates;
   private boolean[][] myWallMap;
@@ -64,6 +64,7 @@ public class GameStateData {
     myAgentStates = new ArrayList<>();
     myRequiredPelletStates = new ArrayList<>();
     myWallStates = new ArrayList<>();
+    myInitAgentPositions = new ArrayList<>();
     myWallMap = new boolean[cols][rows];
     createWallMap(gameDict, rows, cols);
     createAgentList(gameDict);
@@ -178,6 +179,7 @@ public class GameStateData {
     for (Position agentPos : gameDict.get("Pacman")) {
       int x = agentPos.getCoords()[0];
       int y = agentPos.getCoords()[1];
+      myInitAgentPositions.add(new Position(x,y));
       myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
       pacmanLives = 3;
     }
@@ -186,6 +188,7 @@ public class GameStateData {
       for (Position agentPos : gameDict.get("Ghost")) {
         int x = agentPos.getCoords()[0];
         int y = agentPos.getCoords()[1];
+        myInitAgentPositions.add(new Position(x,y));
         myAgentStates.add(agentFactory.createAgent("Ghost", x, y));
       }
     }
@@ -199,6 +202,14 @@ public class GameStateData {
         myWallStates.add(agentFactory.createAgent("Wall", x, y));
       }
     }
+  }
+
+  public void decreaseLives(){
+    pacmanLives--;
+  }
+
+  public List<Position> getMyInitAgentPositions() {
+    return myInitAgentPositions;
   }
 
   private void createWallMap(Map<String, List<Position>> gameDict, int rows, int cols) {

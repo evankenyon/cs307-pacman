@@ -3,6 +3,7 @@ package ooga.view;
 import static ooga.Main.LANGUAGE;
 import static ooga.Main.VIEW_MODE;
 import static ooga.view.BottomViewTest.TEST_FILE;
+import static ooga.view.ErrorPopupsTest.TEST_IMAGE;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,12 +25,14 @@ public class StartUpPanelTests extends DukeApplicationTest {
   private ComboBox<String> selectGameType;
   private ComboBox<String> selectLanguage;
   private ComboBox<String> selectViewMode;
+  private User myUser;
 
   @Override
   public void start (Stage stage)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myController = new Controller(LANGUAGE, stage, VIEW_MODE);
     UserPreferences prefs = myController.uploadFile(new File(TEST_FILE));
-    myStartupPanel = new GameStartupPanel(stage, null, myController);
+    myUser = new User("test", TEST_IMAGE, 0,0,0, null);
+    myStartupPanel = new GameStartupPanel(stage, myUser, myController);
   }
 }

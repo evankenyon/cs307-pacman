@@ -30,7 +30,15 @@ public class ProfileGenerator {
     }
     JSONObject props = new JSONObject();
     props.put("password", password);
-    props.put("image-path", imageFile.getPath());
+    File currFile = imageFile;
+    StringBuilder pathName = new StringBuilder(imageFile.getName());
+    while (!currFile.getParentFile().getName().equals("data")) {
+      pathName.insert(0, String.format("%s/", currFile.getParentFile().getName()));
+      currFile = currFile.getParentFile();
+    }
+    pathName.insert(0, "./data/");
+
+    props.put("image-path", pathName);
     props.put("high-score", 0);
     props.put("wins", 0);
     props.put("losses", 0);

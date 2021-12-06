@@ -29,6 +29,7 @@ import ooga.view.loginView.LoginView;
 import ooga.view.mainView.MainView;
 import ooga.view.popups.ErrorPopups;
 import ooga.view.startupView.GameStartupPanel;
+import ooga.view.userProfileView.UserInformationView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
@@ -85,6 +86,12 @@ public class Controller implements ControllerInterface {
       // TODO: fix
       e.printStackTrace();
     }
+//    try {
+//      new UserInformationView(this, profileGenerator.login("dane", "dane"), stage);
+//    } catch(Exception e) {
+//
+//    }
+
     new LoginView(myStage, this);
 //    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
     isPaused = true;

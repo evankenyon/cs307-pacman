@@ -17,6 +17,8 @@ import util.DukeApplicationTest;
 
 public class ErrorPopupsTest extends DukeApplicationTest {
 
+  public static final String TEST_IMAGE = "data/images/fruit.png";
+
   private ResourceBundle myResources;
   private Controller myController;
   private User myUser;
@@ -24,7 +26,8 @@ public class ErrorPopupsTest extends DukeApplicationTest {
   @Start
   public void start (Stage stage) {
     myController = new Controller(LANGUAGE, stage, VIEW_MODE);
-    new GameStartupPanel(stage, null, myController);
+    myUser = new User("test", TEST_IMAGE, 0,0,0, null);
+    new GameStartupPanel(stage, myUser, myController);
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, LANGUAGE));
   }
 

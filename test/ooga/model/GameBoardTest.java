@@ -28,7 +28,8 @@ class GameBoardTest {
     Map<String, List<Position>> initialStates = new HashMap<>();
     initialStates.put("Pacman", new ArrayList<>());
     initialStates.get("Pacman").add(new Position(0, 0));
-
+    initialStates.put("pellet", new ArrayList<>());
+    initialStates.get("Pacman").add(new Position(0, 1));
     Map<String, Boolean> pelletInfo = new HashMap<>();
     pelletInfo.put("pellet", Boolean.TRUE);
 
@@ -64,8 +65,11 @@ class GameBoardTest {
     initialStates.put("Pacman", new ArrayList<>());
     initialStates.get("Pacman").add(new Position(0, 0));
 
-    initialStates.put("wall", new ArrayList<>());
-    initialStates.get("wall").add(new Position(0, 1));
+    initialStates.put("Wall", new ArrayList<>());
+    initialStates.get("Wall").add(new Position(0, 1));
+
+    initialStates.put("pellet", new ArrayList<>());
+    initialStates.get("pellet").add(new Position(0, 2));
 
     Map<String, Boolean> pelletInfo = new HashMap<>();
     pelletInfo.put("pellet", Boolean.TRUE);

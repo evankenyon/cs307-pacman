@@ -27,6 +27,9 @@ public class wallTest {
     initialStates.put("Pacman", new ArrayList<>());
     initialStates.get("Pacman").add(new Position(0, 0));
 
+    initialStates.put("pellet", new ArrayList<>());
+    initialStates.get("pellet").add(new Position(0, 1));
+
     Map<String, Boolean> pelletInfo = new HashMap<>();
     pelletInfo.put("pellet", Boolean.TRUE);
 

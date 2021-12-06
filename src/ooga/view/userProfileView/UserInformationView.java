@@ -1,5 +1,7 @@
 package ooga.view.userProfileView;
 
+import static ooga.view.center.agents.MovableView.IMAGE_PATH;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -15,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.User;
@@ -47,6 +50,8 @@ public class UserInformationView {
     addTextInfo(root, "High Score", String.valueOf(user.highScore()), 1, 3);
     addTextInfo(root, "Number of wins", String.valueOf(user.wins()), 1, 4);
     addTextInfo(root, "Number of losses", String.valueOf(user.losses()), 1, 5);
+    Button editImageButton = makeButton("Edit Image", e -> editImage());
+    root.add(editImageButton, 1, 6);
     Scene myScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
     myScene.getStylesheets().add(getClass().getResource(DEFAULT_STYLESHEET).toExternalForm());
     return myScene;
@@ -61,7 +66,7 @@ public class UserInformationView {
   }
 
   private void addProfileImage(GridPane root, User user) {
-    ImageView profileImage = new ImageView(new Image(new File(user.imagePath()).toURI().toString()));
+    ImageView profileImage = new ImageView(new Image(new File(controller.getUser().imagePath()).toURI().toString()));
     setImgWidth(profileImage, 100);
     root.add(profileImage, 1, 1);
   }
@@ -74,6 +79,17 @@ public class UserInformationView {
   private void setImgWidth(ImageView img, int width) {
     img.setPreserveRatio(true);
     img.setFitWidth(width);
+  }
+
+  private void editImage() {
+    FileChooser myFileChooser = new FileChooser();
+    myFileChooser.setInitialDirectory(new File(IMAGE_PATH));
+    try {
+      controller.updateImage(myFileChooser.showOpenDialog(stage));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    reset(controller.getUser());
   }
 
   private void editForm(String title, String header) {

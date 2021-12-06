@@ -85,14 +85,8 @@ public class Controller implements ControllerInterface {
       // TODO: fix
       e.printStackTrace();
     }
-//    try {
-//      new UserInformationView(this, profileGenerator.login("dane", "dane"), stage);
-//    } catch(Exception e) {
-//
-//    }
-//
+
     new LoginView(myStage, this);
-//    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
     isPaused = true;
   }
 
@@ -124,6 +118,11 @@ public class Controller implements ControllerInterface {
   public void updateUsername(String updatedUsername) throws IOException {
     profileGenerator.changeProfileUsername(currUser.username(), password, updatedUsername);
     currUser = login(updatedUsername, password);
+  }
+
+  public void updateImage(File updatedImageFile) throws IOException {
+    profileGenerator.updateProfilePicture(currUser.username(), password, updatedImageFile);
+    currUser = login(currUser.username(), password);
   }
 
   public void updatePassword(String updatedPassword) throws IOException {
@@ -224,20 +223,6 @@ public class Controller implements ControllerInterface {
     GameSaver saver = new GameSaver(vanillaGame);
     saver.saveGame();
   }
-
-//  /**
-//   * Getter method to get the uploaded file. Used to reload a new game.
-//   *
-//   * @return File myFile
-//   */
-//  public File getFile() { return myFile; }
-//
-//  /**
-//   * Getter method to get the current stage. Used to reload a new game.
-//   *
-//   * @return Stage myStage
-//   */
-//  public Stage getStage() { return myStage; }
 
   /**
    * Restarts the game with the same file that was originally uploaded. Called from BottomView when

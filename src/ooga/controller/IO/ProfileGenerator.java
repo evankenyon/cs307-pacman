@@ -30,15 +30,7 @@ public class ProfileGenerator {
     }
     JSONObject props = new JSONObject();
     props.put("password", password);
-    File currFile = imageFile;
-    StringBuilder pathName = new StringBuilder(imageFile.getName());
-    while (!currFile.getParentFile().getName().equals("data")) {
-      pathName.insert(0, String.format("%s/", currFile.getParentFile().getName()));
-      currFile = currFile.getParentFile();
-    }
-    pathName.insert(0, "./data/");
-
-    props.put("image-path", pathName);
+    props.put("image-path", getRelativePath(imageFile));
     props.put("high-score", 0);
     props.put("wins", 0);
     props.put("losses", 0);
@@ -59,14 +51,28 @@ public class ProfileGenerator {
 
   public void updateProfilePicture(String username, String password, File imageFile)
       throws IOException {
+    if(imageFile == null) {
+      throw new IOException();
+    }
     login(username, password);
     JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
     JSONObject userInfo = allUsersInfo.getJSONObject(username);
     PrintWriter profilesFileWriter = new PrintWriter(path);
-    userInfo.put("image-path", imageFile.getPath());
+    userInfo.put("image-path", getRelativePath(imageFile));
     allUsersInfo.put(username, userInfo);
     profilesFileWriter.println(allUsersInfo);
     profilesFileWriter.close();
+  }
+
+  private String getRelativePath(File imageFile) {
+    File currFile = imageFile;
+    StringBuilder pathName = new StringBuilder(imageFile.getName());
+    while (!currFile.getParentFile().getName().equals("data")) {
+      pathName.insert(0, String.format("%s/", currFile.getParentFile().getName()));
+      currFile = currFile.getParentFile();
+    }
+    pathName.insert(0, "./data/");
+    return pathName.toString();
   }
 
   public void addFavoriteFile(String username, String password, File filePath)

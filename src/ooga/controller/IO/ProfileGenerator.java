@@ -46,7 +46,11 @@ public class ProfileGenerator {
       throw new IllegalArgumentException("Username or password incorrect");
     }
     JSONObject userInfo = JSONObjectParser.parseJSONObject(new File(path)).getJSONObject(username);
-    return new User(username, userInfo.getString("image-path"), userInfo.getInt("high-score"), userInfo.getInt("wins"), userInfo.getInt("losses"), null);
+    String[] favorites = new String[userInfo.getJSONArray("favorite-files").length()];
+    for(int index = 0; index < favorites.length; index++) {
+      favorites[index] = userInfo.getJSONArray("favorite-files").getString(index);
+    }
+    return new User(username, userInfo.getString("image-path"), userInfo.getInt("high-score"), userInfo.getInt("wins"), userInfo.getInt("losses"), favorites);
   }
 
   public void updateProfilePicture(String username, String password, File imageFile)
@@ -81,7 +85,7 @@ public class ProfileGenerator {
     JSONObject allUsersInfo = JSONObjectParser.parseJSONObject(new File(path));
     JSONObject userInfo = allUsersInfo.getJSONObject(username);
     PrintWriter profilesFileWriter = new PrintWriter(path);
-    userInfo.getJSONArray("favorite-files").put(filePath.getPath());
+    userInfo.getJSONArray("favorite-files").put(getRelativePath(filePath));
     allUsersInfo.put(username, userInfo);
     profilesFileWriter.println(allUsersInfo);
     profilesFileWriter.close();

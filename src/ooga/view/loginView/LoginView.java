@@ -1,5 +1,6 @@
 package ooga.view.loginView;
 
+import static ooga.Main.LANGUAGE;
 import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
 
@@ -22,6 +23,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.User;
+import ooga.view.popups.ErrorPopups;
 import ooga.view.startupView.GameStartupPanel;
 import org.json.JSONObject;
 
@@ -63,11 +65,10 @@ public class LoginView {
     File image = fileExplorer();
     try {
       myUser = myController.createUser(username, password, image);
-    } catch (IOException | InterruptedException e) {
-      //TODO: make signup exception popup
-      e.printStackTrace();
+      new GameStartupPanel(myStage, myUser, myController);
+    } catch (IOException | InterruptedException | IllegalArgumentException e) {
+      new ErrorPopups(LANGUAGE, "SignUpError");
     }
-    new GameStartupPanel(myStage, myUser, myController);
   }
 
   private void signInAction() {
@@ -75,11 +76,10 @@ public class LoginView {
     String password = makeTextInputDialog("Password", "Please enter your password");
     try {
       myUser = myController.login(username, password);
-    } catch (IOException e) {
-      //TODO: make sign in exception popup
-      e.printStackTrace();
+      new GameStartupPanel(myStage, myUser, myController);
+    } catch (IOException | IllegalArgumentException e) {
+      new ErrorPopups(LANGUAGE, "SignInError");
     }
-    new GameStartupPanel(myStage, myUser, myController);
   }
 
   private File fileExplorer() {

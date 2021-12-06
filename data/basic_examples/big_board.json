@@ -3,6 +3,7 @@
   "RequiredPellets":["Dot", "Super"],
   "OptionalPellets":[],
   "NumberOfLives":3,
+  "PlayerScore": 0,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall","Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall","Wall","Wall","Wall","Wall"],
     ["Wall","Super","Wall","Dot", "Dot","Dot", "Dot","Dot", "Dot","Dot", "Dot","Dot", "Dot","Dot", "Dot","Dot","Dot","Wall","Dot", "Dot","Dot", "Dot","Dot", "Dot","Super", "Wall"],

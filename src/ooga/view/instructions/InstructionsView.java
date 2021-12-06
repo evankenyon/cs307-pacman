@@ -36,10 +36,10 @@ public class InstructionsView {
     private ResourceBundle myResources;
     private VBox[] tops;
 
-    public InstructionsView(Stage instructionsStage, String selectedLanguage, String selectedGameType, String selectedViewMode) {
+    public InstructionsView(Stage instructionsStage, String selectedLanguage, String selectedViewMode) {
         this.STYLESHEET = "/ooga/view/resources/" + selectedViewMode + ".css";
         myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, selectedLanguage));
-        VBox top1 = top1(selectedGameType);
+        VBox top1 = top1();
         VBox top2 = top2();
         VBox top3 = top3();
         VBox top4 = top4();
@@ -67,7 +67,7 @@ public class InstructionsView {
         this.instructionsStage.show();
     }
 
-    private VBox top1(String selectedGameType) {
+    private VBox top1() {
         String headerText = myResources.getString("header1");
         String imageFile = "pacmanEatingPellets.gif";
         String instructionText = myResources.getString("instructionText1");

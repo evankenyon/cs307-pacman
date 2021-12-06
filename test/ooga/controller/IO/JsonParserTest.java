@@ -113,7 +113,7 @@ class JsonParserTest {
   @Test
   void uploadBadFile() {
     Assertions.assertThrows(IOException.class,
-        () -> jsonParser.parseJSON(JSONObjectParser.parseJSONObject(new File("./doc/plan/data/example1.json"))));
+        () -> jsonParser.parseJSON(JSONObjectParser.parseJSONObject(new File("./doc/plan/data/nonexistent.json"))));
   }
 
   @Test
@@ -170,16 +170,6 @@ class JsonParserTest {
         JSONObjectParser.parseJSONObject(new File("data/tests/basicWallMap.json")));
     Assertions.assertEquals(expectedRows, jsonParser.getRows());
     Assertions.assertEquals(expectedCols, jsonParser.getCols());
-  }
-
-  @Test
-  void properReset() throws IOException {
-    jsonParser.parseJSON(
-        JSONObjectParser.parseJSONObject(new File("data/tests/basicWallMap.json")));
-    Assertions.assertThrows(InputMismatchException.class,
-        () -> jsonParser.parseJSON(JSONObjectParser.parseJSONObject(new File("data/tests/basicWallMap.json"))));
-    Assertions.assertDoesNotThrow(
-        () -> jsonParser.parseJSON(JSONObjectParser.parseJSONObject(new File("data/tests/basicWallMap.json"))));
   }
 
 }

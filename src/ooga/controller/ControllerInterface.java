@@ -12,8 +12,13 @@ import ooga.model.util.Position;
 
 public interface ControllerInterface {
 
+  @Deprecated
   public UserPreferences uploadFile(File file)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException;
+
+  public UserPreferences uploadFile(String fileName)
+      throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException;
+
 
   public void updatePressedKey(KeyEvent event);
 

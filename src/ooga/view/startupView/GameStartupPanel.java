@@ -5,6 +5,8 @@ import static ooga.Main.LANGUAGE;
 import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 import javafx.event.ActionEvent;
@@ -60,13 +62,13 @@ public class GameStartupPanel {
   public static final String VIEW_MODE_KEYS[] = {"Dark", "Duke", "Light"};
   public static final String LOAD_FILE_KEYS[] = {"SelectLocally", "SelectFromDatabase",
       "SelectFromFavorites"};
+  public static final String STARTUP_RESOURCES = "ooga.view.startupView.resources.";
 
   private Stage startupStage;
-  private Stage mainStage;
   private Button viewProfile;
   private ComboBox<String> selectLanguage;
   private ComboBox<String> selectViewMode;
-  private ComboBox<String> selectFile;
+  private ComboBox<String> selectFileComboBox;
   private File gameFile;
   private String fileString;
   private String selectedLanguage;
@@ -134,8 +136,8 @@ public class GameStartupPanel {
     selectLanguage = makeSelectorBox(languageCluster, "Language", LANGUAGE_KEYS);
     addToCluster(root, profileCluster, gameFileCluster, selectCluster1);
     selectViewMode = makeSelectorBox(viewModeCluster, "ViewingMode", VIEW_MODE_KEYS);
-    selectFile = makeSelectorBox(gameFileCluster, "GameFile", LOAD_FILE_KEYS);
-    selectFile.setOnAction(e -> selectFileAction());
+    selectFileComboBox = makeSelectorBox(gameFileCluster, "GameFile", LOAD_FILE_KEYS);
+    selectFileComboBox.setOnAction(e -> selectFileAction());
     displayFileName = makeText(Color.LIGHTGRAY, NO_FILE_TEXT, FontWeight.NORMAL,
         FontPosture.ITALIC, 11, gameFileCluster);
     addToCluster(root, languageCluster, viewModeCluster, selectCluster2);
@@ -168,23 +170,31 @@ public class GameStartupPanel {
   }
 
   private void selectFileAction() {
-    String location = selectFile.getValue();
-    if (location.equals(myResources.getString(LOAD_FILE_KEYS[0]))) {
-      runMethodName = RUN_LOCAL_FILE_METHOD;
-      uploadFile();
-    } else if (location.equals(myResources.getString(LOAD_FILE_KEYS[1]))) {
-      runMethodName = RUN_FIREBASE_FILE_METHOD;
-      try {
-        makeChoiceDialog(myController.getFirebaseFilenames(), LOAD_FILE_KEYS[1]);
-      } catch (InterruptedException e) {
-        new ErrorPopups(selectedLanguage, "FirebaseError");
-      }
-    } else if (location.equals(myResources.getString(LOAD_FILE_KEYS[2]))) {
-      runMethodName = RUN_FAVORITE_FILE_METHOD;
-      makeChoiceDialog(Arrays.asList(myUser.favorites()), LOAD_FILE_KEYS[2]);
+    String location = selectFileComboBox.getValue();
+    String locationKey = findMethodKey(selectFileComboBox.getValue());
+    ResourceBundle fileLoaderMethods = ResourceBundle.getBundle(String.format("%s%s", STARTUP_RESOURCES, "fileLoader"));
+    String methodName = fileLoaderMethods.getString(locationKey);
+    try {
+      Method m = GameStartupPanel.class.getDeclaredMethod(methodName, null);
+      m.invoke(this, null);
+    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+      new ErrorPopups(selectedLanguage, "ReflectionError");
     }
   }
 
+  private void localHelper() { makeFileExplorer(); }
+
+  private void firebaseHelper() {
+    try {
+      makeChoiceDialog(myController.getFirebaseFilenames(), LOAD_FILE_KEYS[1]);
+    } catch (InterruptedException e) {
+      new ErrorPopups(selectedLanguage, "FirebaseError");
+    }
+  }
+
+  private void favoriteHelper() {
+    makeChoiceDialog(Arrays.asList(myUser.favorites()), LOAD_FILE_KEYS[2]);
+  }
   private void makeChoiceDialog(Collection files, String resourcesKey) {
     ChoiceDialog fileChoices = new ChoiceDialog<>(myResources.getString(resourcesKey), files);
     fileChoices.setHeaderText(myResources.getString(String.format("%sHeader", resourcesKey)));
@@ -240,7 +250,7 @@ public class GameStartupPanel {
     return button;
   }
 
-  private void uploadFile() {
+  private void makeFileExplorer() {
     gameFile = fileExplorer();
     fileString = gameFile.getPath();
     if (gameFile != null) {
@@ -289,24 +299,26 @@ public class GameStartupPanel {
         selectedViewMode);
   }
 
+  private String findMethodKey(String value) {
+    for (String key : myResources.keySet()) {
+      if (myResources.getString(key).equals(value)) return key;
+    }
+    return null;
+  }
+
   private void runFile() {
-    mainStage = new Stage();
 //    Controller application = new Controller(selectedLanguage, mainStage, selectedViewMode);
     UserPreferences userPreferences;
+    String locationKey = findMethodKey(selectFileComboBox.getValue());
+    ResourceBundle uploadMethods = ResourceBundle.getBundle(String.format("%s%s", STARTUP_RESOURCES, "uploadMethods"));
     try {
-      //TODO: FIX THIS DESIGN!!
-      if (runMethodName.equals(RUN_LOCAL_FILE_METHOD)) {
-        userPreferences = myController.uploadFile(fileString);
-      } else if (runMethodName.equals(RUN_FIREBASE_FILE_METHOD)) {
-        userPreferences = myController.uploadFirebaseFile(fileString);
-      } else {
-        userPreferences = myController.uploadFile(fileString);
-      }
-      if (!myController.getPlayPause()) {
-        myController.pauseOrResume();
-      }
-      MainView mainView = new MainView(myController, myController.getVanillaGame(),
-          mainStage, selectedViewMode, userPreferences, myUser);
+      String methodName = uploadMethods.getString(locationKey);
+      Method m = Controller.class.getDeclaredMethod(methodName, String.class);
+      userPreferences = (UserPreferences) m.invoke(myController, fileString);
+      if (!myController.getPlayPause()) myController.pauseOrResume();
+      new MainView(myController, myController.getVanillaGame(), new Stage(), selectedViewMode, userPreferences, myUser);
+    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+      new ErrorPopups(selectedLanguage, "ReflectionError");
     } catch (Exception ex) {
       if (gameFile == null) {
         new ErrorPopups(selectedLanguage, "NoFile");

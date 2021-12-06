@@ -24,6 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -43,8 +44,9 @@ public class GameStartupPanel {
   public static final String RUN_FAVORITE_FILE_METHOD = "uploadFavoriteFile";
   public static final String RUN_FIREBASE_FILE_METHOD = "uploadFirebaseFile";
   private static final int SCREEN_WIDTH = 400;
-  private static final int SCREEN_HEIGHT = 500;
+  private static final int SCREEN_HEIGHT = 530;
   public static final int SELECTOR_WIDTH = 150;
+  public static final int SPACING = 10;
   public static final Paint BACKGROUND = Color.BLACK;
   public static final String STARTUP_PACKAGE = "ooga.view.startupView.";
   public static final String DEFAULT_STYLESHEET = String.format("/%sGameStartupPanel.css",
@@ -101,7 +103,8 @@ public class GameStartupPanel {
   }
 
   private Scene createStartupScene() {
-    GridPane root = new GridPane();
+    VBox root = new VBox();
+    root.setSpacing(SPACING);
     root.getStyleClass().add("grid-pane");
     makeBackground(root);
     addPacMan307Img(root);
@@ -112,38 +115,46 @@ public class GameStartupPanel {
     return myScene;
   }
 
-  private void addPacMan307Img(GridPane root) {
+  private void addPacMan307Img(VBox root) {
     ImageView pm307 = new ImageView(
         new Image(new File("data/images/pac_man_307.png").toURI().toString()));
     setImgWidth(pm307, SCREEN_WIDTH);
-    root.add(pm307, 1, 1);
+    root.getChildren().add(pm307);
   }
 
-  private void addStartupOptions(GridPane root) {
-    VBox selectCol1L = new VBox();
-    VBox selectCol1R = new VBox();
-    VBox selectCol2L = new VBox();
-    VBox selectCol2R = new VBox();
+  private void addStartupOptions(VBox root) {
+    VBox profileCluster = new VBox();
+    VBox gameFileCluster = new VBox();
+    VBox languageCluster = new VBox();
+    VBox viewModeCluster = new VBox();
     HBox selectCluster1 = new HBox();
     HBox selectCluster2 = new HBox();
-    root.add(makeProfileInfo(), 1, 2);
-    viewProfile = makeButton("viewProfile", selectCol1L, e -> makeProfileView());
-    selectLanguage = makeSelectorBox(selectCol2L, "Language", LANGUAGE_KEYS);
-    addToCluster(root, selectCol1L, selectCol1R, selectCluster1, 3);
-    selectViewMode = makeSelectorBox(selectCol2R, "ViewingMode", VIEW_MODE_KEYS);
-    selectFile = makeSelectorBox(selectCol1R, "GameFile", LOAD_FILE_KEYS);
+    root.getChildren().add(makeProfileInfo());
+    viewProfile = makeButton("viewProfile", profileCluster, e -> makeProfileView());
+    selectLanguage = makeSelectorBox(languageCluster, "Language", LANGUAGE_KEYS);
+    addToCluster(root, profileCluster, gameFileCluster, selectCluster1, 3);
+    selectViewMode = makeSelectorBox(viewModeCluster, "ViewingMode", VIEW_MODE_KEYS);
+    selectFile = makeSelectorBox(gameFileCluster, "GameFile", LOAD_FILE_KEYS);
     selectFile.setOnAction(e -> selectFileAction());
-    displayFileName = makeText(Color.LIGHTGRAY, NO_FILE_TEXT, selectCol1R);
-    addToCluster(root, selectCol2L, selectCol2R, selectCluster2, 4);
+    displayFileName = makeText(Color.LIGHTGRAY, NO_FILE_TEXT, FontWeight.NORMAL,
+            FontPosture.ITALIC, 11, gameFileCluster);
+    addToCluster(root, languageCluster, viewModeCluster, selectCluster2, 4);
   }
 
   private VBox makeProfileInfo() {
     VBox profileInfo = new VBox();
+    profileInfo.setSpacing(3);
     profileInfo.setAlignment(Pos.TOP_CENTER);
+    HBox pfpBorder = new HBox();
     ImageView profilePic = new ImageView(new Image(new File(myUser.imagePath()).toURI().toString()));
     setImgWidth(profilePic, SCREEN_WIDTH / 4);
-    profileInfo.getChildren().add(profilePic);
-    Text username = makeText(Color.LIGHTGRAY, myUser.username(), profileInfo);
+    pfpBorder.getChildren().add(profilePic);
+    pfpBorder.setMaxWidth(SCREEN_WIDTH / 4);
+    pfpBorder.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID,
+            new CornerRadii(5), new BorderWidths(6))));
+    profileInfo.getChildren().add(pfpBorder);
+    Text username = makeText(Color.LIGHTGRAY, myUser.username(), FontWeight.BOLD,
+            FontPosture.REGULAR, 16, profileInfo);
     return profileInfo;
   }
 
@@ -183,9 +194,10 @@ public class GameStartupPanel {
     displayFileName.setText(splitFileString[splitFileString.length-1]);
   }
 
-  private Text makeText(Paint color, String message, VBox vBox) {
+  private Text makeText(Paint color, String message, FontWeight fontWeight,
+                        FontPosture fontPosture, int fontSize, VBox vBox) {
     Text text = new Text();
-    text.setFont(Font.font("Verdana", FontPosture.ITALIC, 11));
+    text.setFont(Font.font("Verdana", fontWeight, fontPosture, fontSize));
     text.setFill(color);
     text.setText(message);
     vBox.getChildren().add(text);
@@ -206,19 +218,24 @@ public class GameStartupPanel {
     return comboBox;
   }
 
-  private void addToCluster(GridPane root, VBox vBoxChild1, VBox vBoxChild2, HBox hBoxParent,
+  private void addToCluster(VBox root, VBox vBoxChild1, VBox vBoxChild2, HBox hBoxParent,
       int row) {
+    hBoxParent.setAlignment(Pos.TOP_CENTER);
     hBoxParent.getChildren().addAll(vBoxChild1, vBoxChild2);
-    root.add(hBoxParent, 1, row);
+    root.getChildren().add(hBoxParent);
   }
 
   private Button makeButton(String id, VBox vbox, EventHandler<ActionEvent> handler) {
+    ImageView buttonLabel = new ImageView(new Image(
+            new File("data/images/" + id + ".png").toURI().toString()));
+    setImgWidth(buttonLabel, SCREEN_WIDTH / 2);
     Button button = new Button();
     button.setMinWidth(SELECTOR_WIDTH);
     button.setId(id);
     button.setText(myUser.username());
     button.setOnAction(handler);
-    vbox.getChildren().add(button);
+    vbox.setAlignment(Pos.TOP_CENTER);
+    vbox.getChildren().addAll(buttonLabel, button);
     return button;
   }
 
@@ -236,7 +253,7 @@ public class GameStartupPanel {
     return myFileChooser.showOpenDialog(startupStage);
   }
 
-  private void addStartButton(GridPane root) {
+  private void addStartButton(VBox root) {
     ImageView startButton = new ImageView(
         new Image(new File("data/images/playButton.png").toURI().toString()));
     setImgWidth(startButton, SCREEN_WIDTH / 4);
@@ -245,7 +262,7 @@ public class GameStartupPanel {
     HBox playBox = new HBox();
     playBox.getChildren().add(startButton);
     playBox.setAlignment(Pos.CENTER);
-    root.add(playBox, 1, 5);
+    root.getChildren().add(playBox);
   }
 
   private void startButtonAction() {
@@ -310,7 +327,7 @@ public class GameStartupPanel {
     return newComboBox;
   }
 
-  private void makeBackground(GridPane root) {
+  private void makeBackground(VBox root) {
     BackgroundFill background_fill = new BackgroundFill(BACKGROUND,
         CornerRadii.EMPTY, Insets.EMPTY);
     Background background = new Background(background_fill);

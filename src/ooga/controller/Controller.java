@@ -86,8 +86,7 @@ public class Controller implements ControllerInterface {
     try {
       firebaseReader = new FirebaseReader();
     } catch (IOException e) {
-      // TODO: fix
-      e.printStackTrace();
+      new ErrorPopups(myLanguage, "FirebaseError");
     }
 
     new LoginView(myStage, this);

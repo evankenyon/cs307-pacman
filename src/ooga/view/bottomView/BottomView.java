@@ -156,12 +156,10 @@ public class BottomView {
   }
 
   private void saveGame() {
-    // TODO: Fix SaveGame when merged
     try {
       myController.saveFile();
     } catch (IOException e) {
       new ErrorPopups(myLanguage,"SaveError");
-      e.printStackTrace();
     }
   }
 

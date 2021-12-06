@@ -25,6 +25,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.User;
+import ooga.view.popups.ErrorPopups;
 
 public class UserInformationView {
   private static final int SCREEN_WIDTH = 400;
@@ -35,10 +36,12 @@ public class UserInformationView {
 
   private Stage stage;
   private Controller controller;
+  private String myLanguage;
 
-  public UserInformationView(Controller controller, User user, Stage stage) {
+  public UserInformationView(Controller controller, User user, Stage stage, String language) {
     this.stage = stage;
     this.controller = controller;
+    myLanguage = language;
     reset(user);
   }
 
@@ -72,7 +75,7 @@ public class UserInformationView {
         controller.removeFile(favoriteFiles.getSelectionModel().getSelectedItem());
         reset(controller.getUser());
       } catch (IOException ex) {
-        ex.printStackTrace();
+        new ErrorPopups(myLanguage, "RemoveFile");
       }
     });
     root.add(removeFavoriteFileButton, 2, 8);
@@ -111,8 +114,7 @@ public class UserInformationView {
     try {
       controller.updateFile(myFileChooser.showOpenDialog(stage), type);
     } catch (Exception e) {
-      //TODO: fix
-      e.printStackTrace();
+      new ErrorPopups(myLanguage, "EditProfile");
     }
     reset(controller.getUser());
   }
@@ -123,7 +125,7 @@ public class UserInformationView {
       updateMethod.invoke(controller, makeTextInputDialog(title, header));
 //      controller.updateString(makeTextInputDialog(title, header), title);
     } catch (Exception e) {
-      // TODO: handle
+      new ErrorPopups(myLanguage, "EditProfile");
     }
     reset(controller.getUser());
   }

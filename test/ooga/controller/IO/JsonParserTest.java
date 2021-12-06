@@ -100,16 +100,29 @@ class JsonParserTest {
 
   @Test
   void parseJSONObjectNotAllRequiredKeys() {
+    try {
+      jsonParser.parseJSON(
+          JSONObjectParser.parseJSONObject(new File("data/tests/notEnoughKeys.json")));
+    } catch (Exception e) {
+      Assertions.assertEquals("The uploaded file does not have enough keys", e.getMessage());
+    }
     Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.parseJSON(
         JSONObjectParser.parseJSONObject(new File("data/tests/notEnoughKeys.json"))));
   }
 
   @Test
   void parseJSONObjectExtraKeys() {
+    try {
+      jsonParser.parseJSON(
+          JSONObjectParser.parseJSONObject(new File("data/tests/extraKeys.json")));
+    } catch (Exception e) {
+      Assertions.assertEquals(String.format("Unexpected key %s was found in file", "BadKey"), e.getMessage());
+    }
     Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.parseJSON(
         JSONObjectParser.parseJSONObject(new File("data/tests/extraKeys.json"))));
   }
 
+  //TODO: move to a test class for JSONObjectParser
   @Test
   void uploadBadFile() {
     Assertions.assertThrows(IOException.class,
@@ -118,18 +131,36 @@ class JsonParserTest {
 
   @Test
   void parseJSONObjectTwoPlayers() {
+    try {
+      jsonParser.parseJSON(
+          JSONObjectParser.parseJSONObject(new File("data/tests/twoPlayers.json")));
+    } catch (Exception e) {
+      Assertions.assertEquals("You should only have one player in your game.", e.getMessage());
+    }
     Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.parseJSON(
         JSONObjectParser.parseJSONObject(new File("data/tests/twoPlayers.json"))));
   }
 
   @Test
   void parseJSONObjectDuplicateGhosts() {
+    try {
+      jsonParser.parseJSON(
+          JSONObjectParser.parseJSONObject(new File("data/tests/duplicateGhosts.json")));
+    } catch (Exception e) {
+      Assertions.assertEquals("Game cannot have more than one of each type of ghost", e.getMessage());
+    }
     Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.parseJSON(
         JSONObjectParser.parseJSONObject(new File("data/tests/duplicateGhosts.json"))));
   }
 
   @Test
   void parseJSONObjectMissingRequiredPellet() {
+    try {
+      jsonParser.parseJSON(
+          JSONObjectParser.parseJSONObject(new File("data/tests/missingRequiredPellet.json")));
+    } catch (Exception e) {
+      Assertions.assertEquals(String.format("Game does not contain any of the %s required pellets", "Dot"), e.getMessage());
+    }
     Assertions.assertThrows(InputMismatchException.class, () -> jsonParser.parseJSON(
         JSONObjectParser.parseJSONObject(new File("data/tests/missingRequiredPellet.json"))));
   }
@@ -172,4 +203,5 @@ class JsonParserTest {
     Assertions.assertEquals(expectedCols, jsonParser.getCols());
   }
 
+  //TODO: add tests for reset and for JSONException
 }

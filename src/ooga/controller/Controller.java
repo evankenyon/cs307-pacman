@@ -7,7 +7,6 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
@@ -29,7 +28,6 @@ import ooga.view.loginView.LoginView;
 import ooga.view.mainView.MainView;
 import ooga.view.popups.ErrorPopups;
 import ooga.view.startupView.GameStartupPanel;
-import ooga.view.userProfileView.UserInformationView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
@@ -92,7 +90,7 @@ public class Controller implements ControllerInterface {
 //    } catch(Exception e) {
 //
 //    }
-
+//
     new LoginView(myStage, this);
 //    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
     isPaused = true;

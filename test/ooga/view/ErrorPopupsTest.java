@@ -26,7 +26,7 @@ public class ErrorPopupsTest extends DukeApplicationTest {
   @Start
   public void start (Stage stage) {
     myController = new Controller(LANGUAGE, stage, VIEW_MODE);
-    myUser = new User("test", TEST_IMAGE, 0,0,0, null);
+    myUser = new User("test", "test", TEST_IMAGE, 0,0,0, null);
     new GameStartupPanel(stage, myUser, myController);
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, LANGUAGE));
   }

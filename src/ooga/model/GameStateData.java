@@ -1,7 +1,5 @@
 package ooga.model;
 
-import static ooga.model.agents.consumables.Ghost.AFRAID_STATE;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,14 +9,11 @@ import ooga.factories.AgentFactory;
 import ooga.factories.ConsumableFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
-import ooga.model.movement.BFS;
 import ooga.model.util.Position;
 
 
 public class GameStateData {
 
-  private boolean isWin;
-  private boolean isLose;
   private boolean isSuper;
   private int myPacScore;
   private int myGhostScore;
@@ -34,8 +29,6 @@ public class GameStateData {
 
 
   public GameStateData() {
-    isLose = false;
-    isWin = false;
     myPacScore = 0;
     myGhostScore = 0;
     myAgentStates = new ArrayList<>();
@@ -44,8 +37,6 @@ public class GameStateData {
   }
 
   public GameStateData(GameStateData previous) {
-    isWin = previous.isWin;
-    isLose = previous.isLose;
     myPacScore = previous.myPacScore;
     myGhostScore = previous.myGhostScore;
     isSuper = previous.isSuper;
@@ -59,8 +50,6 @@ public class GameStateData {
   public void initialize(Map<String, List<Position>> gameDict, Map<String, Boolean> pelletInfo) {
     int rows = calculateDimension(gameDict, 1) + 1;
     int cols = calculateDimension(gameDict, 0) + 1;
-    isWin = false;
-    isLose = false;
     isSuper = false;
     myPacScore = 0;
     myGhostScore = 0;
@@ -88,10 +77,6 @@ public class GameStateData {
     return myWallStates;
   }
 
-  public boolean isWin() {
-    return isWin;
-  }
-
   public boolean isSuper() {
     return isSuper;
   }
@@ -110,10 +95,6 @@ public class GameStateData {
         isSuper = false;
       }
     }, 5000);
-  }
-
-  public boolean isLose() {
-    return isLose;
   }
 
   public int getMyPacScore() {
@@ -188,7 +169,7 @@ public class GameStateData {
     for (Position agentPos : gameDict.get("Pacman")) {
       int x = agentPos.getCoords()[0];
       int y = agentPos.getCoords()[1];
-      myInitAgentPositions.add(new Position(x,y));
+      myInitAgentPositions.add(new Position(x, y));
       myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
       pacmanLives = 3;
     }
@@ -197,7 +178,7 @@ public class GameStateData {
       for (Position agentPos : gameDict.get("Ghost")) {
         int x = agentPos.getCoords()[0];
         int y = agentPos.getCoords()[1];
-        myInitAgentPositions.add(new Position(x,y));
+        myInitAgentPositions.add(new Position(x, y));
         myAgentStates.add(agentFactory.createAgent("Ghost", x, y));
       }
     }
@@ -213,7 +194,7 @@ public class GameStateData {
     }
   }
 
-  public void decreaseLives(){
+  public void decreaseLives() {
     pacmanLives--;
   }
 

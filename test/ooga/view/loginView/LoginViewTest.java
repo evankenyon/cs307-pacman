@@ -4,25 +4,18 @@ import static ooga.Main.LANGUAGE;
 import static ooga.Main.VIEW_MODE;
 import static ooga.view.loginView.LoginView.SIGN_IN_ID;
 import static ooga.view.loginView.LoginView.SIGN_UP_ID;
-import static ooga.view.loginView.LoginView.SIGN_UP_KEY;
 import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.awt.Button;
 import java.io.IOException;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
-import javafx.scene.chart.BubbleChart;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+
 import ooga.controller.IO.User;
-import ooga.view.loginView.LoginView;
-import ooga.view.popups.ErrorPopups;
-import ooga.view.startupView.GameStartupPanel;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -66,7 +59,7 @@ public class LoginViewTest extends DukeApplicationTest {
     assertEquals(password, user.password(), "Password test failed");
   }
 
-//  @Test
+  //  @Test
 //  void testSignUpError() throws IOException, InterruptedException {
 //    System.out.println(username + "  " + password);
 //    User user = myLoginView.makeUserNoImage(username, password, null);
@@ -78,9 +71,9 @@ public class LoginViewTest extends DukeApplicationTest {
   @Order(2)
   void testSignIn() throws IOException, InterruptedException {
     try {
-      myLoginView.makeUserNoImage("test","test",TEST_IMAGE);
+      myLoginView.makeUserNoImage("test", "test", TEST_IMAGE);
+    } catch (Exception e) {
     }
-    catch (Exception e) {}
     clickOn(mySignInButton);
     writeInputsToDialog("test");
     writeInputsToDialog("test");

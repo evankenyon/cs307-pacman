@@ -20,7 +20,8 @@ public class ProfileGenerator {
   }
 
   public void createUser(String username, String password, File imageFile)
-      throws IOException, NullPointerException, JSONException, InterruptedException {
+      throws IOException, NullPointerException, JSONException, InterruptedException, IllegalArgumentException {
+    if (username == null || password == null || imageFile == null) throw new IOException();
     JSONObject oldFile = JSONObjectParser.parseJSONObject(new File(path));
     PrintWriter profilesFileWriter = new PrintWriter(path);
     if (oldFile.has(username)) {

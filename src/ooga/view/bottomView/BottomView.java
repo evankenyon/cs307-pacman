@@ -52,6 +52,11 @@ public class BottomView {
   public static final String BOTTOMVIEW_PACKAGE = "ooga.view.bottomView.";
   public static final String STYLESHEET = String.format("/%sBottomView.css",
       BOTTOMVIEW_PACKAGE.replace(".", "/"));
+  public static final String PLAY_PAUSE_BUTTON_ID = "playPauseButton";
+  public static final String STEP_BUTTON_ID = "stepButton";
+  public static final String SAVE_BUTTON_ID = "saveButton";
+  public static final String STATS_BUTTON_ID = "statsButton";
+  public static final String NEW_GAME_BUTTON_ID = "newGameButton";
   public static final int ICON_SIZE = 30;
   public static final int SIM_BUTTON_SIZE = 120;
   public static final double MIN_SLIDER_VAL = 0.5;
@@ -116,15 +121,6 @@ public class BottomView {
     return sliderBox;
   }
 
-  private Button makeSimButton(ImageView image, Background background,
-      EventHandler<ActionEvent> handler) {
-    Button myButton = new Button();
-    myButton.setOnAction(handler);
-    myButton.setGraphic(image);
-    myButton.setBackground(background);
-    return myButton;
-  }
-
   private ImageView makeButtonImage(String path, int size) {
     ImageView image = new ImageView(new Image(new File(path).toURI().toString()));
     image.setPreserveRatio(true);
@@ -135,10 +131,10 @@ public class BottomView {
   private void togglePlayPause() {
     myController.pauseOrResume();
     if (isPaused) {
-      playPauseButton = makeGraphicButton(PAUSE_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE);
+      playPauseButton = makeGraphicButton(PAUSE_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
       isPaused = false;
     } else {
-      playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE);
+      playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
       isPaused = true;
     }
   }
@@ -146,24 +142,18 @@ public class BottomView {
   private void initiateBottomView(HBox root) {
     VBox leftSide = makeProfileInfo();
     ImageView saveButton = makeGraphicButton("saveButton-" + myResources.getString("save") + ".png",
-            e -> saveGame(), GRAPHIC_BUTTON_HEIGHT);
+            e -> saveGame(), GRAPHIC_BUTTON_HEIGHT, SAVE_BUTTON_ID);
     ImageView statsButton = makeGraphicButton("statsButton-" + myResources.getString("stats") + ".png",
-            e -> showStats(), GRAPHIC_BUTTON_HEIGHT);
+            e -> showStats(), GRAPHIC_BUTTON_HEIGHT, STATS_BUTTON_ID);
     ImageView restartButton = makeGraphicButton("restartButton-" + myResources.getString("restart") + ".png",
-            e -> restartGame(), GRAPHIC_BUTTON_HEIGHT);
+            e -> restartGame(), GRAPHIC_BUTTON_HEIGHT, NEW_GAME_BUTTON_ID);
     VBox graphicButtons = new VBox();
     graphicButtons.setSpacing(Y_SPACING);
     graphicButtons.getStyleClass().add("graphic-buttons");
     graphicButtons.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
-//    playPauseButton = makeSimButton(makeButtonImage(PLAY_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
-//        e -> togglePlayPause());
-//    playPauseButton.setId("playPauseButton");
-//    stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
-//        e -> myGame.step());
-//    stepButton.setId("stepButton");
-    ImageView playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE);
-    ImageView stepButton = makeGraphicButton(STEP_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE);
+    ImageView playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
+    ImageView stepButton = makeGraphicButton(STEP_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, STEP_BUTTON_ID);
     HBox buttonsPane = new HBox();
     buttonsPane.setAlignment(Pos.TOP_CENTER);
     buttonsPane.setSpacing(X_SPACING);
@@ -210,12 +200,13 @@ public class BottomView {
     }
   }
 
-  private ImageView makeGraphicButton(String filename, EventHandler handler, int height) {
+  private ImageView makeGraphicButton(String filename, EventHandler handler, int height, String id) {
     String imagePath = "data/images/" + filename;
     ImageView myImgView = new ImageView(new Image(new File(imagePath).toURI().toString()));
     myImgView.setPreserveRatio(true);
     myImgView.setFitHeight(height);
     myImgView.setOnMouseReleased(handler);
+    myImgView.setId(id);
     return myImgView;
   }
 

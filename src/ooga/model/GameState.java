@@ -4,9 +4,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import ooga.factories.AgentFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
+import ooga.model.movement.BFS;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -134,6 +137,7 @@ public class GameState {
       ghost.setState(2);
     }
   }
+
 
 
   public Agent findAgent(Position pos) {

@@ -80,6 +80,7 @@ public class GameBoard {
         } else {
           myState.decreaseLives();
           updateLivesConsumer();
+          System.out.println("pacman got grubbed");
           resetBoard();
         }
       }

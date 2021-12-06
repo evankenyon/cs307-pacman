@@ -5,10 +5,13 @@ import static ooga.model.agents.consumables.Ghost.AFRAID_STATE;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import ooga.factories.AgentFactory;
 import ooga.factories.ConsumableFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
+import ooga.model.movement.BFS;
 import ooga.model.util.Position;
 
 
@@ -95,6 +98,18 @@ public class GameStateData {
 
   public void setSuper() {
     isSuper = true;
+    attachSuperTimer();
+
+  }
+
+  private void attachSuperTimer() {
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        isSuper = false;
+      }
+    }, 5000);
   }
 
   public boolean isLose() {
@@ -144,12 +159,6 @@ public class GameStateData {
       }
     }
     return potentialAgent;
-  }
-
-  private void setSuperStates() {
-    for (Agent agent : myAgentStates) {
-      agent.setState(AFRAID_STATE);
-    }
   }
 
   private void createRequiredPelletList(Map<String, List<Position>> gameDict,

@@ -93,7 +93,6 @@ public class GameBoard {
       }
     }
     myState.deleteFoods(foodsToDelete);
-    LOG.info("food size is {}", myState.getFood().size());
   }
 
   public void checkGameEnd() {

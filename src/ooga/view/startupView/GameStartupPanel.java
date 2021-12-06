@@ -5,6 +5,7 @@ import static ooga.Main.LANGUAGE;
 import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 import javafx.event.ActionEvent;
@@ -27,6 +28,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import net.thegreshams.firebase4j.error.FirebaseException;
 import ooga.controller.Controller;
 import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
@@ -176,7 +178,7 @@ public class GameStartupPanel {
       runMethodName = RUN_FIREBASE_FILE_METHOD;
       try {
         makeChoiceDialog(myController.getFirebaseFilenames(), LOAD_FILE_KEYS[1]);
-      } catch (InterruptedException e) {
+      } catch (FirebaseException | UnsupportedEncodingException e) {
         new ErrorPopups(selectedLanguage, "FirebaseError");
       }
     }
@@ -306,7 +308,7 @@ public class GameStartupPanel {
       if (!myController.getPlayPause()) myController.pauseOrResume();
       MainView mainView = new MainView(myController, myController.getVanillaGame(),
               mainStage, selectedViewMode, userPreferences, myUser);
-    } catch (Exception ex) {
+    } catch (Exception | FirebaseException ex) {
       if (gameFile == null) {
         new ErrorPopups(selectedLanguage, "NoFile");
       } else {

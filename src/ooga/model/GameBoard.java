@@ -80,7 +80,7 @@ public class GameBoard {
           // lose life
           // reset gameboard
         }
-        System.out.println("Ghost + Pac overlap!");
+//        System.out.println("Ghost + Pac overlap!");
       }
     }
     List<Position> foodsToDelete = new ArrayList<>();

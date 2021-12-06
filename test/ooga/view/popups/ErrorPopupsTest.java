@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.popups;
 
 import static ooga.Main.LANGUAGE;
 import static ooga.Main.VIEW_MODE;

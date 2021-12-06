@@ -2,19 +2,13 @@ package ooga.view;
 
 import static ooga.Main.LANGUAGE;
 import static ooga.Main.VIEW_MODE;
-import static ooga.view.BottomViewTest.TEST_FILE;
-import static ooga.view.ErrorPopupsTest.TEST_IMAGE;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.User;
-import ooga.controller.IO.UserPreferences;
-import ooga.view.mainView.MainView;
 import ooga.view.startupView.GameStartupPanel;
 import util.DukeApplicationTest;
 

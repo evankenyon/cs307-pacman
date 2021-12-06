@@ -103,7 +103,7 @@ public class Controller implements ControllerInterface {
 //  }
 
   public User createUser(String username, String password, File imageFile)
-      throws IOException, InterruptedException {
+      throws IOException, InterruptedException, IllegalArgumentException {
     profileGenerator.createUser(username, password, imageFile);
     return login(username, password);
   }

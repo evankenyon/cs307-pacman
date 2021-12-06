@@ -2,18 +2,15 @@ package ooga.view;
 
 import static ooga.Main.LANGUAGE;
 import static ooga.Main.VIEW_MODE;
-import static ooga.view.ErrorPopupsTest.TEST_IMAGE;
+import static ooga.view.popups.ErrorPopupsTest.TEST_IMAGE;
 import static ooga.view.bottomView.BottomView.MAX_SLIDER_VAL;
 import static ooga.view.bottomView.BottomView.MIN_SLIDER_VAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ooga.controller.IO.User;
-import ooga.view.userProfileView.UserInformationView;
 
-import java.awt.Button;
 import java.io.File;
 import java.io.IOException;
-import java.lang.management.BufferPoolMXBean;
 import java.lang.reflect.InvocationTargetException;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
@@ -23,7 +20,6 @@ import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
 import ooga.view.mainView.MainView;
 import org.junit.jupiter.api.Test;
-import org.testfx.framework.junit5.Start;
 import util.DukeApplicationTest;
 
 public class BottomViewTest extends DukeApplicationTest {

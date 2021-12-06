@@ -121,15 +121,6 @@ public class BottomView {
     return sliderBox;
   }
 
-  private Button makeSimButton(ImageView image, Background background,
-      EventHandler<ActionEvent> handler) {
-    Button myButton = new Button();
-    myButton.setOnAction(handler);
-    myButton.setGraphic(image);
-    myButton.setBackground(background);
-    return myButton;
-  }
-
   private ImageView makeButtonImage(String path, int size) {
     ImageView image = new ImageView(new Image(new File(path).toURI().toString()));
     image.setPreserveRatio(true);
@@ -161,12 +152,6 @@ public class BottomView {
     graphicButtons.getStyleClass().add("graphic-buttons");
     graphicButtons.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
-//    playPauseButton = makeSimButton(makeButtonImage(PLAY_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
-//        e -> togglePlayPause());
-//    playPauseButton.setId("playPauseButton");
-//    stepButton = makeSimButton(makeButtonImage(STEP_IMAGE, SIM_BUTTON_SIZE), Background.EMPTY,
-//        e -> myGame.step());
-//    stepButton.setId("stepButton");
     ImageView playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
     ImageView stepButton = makeGraphicButton(STEP_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, STEP_BUTTON_ID);
     HBox buttonsPane = new HBox();

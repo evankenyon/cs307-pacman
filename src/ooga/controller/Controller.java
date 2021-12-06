@@ -58,6 +58,7 @@ public class Controller implements ControllerInterface {
   private ProfileGenerator profileGenerator;
   private GameStartupPanel gameStartupPanel;
   private User currUser;
+  private String password;
   private static final Logger LOG = LogManager.getLogger(Controller.class);
 
   private final ResourceBundle magicValues;
@@ -107,11 +108,22 @@ public class Controller implements ControllerInterface {
   public User createUser(String username, String password, File imageFile)
       throws IOException, InterruptedException {
     profileGenerator.createUser(username, password, imageFile);
-    return login(username, password);
+    return currUser;
   }
 
   public User login(String username, String password) throws IOException {
+    currUser = profileGenerator.login(username, password);
+    this.password = password;
     return profileGenerator.login(username, password);
+  }
+
+  public User getUser() {
+    return currUser;
+  }
+
+  public void updateUsername(String updatedUsername) throws IOException {
+    profileGenerator.changeProfileUsername(currUser.username(), password, updatedUsername);
+    currUser = login(updatedUsername, password);
   }
 
 //  public UserPreferences uploadFirebaseFile(String fileName)

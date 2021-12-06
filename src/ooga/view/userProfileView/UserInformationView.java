@@ -5,11 +5,13 @@ import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -42,6 +44,8 @@ public class UserInformationView {
     GridPane root = new GridPane();
     root.getStyleClass().add("grid-pane");
     addProfileImage(root, user);
+    Button editImageButton = makeButton("Edit Image", e -> editFile("Image"));
+    root.add(editImageButton, 2, 1);
     addTextInfo(root, "Username", user.username(), 1, 2);
     Button editUsernameButton = makeButton("Edit Username", e -> editForm("Username", "Please enter a new username"));
     root.add(editUsernameButton, 2, 2);
@@ -50,8 +54,16 @@ public class UserInformationView {
     addTextInfo(root, "High Score", String.valueOf(user.highScore()), 1, 3);
     addTextInfo(root, "Number of wins", String.valueOf(user.wins()), 1, 4);
     addTextInfo(root, "Number of losses", String.valueOf(user.losses()), 1, 5);
-    Button editImageButton = makeButton("Edit Image", e -> editImage());
-    root.add(editImageButton, 1, 6);
+    root.add(new Text("Favorite files: "), 1, 6);
+    ListView<String> favoriteFiles = new ListView<>();
+    if (user.favorites() != null) {
+      for (String file : user.favorites()) {
+        favoriteFiles.getItems().add(file);
+      }
+    }
+    root.add(favoriteFiles, 2, 6);
+    Button addFavoriteFileButton = makeButton("Add favorite file", e -> editFile("Favorite"));
+    root.add(addFavoriteFileButton, 1, 8);
     Scene myScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
     myScene.getStylesheets().add(getClass().getResource(DEFAULT_STYLESHEET).toExternalForm());
     return myScene;
@@ -81,12 +93,13 @@ public class UserInformationView {
     img.setFitWidth(width);
   }
 
-  private void editImage() {
+  private void editFile(String type) {
     FileChooser myFileChooser = new FileChooser();
     myFileChooser.setInitialDirectory(new File(IMAGE_PATH));
     try {
-      controller.updateImage(myFileChooser.showOpenDialog(stage));
+      controller.updateFile(myFileChooser.showOpenDialog(stage), type);
     } catch (Exception e) {
+      //TODO: fix
       e.printStackTrace();
     }
     reset(controller.getUser());

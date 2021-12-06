@@ -153,7 +153,7 @@ public class GameStartupPanel {
     pfpBorder.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID,
             new CornerRadii(5), new BorderWidths(6))));
     profileInfo.getChildren().add(pfpBorder);
-    Text username = makeText(Color.LIGHTGRAY, myUser.username(), FontWeight.BOLD,
+    Text username = makeText(Color.LIGHTGRAY, "Welcome, " + myUser.username() + "!", FontWeight.BOLD,
             FontPosture.REGULAR, 16, profileInfo);
     return profileInfo;
   }

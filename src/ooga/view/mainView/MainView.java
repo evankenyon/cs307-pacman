@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -22,6 +23,7 @@ import ooga.model.util.GameStatus;
 import ooga.view.bottomView.BottomView;
 import ooga.view.center.BoardView;
 import ooga.view.popups.GameEndPopups;
+import ooga.view.popups.WinLossPopup;
 import ooga.view.startupView.GameStartupPanel;
 import ooga.view.topView.TopView;
 import org.apache.logging.log4j.LogManager;
@@ -52,7 +54,9 @@ public class MainView {
   private BorderPane root;
   private Consumer<GameStatus> gameEndConsumer = status -> {
     if (status == GameStatus.WIN) {
-      new GameEndPopups().winLosePopup("win", 0, 0);
+      myController.toggleAnimation();
+      new WinLossPopup(myStage, myController, status);
+//      new GameEndPopups().winLosePopup("win", 0, 0);
     } else if (status == GameStatus.LOSS) {
       new GameEndPopups().winLosePopup("lose", 0, 0);
     }
@@ -76,9 +80,9 @@ public class MainView {
     controller.setAnimationSpeed(1);
     myGame = game;
     myGame.getBoard().addGameStatusConsumer(gameEndConsumer);
-    myBottomView = new BottomView(myController, myGame, userPreferences.language());
-//    gameStartupPanel = new GameStartupPanel(myStage);
     myStage = stage;
+    myBottomView = new BottomView(myController, myGame, myStage, userPreferences.language());
+//    gameStartupPanel = new GameStartupPanel(myStage);
     myStage.setTitle("PACMAN");
     Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
     myStage.getIcons().add(favicon);
@@ -107,10 +111,7 @@ public class MainView {
     root.setPadding(new Insets(0, 0, 0, (SCENE_WIDTH - BOARD_WIDTH) / 2));
     Scene scene = new Scene(myGroup, SCENE_WIDTH, SCENE_HEIGHT);
     scene.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
-    scene.setOnKeyPressed(e -> {
-      myController.updatePressedKey(e);
-//      LOG.info("key was pressed");
-    });
+    scene.setOnKeyPressed(e -> myController.updatePressedKey(e));
     return scene;
   }
 

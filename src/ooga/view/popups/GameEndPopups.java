@@ -1,5 +1,6 @@
 package ooga.view.popups;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 
@@ -15,7 +16,10 @@ public class GameEndPopups {
                 "All time high score: " + "\n" +  // TODO: Wire high score here
                 "Your score: " + score + "\n" +
                 "Play time: " + playTime + "\n" );
-        winPopup.showAndWait();
+//        winPopup.showAndWait();
+//        winPopup.setOnHidden(e -> Platform.exit());
+        winPopup.show();
+        winPopup.close();
     }
 
     public void beatHiScore(Integer score) {

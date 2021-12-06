@@ -1,6 +1,7 @@
 package ooga.view.userProfileView;
 
 import static ooga.view.center.agents.MovableView.IMAGE_PATH;
+import static ooga.view.startupView.GameStartupPanel.EXAMPLES_PATH;
 
 import java.io.File;
 import java.io.IOException;
@@ -82,7 +83,7 @@ public class UserInformationView {
 
   private void reset(User user) {
     this.stage.setScene(createStartupScene(user));
-    this.stage.setTitle("PACMAN STARTUP");
+    this.stage.setTitle("USER INFO");
     Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
     this.stage.getIcons().add(favicon);
     this.stage.show();
@@ -106,7 +107,7 @@ public class UserInformationView {
 
   private void editFile(String type) {
     FileChooser myFileChooser = new FileChooser();
-    myFileChooser.setInitialDirectory(new File(IMAGE_PATH));
+    myFileChooser.setInitialDirectory(new File(EXAMPLES_PATH));
     try {
       controller.updateFile(myFileChooser.showOpenDialog(stage), type);
     } catch (Exception e) {

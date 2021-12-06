@@ -3,6 +3,7 @@ package ooga.controller;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,7 @@ public class Controller implements ControllerInterface {
       Controller.class.getPackageName() + ".resources.";
   private static final String EXCEPTION_MESSAGES_FILENAME = "Exceptions";
   private static final String MAGIC_VALUES_FILENAME = "ControllerMagicValues";
+  private static final String METHOD_MAPPINGS_FILENAME = "MethodMappings";
 
   private final JsonParserInterface jsonParser;
   private final keyTracker keyTracker;
@@ -59,6 +61,7 @@ public class Controller implements ControllerInterface {
   private ProfileGenerator profileGenerator;
   private GameStartupPanel gameStartupPanel;
   private User currUser;
+  private String password;
   private static final Logger LOG = LogManager.getLogger(Controller.class);
 
   private final ResourceBundle magicValues;
@@ -85,14 +88,8 @@ public class Controller implements ControllerInterface {
       // TODO: fix
       e.printStackTrace();
     }
-//    try {
-//      new UserInformationView(this, profileGenerator.login("dane", "dane"), stage);
-//    } catch(Exception e) {
-//
-//    }
-//
+
     new LoginView(myStage, this);
-//    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
     isPaused = true;
   }
 
@@ -108,11 +105,41 @@ public class Controller implements ControllerInterface {
   public User createUser(String username, String password, File imageFile)
       throws IOException, InterruptedException {
     profileGenerator.createUser(username, password, imageFile);
-    return login(username, password);
+    return currUser;
   }
 
   public User login(String username, String password) throws IOException {
+    currUser = profileGenerator.login(username, password);
+    this.password = password;
     return profileGenerator.login(username, password);
+  }
+
+  public User getUser() {
+    return currUser;
+  }
+
+  public void updateUsername(String updatedUsername) throws IOException {
+    profileGenerator.changeProfileUsername(currUser.username(), password, updatedUsername);
+    currUser = login(updatedUsername, password);
+  }
+
+  @Deprecated
+  public void updateImage(File updatedImageFile) throws IOException {
+    profileGenerator.updateProfilePicture(currUser.username(), password, updatedImageFile);
+    currUser = login(currUser.username(), password);
+  }
+
+  public void updateFile(File file, String type)
+      throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    ResourceBundle methodMappings = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, METHOD_MAPPINGS_FILENAME));
+    Method fileUpdateMethod = ProfileGenerator.class.getDeclaredMethod(methodMappings.getString(type), String.class, String.class, File.class);
+    fileUpdateMethod.invoke(profileGenerator, currUser.username(), password, file);
+    currUser = login(currUser.username(), password);
+  }
+
+  public void updatePassword(String updatedPassword) throws IOException {
+    profileGenerator.changeProfilePassword(currUser.username(), password, updatedPassword);
+    password = updatedPassword;
   }
 
 //  public UserPreferences uploadFirebaseFile(String fileName)

@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
 import ooga.model.VanillaGame;
 import ooga.model.util.GameStatus;
@@ -52,6 +53,7 @@ public class MainView {
   private Scene myScene;
   private VanillaGame myGame;
   private BorderPane root;
+  private User myUser;
   private Consumer<GameStatus> gameEndConsumer = status -> {
     if (status == GameStatus.WIN) {
       myController.toggleAnimation();
@@ -74,14 +76,15 @@ public class MainView {
    * @param userPreferences is the UserPreferences object from the uploaded file
    */
   public MainView(Controller controller, VanillaGame game, Stage stage, String selectedViewMode,
-      UserPreferences userPreferences) {
+      UserPreferences userPreferences, User user) {
     this.STYLESHEET = "/ooga/view/resources/" + selectedViewMode + ".css";
     myController = controller;
     controller.setAnimationSpeed(1);
     myGame = game;
     myGame.getBoard().addGameStatusConsumer(gameEndConsumer);
     myStage = stage;
-    myBottomView = new BottomView(myController, myGame, myStage, userPreferences.language());
+    myUser = user;
+    myBottomView = new BottomView(myController, myGame, myStage, userPreferences.language(), myUser);
 //    gameStartupPanel = new GameStartupPanel(myStage);
     myStage.setTitle("PACMAN");
     Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());

@@ -86,8 +86,7 @@ public class Controller implements ControllerInterface {
     try {
       firebaseReader = new FirebaseReader();
     } catch (IOException e) {
-      // TODO: fix
-      e.printStackTrace();
+      new ErrorPopups(myLanguage, "FirebaseError");
     }
 
     new LoginView(myStage, this);
@@ -106,7 +105,7 @@ public class Controller implements ControllerInterface {
   public User createUser(String username, String password, File imageFile)
       throws IOException, InterruptedException {
     profileGenerator.createUser(username, password, imageFile);
-    return currUser;
+    return login(username, password);
   }
 
   public User login(String username, String password) throws IOException {

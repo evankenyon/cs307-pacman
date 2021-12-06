@@ -203,12 +203,10 @@ public class BottomView {
   }
 
   private void saveGame() {
-    // TODO: Fix SaveGame when merged
     try {
       myController.saveFile();
     } catch (IOException e) {
       new ErrorPopups(myLanguage,"SaveError");
-      e.printStackTrace();
     }
   }
 
@@ -235,7 +233,7 @@ public class BottomView {
 
   private void makeProfileView() {
     Stage newStage = new Stage();
-    new UserInformationView(myController, myUser, newStage);
+    new UserInformationView(myController, myUser, newStage, myLanguage);
   }
 
   private void restartGame() {

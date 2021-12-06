@@ -1,6 +1,7 @@
 package ooga.view.startupView;
 
 import static java.util.Objects.isNull;
+import static ooga.Main.LANGUAGE;
 import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 
 import java.io.File;
@@ -93,6 +94,7 @@ public class GameStartupPanel {
     startupStage = stage;
     myUser = user;
     myController = controller;
+    selectedLanguage = LANGUAGE;
     startupStage.setScene(createStartupScene());
     startupStage.setTitle("PACMAN STARTUP");
     Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
@@ -161,7 +163,7 @@ public class GameStartupPanel {
 
   private void makeProfileView() {
     Stage newStage = new Stage();
-    new UserInformationView(myController, myUser, newStage);
+    new UserInformationView(myController, myUser, newStage, selectedLanguage);
   }
 
   private void selectFileAction() {
@@ -175,8 +177,7 @@ public class GameStartupPanel {
       try {
         makeChoiceDialog(myController.getFirebaseFilenames(), LOAD_FILE_KEYS[1]);
       } catch (InterruptedException e) {
-        //TODO: handle exception
-        e.printStackTrace();
+        new ErrorPopups(selectedLanguage, "FirebaseError");
       }
     }
     else if (location.equals(myResources.getString(LOAD_FILE_KEYS[2]))) {
@@ -307,10 +308,8 @@ public class GameStartupPanel {
               mainStage, selectedViewMode, userPreferences, myUser);
     } catch (Exception ex) {
       if (gameFile == null) {
-        ex.printStackTrace();
         new ErrorPopups(selectedLanguage, "NoFile");
       } else {
-        ex.printStackTrace();
         new ErrorPopups(selectedLanguage, "InvalidFile");
       }
     }
@@ -339,5 +338,13 @@ public class GameStartupPanel {
     img.setPreserveRatio(true);
     img.setFitWidth(width);
   }
+
+  /**
+   * Getter method to get the selected language.
+   * Used in user profile info screen.
+   *
+   * @return String selectedLanguage
+   */
+  public String getLanguage() { return selectedLanguage; }
 
 }

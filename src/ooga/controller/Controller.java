@@ -269,7 +269,7 @@ public class Controller implements ControllerInterface {
   public void restartGame(Stage stage) {
     jsonParser.parseJSON(originalStartingConfigJson);
     isPaused = true;
-    new MainView(this, getVanillaGame(), stage, myViewMode, myPreferences);
+    new MainView(this, getVanillaGame(), stage, myViewMode, myPreferences, currUser);
   }
 
   /**

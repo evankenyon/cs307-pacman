@@ -117,8 +117,13 @@ public class Controller implements ControllerInterface {
     return profileGenerator.login(username, password);
   }
 
+  public User getUser() {
+    return currUser;
+  }
+
   public void updateUsername(String updatedUsername) throws IOException {
     profileGenerator.changeProfileUsername(currUser.username(), password, updatedUsername);
+    currUser = login(updatedUsername, password);
   }
 
 //  public UserPreferences uploadFirebaseFile(String fileName)

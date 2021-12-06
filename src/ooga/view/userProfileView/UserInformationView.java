@@ -30,11 +30,8 @@ public class UserInformationView {
 
   public UserInformationView(Controller controller, User user, Stage stage) {
     this.stage = stage;
-    this.stage.setScene(createStartupScene(user));
-    this.stage.setTitle("PACMAN STARTUP");
-    Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
-    this.stage.getIcons().add(favicon);
-    this.stage.show();
+    this.controller = controller;
+    reset(user);
   }
 
   public Scene createStartupScene(User user) {
@@ -43,12 +40,21 @@ public class UserInformationView {
     addProfileImage(root, user);
     addTextInfo(root, "Username", user.username(), 1, 2);
     Button editUsernameButton = makeButton("Edit Username", e -> editForm());
+    root.add(editUsernameButton, 2, 2);
     addTextInfo(root, "High Score", String.valueOf(user.highScore()), 1, 3);
     addTextInfo(root, "Number of wins", String.valueOf(user.wins()), 1, 4);
     addTextInfo(root, "Number of losses", String.valueOf(user.losses()), 1, 5);
     Scene myScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
     myScene.getStylesheets().add(getClass().getResource(DEFAULT_STYLESHEET).toExternalForm());
     return myScene;
+  }
+
+  private void reset(User user) {
+    this.stage.setScene(createStartupScene(user));
+    this.stage.setTitle("PACMAN STARTUP");
+    Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
+    this.stage.getIcons().add(favicon);
+    this.stage.show();
   }
 
   private void addProfileImage(GridPane root, User user) {
@@ -73,7 +79,7 @@ public class UserInformationView {
     } catch (IOException e) {
       // TODO: handle
     }
-
+    reset(controller.getUser());
   }
 
   private String makeTextInputDialog(String title, String header) {

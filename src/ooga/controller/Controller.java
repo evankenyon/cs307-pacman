@@ -7,6 +7,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
@@ -209,25 +210,31 @@ public class Controller implements ControllerInterface {
   }
 
 //  /**
-//   * Getter method to get the uploaded file. Used to reload a new game.
-//   *
-//   * @return File myFile
+//   * Restarts the game with the same file that was originally uploaded. Called from BottomView when
+//   * user clicks on "Restart" button
 //   */
-//  public File getFile() { return myFile; }
-//
-//  /**
-//   * Getter method to get the current stage. Used to reload a new game.
-//   *
-//   * @return Stage myStage
-//   */
-//  public Stage getStage() { return myStage; }
+//  @Deprecated
+//  public void restartGame() {
+//    jsonParser.parseJSON(originalStartingConfigJson);
+//    new MainView(this, getVanillaGame(), newStage, myViewMode, myPreferences);
+//  }
 
   /**
    * Restarts the game with the same file that was originally uploaded. Called from BottomView when
    * user clicks on "Restart" button
    */
-  public void restartGame() {
+  public void restartGame(Stage stage) {
     jsonParser.parseJSON(originalStartingConfigJson);
-    new MainView(this, getVanillaGame(), myStage, myViewMode, myPreferences);
+    isPaused = true;
+    new MainView(this, getVanillaGame(), stage, myViewMode, myPreferences);
+  }
+
+  /**
+   * Toggles the animation status to paused if running or running if paused.
+   * Used in MainView to pause/start animation to show and hide win/loss alerts
+   */
+  public void toggleAnimation() {
+    if (myAnimation.getStatus() == Status.PAUSED) myAnimation.play();
+    else if (myAnimation.getStatus() == Status.RUNNING) myAnimation.pause();
   }
 }

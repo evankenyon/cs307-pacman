@@ -40,7 +40,7 @@ public class GameState {
   }
 
   public boolean isInBounds(int x, int y) {
-    if (x >= myRows || y >= myCols) {
+    if (x > myRows || y > myCols) {
       return false;
     } else if (x < 0 || y < 0) {
       return false;

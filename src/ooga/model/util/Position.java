@@ -15,6 +15,11 @@ public class Position {
     myDirection = NULL;
   }
 
+  public Position(int[] array) {
+    myCoords = array;
+    myDirection = NULL;
+  }
+
   public int[] getCoords() {
     return myCoords;
   }

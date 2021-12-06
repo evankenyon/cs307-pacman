@@ -4,10 +4,13 @@ import static java.util.Objects.isNull;
 import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -21,7 +24,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -31,26 +33,18 @@ import ooga.controller.IO.UserPreferences;
 import ooga.view.mainView.MainView;
 import ooga.view.instructions.InstructionsView;
 import ooga.view.popups.ErrorPopups;
+import ooga.view.userProfileView.UserInformationView;
 
 public class GameStartupPanel {
 
   public static final String NO_FILE_TEXT = "No file selected";
-  private Stage stage;
-  private ComboBox<String> selectGameType;
-  private ComboBox<String> selectLanguage;
-  private ComboBox<String> selectViewMode;
-  private ComboBox<String> selectFile;
-  private Button fileUploadButton;
-  private File gameFile;
-  private String selectedGameType;
-  private String selectedLanguage;
-  private String selectedViewMode;
-  private ResourceBundle myResources;
-  private Text displayFileName;
-  private User myUser;
-
+  public static final String EXAMPLES_PATH = "data/basic_examples";
+  public static final String RUN_LOCAL_FILE_METHOD = "uploadLocalFile";
+  public static final String RUN_FAVORITE_FILE_METHOD = "uploadFavoriteFile";
+  public static final String RUN_FIREBASE_FILE_METHOD = "uploadFirebaseFile";
   private static final int SCREEN_WIDTH = 400;
-  private static final int SCREEN_HEIGHT = 425;
+  private static final int SCREEN_HEIGHT = 500;
+  public static final int SELECTOR_WIDTH = 150;
   public static final Paint BACKGROUND = Color.BLACK;
   public static final String STARTUP_PACKAGE = "ooga.view.startupView.";
   public static final String DEFAULT_STYLESHEET = String.format("/%sGameStartupPanel.css",
@@ -62,7 +56,26 @@ public class GameStartupPanel {
       "GhostPacman"};
   public static final String LANGUAGE_KEYS[] = {"English", "French", "German", "Italian", "Spanish"};
   public static final String VIEW_MODE_KEYS[] = {"Dark", "Duke", "Light"};
-  public static final String LOAD_FILE_KEYS[] = {"SelectLocally","SelectFromDatabase"};
+  public static final String LOAD_FILE_KEYS[] = {"SelectLocally","SelectFromDatabase","SelectFromFavorites"};
+
+  private Stage startupStage;
+  private Stage mainStage;
+  private Button viewProfile;
+  private ComboBox<String> selectLanguage;
+  private ComboBox<String> selectViewMode;
+  private ComboBox<String> selectFile;
+  private Button fileUploadButton;
+  private File gameFile;
+  private String fileString;
+  private String selectedGameType;
+  private String selectedLanguage;
+  private String selectedViewMode;
+  private ResourceBundle myResources;
+  private Text displayFileName;
+  private User myUser;
+  private Controller myController;
+  private String runMethodName;
+
 
 //  @Deprecated
 //  public GameStartupPanel(Stage stage) {
@@ -75,15 +88,16 @@ public class GameStartupPanel {
 //    this.stage.show();
 //  }
 
-  public GameStartupPanel(Stage stage, User user) {
+  public GameStartupPanel(Stage stage, User user, Controller controller) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
-    this.stage = stage;
+    startupStage = stage;
     myUser = user;
-    this.stage.setScene(createStartupScene());
-    this.stage.setTitle("PACMAN STARTUP");
+    myController = controller;
+    startupStage.setScene(createStartupScene());
+    startupStage.setTitle("PACMAN STARTUP");
     Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
-    this.stage.getIcons().add(favicon);
-    this.stage.show();
+    startupStage.getIcons().add(favicon);
+    startupStage.show();
   }
 
   private Scene createStartupScene() {
@@ -112,33 +126,61 @@ public class GameStartupPanel {
     VBox selectCol2R = new VBox();
     HBox selectCluster1 = new HBox();
     HBox selectCluster2 = new HBox();
-    selectGameType = makeSelectorBox(selectCol1L, "GameType", GAME_TYPE_KEYS);
-    selectLanguage = makeSelectorBox(selectCol1R, "Language", LANGUAGE_KEYS);
-    addToCluster(root, selectCol1L, selectCol1R, selectCluster1, 2);
-    selectViewMode = makeSelectorBox(selectCol2L, "ViewingMode", VIEW_MODE_KEYS);
-    selectFile = makeSelectorBox(selectCol2R, "GameFile", LOAD_FILE_KEYS);
+    root.add(makeProfileInfo(), 1, 2);
+    viewProfile = makeButton("viewProfile", selectCol1L, e -> makeProfileView());
+    selectLanguage = makeSelectorBox(selectCol2L, "Language", LANGUAGE_KEYS);
+    addToCluster(root, selectCol1L, selectCol1R, selectCluster1, 3);
+    selectViewMode = makeSelectorBox(selectCol2R, "ViewingMode", VIEW_MODE_KEYS);
+    selectFile = makeSelectorBox(selectCol1R, "GameFile", LOAD_FILE_KEYS);
     selectFile.setOnAction(e -> selectFileAction());
-    displayFileName = makeText(Color.LIGHTGRAY, NO_FILE_TEXT, selectCol2R);
-    addToCluster(root, selectCol2L, selectCol2R, selectCluster2, 3);
+    displayFileName = makeText(Color.LIGHTGRAY, NO_FILE_TEXT, selectCol1R);
+    addToCluster(root, selectCol2L, selectCol2R, selectCluster2, 4);
+  }
+
+  private VBox makeProfileInfo() {
+    VBox profileInfo = new VBox();
+    profileInfo.setAlignment(Pos.TOP_CENTER);
+    ImageView profilePic = new ImageView(new Image(new File(myUser.imagePath()).toURI().toString()));
+    setImgWidth(profilePic, SCREEN_WIDTH / 4);
+    profileInfo.getChildren().add(profilePic);
+    Text username = makeText(Color.LIGHTGRAY, myUser.username(), profileInfo);
+    return profileInfo;
+  }
+
+  private void makeProfileView() {
+    Stage newStage = new Stage();
+    new UserInformationView(myController, myUser, newStage);
   }
 
   private void selectFileAction() {
     String location = selectFile.getValue();
     if (location.equals(myResources.getString(LOAD_FILE_KEYS[0]))) {
+      runMethodName = RUN_LOCAL_FILE_METHOD;
       uploadFile();
     }
     else if (location.equals(myResources.getString(LOAD_FILE_KEYS[1]))) {
-      makeChoiceDialog();
+      runMethodName = RUN_FIREBASE_FILE_METHOD;
+      try {
+        makeChoiceDialog(myController.getFirebaseFilenames(), LOAD_FILE_KEYS[1]);
+      } catch (InterruptedException e) {
+        //TODO: handle exception
+        e.printStackTrace();
+      }
+    }
+    else if (location.equals(myResources.getString(LOAD_FILE_KEYS[2]))) {
+      runMethodName = RUN_FAVORITE_FILE_METHOD;
+      makeChoiceDialog(Arrays.asList(myUser.favorites()), LOAD_FILE_KEYS[2]);
     }
   }
 
-  private void makeChoiceDialog() {
-    String choices[] = {"hi","hey","hello"};
-    ChoiceDialog databaseChoices = new ChoiceDialog<>(choices[0],choices);
-    databaseChoices.setHeaderText("Select File from Database");
-    databaseChoices.setTitle("Database Files");
-    String fileName = databaseChoices.getSelectedItem().toString();
-    databaseChoices.showAndWait();
+  private void makeChoiceDialog(Collection files, String resourcesKey) {
+    ChoiceDialog fileChoices = new ChoiceDialog<>(myResources.getString(resourcesKey), files);
+    fileChoices.setHeaderText(myResources.getString(String.format("%sHeader",resourcesKey)));
+    fileChoices.setTitle(myResources.getString(String.format("%sTitle",resourcesKey)));
+    fileChoices.showAndWait();
+    fileString = fileChoices.getSelectedItem().toString();
+    String splitFileString[] = fileString.split("/");
+    displayFileName.setText(splitFileString[splitFileString.length-1]);
   }
 
   private Text makeText(Paint color, String message, VBox vBox) {
@@ -170,13 +212,14 @@ public class GameStartupPanel {
     root.add(hBoxParent, 1, row);
   }
 
-  private Button makeFileUploadButton() {
-    fileUploadButton = new Button();
-    fileUploadButton.setMinWidth(150);
-    fileUploadButton.setId("fileUploadButton");
-    fileUploadButton.setText(myResources.getString("UploadFile"));
-    fileUploadButton.setOnAction(e -> uploadFile());
-    return fileUploadButton;
+  private Button makeButton(String id, VBox vbox, EventHandler<ActionEvent> handler) {
+    Button button = new Button();
+    button.setMinWidth(SELECTOR_WIDTH);
+    button.setId(id);
+    button.setText(myUser.username());
+    button.setOnAction(handler);
+    vbox.getChildren().add(button);
+    return button;
   }
 
   private void uploadFile() {
@@ -189,8 +232,8 @@ public class GameStartupPanel {
   private File fileExplorer() {
     // Credit to Carl Fisher for writing this code in Cell Society team 6
     FileChooser myFileChooser = new FileChooser();
-    myFileChooser.setInitialDirectory(new File("data/basic_examples"));
-    return myFileChooser.showOpenDialog(stage);
+    myFileChooser.setInitialDirectory(new File(EXAMPLES_PATH));
+    return myFileChooser.showOpenDialog(startupStage);
   }
 
   private void addStartButton(GridPane root) {
@@ -202,17 +245,15 @@ public class GameStartupPanel {
     HBox playBox = new HBox();
     playBox.getChildren().add(startButton);
     playBox.setAlignment(Pos.CENTER);
-    root.add(playBox, 1, 4);
+    root.add(playBox, 1, 5);
   }
 
   private void startButtonAction() {
-    selectedGameType = selectGameType.getValue();
     selectedLanguage = selectLanguage.getValue();
     selectedViewMode = selectViewMode.getValue();
-    if (!isNull(selectedGameType) && !isNull(selectedLanguage) && !isNull(selectedViewMode)) {
+    if (!isNull(selectedLanguage) && !isNull(selectedViewMode)) {
       runFile();
-      openInstructions(selectedLanguage, selectedGameType, selectedViewMode);
-      selectGameType.setValue(null);
+      openInstructions(selectedLanguage, selectedViewMode);
       selectLanguage.setValue(null);
       selectViewMode.setValue(null);
     } else {
@@ -223,22 +264,35 @@ public class GameStartupPanel {
     }
   }
 
-  private void openInstructions(String selectedLanguage, String selectedGameType, String selectedViewMode) {
+  private void openInstructions(String selectedLanguage, String selectedViewMode) {
     Stage instructionsStage = new Stage();
-    InstructionsView instructionsView = new InstructionsView(instructionsStage, selectedLanguage, selectedGameType, selectedViewMode);
+    InstructionsView instructionsView = new InstructionsView(instructionsStage, selectedLanguage, selectedViewMode);
   }
 
   private void runFile() {
-    Stage gameStage = new Stage();
-    Controller application = new Controller(selectedLanguage, gameStage, selectedViewMode);
+    mainStage = new Stage();
+//    Controller application = new Controller(selectedLanguage, mainStage, selectedViewMode);
+    UserPreferences userPreferences;
     try {
-      UserPreferences userPreferences = application.uploadFile(gameFile);
-      MainView mainView = new MainView(application, application.getVanillaGame(), gameStage, selectedViewMode,
-          userPreferences);
+      //TODO: FIX THIS DESIGN!!
+      if (runMethodName.equals(RUN_LOCAL_FILE_METHOD)) {
+        userPreferences = myController.uploadFile(gameFile);
+      }
+      else if (runMethodName.equals(RUN_FIREBASE_FILE_METHOD)) {
+        userPreferences = myController.uploadFirebaseFile(fileString);
+      }
+      else {
+        userPreferences = myController.uploadFile(new File(fileString));
+      }
+      if (!myController.getPlayPause()) myController.pauseOrResume();
+      MainView mainView = new MainView(myController, myController.getVanillaGame(), mainStage, selectedViewMode, userPreferences);
+//      MainView mainView = new MainView(application, application.getVanillaGame(), mainStage, selectedViewMode, userPreferences);
     } catch (Exception ex) {
       if (gameFile == null) {
+        ex.printStackTrace();
         new ErrorPopups(selectedLanguage, "NoFile");
       } else {
+        ex.printStackTrace();
         new ErrorPopups(selectedLanguage, "InvalidFile");
       }
     }
@@ -247,11 +301,11 @@ public class GameStartupPanel {
 
   private ComboBox makeDropDown(String category, String[] options) {
     ComboBox<String> newComboBox = new ComboBox<>();
-    newComboBox.setPromptText(myResources.getString("Select") + " " + category);
+    newComboBox.setPromptText(myResources.getString(String.format("Select%s",category)));
     for (String option : options) {
       newComboBox.getItems().add(option);
     }
-    newComboBox.setMinWidth(150);
+    newComboBox.setMinWidth(SELECTOR_WIDTH);
     newComboBox.setId(category);
     return newComboBox;
   }

@@ -3,10 +3,12 @@ package ooga.controller;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.animation.Animation.Status;
 import java.util.Set;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -39,6 +41,7 @@ public class Controller implements ControllerInterface {
       Controller.class.getPackageName() + ".resources.";
   private static final String EXCEPTION_MESSAGES_FILENAME = "Exceptions";
   private static final String MAGIC_VALUES_FILENAME = "ControllerMagicValues";
+  private static final String METHOD_MAPPINGS_FILENAME = "MethodMappings";
 
   private final JsonParserInterface jsonParser;
   private final keyTracker keyTracker;
@@ -59,6 +62,7 @@ public class Controller implements ControllerInterface {
   private ProfileGenerator profileGenerator;
   private GameStartupPanel gameStartupPanel;
   private User currUser;
+  private String password;
   private static final Logger LOG = LogManager.getLogger(Controller.class);
 
   private final ResourceBundle magicValues;
@@ -85,14 +89,14 @@ public class Controller implements ControllerInterface {
       // TODO: fix
       e.printStackTrace();
     }
+
     new LoginView(myStage, this);
-//    gameStartupPanel = new GameStartupPanel(stage); //TODO: pass this Controller into GameStartupPanel instead of making a new Controller inside the class
     isPaused = true;
   }
 
-//  public Set<String> getFirebaseFilenames() throws InterruptedException {
-//    return firebaseReader.getFileNames();
-//  }
+  public Set<String> getFirebaseFilenames() throws InterruptedException {
+    return firebaseReader.getFileNames();
+  }
 
 //  @Deprecated
 //  public void createUser(String username, String password, File imageFile) throws IOException {
@@ -102,18 +106,64 @@ public class Controller implements ControllerInterface {
   public User createUser(String username, String password, File imageFile)
       throws IOException, InterruptedException {
     profileGenerator.createUser(username, password, imageFile);
-    return login(username, password);
+    return currUser;
   }
 
   public User login(String username, String password) throws IOException {
+    currUser = profileGenerator.login(username, password);
+    this.password = password;
     return profileGenerator.login(username, password);
   }
 
-//  public UserPreferences uploadFirebaseFile(String fileName)
-//      throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException {
-//    //setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));
-//    return myPreferences;
+  public User getUser() {
+    return currUser;
+  }
+
+  public void updateUsername(String updatedUsername) throws IOException {
+    profileGenerator.changeProfileUsername(currUser.username(), password, updatedUsername);
+    currUser = login(updatedUsername, password);
+  }
+
+  public void updatePassword(String updatedPassword) throws IOException {
+    profileGenerator.changeProfilePassword(currUser.username(), password, updatedPassword);
+    password = updatedPassword;
+  }
+
+  public void removeFile(String file) throws IOException {
+    profileGenerator.removeFavoriteFile(currUser.username(), password, file);
+    currUser = login(currUser.username(), password);
+  }
+
+  @Deprecated
+  public void updateImage(File updatedImageFile) throws IOException {
+    profileGenerator.updateProfilePicture(currUser.username(), password, updatedImageFile);
+    currUser = login(currUser.username(), password);
+  }
+
+//  public void updateString(String string, String type)
+//      throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+//    ResourceBundle methodMappings = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, METHOD_MAPPINGS_FILENAME));
+//    Method fileUpdateMethod = ProfileGenerator.class.getDeclaredMethod(methodMappings.getString(type), String.class, String.class, String.class);
+//    fileUpdateMethod.invoke(profileGenerator, currUser.username(), password, string);
+//    currUser = login(currUser.username(), password);
+//    System.out.println(currUser.username());
 //  }
+
+  public void updateFile(File file, String type)
+      throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    ResourceBundle methodMappings = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, METHOD_MAPPINGS_FILENAME));
+    Method fileUpdateMethod = ProfileGenerator.class.getDeclaredMethod(methodMappings.getString(type), String.class, String.class, File.class);
+    fileUpdateMethod.invoke(profileGenerator, currUser.username(), password, file);
+    currUser = login(currUser.username(), password);
+  }
+
+
+
+  public UserPreferences uploadFirebaseFile(String fileName)
+      throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException {
+    setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));
+    return myPreferences;
+  }
 
   // TODO: properly handle exception
   @Override
@@ -204,25 +254,31 @@ public class Controller implements ControllerInterface {
   }
 
 //  /**
-//   * Getter method to get the uploaded file. Used to reload a new game.
-//   *
-//   * @return File myFile
+//   * Restarts the game with the same file that was originally uploaded. Called from BottomView when
+//   * user clicks on "Restart" button
 //   */
-//  public File getFile() { return myFile; }
-//
-//  /**
-//   * Getter method to get the current stage. Used to reload a new game.
-//   *
-//   * @return Stage myStage
-//   */
-//  public Stage getStage() { return myStage; }
+//  @Deprecated
+//  public void restartGame() {
+//    jsonParser.parseJSON(originalStartingConfigJson);
+//    new MainView(this, getVanillaGame(), newStage, myViewMode, myPreferences);
+//  }
 
   /**
    * Restarts the game with the same file that was originally uploaded. Called from BottomView when
    * user clicks on "Restart" button
    */
-  public void restartGame() {
+  public void restartGame(Stage stage) {
     jsonParser.parseJSON(originalStartingConfigJson);
-    new MainView(this, getVanillaGame(), myStage, myViewMode, myPreferences);
+    isPaused = true;
+    new MainView(this, getVanillaGame(), stage, myViewMode, myPreferences);
+  }
+
+  /**
+   * Toggles the animation status to paused if running or running if paused.
+   * Used in MainView to pause/start animation to show and hide win/loss alerts
+   */
+  public void toggleAnimation() {
+    if (myAnimation.getStatus() == Status.PAUSED) myAnimation.play();
+    else if (myAnimation.getStatus() == Status.RUNNING) myAnimation.pause();
   }
 }

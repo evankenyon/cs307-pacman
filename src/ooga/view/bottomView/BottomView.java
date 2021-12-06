@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.GameSaver;
 import ooga.model.VanillaGame;
@@ -53,6 +54,7 @@ public class BottomView {
   private static final int GRAPHIC_BUTTON_HEIGHT = 25;
 
   private GridPane bottomGrid;
+  private Stage myStage;
   private VBox bottomView;
   private Controller myController;
   private ResourceBundle myResources;
@@ -70,10 +72,11 @@ public class BottomView {
    * @param game       is the model object that runs the game
    * @param language   is a String for the language being used in the game
    */
-  public BottomView(Controller controller, VanillaGame game, String language) {
+  public BottomView(Controller controller, VanillaGame game, Stage stage, String language) {
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
     myController = controller;
     myGame = game;
+    myStage = stage;
     myLanguage = language;
     bottomView = new VBox();
     isPaused = true;
@@ -186,7 +189,7 @@ public class BottomView {
 
   private void restartGame() {
     // TODO: implement resetGame function here
-    myController.restartGame();
+    myController.restartGame(myStage);
   }
 
   /**

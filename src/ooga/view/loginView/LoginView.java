@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.User;
 import ooga.view.startupView.GameStartupPanel;
+import org.json.JSONObject;
 
 public class LoginView {
 
@@ -66,7 +67,7 @@ public class LoginView {
       //TODO: make signup exception popup
       e.printStackTrace();
     }
-    new GameStartupPanel(myStage, myUser);
+    new GameStartupPanel(myStage, myUser, myController);
   }
 
   private void signInAction() {
@@ -78,7 +79,7 @@ public class LoginView {
       //TODO: make sign in exception popup
       e.printStackTrace();
     }
-    new GameStartupPanel(myStage, myUser);
+    new GameStartupPanel(myStage, myUser, myController);
   }
 
   private File fileExplorer() {

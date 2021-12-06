@@ -76,9 +76,9 @@ public class BoardView {
     myBoardPane.setMaxHeight(BOARD_HEIGHT);
     myBoardPane.setBackground(
         new Background(new BackgroundFill(BOARD_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
-    myBoardPane.setBorder(new Border(
-        new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, new CornerRadii(5),
-            new BorderWidths(10))));
+//    myBoardPane.setBorder(new Border(
+//        new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, new CornerRadii(5),
+//            new BorderWidths(10))));
   }
 
   private void initiateBoard(UserPreferences userPreferences) {

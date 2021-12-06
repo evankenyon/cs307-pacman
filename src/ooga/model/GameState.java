@@ -35,11 +35,12 @@ public class GameState {
 
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.wallMap(), 0) + 1;
+
     agentFactory = new AgentFactory();
   }
 
   public boolean isInBounds(int x, int y) {
-    if (x >= myRows || y >= myCols) {
+    if (x > myRows || y > myCols) {
       return false;
     } else if (x < 0 || y < 0) {
       return false;
@@ -48,24 +49,25 @@ public class GameState {
   }
 
   public Position portal(Position oldPosition) {
-    if (atXEdge(oldPosition)) {
+    if (atXEdge(oldPosition) && !isWall(0, oldPosition.getCoords()[1])) {
       return new Position(0, oldPosition.getCoords()[1]);
-    } else if (atYEdge(oldPosition)) {
+    } else if (atYEdge(oldPosition) && !isWall(oldPosition.getCoords()[0], 0)) {
       return new Position(oldPosition.getCoords()[0], 0);
-    } else if (atXZero(oldPosition)) {
+    } else if (atXZero(oldPosition) && !isWall(myCols - 1, oldPosition.getCoords()[1])) {
       return new Position(myCols - 1, oldPosition.getCoords()[1]);
-    } else if (atYZero(oldPosition)) {
+    } else if (atYZero(oldPosition) && !isWall(oldPosition.getCoords()[0], myRows - 1)) {
+      System.out.println(!isWall(oldPosition.getCoords()[0], myRows - 1));
       return new Position(oldPosition.getCoords()[0], myRows - 1);
     }
     return oldPosition;
   }
 
   private boolean atXZero(Position position) {
-    return position.getCoords()[0] == 0;
+    return position.getCoords()[0] == -1;
   }
 
   private boolean atYZero(Position position) {
-    return position.getCoords()[1] == 0;
+    return position.getCoords()[1] == -1;
   }
 
 

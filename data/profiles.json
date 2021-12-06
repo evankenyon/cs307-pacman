@@ -1,18 +1,1 @@
-
-{
-  "dane1": {
-    "wins": 0,
-    "password": "dane1",
-    "high-score": 0,
-    "image-path": "C:\\Users\\xinyu\\classwork\\cs307\\ooga_team11\\data\\images\\bigPauseIcon.png",
-    "losses": 0,
-    "favorite-files": []
-  },
-  "dane": {
-    "wins": 0,
-    "password": "dane",
-    "high-score": 0,
-    "losses": 0,
-    "favorite-files": []
-  }
-}
+{"":{"wins":0,"password":"","high-score":0,"image-path":"./data/images/blinky_right_charged.gif","losses":0,"favorite-files":["./data/basic_examples/ghost_test_implementation.json"]},"dane1":{"wins":0,"password":"dane1","high-score":0,"image-path":"./data/images/bigPauseIcon.png","losses":0,"favorite-files":[]},"michelle":{"wins":0,"password":"michelle","high-score":0,"image-path":"./data/images/bigPauseIcon.png","losses":0,"favorite-files":[]},"dane":{"wins":0,"password":"dane","high-score":0,"image-path":"./data/images/blinky_right_charged.gif","losses":0,"favorite-files":["./data/basic_examples/ghost_test_implementation.json","./data/basic_examples/test_implementation.json"]},"evan8":{"wins":0,"password":"abc123","high-score":0,"image-path":"./data/images/pm_favicon.png","losses":0,"favorite-files":["./data/basic_examples/basic_movement.json","./data/images/bigPlayIcon.png","./data/images/backButton-back.png"]}}

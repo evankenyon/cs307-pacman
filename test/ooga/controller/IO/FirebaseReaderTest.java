@@ -2,6 +2,7 @@ package ooga.controller.IO;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import net.thegreshams.firebase4j.error.FirebaseException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,5 +37,11 @@ class FirebaseReaderTest {
   void getFilenames() throws InterruptedException {
     Assertions.assertTrue(firebaseReader.getFileNames().contains("test1"));
     Assertions.assertTrue(firebaseReader.getFileNames().contains("test2"));
+  }
+
+  @Test
+  void getFileNamesAsArray() throws InterruptedException {
+    Assertions.assertTrue(List.of(firebaseReader.getFileNames().toArray(new String[0])).contains("test1"));
+    Assertions.assertTrue(List.of(firebaseReader.getFileNames().toArray(new String[0])).contains("test2"));
   }
 }

@@ -156,10 +156,14 @@ public class GameStateData {
     for (String key : pelletInfo.keySet()) {
       if (pelletInfo.get(key)) {
         List<Position> tempPellets = gameDict.get(key);
-        for (Position dot : tempPellets) {
-          int x = dot.getCoords()[0];
-          int y = dot.getCoords()[1];
-          myRequiredPelletStates.add(consumableFactory.createConsumable(key, x, y));
+        if (tempPellets != null) {
+          for (Position dot : tempPellets) {
+            int x = dot.getCoords()[0];
+            int y = dot.getCoords()[1];
+            myRequiredPelletStates.add(consumableFactory.createConsumable(key, x, y));
+          }
+        } else {
+          throw new IllegalArgumentException("We can't win without required pellets!");
         }
       }
     }

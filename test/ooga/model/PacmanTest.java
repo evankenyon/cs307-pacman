@@ -28,6 +28,7 @@ public class PacmanTest {
   void setUp() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     pacman = new Pacman(1, 2);
     Map<String, List<Position>> wallMap = new HashMap<>();
+    wallMap.put("Pacman", List.of(new Position(0, 0)));
     Map<String, Boolean> pelletInfo = new HashMap<>();
     state = new GameState(new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 3, 3));
     tracker = new keyTracker();

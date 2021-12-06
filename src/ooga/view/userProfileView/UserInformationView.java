@@ -1,9 +1,11 @@
 package ooga.view.userProfileView;
 
 import static ooga.view.center.agents.MovableView.IMAGE_PATH;
+import static ooga.view.startupView.GameStartupPanel.EXAMPLES_PATH;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -58,12 +60,22 @@ public class UserInformationView {
     ListView<String> favoriteFiles = new ListView<>();
     if (user.favorites() != null) {
       for (String file : user.favorites()) {
+        System.out.println(file);
         favoriteFiles.getItems().add(file);
       }
     }
     root.add(favoriteFiles, 2, 6);
     Button addFavoriteFileButton = makeButton("Add favorite file", e -> editFile("Favorite"));
     root.add(addFavoriteFileButton, 1, 8);
+    Button removeFavoriteFileButton = makeButton("Remove favorite file", e -> {
+      try {
+        controller.removeFile(favoriteFiles.getSelectionModel().getSelectedItem());
+        reset(controller.getUser());
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      }
+    });
+    root.add(removeFavoriteFileButton, 2, 8);
     Scene myScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
     myScene.getStylesheets().add(getClass().getResource(DEFAULT_STYLESHEET).toExternalForm());
     return myScene;
@@ -71,7 +83,7 @@ public class UserInformationView {
 
   private void reset(User user) {
     this.stage.setScene(createStartupScene(user));
-    this.stage.setTitle("PACMAN STARTUP");
+    this.stage.setTitle("USER INFO");
     Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
     this.stage.getIcons().add(favicon);
     this.stage.show();
@@ -95,7 +107,7 @@ public class UserInformationView {
 
   private void editFile(String type) {
     FileChooser myFileChooser = new FileChooser();
-    myFileChooser.setInitialDirectory(new File(IMAGE_PATH));
+    myFileChooser.setInitialDirectory(new File(EXAMPLES_PATH));
     try {
       controller.updateFile(myFileChooser.showOpenDialog(stage), type);
     } catch (Exception e) {
@@ -109,6 +121,7 @@ public class UserInformationView {
     try {
       Method updateMethod = Controller.class.getDeclaredMethod(String.format("update%s", title), String.class);
       updateMethod.invoke(controller, makeTextInputDialog(title, header));
+//      controller.updateString(makeTextInputDialog(title, header), title);
     } catch (Exception e) {
       // TODO: handle
     }

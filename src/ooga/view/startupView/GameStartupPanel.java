@@ -36,6 +36,7 @@ import ooga.view.userProfileView.UserInformationView;
 public class GameStartupPanel {
 
   public static final String NO_FILE_TEXT = "No file selected";
+  public static final String EXAMPLES_PATH = "data/basic_examples";
   private Stage startupStage;
   private Stage mainStage;
   private Button viewProfile;
@@ -214,7 +215,7 @@ public class GameStartupPanel {
   private File fileExplorer() {
     // Credit to Carl Fisher for writing this code in Cell Society team 6
     FileChooser myFileChooser = new FileChooser();
-    myFileChooser.setInitialDirectory(new File("data/basic_examples"));
+    myFileChooser.setInitialDirectory(new File(EXAMPLES_PATH));
     return myFileChooser.showOpenDialog(startupStage);
   }
 

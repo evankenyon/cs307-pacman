@@ -233,7 +233,7 @@ public class BottomView {
 
   private void makeProfileView() {
     Stage newStage = new Stage();
-    new UserInformationView(myController, myUser, newStage);
+    new UserInformationView(myController, myUser, newStage, myLanguage);
   }
 
   private void restartGame() {

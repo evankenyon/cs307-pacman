@@ -221,7 +221,7 @@ public class GameStateData {
         int x = emptyPos.getCoords()[0];
         int y = emptyPos.getCoords()[1];
         myInitAgentPositions.add(new Position(x, y));
-        myAgentStates.add(agentFactory.createAgent("Empty", x, y));
+        myWallStates.add(agentFactory.createAgent("Empty", x, y));
       }
     }
   }

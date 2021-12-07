@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import ooga.model.agents.players.Pacman;
 import ooga.model.endConditions.EndConditionContext;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
@@ -90,6 +91,8 @@ public class GameBoard {
     List<Agent> movers = new ArrayList<>();
     movers.add(myState.getPacman());
     movers.addAll(myState.getGhosts());
+    movers.addAll(myState.getFood());
+    movers.addAll(myState.getWalls());
     for (Agent agent : movers) {
       Position newPosition = agent.getNextMove(myState);
       if (newPosition != null) {
@@ -114,6 +117,8 @@ public class GameBoard {
     List<Agent> ghosts = myState.getGhosts();
     for (Agent ghost : ghosts) {
       if (isOverlapping(ghost.getPosition(), pacman.getPosition())) {
+        System.out.println(ghost.getPosition());
+        System.out.println(pacman.getPosition());
         if (myState.isSuper() && ghost.getState() != 0) {
           System.out.println("ghost and pacman overlapping");
           System.out.print("coords are for ghost and pac: ");
@@ -209,7 +214,10 @@ public class GameBoard {
   }
 
   public void updateScoreConsumer() {
-    myScoreConsumer.accept(myPacScore);
+    if (myState.getMyPlayer().getClass().equals(Pacman.class)){
+      myScoreConsumer.accept(myPacScore);
+    }
+    else myScoreConsumer.accept(myGhostScore);
   }
 
   public void addLivesConsumer(Consumer<Integer> consumer) {

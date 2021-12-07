@@ -12,7 +12,7 @@ import ooga.model.GameEngine;
 
 public class GameSaver {
 
-  private int counter = 0;
+  private String userFileName;
   private StringBuilder path = new StringBuilder();
 
   private JSONConfigObjectBuilder objectBuilder;
@@ -34,9 +34,8 @@ public class GameSaver {
   public void saveGame() throws IOException {
     clearBuilders();
     path.append("data/user_files/user_file");
-    path.append("_"+ String.valueOf(counter));
+    path.append("_"+ userFileName);
     path.append(".json");
-    counter++;
 
     File jsonFile = new File(String.valueOf(path));
     try {

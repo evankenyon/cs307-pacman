@@ -4,7 +4,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import ooga.model.GameState;
 import ooga.model.agents.AbstractAgent;
-import ooga.model.movement.Controllable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
@@ -17,13 +16,11 @@ public class Pacman extends AbstractAgent {
   public final static int SUPER_STATE = 2;
 
   private int myState;
-  private MovementStrategyContext myMover;
   private static final Logger LOG = LogManager.getLogger(Pacman.class);
 
   public Pacman(int x, int y) {
     super(x, y);
     myState = ALIVE_STATE;
-    myMover = new MovementStrategyContext(new Controllable());
   }
 
   @Override
@@ -33,10 +30,6 @@ public class Pacman extends AbstractAgent {
 
   public void setCoords(Position newPosition) {
     setPosition(newPosition.getCoords());
-  }
-
-  public Position getNextMove(GameState state) {
-    return myMover.move(state, getPosition());
   }
 
   @Override
@@ -58,5 +51,4 @@ public class Pacman extends AbstractAgent {
       }
     }, 4000);
   }
-
 }

@@ -3,7 +3,11 @@ package ooga.model.agents;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import ooga.model.GameState;
 import ooga.model.interfaces.Agent;
+import ooga.model.interfaces.Game;
+import ooga.model.interfaces.Movable;
+import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +20,7 @@ public abstract class AbstractAgent implements Agent  {
 
   private Position myPosition;
   private Runnable superPelletRun;
+  private MovementStrategyContext myMover;
 
   /**
    * abstract constructor for cell
@@ -26,6 +31,7 @@ public abstract class AbstractAgent implements Agent  {
   public AbstractAgent(int x, int y) {
     myPosition = new Position(x, y);
     stateConsumers = new ArrayList<>();
+    myMover = new MovementStrategyContext();
   }
 
   /**
@@ -47,6 +53,10 @@ public abstract class AbstractAgent implements Agent  {
     return myPosition;
   }
 
+  public Position getNextMove(GameState state){
+    return myMover.move(state, getPosition());
+  }
+
   public void setPosition(int[] newPosition) {
     myPosition.setCoords(newPosition[0], newPosition[1]);
   }
@@ -63,6 +73,10 @@ public abstract class AbstractAgent implements Agent  {
    * @param runnable is the Runnable to be assigned to local Runnable variable
    */
   public void addRunnable(Runnable runnable) { superPelletRun = runnable; }
+
+  public void setStrategy(Movable strategy){
+      myMover.setStrategy(strategy);
+  }
 
   protected Runnable getRunnable() { return superPelletRun; }
 

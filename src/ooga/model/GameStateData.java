@@ -31,13 +31,11 @@ public class GameStateData {
   private boolean[][] myWallMap;
   private int pacmanLives;
 
-
   public GameStateData() {
     myPacScore = 0;
     myGhostScore = 0;
     myAgentStates = new ArrayList<>();
     myRequiredPelletStates = new ArrayList<>();
-
   }
 
   public void initialize(GameData data) {
@@ -53,6 +51,8 @@ public class GameStateData {
     myWallStates = new ArrayList<>();
     myInitAgentPositions = new ArrayList<>();
     myWallMap = new boolean[cols][rows];
+    pacmanLives = data.numLives();
+//    System.out.println(pacmanLives);
     createWallMap(gameDict, rows, cols);
     createAgentList(gameDict, data.player());
     createWallList(gameDict);

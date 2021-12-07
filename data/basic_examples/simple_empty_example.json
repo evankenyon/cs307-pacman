@@ -6,7 +6,7 @@
   "PlayerScore":0,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall"],
-    ["Wall","Pacman","Wall","Dot", "Dot", "Wall"],
+    ["Wall","Pacman","Wall","Dot", "Empty", "Wall"],
     ["Wall","Super","Dot","Ghost","Dot","Wall"],
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
   ]

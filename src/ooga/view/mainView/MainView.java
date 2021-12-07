@@ -55,6 +55,7 @@ public class MainView {
   private User myUser;
   private Consumer<GameStatus> gameEndConsumer = status -> gameEndAction(status);
   private String STYLESHEET;
+  private String viewMode;
 
   /**
    * Constructor to create a MainView object to make the scene based on the constructed BorderPane
@@ -68,6 +69,7 @@ public class MainView {
   public MainView(Controller controller, VanillaGame game, Stage stage, String selectedViewMode,
       UserPreferences userPreferences, User user) {
     this.STYLESHEET = "/ooga/view/resources/" + selectedViewMode + ".css";
+    this.viewMode = selectedViewMode;
     myController = controller;
     controller.setAnimationSpeed(1);
     myGame = game;
@@ -116,10 +118,10 @@ public class MainView {
   private void gameEndAction(GameStatus status) {
     if (status == GameStatus.WIN) {
       myController.toggleAnimation();
-      new WinLossPopup(myStage, myController, status, myTopView.getCurrScore());
+      new WinLossPopup(myStage, myController, status, myTopView.getCurrScore(), viewMode);
     } else if (status == GameStatus.LOSS) {
       myController.toggleAnimation();
-      new WinLossPopup(myStage, myController, status, myTopView.getCurrScore());
+      new WinLossPopup(myStage, myController, status, myTopView.getCurrScore(), viewMode);
     }
   }
 }

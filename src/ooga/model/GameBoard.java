@@ -39,6 +39,7 @@ public class GameBoard {
     myPacScore = 0;
     myGhostScore = myState.getFood().size() * 20;
     currentGameStatus = GameStatus.RUNNING;
+    myGameStatusConsumer = new ArrayList<>();
     endConditionWin = new EndConditionContext();
     endConditionLoss = new EndConditionContext();
     setUpGameEndConditions(vanillaGameData.player());
@@ -53,16 +54,17 @@ public class GameBoard {
     ResourceBundle endConditionReflectionKeys = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, endConditionFileName));
     EndCondition winCondition = null;
+    System.out.println(endConditionFileName);
     winCondition = (EndCondition) Class.forName(
             String.format("%s%s", END_CONDITIONS_PACKAGE,
-                endConditionReflectionKeys.getString("winConditionString")))
+                endConditionReflectionKeys.getString("winCondition")))
         .getConstructor()
         .newInstance();
 
     EndCondition endCondition = null;
     endCondition = (EndCondition) Class.forName(
             String.format("%s%s", END_CONDITIONS_PACKAGE,
-                endConditionReflectionKeys.getString("loseConditionString")))
+                endConditionReflectionKeys.getString("loseCondition")))
         .getConstructor()
         .newInstance();
 

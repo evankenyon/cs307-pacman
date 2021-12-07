@@ -12,11 +12,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Purpose:
- * Assumptions:
- * Dependencies:
- * Example:
- * Other details:
+ * Purpose: This class is used for all things related to profiles, such as logging in, creating, and
+ * updating
+ * Dependencies: json-java, JSONObjectParser, Consumer, AtomicBoolean, ResourceBundle, PrintWriter,
+ * IOException, File
+ * Example: Instantiate this class in a controller in order to mediate the flow of information
+ * regarding users between the data side of the project and frontend side of the project.
+ * Specifically, a controller could parse raw input data into the data that the methods in this
+ * class need in order to create a user, login as a user, or update a user.
  *
  * @author Evan Kenyon
  */
@@ -31,7 +34,7 @@ public class ProfileGenerator {
   private JSONObject allUsersInfo;
 
   /**
-   * Purpose:
+   * Purpose: Instantiate this class with the default profiles
    * Assumptions:
    */
   public ProfileGenerator() {

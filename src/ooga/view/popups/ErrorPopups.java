@@ -17,6 +17,7 @@ public class ErrorPopups {
 
   private ResourceBundle myResources;
   private String alertMessage;
+  private Throwable myException;
 
   /**
    * Constructor to create an ErrorPopups object. Reflection is used to call the corresponding
@@ -25,8 +26,22 @@ public class ErrorPopups {
    * @param language is a String for the language used in the game
    * @param type is a String for the type of error message to be displayed
    */
+  @Deprecated
   public ErrorPopups(String language, String type) {
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
+    errorPopup(myResources.getString(type));
+  }
+
+  /**
+   * Constructor to create an ErrorPopups object. Reflection is used to call the corresponding
+   * method based on the error type to display the correct error message.
+   *
+   * @param language is a String for the language used in the game
+   * @param type is a String for the type of error message to be displayed
+   */
+  public ErrorPopups(Throwable e, String language, String type) {
+    myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
+    myException = e;
     errorPopup(myResources.getString(type));
   }
 
@@ -34,7 +49,8 @@ public class ErrorPopups {
     Alert alert = new Alert(AlertType.ERROR);
     alert.setTitle(myResources.getString("Error"));
     alert.setHeaderText(myResources.getString(String.format("%sHeader",type)));
-    alertMessage = myResources.getString(String.format("%sMessage",type));
+    alertMessage = myException.getMessage();
+    if (alertMessage == null) alertMessage = myResources.getString(String.format("%sMessage",type));
     alert.setContentText(alertMessage);
     alert.showAndWait();
   }

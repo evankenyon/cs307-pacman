@@ -79,7 +79,7 @@ public class ErrorPopupsTest extends DukeApplicationTest {
 
   private void checkPopupMessage(String expected, String errorType) {
     runAsJFXAction(() -> {
-      ErrorPopups error = new ErrorPopups(LANGUAGE, errorType);
+      ErrorPopups error = new ErrorPopups(new Exception(), LANGUAGE, errorType);
       assertEquals(expected, error.getErrorMessage());
     });
   }

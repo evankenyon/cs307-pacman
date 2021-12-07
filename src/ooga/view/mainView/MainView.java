@@ -23,7 +23,6 @@ import ooga.model.VanillaGame;
 import ooga.model.util.GameStatus;
 import ooga.view.bottomView.BottomView;
 import ooga.view.center.BoardView;
-import ooga.view.popups.GameEndPopups;
 import ooga.view.popups.WinLossPopup;
 import ooga.view.startupView.GameStartupPanel;
 import ooga.view.topView.TopView;
@@ -54,16 +53,7 @@ public class MainView {
   private VanillaGame myGame;
   private BorderPane root;
   private User myUser;
-  private Consumer<GameStatus> gameEndConsumer = status -> {
-    if (status == GameStatus.WIN) {
-      myController.toggleAnimation();
-      new WinLossPopup(myStage, myController, status);
-//      new GameEndPopups().winLosePopup("win", 0, 0);
-    } else if (status == GameStatus.LOSS) {
-      new GameEndPopups().winLosePopup("lose", 0, 0);
-    }
-  };
-  private GameStartupPanel gameStartupPanel;
+  private Consumer<GameStatus> gameEndConsumer = status -> gameEndAction(status);
   private String STYLESHEET;
 
   /**
@@ -90,7 +80,7 @@ public class MainView {
     Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
     myStage.getIcons().add(favicon);
     myBoardView = new BoardView(myGame, myController, userPreferences);
-    myTopView = new TopView(myGame, userPreferences.language());
+    myTopView = new TopView(myGame, myController, userPreferences.language());
     myScene = makeScene();
 //    myStage.hide();
     myStage.setScene(myScene);
@@ -121,5 +111,15 @@ public class MainView {
   private void setStyles() {
     root.getStyleClass().add("root");
     root.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+  }
+
+  private void gameEndAction(GameStatus status) {
+    if (status == GameStatus.WIN) {
+      myController.toggleAnimation();
+      new WinLossPopup(myStage, myController, status, myTopView.getCurrScore());
+    } else if (status == GameStatus.LOSS) {
+      myController.toggleAnimation();
+      new WinLossPopup(myStage, myController, status, myTopView.getCurrScore());
+    }
   }
 }

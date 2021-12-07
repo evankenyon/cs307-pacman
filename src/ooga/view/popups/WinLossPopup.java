@@ -26,23 +26,35 @@ public class WinLossPopup {
   private Stage mainStage;
   private Stage winLossStage;
   private Controller myController;
+  private Text message;
 
+  @Deprecated
   public WinLossPopup (Stage stage, Controller controller, GameStatus result) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
     mainStage = stage;
     myController = controller;
     winLossStage = new Stage();
-    winLossStage.setScene(createWinLossScene(result));
+//    winLossStage.setScene(createWinLossScene(result));
     winLossStage.show();
   }
 
-  private Scene createWinLossScene(GameStatus result) {
+  public WinLossPopup (Stage stage, Controller controller, GameStatus result, int score) {
+    myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
+    mainStage = stage;
+    myController = controller;
+    winLossStage = new Stage();
+    winLossStage.setScene(createWinLossScene(result, score));
+    winLossStage.show();
+  }
+
+  private Scene createWinLossScene(GameStatus result, int score) {
     VBox root = new VBox();
     root.setAlignment(Pos.CENTER);
     root.setSpacing(WIN_LOSS_SPACING);
-    Text text = new Text(myResources.getString(result.name()));
+    message = new Text(myResources.getString(result.name()));
+    Text scoreText = new Text(String.format("%s: %d", myResources.getString("Score"), score));
     Button playAgainButton = makeButton(myResources.getString(PLAY_AGAIN_BUTTON_KEY), e -> playAgainAction());
-    root.getChildren().addAll(text, playAgainButton);
+    root.getChildren().addAll(message, scoreText, playAgainButton);
     return new Scene(root, WIN_LOSS_WIDTH, WIN_LOSS_HEIGHT);
   }
 
@@ -58,5 +70,9 @@ public class WinLossPopup {
     winLossStage.close();
     myController.restartGame(mainStage);
   }
+
+  // Used for testing
+  protected String getMessage() { return message.getText(); }
+  protected Stage getWinLossStage() { return winLossStage; }
 
 }

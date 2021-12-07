@@ -15,6 +15,12 @@ import ooga.model.interfaces.Agent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * @author Dania Fernandez
+ * @author Evan Kenyon
+ * dependencies: JSONObjectBuilder
+ * Used to save a game configuration file locally
+ */
 
 public class GameSaver {
 
@@ -24,13 +30,17 @@ public class GameSaver {
   private JSONConfigObjectBuilder objectBuilder;
 
 
+  /**
+   * sets objectBuilder to be the JSONObject corresponding to the passed in VanillaGame
+   * @param vanillaGame, the current VanillaGame
+   */
   public GameSaver(VanillaGame vanillaGame) {
     objectBuilder = new JSONConfigObjectBuilder(vanillaGame);
   }
 
 
   /**
-   * for now - handles all json & broader file responsibilities
+   * Saves current game configuration file locally to the data/user_files package
    * @throws IOException
    */
   public void saveGame() throws IOException {

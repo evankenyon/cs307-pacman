@@ -18,7 +18,8 @@ public class AgentFactory {
     int numNot = 0;
     ResourceBundle packages = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, PACKAGES_FILENAME));
-    ResourceBundle classNames = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, CLASS_NAMES_FILENAME));
+    ResourceBundle classNames = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, CLASS_NAMES_FILENAME));
     String actualAgent = "";
 
     try {
@@ -30,8 +31,10 @@ public class AgentFactory {
     for (String aPackage : packages.keySet()) {
       try {
         createdAgent = (Agent) Class.forName(
-                String.format("%s%s", packages.getString(aPackage), actualAgent)).getConstructor(int.class, int.class)
+                String.format("%s%s", packages.getString(aPackage), actualAgent))
+            .getConstructor(int.class, int.class)
             .newInstance(x, y);
+        System.out.println(String.format("%s%s", packages.getString(aPackage), actualAgent));
       } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
         numNot++;
       }

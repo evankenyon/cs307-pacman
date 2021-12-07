@@ -64,6 +64,7 @@ public class GameStateData {
     createAgentList(gameDict);
     createWallList(gameDict);
     createRequiredPelletList(gameDict, pelletInfo);
+    createEmptySpots(gameDict);
   }
 
   public int getFoodLeft() {
@@ -161,6 +162,17 @@ public class GameStateData {
       }
     }
     foodLeft = myRequiredPelletStates.size();
+  }
+
+  private void createEmptySpots(Map<String, List<Position>> gameDict) {
+    if (gameDict.get("Empty") != null) {
+      for (Position emptyPos : gameDict.get("Empty")) {
+        int x = emptyPos.getCoords()[0];
+        int y = emptyPos.getCoords()[1];
+        myInitAgentPositions.add(new Position(x, y));
+        myAgentStates.add(agentFactory.createAgent("Empty", x, y));
+      }
+    }
   }
 
   public int getPacmanLives() {

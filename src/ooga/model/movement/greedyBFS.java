@@ -1,0 +1,62 @@
+package ooga.model.movement;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import ooga.model.GameState;
+import ooga.model.interfaces.Consumable;
+import ooga.model.interfaces.Movable;
+import ooga.model.util.Position;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+/**
+ * Implements one type of automatic movement for agent.
+ */
+public class greedyBFS extends BFS implements Movable {
+
+  private static final Logger LOG = LogManager.getLogger(greedyBFS.class);
+
+  public greedyBFS() {
+  }
+
+  @Override
+  public Position move(GameState state, Position currentPos) {
+    List<Consumable> foodsList = state.getFood();
+    int min = Integer.MAX_VALUE;
+    Consumable foodToChase = null;
+
+    for (Consumable food : foodsList) {
+      int distanceHeuristicBetweenFood = 0;
+      int xAway = Math.abs(currentPos.getCoords()[0] - food.getPosition().getCoords()[0]);
+      int yAway = Math.abs(currentPos.getCoords()[1] - food.getPosition().getCoords()[1]);
+      distanceHeuristicBetweenFood = xAway + yAway;
+      if (min > distanceHeuristicBetweenFood) {
+        min = distanceHeuristicBetweenFood;
+        foodToChase = food;
+      }
+    }
+
+    if (foodToChase != null) {
+      return currentPos;
+    } else {
+      List<Position> optimalPath = new ArrayList<>();
+      Map<Position, Position> myPath = doBFS(foodToChase.getPosition(), currentPos, state);
+
+      Position first = foodToChase.getPosition();
+
+      while (first != null) {
+        optimalPath.add(first);
+        first = myPath.get(first);
+      }
+
+      if (optimalPath.size() == 1) {
+        //this should never happen unless literally stuck in a box
+        return optimalPath.get(0);
+      } else {
+        //take second index which is next step from currentPos
+        return optimalPath.get(optimalPath.size() - 2);
+      }
+    }
+  }
+}

@@ -13,8 +13,6 @@ import java.util.function.Consumer;
 import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.GameData;
 import ooga.model.util.Position;
-// Decided to use this library after reading article from
-// https://coderolls.com/parse-json-in-java/
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,11 +61,13 @@ public class JsonParser implements JsonParserInterface {
     reset();
     checkForRequiredKeys(json.keySet());
     setupPlayer(json.getString(magicValues.getString("PlayerKey")));
-    setupPelletInfo(json.getJSONArray(magicValues.getString("RequiredPelletsKey")), json.getJSONArray(magicValues.getString("OptionalPelletsKey")));
+    setupPelletInfo(json.getJSONArray(magicValues.getString("RequiredPelletsKey")),
+        json.getJSONArray(magicValues.getString("OptionalPelletsKey")));
     setupNumLives(json.getInt(magicValues.getString("NumberOfLivesKey")));
     setupWallMap(json.getJSONArray(magicValues.getString("WallMapKey")));
     checkWallMapForRequirements();
-    updateConsumers(new GameData(wallMap, player, numLives, playerScore, pelletInfo, mapCols, mapRows));
+    updateConsumers(
+        new GameData(wallMap, player, playerScore, numLives, pelletInfo, mapCols, mapRows));
   }
 
   @Deprecated
@@ -77,12 +77,14 @@ public class JsonParser implements JsonParserInterface {
     JSONObject json = JSONObjectParser.parseJSONObject(file);
     checkForRequiredKeys(json.keySet());
     setupPlayer(json.getString(magicValues.getString("PlayerKey")));
-    setupPelletInfo(json.getJSONArray(magicValues.getString("RequiredPelletsKey")), json.getJSONArray(magicValues.getString("OptionalPelletsKey")));
+    setupPelletInfo(json.getJSONArray(magicValues.getString("RequiredPelletsKey")),
+        json.getJSONArray(magicValues.getString("OptionalPelletsKey")));
     setupNumLives(json.getInt(magicValues.getString("NumberOfLivesKey")));
     setupPlayerScore(json.getInt(magicValues.getString("PlayerScoreKey")));
     setupWallMap(json.getJSONArray(magicValues.getString("WallMapKey")));
     checkWallMapForRequirements();
-    updateConsumers(new GameData(wallMap, player, numLives, playerScore, pelletInfo, mapCols, mapRows));
+    updateConsumers(
+        new GameData(wallMap, player, playerScore, numLives, pelletInfo, mapCols, mapRows));
   }
 
   @Override
@@ -99,7 +101,8 @@ public class JsonParser implements JsonParserInterface {
   }
 
   private void checkForRequiredKeys(Set<String> keySet) throws InputMismatchException {
-    List<String> requiredKeysList = List.of(requiredKeys.getString("RequiredKeys").split(magicValues.getString("Delimiter")));
+    List<String> requiredKeysList = List.of(
+        requiredKeys.getString("RequiredKeys").split(magicValues.getString("Delimiter")));
     int keysRequired = requiredKeysList.size();
     int numKeys = keySet.size();
     for (String key : keySet) {
@@ -117,9 +120,13 @@ public class JsonParser implements JsonParserInterface {
     this.player = player;
   }
 
-  private void setupNumLives(int numLives) {this.numLives = numLives;}
+  private void setupNumLives(int numLives) {
+    this.numLives = numLives;
+  }
 
-  private void setupPlayerScore(int score) {this.playerScore = score;}
+  private void setupPlayerScore(int score) {
+    this.playerScore = score;
+  }
 
 
   private void setupPelletInfo(JSONArray requiredPellets, JSONArray optionalPellets) {
@@ -168,7 +175,8 @@ public class JsonParser implements JsonParserInterface {
   private void checkForOneOfEachGhost() throws InputMismatchException {
     ResourceBundle requiredValues = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, REQUIRED_VALUES_FILENAME));
-    List<String> ghosts = List.of(requiredValues.getString("Ghosts").split(magicValues.getString("Delimiter")));
+    List<String> ghosts = List.of(
+        requiredValues.getString("Ghosts").split(magicValues.getString("Delimiter")));
     for (String key : wallMap.keySet()) {
       if (ghosts.contains(key)) {
         if (wallMap.get(key).size() > 1) {

@@ -18,8 +18,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
-import ooga.model.VanillaGame;
-import ooga.model.agents.wall;
+import ooga.model.GameEngine;
+import ooga.model.agents.Wall;
 import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 import ooga.view.center.agents.AgentView;
@@ -42,7 +42,7 @@ public class BoardView {
   public static final double BOARD_HEIGHT = 400.;
   public static final Paint BOARD_COLOR = Color.BLACK;
 
-  private VanillaGame myGame;
+  private GameEngine myGame;
   private Controller myController;
   private Pane myBoardPane;
   private List<Consumer<AgentView>> boardConsumerList;
@@ -59,7 +59,7 @@ public class BoardView {
    * @param controller      is the Controller object that communicates between the view and model
    * @param userPreferences is the UserPreferences object with information from the uploaded files
    */
-  public BoardView(VanillaGame game, Controller controller, UserPreferences userPreferences) {
+  public BoardView(GameEngine game, Controller controller, UserPreferences userPreferences) {
     myGame = game;
     myController = controller;
     myBoardPane = new Pane();
@@ -146,7 +146,7 @@ public class BoardView {
       e.printStackTrace();
       new ErrorPopups(e, myLanguage, "ReflectionError");
       e.printStackTrace();
-      return new EmptyView(new wall(position.getCoords()[0], position.getCoords()[1]), numRows,
+      return new EmptyView(new Wall(position.getCoords()[0], position.getCoords()[1]), numRows,
           numCols);
     }
   }

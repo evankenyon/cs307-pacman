@@ -23,7 +23,7 @@ import org.json.JSONObject;
  * Dependencies: java-json, Position, GameData, JSONObjectParser, Consumer, Set, ResourceBundle,
  * Map, List, InputMismatchException, HashMap, ArrayList, IOException, File
  * Example: Instantiate this class in a Controller to take in a JSONObject that represents starting
- * config data (either from a local file or a database file) in order to instantiate a VanillaGame
+ * config data (either from a local file or a database file) in order to instantiate a GameEngine
  * which represents the backend for a Pacman game
  *
  * @author Evan Kenyon
@@ -66,7 +66,7 @@ public class JsonParser implements JsonParserInterface {
   }
 
   /**
-   * Purpose: Parse a JSONObject into a GameData object containing a wall map, a player, the number
+   * Purpose: Parse a JSONObject into a GameData object containing a Wall map, a player, the number
    * of lives, the starting score, the information about which pellets are required and which are
    * not, the number of columns, and the number of rows. Updates the GameData consumers with
    * created GameData object.

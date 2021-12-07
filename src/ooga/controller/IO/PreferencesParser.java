@@ -18,11 +18,13 @@ import ooga.controller.IO.utils.JSONObjectParser;
 import org.json.JSONObject;
 
 /**
- * Purpose:
- * Assumptions:
- * Dependencies:
- * Example:
- * Other details:
+ * Purpose: This class's purpose is to do high level parsing of a preferences file that is first
+ * converted into a JSONObject
+ * Dependencies: java-json, JSONObjectParser, Set, ResourceBundle, Map, List, InputMismatchException,
+ * HashMap, ArrayList, BigDecimal, Method, InvocationTargetException, IOException, File
+ * Example: Instantiate this class in Controller to parse a preferences file, and use the getters in
+ * this class to instantiate a UserPreferences record to send to the frontend as well as to send
+ * along the startingConfig to JsonParser to make the model
  *
  * @author Evan Kenyon
  */
@@ -46,6 +48,10 @@ public class PreferencesParser {
   private ResourceBundle exceptionMessages;
   private ResourceBundle magicValues;
 
+  /**
+   * Purpose: Instantiate a PreferencesParser by instantiating its data structures and resource
+   * bundles
+   */
   public PreferencesParser() {
     possiblePreferences = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, POSSIBLE_PREFERENCES_FILENAME));
     preferencesValues = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, PREFERENCES_VALUES_FILENAME));
@@ -56,7 +62,15 @@ public class PreferencesParser {
     colors = new HashMap<>();
   }
 
-
+  /**
+   * Purpose: Parse a JSONObject representing a preferences file into image paths, colors, a style,
+   * and a startingConfig file
+   * @param json  a prefernces file already converted into a JSONObject
+   * @throws NoSuchMethodException should not ever be thrown since method names are correct in
+   * properties file that is used in this method
+   * @throws InputMismatchException thrown if keys or values are incorrect (ex. invalid image path),
+   * with specific error message depending on issue
+   */
   public void parseJSON(JSONObject json)
       throws NoSuchMethodException, InputMismatchException{
     preferencesJson = json;
@@ -91,18 +105,38 @@ public class PreferencesParser {
     }
   }
 
+  /**
+   * Purpose: Get the image paths that were parsed by parseJSON method call
+   * Assumptions: parseJSON method is called first
+   * @return the image paths that were parsed by parseJSON method call
+   */
   public Map<String, String> getImagePaths() {
     return imagePaths;
   }
 
+  /**
+   * Purpose: Get the colors that were parsed by parseJSON method call
+   * Assumptions: parseJSON method is called first
+   * @return the colors that were parsed by parseJSON method call
+   */
   public Map<String, List<Double>> getColors() {
     return colors;
   }
 
+  /**
+   * Purpose: Get the style that was parsed by parseJSON method call
+   * Assumptions: parseJSON method is called first
+   * @return the style that was parsed by parseJSON method call
+   */
   public String getStyle() {
     return style;
   }
 
+  /**
+   * Purpose: Get the starting config as a File that was parsed by parseJSON method call
+   * Assumptions: parseJSON method is called first
+   * @return the starting config as a File that was parsed by parseJSON method call
+   */
   public File getStartingConfig() {
     return startingConfig;
   }

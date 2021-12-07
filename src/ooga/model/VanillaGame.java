@@ -1,21 +1,15 @@
 package ooga.model;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Game;
-
 import ooga.model.util.Position;
 
 public class VanillaGame implements Game {
 
   private GameBoard myBoard;
   private Map<String, Boolean> pelletInfoMap;
-  private List<Consumer<String>> myObservers;
-
-  //private GameScore myScore; potential data structure to hold score, highscore, time played, etc.?
 
   public VanillaGame(GameData vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -35,7 +29,6 @@ public class VanillaGame implements Game {
   }
 
   private void updateHandlers() {
-    //update all view handlers
     myBoard.getGameState().updateHandlers();
   }
 

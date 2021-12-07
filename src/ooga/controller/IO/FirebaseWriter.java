@@ -41,7 +41,6 @@ public class FirebaseWriter {
   private FirebaseResponse response;
   private JSONObject object;
   private String userObjectName;
-  private String objectName;
 
   /**
    * Sets up firebase and response based on the ooga Firebase url
@@ -87,8 +86,6 @@ public class FirebaseWriter {
    */
   public void saveObject()
       throws JacksonUtilityException, FirebaseException, UnsupportedEncodingException {
-    objectName = "user-object-" + userObjectName;
-
 
     Map<String, Object> objectMap = new HashMap<>();
 

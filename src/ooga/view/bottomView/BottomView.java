@@ -175,6 +175,7 @@ public class BottomView {
     HBox pfpBorder = new HBox();
     ImageView profilePic = new ImageView(new Image(new File(myUser.imagePath()).toURI().toString()));
     double sideLen = Math.min(profilePic.getFitWidth(), profilePic.getFitHeight());
+    profilePic.setId("profilePic");
     profilePic.setViewport(new Rectangle2D(0, 0, sideLen, sideLen));
     profilePic.setPreserveRatio(true);
     profilePic.setFitHeight(SIM_BUTTON_SIZE - (2 * PFP_BORDER_WIDTH));
@@ -222,12 +223,12 @@ public class BottomView {
   }
 
   private void makeProfileView() {
+    myController.pauseOrResume();
     Stage newStage = new Stage();
-    new UserInformationView(myController, myUser, newStage, myLanguage);
+    new UserInformationView(myController, newStage, myLanguage);
   }
 
   private void restartGame() {
-    // TODO: implement resetGame function here
     myController.restartGame(myStage);
   }
 

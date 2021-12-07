@@ -38,6 +38,7 @@ public class UserInformationView {
   private Controller controller;
   private String myLanguage;
 
+  @Deprecated
   public UserInformationView(Controller controller, User user, Stage stage, String language) {
     this.stage = stage;
     this.controller = controller;
@@ -45,7 +46,14 @@ public class UserInformationView {
     reset(user);
   }
 
-  public Scene createStartupScene(User user) {
+  public UserInformationView(Controller controller, Stage stage, String language) {
+    this.stage = stage;
+    this.controller = controller;
+    myLanguage = language;
+    reset(controller.getUser());
+  }
+
+  private Scene createStartupScene(User user) {
     GridPane root = new GridPane();
     root.getStyleClass().add("grid-pane");
     addProfileImage(root, user);
@@ -142,6 +150,7 @@ public class UserInformationView {
     Button button = new Button();
     button.setOnAction(handler);
     button.setText(label);
+    button.setId(label.replace(" ",""));
     return button;
   }
 }

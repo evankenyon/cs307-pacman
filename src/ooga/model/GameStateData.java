@@ -30,6 +30,7 @@ public class GameStateData {
 
   private List<Consumable> myOptionalPelletStates;
   private List<Agent> myWallStates;
+  private List<Agent> myDoorStates;
   private boolean[][] myWallMap;
   private int pacmanLives;
 
@@ -50,6 +51,7 @@ public class GameStateData {
     myPacScore = 0;
     myGhostScore = 0;
     myAgentStates = new ArrayList<>();
+    myDoorStates = new ArrayList<>();
     myRequiredPelletStates = new ArrayList<>();
     myWallStates = new ArrayList<>();
     myInitAgentPositions = new ArrayList<>();
@@ -82,7 +84,6 @@ public class GameStateData {
   public void setSuper() {
     isSuper = true;
     attachSuperTimer();
-
   }
 
   private void attachSuperTimer() {
@@ -145,7 +146,14 @@ public class GameStateData {
           for (Position dot : tempPellets) {
             int x = dot.getCoords()[0];
             int y = dot.getCoords()[1];
-            myRequiredPelletStates.add(consumableFactory.createConsumable(key, x, y));
+            Consumable consumable = consumableFactory.createConsumable(key, x, y);
+
+            if (key.equals("Super")) {
+              consumable.addRunnable(this::setSuperState);
+            } else if (key.equals("Key")) {
+              consumable.addRunnable(this::openDoors);
+            }
+            myRequiredPelletStates.add(consumable);
           }
         } else {
           throw new IllegalArgumentException("We can't win without required pellets!");
@@ -162,6 +170,31 @@ public class GameStateData {
       }
     }
     foodLeft = myRequiredPelletStates.size();
+  }
+
+  private void setSuperState() {
+    this.setSuper();
+    for (Agent ghost : getGhosts()) {
+      ghost.setState(2);
+    }
+  }
+
+  private void openDoors() {
+    int count = 0;
+    for (Agent door : myDoorStates) {
+      if(door.getState() == 0) {
+        door.setState(1);
+        count++;
+      }
+      if (count == 2) {
+        break;
+      }
+    }
+  }
+
+  private List<Agent> getGhosts() {
+    System.out.println(this.getAgents().subList(1, this.getAgents().size()).size());
+    return this.getAgents().subList(1, this.getAgents().size());
   }
 
   private void createEmptySpots(Map<String, List<Position>> gameDict) {
@@ -206,11 +239,18 @@ public class GameStateData {
   }
 
   private void createWallList(Map<String, List<Position>> gameDict) {
-    if (gameDict.get("Wall") != null) {
+    if (gameDict.get("Wall") != null || gameDict.get("Door") != null) {
       for (Position wallPos : gameDict.get("Wall")) {
         int x = wallPos.getCoords()[0];
         int y = wallPos.getCoords()[1];
         myWallStates.add(agentFactory.createAgent("Wall", x, y));
+      }
+      for (Position wallPos : gameDict.get("Door")) {
+        int x = wallPos.getCoords()[0];
+        int y = wallPos.getCoords()[1];
+        Agent door = agentFactory.createAgent("Wall", x, y);
+        myDoorStates.add(door);
+        myWallStates.add(door);
       }
     }
   }
@@ -230,6 +270,10 @@ public class GameStateData {
       }
     }
     List<Position> walls = gameDict.get("Wall");
+    if(gameDict.containsKey("Door")) {
+      walls.addAll(gameDict.get("Door"));
+    }
+
 
     if (walls != null) {
       for (Position wall : walls) {

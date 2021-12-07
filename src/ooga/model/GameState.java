@@ -32,7 +32,6 @@ public class GameState {
       a.setStrategy(new BFS());
     }
     myGameStateData.getMyPlayer().setStrategy(new Controllable());
-    implementRunnables();
 
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.wallMap(), 0) + 1;
@@ -91,19 +90,7 @@ public class GameState {
     return maxCol;
   }
 
-  private void implementRunnables() {
-    for (Agent a : getFood()) {
-      Runnable r = this::setSuperState;
-      a.addRunnable(r);
-    }
-  }
 
-  private void setSuperState() {
-    myGameStateData.setSuper();
-    for (Agent ghost : getGhosts()) {
-      ghost.setState(2);
-    }
-  }
 
   public Agent findAgent(Position pos) {
     return myGameStateData.findAgent(pos);
@@ -149,7 +136,7 @@ public class GameState {
   public void updateHandlers() {
     getPacman().updateConsumer();
 //    for (Agent a : myOtherAgents) a.updateConsumer();
-//    for (Agent wall : myWalls) wall.updateConsumer();
+    for (Agent wall : myGameStateData.getMyWallStates()) wall.updateConsumer();
   }
 
   public boolean isFood(int x, int y) {

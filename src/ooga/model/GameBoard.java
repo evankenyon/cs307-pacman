@@ -163,7 +163,7 @@ public class GameBoard {
   private boolean checkMoveValidity(Position newPosition) {
     int x = newPosition.getCoords()[0];
     int y = newPosition.getCoords()[1];
-    return !myState.isWall(x, y);
+    return !myState.isWall(x, y) || (myState.isWall(x, y) && myState.findAgent(newPosition).getState() == 1);
   }
 
   public GameState getGameState() {

@@ -34,16 +34,16 @@ public class ProfileGenerator {
   private JSONObject allUsersInfo;
 
   /**
-   * Purpose: Instantiate this class with the default profiles
-   * Assumptions:
+   * Purpose: Instantiate this class with the default profiles json file for storing/retrieving
+   * profile data
    */
   public ProfileGenerator() {
     this("./data/profiles.json");
   }
 
   /**
-   * Purpose:
-   * Assumptions:
+   * Purpose: Instantiate this class with a given path representing the path to a profiles json file
+   * Assumptions: If path is bad, then default profiles json file will be used
    * @param path
    */
   public ProfileGenerator(String path) {
@@ -55,20 +55,19 @@ public class ProfileGenerator {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param username
-   * @param password
-   * @param imageFile
-   * @throws IOException
-   * @throws NullPointerException
-   * @throws JSONException
-   * @throws IllegalArgumentException
+   * Purpose: Create a user in the profiles.json file that can hold number of wins, number of losses
+   * , favorite files, a username, a password, and a profile picture
+   * @param username user's username
+   * @param password user's password
+   * @param imageFile user's profile pictures
+   * @throws IOException thrown if file path is bad
+   * @throws NullPointerException thrown if any of the input arguments are null
+   * @throws IllegalArgumentException thrown if username already exists
    */
   public void createUser(String username, String password, File imageFile)
-      throws IOException, NullPointerException, JSONException, IllegalArgumentException {
+      throws IOException, NullPointerException, IllegalArgumentException {
     if (username == null || password == null || imageFile == null) {
-      throw new IOException();
+      throw new NullPointerException();
     }
     JSONObject oldFile = JSONObjectParser.parseJSONObject(new File(path));
     profilesFileWriter = new PrintWriter(path);
@@ -89,12 +88,11 @@ public class ProfileGenerator {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param username
-   * @param password
-   * @return
-   * @throws IOException
+   * Purpose: Login as a user
+   * @param username username for the user to be logged in
+   * @param password password for the user to be logged in
+   * @return a User record containing all info about the logged in user (except for their password)
+   * @throws IOException thrown if path instance variable is bad
    */
   public User login(String username, String password) throws IOException {
     JSONObject profiles = JSONObjectParser.parseJSONObject(new File(path));
@@ -113,12 +111,12 @@ public class ProfileGenerator {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param username
-   * @param password
-   * @param imageFile
-   * @throws IOException
+   * Purpose: Update the user's profile picture
+   * Assumptions: image chosen is a picture filetype
+   * @param username username for the user whose profile picture will be changed
+   * @param password password for the user whose profile picture will be changed
+   * @param imageFile new profile picture for the user
+   * @throws IOException thrown if imageFile is null
    */
   public void updateProfilePicture(String username, String password, File imageFile)
       throws IOException {
@@ -130,12 +128,11 @@ public class ProfileGenerator {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param username
-   * @param password
-   * @param filePath
-   * @throws IOException
+   * Purpose: Add a favorite file for the user
+   * @param username username for the user whose favorite file list will be expanded
+   * @param password password for the user whose favorite file list will be expanded
+   * @param filePath additional favorite file for the user
+   * @throws IOException thrown if path instance variable is bad
    */
   public void addFavoriteFile(String username, String password, File filePath)
       throws IOException {
@@ -147,12 +144,11 @@ public class ProfileGenerator {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param username
-   * @param password
-   * @param filePath
-   * @throws IOException
+   * Purpose: Remove a favorite file for the user
+   * @param username username for the user whose favorite file list will be contracted
+   * @param password password for the user whose favorite file list will be contracted
+   * @param filePath user's favorite file to remove
+   * @throws IOException thrown if path instance variable is bad
    */
   public void removeFavoriteFile(String username, String password, String filePath)
       throws IOException {
@@ -172,12 +168,11 @@ public class ProfileGenerator {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param oldUsername
-   * @param password
-   * @param newUsername
-   * @throws IOException
+   * Purpose: Change a user's username
+   * @param oldUsername username for the user whose username will change
+   * @param password password for the user whose username will change
+   * @param newUsername new username for the user
+   * @throws IOException thrown if path instance variable is bad
    */
   public void changeProfileUsername(String oldUsername, String password, String newUsername)
       throws IOException {
@@ -188,12 +183,11 @@ public class ProfileGenerator {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param username
-   * @param password
-   * @param newPassword
-   * @throws IOException
+   * Purpose: Change a user's password
+   * @param username username for the user whose password will change
+   * @param password password for the user whose password will change
+   * @param newPassword new password for the user
+   * @throws IOException thrown if path instance variable is bad
    */
   public void changeProfilePassword(String username, String password, String newPassword)
       throws IOException {
@@ -201,13 +195,13 @@ public class ProfileGenerator {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param username
-   * @param password
-   * @param score
-   * @param won
-   * @throws IOException
+   * Purpose: Update a user's stats
+   * Assumptions: only called at the end of a game
+   * @param username username for the user whose stats will be updated
+   * @param password password for the user whose stats will be updated
+   * @param score score from most recent game
+   * @param won if the user won the most recent game
+   * @throws IOException thrown if path instance variable is bad
    */
   public void updateUserStats(String username, String password, int score, boolean won)
       throws IOException {

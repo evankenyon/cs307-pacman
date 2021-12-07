@@ -34,7 +34,6 @@ public class AgentFactory {
                 String.format("%s%s", packages.getString(aPackage), actualAgent))
             .getConstructor(int.class, int.class)
             .newInstance(x, y);
-        System.out.println(String.format("%s%s", packages.getString(aPackage), actualAgent));
       } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
         numNot++;
       }

@@ -168,6 +168,8 @@ public class GameState {
   public void deleteFoods(List<Position> positions) {
     myGameStateData.getMyRequiredPelletStates()
         .removeIf(food -> positions.contains(food.getPosition()));
+    myGameStateData.getMyOptionalPelletStates()
+        .removeIf(food -> positions.contains(food.getPosition()));
   }
 
   public int getRequiredPelletsLeft() {
@@ -187,7 +189,9 @@ public class GameState {
   }
 
   public List<Consumable> getFood() {
-    return myGameStateData.getMyRequiredPelletStates();
+    List<Consumable> allFoods = new ArrayList<>(myGameStateData.getMyRequiredPelletStates());
+    allFoods.addAll(myGameStateData.getMyOptionalPelletStates());
+    return allFoods;
   }
 
   public List<Agent> getWalls() {

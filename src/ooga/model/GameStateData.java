@@ -27,6 +27,8 @@ public class GameStateData {
   private List<Agent> myAgentStates;
   private List<Position> myInitAgentPositions;
   private List<Consumable> myRequiredPelletStates;
+
+  private List<Consumable> myOptionalPelletStates;
   private List<Agent> myWallStates;
   private boolean[][] myWallMap;
   private int pacmanLives;
@@ -36,6 +38,7 @@ public class GameStateData {
     myGhostScore = 0;
     myAgentStates = new ArrayList<>();
     myRequiredPelletStates = new ArrayList<>();
+    myOptionalPelletStates = new ArrayList<>();
   }
 
   public void initialize(GameData data) {
@@ -52,11 +55,10 @@ public class GameStateData {
     myInitAgentPositions = new ArrayList<>();
     myWallMap = new boolean[cols][rows];
     pacmanLives = data.numLives();
-//    System.out.println(pacmanLives);
     createWallMap(gameDict, rows, cols);
     createAgentList(gameDict, data.player());
     createWallList(gameDict);
-    createRequiredPelletList(gameDict, pelletInfo);
+    createPelletLists(gameDict, pelletInfo);
     createEmptySpots(gameDict);
   }
 
@@ -111,27 +113,21 @@ public class GameStateData {
     }
   }
 
+  public List<Consumable> getMyOptionalPelletStates() {
+    return myOptionalPelletStates;
+  }
+
   public List<Agent> getAgents() {
     return myAgentStates;
   }
 
   public Agent findAgent(Position pos) {
     Agent potentialAgent = null;
-    for (Agent agent : myAgentStates) {
-      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
-          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
-        potentialAgent = agent;
-      }
-    }
-
-    for (Agent agent : myRequiredPelletStates) {
-      if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
-          && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
-        potentialAgent = agent;
-      }
-    }
-
-    for (Agent agent : myWallStates) {
+    List<Agent> allAgents = new ArrayList<>(myAgentStates);
+    allAgents.addAll(myWallStates);
+    allAgents.addAll(myOptionalPelletStates);
+    allAgents.addAll(myRequiredPelletStates);
+    for (Agent agent : allAgents) {
       if (agent.getPosition().getCoords()[0] == pos.getCoords()[0]
           && agent.getPosition().getCoords()[1] == pos.getCoords()[1]) {
         potentialAgent = agent;
@@ -140,7 +136,7 @@ public class GameStateData {
     return potentialAgent;
   }
 
-  private void createRequiredPelletList(Map<String, List<Position>> gameDict,
+  private void createPelletLists(Map<String, List<Position>> gameDict,
       Map<String, Boolean> pelletInfo) {
     for (String key : pelletInfo.keySet()) {
       if (pelletInfo.get(key)) {
@@ -153,6 +149,15 @@ public class GameStateData {
           }
         } else {
           throw new IllegalArgumentException("We can't win without required pellets!");
+        }
+      } else {
+        List<Position> tempPellets = gameDict.get(key);
+        if (tempPellets != null) {
+          for (Position dot : tempPellets) {
+            int x = dot.getCoords()[0];
+            int y = dot.getCoords()[1];
+            myOptionalPelletStates.add(consumableFactory.createConsumable(key, x, y));
+          }
         }
       }
     }

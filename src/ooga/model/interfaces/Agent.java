@@ -3,6 +3,7 @@ package ooga.model.interfaces;
 
 import java.util.function.Consumer;
 import ooga.model.GameState;
+import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
 
 /**
@@ -41,4 +42,6 @@ public interface Agent {
   void setState(int i);
 
   void addRunnable(Runnable runnable);
+
+  void setStrategy(Movable strategy);
 }

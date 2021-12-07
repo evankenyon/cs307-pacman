@@ -347,6 +347,7 @@ public class GameStartupPanel {
       } else {
         e.printStackTrace();
         new ErrorPopups(e, selectedLanguage, "InvalidFile");
+        e.printStackTrace();
       }
     }
   }

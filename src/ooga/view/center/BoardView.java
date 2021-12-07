@@ -150,6 +150,7 @@ public class BoardView {
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       e.printStackTrace();
       new ErrorPopups(e, myLanguage, "ReflectionError");
+      e.printStackTrace();
       return new EmptyView(new wall(position.getCoords()[0], position.getCoords()[1]), numRows,
           numCols);
     }

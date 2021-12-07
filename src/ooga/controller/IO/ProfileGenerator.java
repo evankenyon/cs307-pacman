@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import ooga.controller.IO.utils.JSONObjectParser;
 import org.json.JSONArray;
@@ -26,11 +27,15 @@ public class ProfileGenerator {
   }
 
   public ProfileGenerator(String path) {
-    this.path = path;
+    if (!new File(path).exists()) {
+      this.path = "./data/profiles.json";
+    } else {
+      this.path = path;
+    }
   }
 
   public void createUser(String username, String password, File imageFile)
-      throws IOException, NullPointerException, JSONException, InterruptedException, IllegalArgumentException {
+      throws IOException, NullPointerException, JSONException, IllegalArgumentException {
     if (username == null || password == null || imageFile == null) {
       throw new IOException();
     }
@@ -79,20 +84,28 @@ public class ProfileGenerator {
 
   public void addFavoriteFile(String username, String password, File filePath)
       throws IOException {
+    if(!filePath.getName().endsWith(".json")) {
+      throw new IllegalArgumentException("Invalid file type, must be .json");
+    }
     updateUserAttribute(username, password,
         userInfo -> userInfo.getJSONArray("favorite-files").put(getRelativePath(filePath)));
   }
 
   public void removeFavoriteFile(String username, String password, String filePath)
       throws IOException {
+    AtomicBoolean doesFileExist = new AtomicBoolean(false);
     updateUserAttribute(username, password, userInfo -> {
       for (int index = 0; index < userInfo.getJSONArray("favorite-files").length(); index++) {
         if (userInfo.getJSONArray("favorite-files").getString(index).equals(filePath)) {
           userInfo.getJSONArray("favorite-files").remove(index);
-          break;
+          doesFileExist.set(true);
+          return;
         }
       }
     });
+    if (!doesFileExist.get()) {
+      throw new IllegalArgumentException("File does not exist");
+    }
   }
 
   public void changeProfileUsername(String oldUsername, String password, String newUsername)

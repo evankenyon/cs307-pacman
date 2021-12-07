@@ -75,7 +75,7 @@ public class UserInformationView {
         controller.removeFile(favoriteFiles.getSelectionModel().getSelectedItem());
         reset(controller.getUser());
       } catch (IOException ex) {
-        new ErrorPopups(myLanguage, "RemoveFile");
+        new ErrorPopups(ex, myLanguage, "RemoveFile");
       }
     });
     root.add(removeFavoriteFileButton, 2, 8);
@@ -114,7 +114,7 @@ public class UserInformationView {
     try {
       controller.updateFile(myFileChooser.showOpenDialog(stage), type);
     } catch (Exception e) {
-      new ErrorPopups(myLanguage, "EditProfile");
+      new ErrorPopups(e, myLanguage, "EditProfile");
     }
     reset(controller.getUser());
   }
@@ -125,7 +125,7 @@ public class UserInformationView {
       updateMethod.invoke(controller, makeTextInputDialog(title, header));
 //      controller.updateString(makeTextInputDialog(title, header), title);
     } catch (Exception e) {
-      new ErrorPopups(myLanguage, "EditProfile");
+      new ErrorPopups(e, myLanguage, "EditProfile");
     }
     reset(controller.getUser());
   }

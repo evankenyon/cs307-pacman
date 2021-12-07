@@ -180,7 +180,7 @@ public class GameStartupPanel {
       Method m = GameStartupPanel.class.getDeclaredMethod(methodName, null);
       m.invoke(this, null);
     } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-      new ErrorPopups(selectedLanguage, "ReflectionError");
+      new ErrorPopups(e, selectedLanguage, "ReflectionError");
     }
   }
 
@@ -190,7 +190,7 @@ public class GameStartupPanel {
     try {
       makeChoiceDialog(myController.getFirebaseFilenames(), LOAD_FILE_KEYS[1]);
     } catch (FirebaseException | UnsupportedEncodingException e) {
-      new ErrorPopups(selectedLanguage, "FirebaseError");
+      new ErrorPopups(e, selectedLanguage, "FirebaseError");
     }
   }
 
@@ -291,7 +291,7 @@ public class GameStartupPanel {
       if (selectedLanguage == null) {
         selectedLanguage = DEFAULT_LANGUAGE;
       }
-      new ErrorPopups(selectedLanguage, "RequiredFields");
+      new ErrorPopups(new Exception(), selectedLanguage, "RequiredFields");
     }
   }
 
@@ -313,20 +313,17 @@ public class GameStartupPanel {
     UserPreferences userPreferences;
     String locationKey = findMethodKey(selectFileComboBox.getValue());
     ResourceBundle uploadMethods = ResourceBundle.getBundle(String.format("%s%s", STARTUP_RESOURCES, "uploadMethods"));
+    String methodName = uploadMethods.getString(locationKey);
     try {
-      String methodName = uploadMethods.getString(locationKey);
       Method m = Controller.class.getDeclaredMethod(methodName, String.class);
       userPreferences = (UserPreferences) m.invoke(myController, fileString);
       if (!myController.getPlayPause()) myController.pauseOrResume();
       new MainView(myController, myController.getVanillaGame(), new Stage(), selectedViewMode, userPreferences, myUser);
-    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-      new ErrorPopups(selectedLanguage, "ReflectionError");
-    } catch (Exception ex) {
+    } catch (Exception e) {
       if (gameFile == null) {
-        new ErrorPopups(selectedLanguage, "NoFile");
+        new ErrorPopups(e, selectedLanguage, "NoFile");
       } else {
-        ex.printStackTrace();
-        new ErrorPopups(selectedLanguage, "InvalidFile");
+        new ErrorPopups(e, selectedLanguage, "InvalidFile");
       }
     }
   }

@@ -89,7 +89,7 @@ public class Controller implements ControllerInterface {
     try {
       firebaseReader = new FirebaseReader();
     } catch (FirebaseException e) {
-      new ErrorPopups(myLanguage, "FirebaseError");
+      new ErrorPopups(e, myLanguage, "FirebaseError");
     }
 
     new LoginView(myStage, this);
@@ -192,7 +192,7 @@ public class Controller implements ControllerInterface {
           try {
             vanillaGame = new VanillaGame(vanillaGameDataInterface);
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
-            new ErrorPopups(myLanguage, "reflectionError");
+            new ErrorPopups(e, myLanguage, "reflectionError");
             ResourceBundle exceptionMessages = ResourceBundle.getBundle(
                 String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
             throw new InputMismatchException(exceptionMessages.getString("BadReflection"));
@@ -293,6 +293,11 @@ public class Controller implements ControllerInterface {
     else if (myAnimation.getStatus() == Status.RUNNING) myAnimation.pause();
   }
 
+  /**
+   * Adds a Runnable to change the image on the play pause button in the BottomView
+   *
+   * @param runnable is the runnable from BottomView
+   */
   public void addPlayPauseRun(Runnable runnable) {
     playPauseRun = runnable;
   }

@@ -195,7 +195,7 @@ public class BottomView {
     try {
       myController.saveFile();
     } catch (IOException e) {
-      new ErrorPopups(myLanguage,"SaveError");
+      new ErrorPopups(e, myLanguage,"SaveError");
     }
   }
 

@@ -92,7 +92,7 @@ public class LoginView {
       myUser = myController.createUser(username, password, image);
       new GameStartupPanel(myStage, myUser, myController);
     } catch (IOException | InterruptedException | IllegalArgumentException e) {
-      myError = new ErrorPopups(LANGUAGE, "SignUpError");
+      myError = new ErrorPopups(e, LANGUAGE, "SignUpError");
     }
   }
 
@@ -103,7 +103,7 @@ public class LoginView {
       myUser = myController.login(username, password);
       new GameStartupPanel(myStage, myUser, myController);
     } catch (IOException | IllegalArgumentException e) {
-      myError = new ErrorPopups(LANGUAGE, "SignInError");
+      myError = new ErrorPopups(e, LANGUAGE, "SignInError");
     }
   }
 

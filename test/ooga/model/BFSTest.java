@@ -21,7 +21,7 @@ public class BFSTest {
   }
 
   @Test
-  void moveBFSTest()
+  void moveBFSUpTest()
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     Map<String, List<Position>> wallMap = Map.of("Pacman", List.of(new Position(0, 0)), "Dot",
         List.of(new Position(1, 0), new Position(2, 0), new Position(0, 1), new Position(0, 2),

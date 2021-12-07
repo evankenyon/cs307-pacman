@@ -2,6 +2,8 @@ package ooga.controller.IO;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +26,7 @@ class FirebaseReaderTest {
   }
 
   @Test
-  void getFileSimple() throws FirebaseException, UnsupportedEncodingException {
+  void getFileConfig() throws FirebaseException, UnsupportedEncodingException {
     JSONObject json = firebaseReader.getFile("simple");
     Assertions.assertEquals("Pacman", json.getString("Player"));
     Assertions.assertEquals(3, json.getInt("NumberOfLives"));
@@ -36,8 +38,9 @@ class FirebaseReaderTest {
   }
 
   @Test
-  void getFileError() {
-    Assertions.assertThrows(IllegalArgumentException.class, () -> firebaseReader.getFile("adfjsalfkj"));
+  void getFileNotConfig() throws FirebaseException, UnsupportedEncodingException {
+    JSONObject json = firebaseReader.getFile("bad");
+    Assertions.assertEquals("bad", json.getString("bad"));
   }
 
   @Test
@@ -52,5 +55,18 @@ class FirebaseReaderTest {
     Assertions.assertTrue(List.of(firebaseReader.getFileNames().toArray(new String[0])).contains("test1"));
     Assertions.assertTrue(List.of(firebaseReader.getFileNames().toArray(new String[0])).contains("bad"));
   }
+
+  @Test
+  void badDatabaseUrl() {
+    Assertions.assertThrows(FirebaseException.class, () -> new FirebaseReader(null));
+  }
+
+  @Test
+  void badFilename() {
+    Assertions.assertThrows(FirebaseException.class, () -> firebaseReader.getFile(null));
+  }
+
+  // I did not put a test for the UnsupportedEncodingException since it is never thrown (the library
+  // always passed in UTF-8 as the encoding tpye)
 
 }

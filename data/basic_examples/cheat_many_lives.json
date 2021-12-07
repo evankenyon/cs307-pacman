@@ -2,7 +2,7 @@
   "Player":"Pacman",
   "RequiredPellets":["Dot", "Super"],
   "OptionalPellets":[],
-  "NumberOfLives":1000000,
+  "NumberOfLives":1000,
   "PlayerScore":0,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall"],

@@ -26,11 +26,15 @@ public class ProfileGenerator {
   }
 
   public ProfileGenerator(String path) {
-    this.path = path;
+    if(!new File(path).exists()) {
+      this.path = "./data/profiles.json";
+    } else {
+      this.path = path;
+    }
   }
 
   public void createUser(String username, String password, File imageFile)
-      throws IOException, NullPointerException, JSONException, InterruptedException, IllegalArgumentException {
+      throws IOException, NullPointerException, JSONException, IllegalArgumentException {
     if (username == null || password == null || imageFile == null) {
       throw new IOException();
     }

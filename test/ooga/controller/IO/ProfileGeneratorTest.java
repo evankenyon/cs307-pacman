@@ -22,7 +22,7 @@ class ProfileGeneratorTest {
   private ProfileGenerator profileGenerator;
 
   @BeforeEach
-  void setUp() throws IOException, InterruptedException {
+  void setUp() throws IOException {
     File profiles = new File(PATH);
     PrintWriter writer = new PrintWriter(profiles);
     writer.print("{}");
@@ -31,7 +31,7 @@ class ProfileGeneratorTest {
   }
 
   @Test
-  void createUserSimple() throws IOException, InterruptedException {
+  void createUserSimple() throws IOException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
     Assertions.assertEquals("test123", actual.getJSONObject("evankenyon").getString("password"));
@@ -43,7 +43,7 @@ class ProfileGeneratorTest {
   }
 
   @Test
-  void createTwoUsers() throws IOException, InterruptedException {
+  void createTwoUsers() throws IOException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     profileGenerator.createUser("evankenyon1", "test1234", DEFAULT_IMAGE);
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
@@ -51,11 +51,10 @@ class ProfileGeneratorTest {
     Assertions.assertEquals("test1234", actual.getJSONObject("evankenyon1").getString("password"));
   }
 
-  //TODO: fix
   @Test
   void profileGeneratorWrongPath() {
     profileGenerator = new ProfileGenerator("bad");
-    Assertions.assertThrows(NullPointerException.class, () -> profileGenerator.createUser("test", "test", DEFAULT_IMAGE));
+    Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.createUser("test", "test", DEFAULT_IMAGE));
   }
 
   @Test
@@ -65,15 +64,32 @@ class ProfileGeneratorTest {
   }
 
   @Test
-  void profileGeneratorTwoSameUsers() throws IOException, InterruptedException {
+  void profileGeneratorTwoSameUsers() throws IOException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.createUser("evankenyon", "test1234", DEFAULT_IMAGE));
   }
 
   @Test
-  void loginSimple() throws IOException, InterruptedException {
+  void loginSimple() throws IOException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     Assertions.assertEquals("evankenyon", profileGenerator.login("evankenyon", "test123").username());
+    Assertions.assertEquals(0, profileGenerator.login("evankenyon", "test123").wins());
+    Assertions.assertEquals(0, profileGenerator.login("evankenyon", "test123").losses());
+    Assertions.assertEquals(DEFAULT_IMAGE.getPath(), profileGenerator.login("evankenyon", "test123").imagePath());
+    assertEquals(0, profileGenerator.login("evankenyon", "test123").favorites().length);
+  }
+
+  @Test
+  void loginAfterChange() throws IOException {
+    profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
+    profileGenerator.updateProfilePicture("evankenyon", "test123",
+        new File("./data/images/fruit.png"));
+    profileGenerator.changeProfileUsername("evankenyon", "test123", "evankenyon1");
+    Assertions.assertEquals("evankenyon1", profileGenerator.login("evankenyon1", "test123").username());
+    Assertions.assertEquals(0, profileGenerator.login("evankenyon1", "test123").wins());
+    Assertions.assertEquals(0, profileGenerator.login("evankenyon1", "test123").losses());
+    Assertions.assertEquals("./data/images/fruit.png", profileGenerator.login("evankenyon1", "test123").imagePath());
+    assertEquals(0, profileGenerator.login("evankenyon1", "test123").favorites().length);
   }
 
   @Test
@@ -82,13 +98,13 @@ class ProfileGeneratorTest {
   }
 
   @Test
-  void loginWrongPassword() throws IOException, InterruptedException {
+  void loginWrongPassword() throws IOException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.login("evankenyon", "test1234"));
   }
 
   @Test
-  void updateUserStatsBasic() throws IOException, InterruptedException {
+  void updateUserStatsBasic() throws IOException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     profileGenerator.updateUserStats("evankenyon", "test123", 10, false);
     JSONObject actual = JSONObjectParser.parseJSONObject(new File(PATH));
@@ -98,7 +114,7 @@ class ProfileGeneratorTest {
   }
 
   @Test
-  void updateUserProfileImage() throws IOException, InterruptedException {
+  void updateUserProfileImage() throws IOException {
     profileGenerator.createUser("evankenyon", "test123", DEFAULT_IMAGE);
     profileGenerator.updateProfilePicture("evankenyon", "test123",
         new File("./data/images/fruit.png"));

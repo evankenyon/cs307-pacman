@@ -56,6 +56,14 @@ public class LoginView {
   private ErrorPopups myError;
   private String cheatKey;
 
+  /**
+   * Class that creates the login screen for the game.  Options include logging into an
+   * existing user profile, creating a new user profile, and opening a text dialogue for
+   * cheat codes.
+   *
+   * @author Dane Erickson, Kat Cottrell
+   */
+
   public LoginView (Stage stage, Controller controller) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
     myStage = stage;

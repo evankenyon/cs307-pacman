@@ -76,13 +76,10 @@ public class GameBoard {
   //move every agent in the board by one step
   public void movePawns() {
     List<Agent> movers = new ArrayList<>();
-    //movers.add(myState.getMyPlayer());
-    //movers.addAll(myState.getMyWalls());
-    //movers.addAll(myState.getMyOtherAgents());
     movers.add(myState.getPacman());
     movers.addAll(myState.getGhosts());
-//    movers.addAll(myState.getFood());
-//    movers.addAll(myState.getWalls());
+    movers.addAll(myState.getFood());
+    movers.addAll(myState.getWalls());
     for (Agent agent : movers) {
       Position newPosition = agent.getNextMove(myState);
       if (newPosition != null) {
@@ -108,6 +105,8 @@ public class GameBoard {
     //movers.addAll(myState.getMyOtherAgents());
     for (Agent ghost : ghosts) {
       if (isOverlapping(ghost.getPosition(), pacman.getPosition())) {
+        System.out.println(ghost.getPosition());
+        System.out.println(pacman.getPosition());
         if (myState.isSuper() && ghost.getState() != 0) {
           Consumable g = (Consumable) ghost;
           myPacScore += g.getConsumed();

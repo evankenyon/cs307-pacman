@@ -58,7 +58,6 @@ public class JsonParser implements JsonParserInterface {
     pelletInfo = new HashMap<>();
   }
 
-
   @Override
   public void parseJSON(JSONObject json) throws InputMismatchException, JSONException {
     reset();

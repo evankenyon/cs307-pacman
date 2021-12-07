@@ -37,13 +37,12 @@ public class SaveGameTest {
     Map<String, Boolean> pelletInfo = Map.of("pellet", true);
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
     vanillaGame = new VanillaGame(vanillaGameData);
-    saver = new GameSaver(vanillaGame);
+    saver = new GameSaver(vanillaGame, "TESTFILE");
   }
 
   @Test
   void testGameSaver() throws IOException {
     saver.saveGame();
-    JsonParser parser = new JsonParser();
   }
 
 

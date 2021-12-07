@@ -387,7 +387,7 @@ public class Controller implements ControllerInterface {
    * @throws IOException
    */
   public void saveFile() throws IOException {
-    GameSaver saver = new GameSaver(vanillaGame);
+    GameSaver saver = new GameSaver(vanillaGame, "TEST-FILE");
     saver.saveGame();
   }
 

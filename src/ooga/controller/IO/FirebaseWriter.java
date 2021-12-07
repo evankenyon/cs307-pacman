@@ -39,22 +39,25 @@ public class FirebaseWriter {
   private VanillaGame myVanillaGame;
   private Firebase firebase;
   private FirebaseResponse response;
-  private DatabaseReference configRef;
   private JSONObject object;
   private String userObjectName;
-  private int counter = 0;
+  private String objectName;
 
   /**
    * Sets up firebase and response based on the ooga Firebase url
    * @throws FirebaseException
    * @throws UnsupportedEncodingException
    */
-  public FirebaseWriter() throws FirebaseException, UnsupportedEncodingException {
+  public FirebaseWriter(VanillaGame vanillaGame, String userInput) throws FirebaseException, UnsupportedEncodingException {
     // Borrowed code for basic setup from
     // https://github.com/bane73/firebase4j
     String firebase_baseUrl = "https://ooga-57bdb-default-rtdb.firebaseio.com/";
     firebase = new Firebase(firebase_baseUrl);
     response = firebase.get();
+    myVanillaGame = vanillaGame;
+    builder = new JSONConfigObjectBuilder(myVanillaGame);
+    object = builder.setConfig();
+    userObjectName = userInput;
   }
     // Borrowed code for basic setup from
     // https://github.com/bane73/firebase4j
@@ -78,19 +81,13 @@ public class FirebaseWriter {
 
   /**
    * Saves the JSONObject of the current game configuration to Firebase
-   * @param vanillaGame, current vanillaGame
    * @throws JacksonUtilityException
    * @throws FirebaseException
    * @throws UnsupportedEncodingException
    */
-  public void saveObject(VanillaGame vanillaGame)
+  public void saveObject()
       throws JacksonUtilityException, FirebaseException, UnsupportedEncodingException {
-    myVanillaGame = vanillaGame;
-    builder = new JSONConfigObjectBuilder(myVanillaGame);
-    object = builder.setConfig();
-
-    System.out.println(counter);
-    userObjectName = "user-file-" + String.valueOf(counter);
+    objectName = "user-object-" + userObjectName;
 
 
     Map<String, Object> objectMap = new HashMap<>();

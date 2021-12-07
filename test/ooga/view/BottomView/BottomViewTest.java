@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.BottomView;
 
 import static ooga.Main.LANGUAGE;
 import static ooga.Main.VIEW_MODE;
@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ooga.controller.IO.User;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import javafx.scene.Node;
@@ -22,26 +21,28 @@ import ooga.view.mainView.MainView;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
+
 public class BottomViewTest extends DukeApplicationTest {
 
-  public static final long DELAY = 1000;
   public static final String TEST_FILE = "data/basic_examples/test_implementation.json";
 
   private Controller myController;
   private Node myPlayPauseButton;
   private MainView myMainView;
   private Slider mySpeedSlider;
+  private Node myProfilePicButton;
   private User myUser;
 
   @Override
   public void start (Stage stage)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myController = new Controller(LANGUAGE, stage, VIEW_MODE);
-    UserPreferences prefs = myController.uploadFile(new File(TEST_FILE));
+    UserPreferences prefs = myController.uploadFile(TEST_FILE);
     myUser = new User("test", "test", TEST_IMAGE, 0,0,0, null);
     myMainView = new MainView(myController, myController.getVanillaGame(), stage, VIEW_MODE, prefs, myUser);
     myPlayPauseButton = lookup("#playPauseButton").query();
     mySpeedSlider = lookup("#speedSlider").query();
+    myProfilePicButton = lookup("#profilePic").query();
   }
 
   @Test

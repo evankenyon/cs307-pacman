@@ -5,11 +5,15 @@ import static ooga.Main.LANGUAGE;
 import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.io.UnsupportedEncodingException;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -21,7 +25,15 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -34,8 +46,8 @@ import net.thegreshams.firebase4j.error.FirebaseException;
 import ooga.controller.Controller;
 import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
-import ooga.view.mainView.MainView;
 import ooga.view.instructions.InstructionsView;
+import ooga.view.mainView.MainView;
 import ooga.view.popups.ErrorPopups;
 import ooga.view.userProfileView.UserInformationView;
 
@@ -81,6 +93,15 @@ public class GameStartupPanel {
   private Controller myController;
   private String runMethodName;
 
+  /**
+   * Class that creates the startup panel, which welcomes the user with their profile
+   * picture and name; allows them to view their profile; allows the user to select a
+   * game file from their local, firebase, or their favorites; allows the user to
+   * select a language; allows the user to select a view mode; and when they have
+   * selected all options, lets them hit PLAY! to play the game with those specifications.
+   *
+   * @author Kat Cottrell, Dane Erickson
+   */
 
   @Deprecated
   public GameStartupPanel(Stage stage) {
@@ -168,13 +189,14 @@ public class GameStartupPanel {
 
   private void makeProfileView() {
     Stage newStage = new Stage();
-    new UserInformationView(myController, myUser, newStage, selectedLanguage);
+    new UserInformationView(myController, newStage, selectedLanguage);
   }
 
   private void selectFileAction() {
     String location = selectFileComboBox.getValue();
     String locationKey = findMethodKey(selectFileComboBox.getValue());
-    ResourceBundle fileLoaderMethods = ResourceBundle.getBundle(String.format("%s%s", STARTUP_RESOURCES, "fileLoader"));
+    ResourceBundle fileLoaderMethods = ResourceBundle.getBundle(
+        String.format("%s%s", STARTUP_RESOURCES, "fileLoader"));
     String methodName = fileLoaderMethods.getString(locationKey);
     try {
       Method m = GameStartupPanel.class.getDeclaredMethod(methodName, null);
@@ -184,7 +206,9 @@ public class GameStartupPanel {
     }
   }
 
-  private void localHelper() { makeFileExplorer(); }
+  private void localHelper() {
+    makeFileExplorer();
+  }
 
   private void firebaseHelper() {
     try {
@@ -197,6 +221,7 @@ public class GameStartupPanel {
   private void favoriteHelper() {
     makeChoiceDialog(Arrays.asList(myUser.favorites()), LOAD_FILE_KEYS[2]);
   }
+
   private void makeChoiceDialog(Collection files, String resourcesKey) {
     ChoiceDialog fileChoices = new ChoiceDialog<>(myResources.getString(resourcesKey), files);
     fileChoices.setHeaderText(myResources.getString(String.format("%sHeader", resourcesKey)));
@@ -303,7 +328,9 @@ public class GameStartupPanel {
 
   private String findMethodKey(String value) {
     for (String key : myResources.keySet()) {
-      if (myResources.getString(key).equals(value)) return key;
+      if (myResources.getString(key).equals(value)) {
+        return key;
+      }
     }
     return null;
   }
@@ -312,18 +339,24 @@ public class GameStartupPanel {
 //    Controller application = new Controller(selectedLanguage, mainStage, selectedViewMode);
     UserPreferences userPreferences;
     String locationKey = findMethodKey(selectFileComboBox.getValue());
-    ResourceBundle uploadMethods = ResourceBundle.getBundle(String.format("%s%s", STARTUP_RESOURCES, "uploadMethods"));
+    ResourceBundle uploadMethods = ResourceBundle.getBundle(
+        String.format("%s%s", STARTUP_RESOURCES, "uploadMethods"));
     String methodName = uploadMethods.getString(locationKey);
     try {
       Method m = Controller.class.getDeclaredMethod(methodName, String.class);
       userPreferences = (UserPreferences) m.invoke(myController, fileString);
-      if (!myController.getPlayPause()) myController.pauseOrResume();
-      new MainView(myController, myController.getVanillaGame(), new Stage(), selectedViewMode, userPreferences, myUser);
+      if (!myController.getPlayPause()) {
+        myController.pauseOrResume();
+      }
+      new MainView(myController, myController.getVanillaGame(), new Stage(), selectedViewMode,
+          userPreferences, myUser);
     } catch (Exception e) {
       if (gameFile == null) {
         new ErrorPopups(e, selectedLanguage, "NoFile");
       } else {
+        e.printStackTrace();
         new ErrorPopups(e, selectedLanguage, "InvalidFile");
+        e.printStackTrace();
       }
     }
   }

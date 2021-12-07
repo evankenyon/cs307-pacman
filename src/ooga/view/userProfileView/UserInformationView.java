@@ -1,14 +1,10 @@
 package ooga.view.userProfileView;
 
-import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 import static ooga.view.startupView.GameStartupPanel.EXAMPLES_PATH;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -18,8 +14,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -27,6 +21,15 @@ import ooga.controller.Controller;
 import ooga.controller.IO.User;
 import ooga.view.popups.ErrorPopups;
 
+/**
+ * Purpose:
+ * Assumptions:
+ * Dependencies:
+ * Example:
+ * Other details:
+ *
+ * @author Evan Kenyon
+ */
 public class UserInformationView {
   private static final int SCREEN_WIDTH = 400;
   private static final int SCREEN_HEIGHT = 425;
@@ -38,6 +41,7 @@ public class UserInformationView {
   private Controller controller;
   private String myLanguage;
 
+  @Deprecated
   public UserInformationView(Controller controller, User user, Stage stage, String language) {
     this.stage = stage;
     this.controller = controller;
@@ -45,7 +49,21 @@ public class UserInformationView {
     reset(user);
   }
 
-  public Scene createStartupScene(User user) {
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param controller
+   * @param stage
+   * @param language
+   */
+  public UserInformationView(Controller controller, Stage stage, String language) {
+    this.stage = stage;
+    this.controller = controller;
+    myLanguage = language;
+    reset(controller.getUser());
+  }
+
+  private Scene createStartupScene(User user) {
     GridPane root = new GridPane();
     root.getStyleClass().add("grid-pane");
     addProfileImage(root, user);
@@ -100,6 +118,7 @@ public class UserInformationView {
 
   private void addTextInfo(GridPane root, String key, String value, int columnIndex, int rowIndex) {
     Text textInfo = new Text(String.format("%s: %s", key, value));
+    textInfo.setId(key);
     root.add(textInfo, columnIndex, rowIndex);
   }
 
@@ -142,6 +161,7 @@ public class UserInformationView {
     Button button = new Button();
     button.setOnAction(handler);
     button.setText(label);
+    button.setId(label.replace(" ",""));
     return button;
   }
 }

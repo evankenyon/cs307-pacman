@@ -1,4 +1,5 @@
 package ooga.controller.IO;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,10 +7,8 @@ import java.util.ArrayList;
 import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.GameData;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import ooga.model.GameData;
 import ooga.model.GameState;
 import ooga.model.VanillaGame;
 import ooga.model.interfaces.Agent;
@@ -19,10 +18,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Map;
-import ooga.model.util.Position;
 
 
 public class SaveGameTest {

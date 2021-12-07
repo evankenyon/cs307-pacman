@@ -1,6 +1,5 @@
 package ooga.controller.IO;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import net.thegreshams.firebase4j.error.FirebaseException;
 import java.nio.ByteBuffer;
@@ -8,11 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import net.thegreshams.firebase4j.error.FirebaseException;
-import net.thegreshams.firebase4j.error.JacksonUtilityException;
-import ooga.model.util.Position;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

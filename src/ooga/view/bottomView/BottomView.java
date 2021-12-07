@@ -26,7 +26,9 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.User;
 import ooga.model.VanillaGame;
+import ooga.view.mainView.MainView;
 import ooga.view.popups.ErrorPopups;
+import ooga.view.topView.TopView;
 import ooga.view.userProfileView.UserInformationView;
 
 /**
@@ -175,6 +177,7 @@ public class BottomView {
     HBox pfpBorder = new HBox();
     ImageView profilePic = new ImageView(new Image(new File(myUser.imagePath()).toURI().toString()));
     double sideLen = Math.min(profilePic.getFitWidth(), profilePic.getFitHeight());
+    profilePic.setId("profilePic");
     profilePic.setViewport(new Rectangle2D(0, 0, sideLen, sideLen));
     profilePic.setPreserveRatio(true);
     profilePic.setFitHeight(SIM_BUTTON_SIZE - (2 * PFP_BORDER_WIDTH));
@@ -215,19 +218,20 @@ public class BottomView {
     // TODO: Get the actual stats from the model
     statsPopup.setHeaderText(myResources.getString("Stats"));
     statsPopup.setContentText(String.format(myResources.getString("HighScore")
-        .concat(myResources.getString("PelletsEaten"))
-        .concat(myResources.getString("GhostsEaten")), 0,0,0));
+                    .concat(myResources.getString("Wins"))
+                    .concat(myResources.getString("Losses")),
+            myUser.highScore(), myUser.wins(), myUser.losses()));
     statsPopup.showAndWait();
     togglePlayPause();
   }
 
   private void makeProfileView() {
+    myController.pauseOrResume();
     Stage newStage = new Stage();
-    new UserInformationView(myController, myUser, newStage, myLanguage);
+    new UserInformationView(myController, newStage, myLanguage);
   }
 
   private void restartGame() {
-    // TODO: implement resetGame function here
     myController.restartGame(myStage);
   }
 

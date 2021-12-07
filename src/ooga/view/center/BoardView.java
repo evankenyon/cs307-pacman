@@ -12,10 +12,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -28,7 +24,6 @@ import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 import ooga.view.center.agents.AgentView;
 import ooga.view.center.agents.EmptyView;
-import ooga.view.center.agents.WallView;
 import ooga.view.popups.ErrorPopups;
 
 /**
@@ -148,7 +143,9 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, int.class, int.class)
           .newInstance(agent, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+      e.printStackTrace();
       new ErrorPopups(e, myLanguage, "ReflectionError");
+      e.printStackTrace();
       return new EmptyView(new wall(position.getCoords()[0], position.getCoords()[1]), numRows,
           numCols);
     }
@@ -165,19 +162,5 @@ public class BoardView {
   public Node getBoardPane() {
     return myBoardPane;
   }
-
-//  /**
-//   * Setter method to add 1 to the ghost count to know which image to make the new ghost
-//   */
-//  public void incrementGhostCount() {
-//    ghostCount++;
-//  }
-//
-//  /**
-//   * Getter method to get the ghost count to know what image to make the ghost
-//   *
-//   * @return int ghostCount
-//   */
-//  public int getGhostCount() { return ghostCount; }
 
 }

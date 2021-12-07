@@ -25,6 +25,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import ooga.controller.Controller;
 import ooga.model.VanillaGame;
 
 public class TopView {
@@ -40,16 +41,29 @@ public class TopView {
     private HBox lifeDisplay;
     private Label scoreNumber;
     private VanillaGame myGame;
+    private Controller myController;
     private Consumer<Integer> scoreConsumer = score -> updateScoreDisplay(score);
     private Consumer<Integer> livesConsumer = lives -> updateLivesDisplay(lives);
     private ResourceBundle myResources;
     private VBox topFull;
 
+    @Deprecated
     public TopView (VanillaGame game, String language) {
         myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
         myGame = game;
-        game.getBoard().addScoreConsumer(scoreConsumer);
-        game.getBoard().addLivesConsumer(livesConsumer);
+        myGame.getBoard().addScoreConsumer(scoreConsumer);
+        myGame.getBoard().addLivesConsumer(livesConsumer);
+        initiateTopView();
+        topGrid.getStyleClass().add("root");
+        topGrid.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    }
+
+    public TopView (VanillaGame game, Controller controller, String language) {
+        myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
+        myGame = game;
+        myController = controller;
+        myGame.getBoard().addScoreConsumer(scoreConsumer);
+        myGame.getBoard().addLivesConsumer(livesConsumer);
         initiateTopView();
         topGrid.getStyleClass().add("root");
         topGrid.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
@@ -123,6 +137,7 @@ public class TopView {
 
     // TODO: implement lives consumer to change the hearts on the screen
     private void updateLivesDisplay(int lives) {
+        myController.pauseOrResume();
         lifeDisplay.getChildren().remove(1);
         ImageView heartDisplay = makeIcon("data/images/hearts-" + Integer.valueOf(lives) + ".png");
         lifeDisplay.getChildren().add(heartDisplay);

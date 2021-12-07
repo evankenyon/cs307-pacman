@@ -59,7 +59,8 @@ public class MainView {
       myController.toggleAnimation();
       new WinLossPopup(myStage, myController, status);
     } else if (status == GameStatus.LOSS) {
-      new GameEndPopups().winLosePopup("lose", 0, 0);
+      myController.toggleAnimation();
+      new WinLossPopup(myStage, myController, status);
     }
   };
   private GameStartupPanel gameStartupPanel;
@@ -89,7 +90,7 @@ public class MainView {
     Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
     myStage.getIcons().add(favicon);
     myBoardView = new BoardView(myGame, myController, userPreferences);
-    myTopView = new TopView(myGame, userPreferences.language());
+    myTopView = new TopView(myGame, myController, userPreferences.language());
     myScene = makeScene();
 //    myStage.hide();
     myStage.setScene(myScene);

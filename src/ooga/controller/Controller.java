@@ -65,6 +65,7 @@ public class Controller implements ControllerInterface {
   private GameStartupPanel gameStartupPanel;
   private User currUser;
   private String password;
+  private Runnable playPauseRun;
   private static final Logger LOG = LogManager.getLogger(Controller.class);
 
   private final ResourceBundle magicValues;
@@ -219,6 +220,7 @@ public class Controller implements ControllerInterface {
   @Override
   public void pauseOrResume() {
     isPaused = !isPaused;
+    playPauseRun.run();
   }
 
   @Override
@@ -289,5 +291,9 @@ public class Controller implements ControllerInterface {
   public void toggleAnimation() {
     if (myAnimation.getStatus() == Status.PAUSED) myAnimation.play();
     else if (myAnimation.getStatus() == Status.RUNNING) myAnimation.pause();
+  }
+
+  public void addPlayPauseRun(Runnable runnable) {
+    playPauseRun = runnable;
   }
 }

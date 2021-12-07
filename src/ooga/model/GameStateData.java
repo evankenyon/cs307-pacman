@@ -47,6 +47,8 @@ public class GameStateData {
     myWallStates = new ArrayList<>();
     myInitAgentPositions = new ArrayList<>();
     myWallMap = new boolean[cols][rows];
+    pacmanLives = data.numLives();
+//    System.out.println(pacmanLives);
     createWallMap(gameDict, rows, cols);
     createAgentList(gameDict);
     createWallList(gameDict);
@@ -172,7 +174,6 @@ public class GameStateData {
       int y = agentPos.getCoords()[1];
       myInitAgentPositions.add(new Position(x, y));
       myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
-      pacmanLives = 3;
     }
 
     if (gameDict.get("Ghost") != null) {

@@ -2,14 +2,11 @@ package ooga.controller.IO;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-<<<<<<< HEAD
 import net.thegreshams.firebase4j.error.FirebaseException;
-=======
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
->>>>>>> e00d5723103f7998143909d2ddca9aead87a72d9
 import java.util.List;
 import java.util.Map;
 import net.thegreshams.firebase4j.error.FirebaseException;

@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 public class GameSaver {
 
-  private int counter = 1;
+  private int counter = 0;
   private StringBuilder path = new StringBuilder();
 
   private JSONConfigObjectBuilder objectBuilder;
@@ -44,7 +44,6 @@ public class GameSaver {
     try {
       FileWriter fileToSave = new FileWriter(jsonFile);
       fileToSave.write(String.valueOf(objectBuilder.setConfig()));
-      System.out.println(String.valueOf(objectBuilder.setConfig()));
       fileToSave.close();
     } catch (IOException e) {
       System.out.println("Unable to save game.");

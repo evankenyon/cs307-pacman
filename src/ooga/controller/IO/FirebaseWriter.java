@@ -37,7 +37,7 @@ public class FirebaseWriter {
   private DatabaseReference configRef;
   private JSONObject object;
   private String userObjectName;
-  private int counter = 1;
+  private int counter = 0;
 
   public FirebaseWriter() throws FirebaseException, UnsupportedEncodingException {
     // Borrowed code for basic setup from
@@ -91,7 +91,4 @@ public class FirebaseWriter {
 
   }
 
-  public void onCancelled(DatabaseError error) {
-    System.out.print("Error: " + error.getMessage());
-  }
 }

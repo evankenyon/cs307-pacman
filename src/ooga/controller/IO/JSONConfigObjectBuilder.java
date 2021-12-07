@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import ooga.model.GameBoard;
 import ooga.model.GameState;
 import ooga.model.VanillaGame;
+import ooga.model.agents.consumables.pellet;
 import ooga.model.interfaces.Agent;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,6 +32,7 @@ public class JSONConfigObjectBuilder {
   }
 
   public JSONObject setConfig() {
+    agentArray = new ArrayList<>();
     JSONObject configBuilder = new JSONObject();
     String playerString = makeStringFromAgent(state.getMyPlayer());
     configBuilder.put("Player", playerString);
@@ -77,14 +79,25 @@ public class JSONConfigObjectBuilder {
     sortAgentArray();
     JSONArray overallWallArray = new JSONArray();
     int numCols = agentArray.get(agentArray.size()-1).getPosition().getCoords()[0] + 1;
-    //System.out.println(numCols);
     int numRows = agentArray.get(agentArray.size()-1).getPosition().getCoords()[1] + 1;
-    //System.out.println(numRows);
     int arrayIndex = 0;
     for (int i=0; i < numRows; i++) {
       JSONArray rowWallArray = new JSONArray();
       for (int j=0; j < numCols; j++) {
         Agent currentAgent = agentArray.get(arrayIndex);
+        //if (String.valueOf(currentAgent).contains("pellet")) {
+          //check pellet state
+          //pellet p = (pellet) currentAgent;
+          //if (p.getState() == 0) {
+            //rowWallArray.put("Empty");
+          //}
+          //else {
+            //rowWallArray.put(makeStringFromAgent(currentAgent));
+          //}
+        //}
+        //else {
+          //rowWallArray.put(makeStringFromAgent(currentAgent));
+        //}
         rowWallArray.put(makeStringFromAgent(currentAgent));
         arrayIndex ++;
       }
@@ -102,9 +115,7 @@ public class JSONConfigObjectBuilder {
 
     Collections.sort(agentArray, new RowComparator()
         .thenComparing(new ColComparator()));
-    //for (Agent a: agentArray) {
-    // System.out.println(a);
-    //}
+
   }
 
   class RowComparator implements Comparator<Agent> {

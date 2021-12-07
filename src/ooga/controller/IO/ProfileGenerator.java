@@ -90,7 +90,7 @@ public class ProfileGenerator {
    * Purpose: Login as a user
    * @param username username for the user to be logged in
    * @param password password for the user to be logged in
-   * @return a User record containing all info about the logged in user (except for their password)
+   * @return a User record containing all info about the logged in user
    * @throws IOException thrown if path instance variable is bad
    */
   public User login(String username, String password) throws IOException {

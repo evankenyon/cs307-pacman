@@ -69,6 +69,7 @@ public class Controller implements ControllerInterface {
   private UserPreferences myPreferences;
   private ProfileGenerator profileGenerator;
   private User currUser;
+  //TODO: remove
   private String password;
   private Runnable playPauseRun;
   private static final Logger LOG = LogManager.getLogger(Controller.class);

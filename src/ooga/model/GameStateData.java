@@ -1,5 +1,7 @@
 package ooga.model;
 
+import static ooga.model.agents.consumables.Ghost.AFRAID_STATE;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -226,7 +228,7 @@ public class GameStateData {
   private void setSuperState() {
     this.setSuper();
     for (Agent ghost : getGhosts()) {
-      ghost.setState(2);
+      ghost.setState(AFRAID_STATE);
     }
   }
 

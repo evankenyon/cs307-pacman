@@ -168,7 +168,7 @@ public class GameStartupPanel {
 
   private void makeProfileView() {
     Stage newStage = new Stage();
-    new UserInformationView(myController, myUser, newStage, selectedLanguage);
+    new UserInformationView(myController, newStage, selectedLanguage);
   }
 
   private void selectFileAction() {

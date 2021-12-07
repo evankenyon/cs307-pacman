@@ -31,7 +31,7 @@ public class GameState {
 //    System.out.println(vanillaGameData.wallMap().toString());
 
     myGameStateData = new GameStateData();
-    myGameStateData.initialize(vanillaGameData.wallMap(), vanillaGameData.pelletInfo());
+    myGameStateData.initialize(vanillaGameData);
     implementRunnables();
 
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
@@ -136,7 +136,6 @@ public class GameState {
   }
 
 
-
   public Agent findAgent(Position pos) {
     return myGameStateData.findAgent(pos);
   }
@@ -230,13 +229,13 @@ public class GameState {
     return myGameStateData.getPacmanLives();
   }
 
-  public void decreaseLives(){
+  public void decreaseLives() {
     myGameStateData.decreaseLives();
   }
 
   public void resetGhosts() {
     int i = 1;
-    for (Agent a : getGhosts()){
+    for (Agent a : getGhosts()) {
       a.setCoords(myGameStateData.getMyInitAgentPositions().get(i));
       a.setState(ALIVE_STATE);
       i++;

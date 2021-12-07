@@ -25,8 +25,6 @@ public class GameBoard {
   private Consumer<GameStatus> myGameStatusConsumer;
   private GameStatus currentGameStatus;
 
-
-  // TODO: handle exceptions
   public GameBoard(GameData vanillaGameData)
       throws
       InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -34,7 +32,6 @@ public class GameBoard {
     myPacScore = 0;
     myGhostScore = 0;
     currentGameStatus = GameStatus.RUNNING;
-//    updateGameStatusConsumer();
   }
 
   //move every agent in the board by one step

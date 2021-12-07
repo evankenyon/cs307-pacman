@@ -5,15 +5,11 @@ import java.util.Random;
 import ooga.model.GameState;
 import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Implements one type of automatic movement for agent.
  */
 public class Scatter implements Movable {
-
-  private static final Logger LOG = LogManager.getLogger(BFS.class);
 
   @Override
   public Position move(GameState state, Position currentPos) {

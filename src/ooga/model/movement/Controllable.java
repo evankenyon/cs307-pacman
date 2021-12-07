@@ -10,13 +10,6 @@ import ooga.model.util.Utility;
  */
 public class Controllable implements Movable {
 
-
-  /**
-   * Constructor for controllable intializing keytracker
-   */
-  public Controllable() {
-  }
-
   @Override
   public Position move(GameState state, Position pos) {
     int[] coords = pos.getCoords();

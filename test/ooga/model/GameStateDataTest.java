@@ -15,6 +15,7 @@ public class GameStateDataTest {
   private GameStateData myData;
   private Map<String, List<Position>> myWallMap;
   private Map<String, Boolean> myPelletInfo;
+  private GameData gameData;
 
   @BeforeEach
   void setUp() throws IOException {
@@ -22,7 +23,8 @@ public class GameStateDataTest {
     myData = new GameStateData();
     myPelletInfo = new HashMap<>();
     myPelletInfo.put("Dot", Boolean.TRUE);
-    myData.initialize(myWallMap, myPelletInfo);
+    gameData = new GameData(myWallMap, "Pacman", 0, 3, myPelletInfo, 3, 3);
+    myData.initialize(gameData);
   }
 
   private Map<String, List<Position>> createWallMap() {

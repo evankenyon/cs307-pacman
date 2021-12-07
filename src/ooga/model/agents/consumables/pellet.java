@@ -5,6 +5,7 @@ import ooga.model.agents.AbstractAgent;
 import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
+import ooga.model.movement.Static;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,6 +29,7 @@ public class pellet extends AbstractAgent implements Consumable {
   public pellet(int x, int y) {
     super(x, y);
     myState = UNEATEN_STATE;
+    setStrategy(new Static());
   }
 
   @Override

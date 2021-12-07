@@ -191,11 +191,11 @@ public class GameStateData {
         int x = agentPos.getCoords()[0];
         int y = agentPos.getCoords()[1];
         myInitAgentPositions.add(new Position(x, y));
+        myInitAgentPositions.add(new Position(x,y));
+        myAgentStates.add(agentFactory.createAgent("Ghost", x, y));
         if (player.equals("Ghost")){
           myPlayer = myAgentStates.get(1);
         }
-        myInitAgentPositions.add(new Position(x,y));
-        myAgentStates.add(agentFactory.createAgent("Ghost", x, y));
       }
     }
   }

@@ -149,6 +149,7 @@ public class BoardView {
           .newInstance(agent, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       new ErrorPopups(e, myLanguage, "ReflectionError");
+      e.printStackTrace();
       return new EmptyView(new wall(position.getCoords()[0], position.getCoords()[1]), numRows,
           numCols);
     }

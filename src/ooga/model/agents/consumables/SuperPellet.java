@@ -9,6 +9,7 @@ import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
+import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
 public class SuperPellet extends AbstractAgent implements Consumable {
@@ -31,6 +32,8 @@ public class SuperPellet extends AbstractAgent implements Consumable {
   public SuperPellet(int x, int y) {
     super(x, y);
     myState = UNEATEN_STATE;
+    stateConsumers = new ArrayList<>();
+    setStrategy(new Static());
   }
 
   @Override

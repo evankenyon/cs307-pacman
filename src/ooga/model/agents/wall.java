@@ -3,6 +3,7 @@ package ooga.model.agents;
 
 import ooga.model.GameState;
 import ooga.model.movement.MovementStrategyContext;
+import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
 public class wall extends AbstractAgent {
@@ -17,6 +18,7 @@ public class wall extends AbstractAgent {
     super(x, y);
     myState = UNPASSABLE;
     myMover = new MovementStrategyContext();
+    setStrategy(new Static());
   }
 
   @Override

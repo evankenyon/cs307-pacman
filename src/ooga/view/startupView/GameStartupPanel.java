@@ -324,6 +324,7 @@ public class GameStartupPanel {
         new ErrorPopups(e, selectedLanguage, "NoFile");
       } else {
         new ErrorPopups(e, selectedLanguage, "InvalidFile");
+        e.printStackTrace();
       }
     }
   }

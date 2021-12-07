@@ -35,7 +35,7 @@ public class FruitView extends StationaryView {
   /**
    * Constructor to create the FruitView object using the default image path for cherries as fruit
    *
-   * @param fruit is the Agent from the backend that corresponds to the front end Agent
+   * @param fruit    is the Agent from the backend that corresponds to the front end Agent
    * @param gridRows is the row position of the Agent
    * @param gridCols is the column position of the Agent
    */
@@ -46,10 +46,10 @@ public class FruitView extends StationaryView {
   /**
    * Constructor to create the FruitView object using a given image path from a preferences file
    *
-   * @param fruit is the Agent from the backend that corresponds to the front end Agent
+   * @param fruit     is the Agent from the backend that corresponds to the front end Agent
    * @param imagePath is the inputted path from the preferences file for the Agent's image
-   * @param gridRows is the row position of the Agent
-   * @param gridCols is the column position of the Agent
+   * @param gridRows  is the row position of the Agent
+   * @param gridCols  is the column position of the Agent
    */
   public FruitView(Agent fruit, String imagePath, int gridRows, int gridCols) {
     myAgent = fruit;

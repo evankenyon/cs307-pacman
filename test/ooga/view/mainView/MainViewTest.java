@@ -36,18 +36,19 @@ public class MainViewTest extends DukeApplicationTest {
   private ResourceBundle myResources;
 
   @Override
-  public void start (Stage stage)
+  public void start(Stage stage)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myStage = stage;
     myController = new Controller(LANGUAGE, stage, VIEW_MODE);
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, LANGUAGE));
     UserPreferences prefs = myController.uploadFile(WIN_LOSS_TEST_FILE);
     try {
-      myUser = myController.createUser("test","test", new File(TEST_IMAGE));
+      myUser = myController.createUser("test", "test", new File(TEST_IMAGE));
     } catch (Exception e) {
-      myUser = myController.login("test","test");
+      myUser = myController.login("test", "test");
     }
-    myMainView = new MainView(myController, myController.getVanillaGame(), myStage, VIEW_MODE, prefs, myUser);
+    myMainView = new MainView(myController, myController.getVanillaGame(), myStage, VIEW_MODE,
+        prefs, myUser);
     myPlayPauseButton = lookup("#playPauseButton").query();
   }
 

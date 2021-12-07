@@ -14,9 +14,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * @author Dania Fernandez
- * Builds a JSONObject corresponding to the game's current configuration
- * Is used by GameSaver and FirebaseWriter to build a configuration JSONObject to save
+ * @author Dania Fernandez Builds a JSONObject corresponding to the game's current configuration Is
+ * used by GameSaver and FirebaseWriter to build a configuration JSONObject to save
  */
 public class JSONConfigObjectBuilder {
 
@@ -29,10 +28,11 @@ public class JSONConfigObjectBuilder {
 
   /**
    * Sets up agentNames resource bundle to be used to get Strings from agents
+   *
    * @param gameEngine, current GameEngine from which to get board and state
    */
   public JSONConfigObjectBuilder(GameEngine gameEngine) {
-    agentNames =  ResourceBundle.getBundle("ooga.controller.IO.resources.agentNamesForWallMap");
+    agentNames = ResourceBundle.getBundle("ooga.controller.IO.resources.agentNamesForWallMap");
     myGameEngine = gameEngine;
     board = myGameEngine.getBoard();
     state = board.getGameState();
@@ -40,6 +40,7 @@ public class JSONConfigObjectBuilder {
 
   /**
    * Sets configuration of JSONObject according to the current game configuration
+   *
    * @return JSONObject of current game configuration
    */
   public JSONObject setConfig() {
@@ -57,7 +58,7 @@ public class JSONConfigObjectBuilder {
 
   private String makeStringFromAgent(Agent agent) {
     String agentString = agent.toString();
-    return agentNames.getString(agentString.substring(0,agentString.indexOf("@")));
+    return agentNames.getString(agentString.substring(0, agentString.indexOf("@")));
   }
 
   private JSONArray buildOptionalPelletArray() {
@@ -90,10 +91,9 @@ public class JSONConfigObjectBuilder {
   }
 
   private int setPlayerScore(String playerAgentString) {
-    if (playerAgentString.contains("Pacman")){
+    if (playerAgentString.contains("Pacman")) {
       return board.getMyPacScore();
-    }
-    else {
+    } else {
       return board.getMyGhostScore();
     }
   }
@@ -102,28 +102,28 @@ public class JSONConfigObjectBuilder {
     sortAgentArray();
     System.out.println(agentArray.size());
     JSONArray overallWallArray = new JSONArray();
-    int numCols = agentArray.get(agentArray.size()-1).getPosition().getCoords()[0] + 1;
-    int numRows = agentArray.get(agentArray.size()-1).getPosition().getCoords()[1] + 1;
+    int numCols = agentArray.get(agentArray.size() - 1).getPosition().getCoords()[0] + 1;
+    int numRows = agentArray.get(agentArray.size() - 1).getPosition().getCoords()[1] + 1;
     int arrayIndex = 0;
-    for (int i=0; i < numRows; i++) {
+    for (int i = 0; i < numRows; i++) {
       JSONArray rowWallArray = new JSONArray();
-      for (int j=0; j < numCols; j++) {
+      for (int j = 0; j < numCols; j++) {
         Agent currentAgent = agentArray.get(arrayIndex);
         //if (String.valueOf(currentAgent).contains("Pellet")) {
-          //check Pellet state
-          //Pellet p = (Pellet) currentAgent;
-          //if (p.getState() == 0) {
-            //rowWallArray.put("Empty");
-          //}
-          //else {
-            //rowWallArray.put(makeStringFromAgent(currentAgent));
-          //}
+        //check Pellet state
+        //Pellet p = (Pellet) currentAgent;
+        //if (p.getState() == 0) {
+        //rowWallArray.put("Empty");
         //}
         //else {
-          //rowWallArray.put(makeStringFromAgent(currentAgent));
+        //rowWallArray.put(makeStringFromAgent(currentAgent));
+        //}
+        //}
+        //else {
+        //rowWallArray.put(makeStringFromAgent(currentAgent));
         //}
         rowWallArray.put(makeStringFromAgent(currentAgent));
-        arrayIndex ++;
+        arrayIndex++;
       }
       overallWallArray.put(rowWallArray);
     }
@@ -148,11 +148,9 @@ public class JSONConfigObjectBuilder {
     public int compare(Agent a1, Agent a2) {
       if (a1.getPosition().getCoords()[1] == a2.getPosition().getCoords()[1]) {
         return 0;
-      }
-      else if (a1.getPosition().getCoords()[1] > a2.getPosition().getCoords()[1]) {
+      } else if (a1.getPosition().getCoords()[1] > a2.getPosition().getCoords()[1]) {
         return 1;
-      }
-      else {
+      } else {
         return -1;
       }
     }
@@ -164,18 +162,13 @@ public class JSONConfigObjectBuilder {
     public int compare(Agent a1, Agent a2) {
       if (a1.getPosition().getCoords()[0] == a2.getPosition().getCoords()[0]) {
         return 0;
-      }
-      else if (a1.getPosition().getCoords()[0] > a2.getPosition().getCoords()[0]) {
+      } else if (a1.getPosition().getCoords()[0] > a2.getPosition().getCoords()[0]) {
         return 1;
-      }
-      else {
+      } else {
         return -1;
       }
     }
   }
-
-
-
 
 
 }

@@ -34,6 +34,12 @@ import ooga.view.popups.ErrorPopups;
 import ooga.view.startupView.GameStartupPanel;
 import org.json.JSONObject;
 
+/**
+ * Class that creates the login screen for the game.  Options include logging into an existing user
+ * profile, creating a new user profile, and opening a text dialogue for cheat codes.
+ *
+ * @author Dane Erickson, Kat Cottrell
+ */
 public class LoginView {
 
   public static final int LOGIN_WIDTH = 300;
@@ -58,14 +64,12 @@ public class LoginView {
   private String cheatKey;
 
   /**
-   * Class that creates the login screen for the game.  Options include logging into an
-   * existing user profile, creating a new user profile, and opening a text dialogue for
-   * cheat codes.
+   * Constructor to create a LoginView object
    *
-   * @author Dane Erickson, Kat Cottrell
+   * @param stage      is the stage
+   * @param controller is controller
    */
-
-  public LoginView (Stage stage, Controller controller) {
+  public LoginView(Stage stage, Controller controller) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
     myStage = stage;
     myStage.setTitle("PACMAN LOGIN");
@@ -78,12 +82,13 @@ public class LoginView {
 
   private Scene createLoginScene() {
     VBox root = new VBox();
-    root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+    root.setBackground(
+        new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
     root.setAlignment(Pos.CENTER);
     root.setPadding(new Insets(PADDING));
     root.setSpacing(SPACING);
     ImageView welcome = new ImageView(new Image(
-            new File("data/images/welcome.png").toURI().toString()));
+        new File("data/images/welcome.png").toURI().toString()));
     welcome.setPreserveRatio(true);
     welcome.setFitWidth(LOGIN_WIDTH - (2 * PADDING));
     ImageView signInButton = makeButton("signIn", e -> signInAction(), SIGN_IN_ID);
@@ -157,7 +162,7 @@ public class LoginView {
 
   private ImageView makeButton(String imageName, EventHandler handler, String id) {
     ImageView buttonImg = new ImageView(new Image(
-            new File("data/images/" + imageName + ".png").toURI().toString()));
+        new File("data/images/" + imageName + ".png").toURI().toString()));
     buttonImg.setPreserveRatio(true);
     buttonImg.setFitWidth(BUTTON_WIDTH);
     buttonImg.setOnMouseReleased(handler);
@@ -166,7 +171,9 @@ public class LoginView {
   }
 
   // Used for testing
-  protected User getUser() { return myUser; }
+  protected User getUser() {
+    return myUser;
+  }
 
   // Used for testing
   protected User makeUserNoImage(String username, String password, String imagePath)
@@ -175,6 +182,8 @@ public class LoginView {
   }
 
   // Used for testing
-  protected ErrorPopups getError() { return myError; }
+  protected ErrorPopups getError() {
+    return myError;
+  }
 
 }

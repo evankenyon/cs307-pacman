@@ -27,7 +27,7 @@ public class FirebaseWriterTest {
   void setUp()
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, FirebaseException, UnsupportedEncodingException {
     //map of only pacman and dot to its right
-    Map<String, List<Position>> wallMap = Map.of( "pellet", List.of(new Position(0, 0)),
+    Map<String, List<Position>> wallMap = Map.of("pellet", List.of(new Position(0, 0)),
         "Pacman", List.of(new Position(1, 0)), "Wall",
         List.of(new Position(2, 0)));
     Map<String, Boolean> pelletInfo = Map.of("pellet", true);
@@ -53,12 +53,14 @@ public class FirebaseWriterTest {
     Assertions.assertEquals("Pacman", savedObject.getString("Player"));
     Assertions.assertEquals(3, savedObject.getInt("NumberOfLives"));
     Assertions.assertEquals(0, savedObject.getInt("PlayerScore"));
-    //JSONArray expectedRequiredPellets = new JSONArray();
-    //expectedRequiredPellets.put("Dot");
-    //Assertions.assertEquals(String.valueOf(expectedRequiredPellets), String.valueOf(savedObject.getJSONArray("RequiredPellets")));
-    //JSONArray expectedOptionalPellets = new JSONArray();
-    //expectedOptionalPellets.put("Super");
-    //Assertions.assertEquals(String.valueOf(expectedOptionalPellets), String.valueOf(savedObject.getJSONArray("OptionalPellets")));
+    JSONArray expectedRequiredPellets = new JSONArray();
+    expectedRequiredPellets.put("Dot");
+    Assertions.assertEquals(String.valueOf(expectedRequiredPellets),
+        String.valueOf(savedObject.getJSONArray("RequiredPellets")));
+    JSONArray expectedOptionalPellets = new JSONArray();
+    expectedOptionalPellets.put("Super");
+    Assertions.assertEquals(String.valueOf(expectedOptionalPellets),
+        String.valueOf(savedObject.getJSONArray("OptionalPellets")));
   }
 
 }

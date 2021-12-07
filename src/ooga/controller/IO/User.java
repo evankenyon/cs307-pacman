@@ -11,11 +11,12 @@ package ooga.controller.IO;
 //}
 
 /**
- * Purpose: Represent a user profile
- * Example: This object returned by login in ProfileGenerator with all of the user's information
+ * Purpose: Represent a user profile Example: This object returned by login in ProfileGenerator with
+ * all of the user's information
  *
  * @author Evan Kenyon
  */
-public record User(String username, String password, String imagePath, int highScore, int wins, int losses, String[] favorites) {
+public record User(String username, String password, String imagePath, int highScore, int wins,
+                   int losses, String[] favorites) {
 
 }

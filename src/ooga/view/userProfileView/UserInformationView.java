@@ -24,16 +24,15 @@ import ooga.view.popups.ErrorPopups;
 /**
  * Purpose: Represents the frontend for user information, allowing the player to see the information
  * for the currently logged in profile and edit the editable information (ex. they cannot edit their
- * high score since that is determined by the games they play)
- * Dependencies: File, IOException, Method, ActionEvent, EventHandler, Scene, Button, ListView,
- * TextInputDialog, Image, ImageView, GridPane, Text, FileChooser, Stage, Controller, User,
- * ErrorPopups
- * Example: Instantiate this class when a button is clicked with a label indicating that it will
- * pop up some user information
+ * high score since that is determined by the games they play) Dependencies: File, IOException,
+ * Method, ActionEvent, EventHandler, Scene, Button, ListView, TextInputDialog, Image, ImageView,
+ * GridPane, Text, FileChooser, Stage, Controller, User, ErrorPopups Example: Instantiate this class
+ * when a button is clicked with a label indicating that it will pop up some user information
  *
  * @author Evan Kenyon
  */
 public class UserInformationView {
+
   private static final int SCREEN_WIDTH = 400;
   private static final int SCREEN_HEIGHT = 425;
   public static final String STARTUP_PACKAGE = "ooga.view.startupView.";
@@ -44,6 +43,16 @@ public class UserInformationView {
   private Controller controller;
   private String myLanguage;
 
+  /**
+   * Purpose: Instantiate this class with a controller, a stage, and a language Assumptions: the
+   * controller has the desired user as its current user (ex. if there is an indication that
+   * clicking a button will show the information for a user named Dane, then the controller's
+   * current user should be that user)
+   *
+   * @param controller the controller with the desired user as its current user
+   * @param stage      the stage on which to set a scene
+   * @param language   the language for text
+   */
   @Deprecated
   public UserInformationView(Controller controller, User user, Stage stage, String language) {
     this.stage = stage;
@@ -53,13 +62,14 @@ public class UserInformationView {
   }
 
   /**
-   * Purpose: Instantiate this class with a controller, a stage, and a language
-   * Assumptions: the controller has the desired user as its current user (ex. if there is an
-   * indication that clicking a button will show the information for a user named Dane, then the
-   * controller's current user should be that user)
+   * Purpose: Instantiate this class with a controller, a stage, and a language Assumptions: the
+   * controller has the desired user as its current user (ex. if there is an indication that
+   * clicking a button will show the information for a user named Dane, then the controller's
+   * current user should be that user)
+   *
    * @param controller the controller with the desired user as its current user
-   * @param stage the stage on which to set a scene
-   * @param language the language for text
+   * @param stage      the stage on which to set a scene
+   * @param language   the language for text
    */
   public UserInformationView(Controller controller, Stage stage, String language) {
     this.stage = stage;
@@ -75,9 +85,11 @@ public class UserInformationView {
     Button editImageButton = makeButton("Edit Image", e -> editFile("Image"));
     root.add(editImageButton, 2, 1);
     addTextInfo(root, "Username", user.username(), 1, 2);
-    Button editUsernameButton = makeButton("Edit Username", e -> editForm("Username", "Please enter a new username"));
+    Button editUsernameButton = makeButton("Edit Username",
+        e -> editForm("Username", "Please enter a new username"));
     root.add(editUsernameButton, 2, 2);
-    Button editPasswordButton = makeButton("Edit Password", e -> editForm("Password", "Please enter a new password"));
+    Button editPasswordButton = makeButton("Edit Password",
+        e -> editForm("Password", "Please enter a new password"));
     root.add(editPasswordButton, 2, 3);
     addTextInfo(root, "High Score", String.valueOf(user.highScore()), 1, 3);
     addTextInfo(root, "Number of wins", String.valueOf(user.wins()), 1, 4);
@@ -116,7 +128,8 @@ public class UserInformationView {
   }
 
   private void addProfileImage(GridPane root, User user) {
-    ImageView profileImage = new ImageView(new Image(new File(controller.getUser().imagePath()).toURI().toString()));
+    ImageView profileImage = new ImageView(
+        new Image(new File(controller.getUser().imagePath()).toURI().toString()));
     setImgWidth(profileImage, 100);
     root.add(profileImage, 1, 1);
   }
@@ -145,7 +158,8 @@ public class UserInformationView {
 
   private void editForm(String title, String header) {
     try {
-      Method updateMethod = Controller.class.getDeclaredMethod(String.format("update%s", title), String.class);
+      Method updateMethod = Controller.class.getDeclaredMethod(String.format("update%s", title),
+          String.class);
       updateMethod.invoke(controller, makeTextInputDialog(title, header));
 //      controller.updateString(makeTextInputDialog(title, header), title);
     } catch (Exception e) {
@@ -166,7 +180,7 @@ public class UserInformationView {
     Button button = new Button();
     button.setOnAction(handler);
     button.setText(label);
-    button.setId(label.replace(" ",""));
+    button.setId(label.replace(" ", ""));
     return button;
   }
 }

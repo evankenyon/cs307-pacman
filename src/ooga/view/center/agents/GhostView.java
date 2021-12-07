@@ -19,7 +19,8 @@ import ooga.model.interfaces.Agent;
  */
 public class GhostView extends MovableView {
 
-  public static final String GHOST_NAMES[] = {"blinky", "pinky", "inky", "clyde", "blue"}; // blue (consumable) ghost must be the last one
+  public static final String GHOST_NAMES[] = {"blinky", "pinky", "inky", "clyde",
+      "blue"}; // blue (consumable) ghost must be the last one
   public static final int CONSUMABLE_STATE = 1;
   public static final String GHOST_PATH = "%s%s_right.gif";
   public static final String CHARGED_GHOST_PATH = "%s%s_right_charged.gif";
@@ -47,7 +48,8 @@ public class GhostView extends MovableView {
    * @param gridCols is the column position of the Agent
    */
   public GhostView(Agent ghost, int gridRows, int gridCols) {
-    this(ghost, String.format(GHOST_PATH, IMAGE_PATH, GHOST_NAMES[new Random().nextInt(GHOST_NAMES.length-1)]), gridRows, gridCols);
+    this(ghost, String.format(GHOST_PATH, IMAGE_PATH,
+        GHOST_NAMES[new Random().nextInt(GHOST_NAMES.length - 1)]), gridRows, gridCols);
   }
 
   /**
@@ -75,8 +77,9 @@ public class GhostView extends MovableView {
     if (imagePath != null) {
       String name = imagePath.split("/")[2].split("_")[0];
       for (int i = 0; i < GHOST_NAMES.length; i++) {
-        if (GHOST_NAMES[i].equals(name))
+        if (GHOST_NAMES[i].equals(name)) {
           currGhostNum = i;
+        }
       }
     }
     return currGhostNum;
@@ -121,12 +124,16 @@ public class GhostView extends MovableView {
     switch (state) {
       case 0 -> ghostImage.setVisible(state != DEAD_STATE);
       case 1 -> {
-        ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[currGhostNum], myOrientation)).toURI().toString()));
+        ghostImage.setImage(new Image(new File(
+            String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[currGhostNum],
+                myOrientation)).toURI().toString()));
         currGhostNum = ogGhostNum;
       }
       case 2 -> {
-        ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[GHOST_NAMES.length-1], myOrientation)).toURI().toString()));
-        currGhostNum = GHOST_NAMES.length-1;
+        ghostImage.setImage(new Image(new File(
+            String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[GHOST_NAMES.length - 1],
+                myOrientation)).toURI().toString()));
+        currGhostNum = GHOST_NAMES.length - 1;
       }
     }
   }
@@ -134,7 +141,9 @@ public class GhostView extends MovableView {
   @Override
   protected void updateOrientation(String orientation) {
     //TODO: account for case of user input image
-    ghostImage.setImage(new Image(new File(String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[currGhostNum], orientation)).toURI().toString()));
+    ghostImage.setImage(new Image(new File(
+        String.format("%s%s_%s.gif", IMAGE_PATH, GHOST_NAMES[currGhostNum], orientation)).toURI()
+        .toString()));
     myOrientation = orientation;
   }
 }

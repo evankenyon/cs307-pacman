@@ -33,6 +33,16 @@ public class GameBoard {
   private final EndConditionContext endConditionWin;
   private final EndConditionContext endConditionLoss;
 
+  /**
+   * Constructor for GameBoard object.
+   *
+   * @param vanillaGameData from controller
+   * @throws InvocationTargetException
+   * @throws NoSuchMethodException
+   * @throws IllegalAccessException
+   * @throws ClassNotFoundException
+   * @throws InstantiationException
+   */
   public GameBoard(GameData vanillaGameData)
       throws
       InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException, InstantiationException {
@@ -73,7 +83,9 @@ public class GameBoard {
 
   }
 
-  //move every agent in the board by one step
+  /**
+   * Moves every agent by one step.
+   */
   public void movePawns() {
     List<Agent> movers = new ArrayList<>();
     movers.add(myState.getPacman());
@@ -93,6 +105,9 @@ public class GameBoard {
     }
   }
 
+  /**
+   * Checks collisions between agents and applies effects.
+   */
   public void checkCollisions() {
     Agent pacman = myState.getPacman();
     List<Consumable> foods = myState.getFood();
@@ -135,25 +150,33 @@ public class GameBoard {
     myState.resetPacman();
   }
 
+  /**
+   * Checks whether game has ended, be it win or loss.
+   */
   public void checkGameEnd() {
     checkWin();
     checkLoss();
   }
 
-  public void checkWin() {
+  private void checkWin() {
     if (endConditionWin.checkEnd(myState)) {
       currentGameStatus = GameStatus.WIN;
       updateGameStatusConsumer();
     }
   }
 
-  public void checkLoss() {
+  private void checkLoss() {
     if (endConditionLoss.checkEnd(myState)) {
       currentGameStatus = GameStatus.LOSS;
       updateGameStatusConsumer();
     }
   }
 
+  /**
+   * sets direction for player object
+   *
+   * @param direction of player.
+   */
   public void setPlayerDirection(String direction) {
     myState.setPlayerDirection(direction);
   }
@@ -164,6 +187,9 @@ public class GameBoard {
     return !myState.isWall(x, y);
   }
 
+  /**
+   * @return state
+   */
   public GameState getGameState() {
     return myState;
   }
@@ -173,6 +199,11 @@ public class GameBoard {
         && aPos.getCoords()[1] == bPos.getCoords()[1]);
   }
 
+  /**
+   * Attaches consumer for score for View
+   *
+   * @param consumer from View
+   */
   public void addScoreConsumer(Consumer<Integer> consumer) {
     myScoreConsumer = consumer;
   }

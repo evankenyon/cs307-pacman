@@ -8,7 +8,6 @@ public class PacmanDies implements EndCondition {
   @Override
   public Boolean isEnd(GameState state) {
     if (state.getLives() == 0) {
-      System.out.println("pacman died :0");
       return true;
     }
     return false;

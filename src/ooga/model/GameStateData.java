@@ -31,6 +31,9 @@ public class GameStateData {
   private boolean[][] myWallMap;
   private int pacmanLives;
 
+  /**
+   * Constructor for GameStateData, object holding useful data structures
+   */
   public GameStateData() {
     myPacScore = 0;
     myGhostScore = 0;
@@ -39,6 +42,11 @@ public class GameStateData {
     myOptionalPelletStates = new ArrayList<>();
   }
 
+  /**
+   * Initializes a GameStateData object
+   *
+   * @param data from controller
+   */
   public void initialize(GameData data) {
     Map<String, List<Position>> gameDict = data.wallMap();
     Map<String, Boolean> pelletInfo = data.pelletInfo();
@@ -60,23 +68,38 @@ public class GameStateData {
     createEmptySpots(gameDict);
   }
 
+  /**
+   * @return the number of food left to win
+   */
   public int getFoodLeft() {
     foodLeft = myRequiredPelletStates.size();
     return foodLeft;
   }
 
+  /**
+   * @return list of consumables that are required
+   */
   public List<Consumable> getMyRequiredPelletStates() {
     return myRequiredPelletStates;
   }
 
+  /**
+   * @return list of walls
+   */
   public List<Agent> getMyWallStates() {
     return myWallStates;
   }
 
+  /**
+   * @return whether game is super
+   */
   public boolean isSuper() {
     return isSuper;
   }
 
+  /**
+   * set game state to super
+   */
   public void setSuper() {
     isSuper = true;
     attachSuperTimer();
@@ -93,18 +116,34 @@ public class GameStateData {
     }, 5000);
   }
 
+  /**
+   * @return controllable player
+   */
   public Agent getMyPlayer() {
     return myPlayer;
   }
 
+  /**
+   * @return pacman score
+   */
   public int getMyPacScore() {
     return myPacScore;
   }
 
+  /**
+   * @return ghost score
+   */
   public int getMyGhostScore() {
     return myGhostScore;
   }
 
+  /**
+   * if given x,y is a wall
+   *
+   * @param x
+   * @param y
+   * @return whether it's a wall
+   */
   public boolean isWall(int x, int y) {
     try {
       return myWallMap[x][y];
@@ -113,14 +152,26 @@ public class GameStateData {
     }
   }
 
+  /**
+   * @return list of optional consumables
+   */
   public List<Consumable> getMyOptionalPelletStates() {
     return myOptionalPelletStates;
   }
 
+  /**
+   * @return list of moving agents
+   */
   public List<Agent> getAgents() {
     return myAgentStates;
   }
 
+  /**
+   * Finds agent with position
+   *
+   * @param pos
+   * @return agent object
+   */
   public Agent findAgent(Position pos) {
     Agent potentialAgent = null;
     List<Agent> allAgents = new ArrayList<>(myAgentStates);
@@ -175,6 +226,9 @@ public class GameStateData {
     }
   }
 
+  /**
+   * @return number of pacman lives
+   */
   public int getPacmanLives() {
     return pacmanLives;
   }
@@ -214,10 +268,16 @@ public class GameStateData {
     }
   }
 
+  /**
+   * decrease pacman lives
+   */
   public void decreaseLives() {
     pacmanLives--;
   }
 
+  /**
+   * @return List of initial agent positions
+   */
   public List<Position> getMyInitAgentPositions() {
     return myInitAgentPositions;
   }

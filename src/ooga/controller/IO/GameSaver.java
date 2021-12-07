@@ -17,7 +17,6 @@ import org.json.JSONObject;
 
 /**
  * @author Dania Fernandez
- * @author Evan Kenyon
  * dependencies: JSONObjectBuilder
  * Used to save a game configuration file locally
  */

@@ -30,7 +30,6 @@ import org.json.JSONObject;
 
 /**
  * @author Dania Fernandez
- * @author Evan Kenyon
  * dependencies: JSONObjectBuilder
  * Saves a JSONObject of the current game configuration to Firebase
  */

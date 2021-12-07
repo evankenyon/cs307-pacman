@@ -15,6 +15,11 @@ import ooga.model.interfaces.Agent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * @author Dania Fernandez
+ * Builds a JSONObject corresponding to the game's current configuration
+ * Is used by GameSaver and FirebaseWriter to build a configuration JSONObject to save
+ */
 public class JSONConfigObjectBuilder {
 
   private ResourceBundle agentNames;
@@ -24,6 +29,10 @@ public class JSONConfigObjectBuilder {
   private List<Agent> agentArray = new ArrayList<>();
 
 
+  /**
+   * Sets up agentNames resource bundle to be used to get Strings from agents
+   * @param vanillaGame, current VanillaGame from which to get board and state
+   */
   public JSONConfigObjectBuilder(VanillaGame vanillaGame) {
     agentNames =  ResourceBundle.getBundle("ooga.controller.IO.resources.agentNamesForWallMap");
     myVanillaGame = vanillaGame;
@@ -31,6 +40,10 @@ public class JSONConfigObjectBuilder {
     state = board.getGameState();
   }
 
+  /**
+   * Sets configuration of JSONObject according to the current game configuration
+   * @return JSONObject of current game configuration
+   */
   public JSONObject setConfig() {
     agentArray = new ArrayList<>();
     JSONObject configBuilder = new JSONObject();

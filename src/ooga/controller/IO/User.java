@@ -11,11 +11,8 @@ package ooga.controller.IO;
 //}
 
 /**
- * Purpose:
- * Assumptions:
- * Dependencies:
- * Example:
- * Other details:
+ * Purpose: Represent a user profile
+ * Example: This object returned by login in ProfileGenerator with all of the user's information
  *
  * @author Evan Kenyon
  */

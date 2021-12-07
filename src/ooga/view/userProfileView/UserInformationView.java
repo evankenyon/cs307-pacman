@@ -22,11 +22,14 @@ import ooga.controller.IO.User;
 import ooga.view.popups.ErrorPopups;
 
 /**
- * Purpose:
- * Assumptions:
- * Dependencies:
- * Example:
- * Other details:
+ * Purpose: Represents the frontend for user information, allowing the player to see the information
+ * for the currently logged in profile and edit the editable information (ex. they cannot edit their
+ * high score since that is determined by the games they play)
+ * Dependencies: File, IOException, Method, ActionEvent, EventHandler, Scene, Button, ListView,
+ * TextInputDialog, Image, ImageView, GridPane, Text, FileChooser, Stage, Controller, User,
+ * ErrorPopups
+ * Example: Instantiate this class when a button is clicked with a label indicating that it will
+ * pop up some user information
  *
  * @author Evan Kenyon
  */
@@ -50,11 +53,13 @@ public class UserInformationView {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param controller
-   * @param stage
-   * @param language
+   * Purpose: Instantiate this class with a controller, a stage, and a language
+   * Assumptions: the controller has the desired user as its current user (ex. if there is an
+   * indication that clicking a button will show the information for a user named Dane, then the
+   * controller's current user should be that user)
+   * @param controller the controller with the desired user as its current user
+   * @param stage the stage on which to set a scene
+   * @param language the language for text
    */
   public UserInformationView(Controller controller, Stage stage, String language) {
     this.stage = stage;

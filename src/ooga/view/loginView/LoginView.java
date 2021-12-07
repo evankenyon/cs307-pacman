@@ -123,7 +123,7 @@ public class LoginView {
     try {
       myUser = myController.createUser(username, password, image);
       new GameStartupPanel(myStage, myUser, myController);
-    } catch (IOException | InterruptedException | IllegalArgumentException e) {
+    } catch (IOException | IllegalArgumentException e) {
       myError = new ErrorPopups(e, LANGUAGE, "SignUpError");
     }
   }

@@ -28,33 +28,9 @@ public class BFS implements Movable {
   @Override
   public Position move(GameState state, Position currentPos) {
     Position pacPos = state.getPacman().getPosition();
-    Queue<Position> BFSqueue = new LinkedList<>();
-    Map<Position, Position> myPath = new HashMap<>();
-    List<Position> visited = new ArrayList<>();
-    List<Position> optimalPath = new ArrayList<>();
-
-    BFSqueue.add(currentPos);
-
-    while (BFSqueue.size() != 0) {
-      Position current = BFSqueue.poll();
-      visited.add(current);
-      List<Position> availablePositions = state.getPotentialMoveTargets(current);
-
-      for (Position next : availablePositions) {
-        if (!visited.contains(next)) {
-          BFSqueue.add(next);
-          myPath.put(next, current);
-        }
-      }
-
-      BFSqueue.remove(current);
-      if (current.equals(pacPos)) {
-        BFSqueue.clear();
-        break;
-      }
-    }
-
+    Map<Position, Position> myPath = doBFS(pacPos, currentPos, state);
     Position first = pacPos;
+    List<Position> optimalPath = new ArrayList<>();
 
     while (first != null) {
       optimalPath.add(first);
@@ -80,5 +56,34 @@ public class BFS implements Movable {
         return correctPositionToReturn;
       }
     }
+  }
+
+  protected Map<Position, Position> doBFS(Position targetPosition, Position currentPos,
+      GameState state) {
+    Queue<Position> BFSqueue = new LinkedList<>();
+    Map<Position, Position> myPath = new HashMap<>();
+    List<Position> visited = new ArrayList<>();
+
+    BFSqueue.add(currentPos);
+
+    while (BFSqueue.size() != 0) {
+      Position current = BFSqueue.poll();
+      visited.add(current);
+      List<Position> availablePositions = state.getPotentialMoveTargets(current);
+
+      for (Position next : availablePositions) {
+        if (!visited.contains(next)) {
+          BFSqueue.add(next);
+          myPath.put(next, current);
+        }
+      }
+
+      BFSqueue.remove(current);
+      if (current.equals(targetPosition)) {
+        BFSqueue.clear();
+        break;
+      }
+    }
+    return myPath;
   }
 }

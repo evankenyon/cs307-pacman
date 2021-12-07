@@ -19,6 +19,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Purpose:
+ * Assumptions:
+ * Dependencies:
+ * Example:
+ * Other details:
+ *
+ * @author Evan Kenyon
+ */
 public class JsonParser implements JsonParserInterface {
 
   private static final String DEFAULT_RESOURCE_PACKAGE =

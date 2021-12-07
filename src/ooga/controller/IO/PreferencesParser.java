@@ -17,6 +17,15 @@ import ooga.controller.IO.utils.JSONObjectParser;
 // https://coderolls.com/parse-json-in-java/
 import org.json.JSONObject;
 
+/**
+ * Purpose:
+ * Assumptions:
+ * Dependencies:
+ * Example:
+ * Other details:
+ *
+ * @author Evan Kenyon
+ */
 public class PreferencesParser {
 
   private static final String DEFAULT_RESOURCE_PACKAGE =

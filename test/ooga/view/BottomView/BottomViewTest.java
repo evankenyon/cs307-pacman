@@ -25,6 +25,7 @@ import org.testfx.api.FxRobot;
 import org.testfx.matcher.base.WindowMatchers;
 import util.DukeApplicationTest;
 
+
 public class BottomViewTest extends DukeApplicationTest {
 
   public static final long DELAY = 1000;

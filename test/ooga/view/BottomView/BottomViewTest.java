@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.BottomView;
 
 import static ooga.Main.LANGUAGE;
 import static ooga.Main.VIEW_MODE;
@@ -20,6 +20,9 @@ import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
 import ooga.view.mainView.MainView;
 import org.junit.jupiter.api.Test;
+import org.testfx.api.FxAssert;
+import org.testfx.api.FxRobot;
+import org.testfx.matcher.base.WindowMatchers;
 import util.DukeApplicationTest;
 
 public class BottomViewTest extends DukeApplicationTest {
@@ -31,6 +34,7 @@ public class BottomViewTest extends DukeApplicationTest {
   private Node myPlayPauseButton;
   private MainView myMainView;
   private Slider mySpeedSlider;
+  private Node myProfilePicButton;
   private User myUser;
 
   @Override
@@ -42,6 +46,7 @@ public class BottomViewTest extends DukeApplicationTest {
     myMainView = new MainView(myController, myController.getVanillaGame(), stage, VIEW_MODE, prefs, myUser);
     myPlayPauseButton = lookup("#playPauseButton").query();
     mySpeedSlider = lookup("#speedSlider").query();
+    myProfilePicButton = lookup("#profilePic").query();
   }
 
   @Test
@@ -75,6 +80,17 @@ public class BottomViewTest extends DukeApplicationTest {
     setValue(mySpeedSlider, (MAX_SLIDER_VAL+MIN_SLIDER_VAL)/2);
     double actual = myController.getAnimationSpeed();
     assertEquals((MAX_SLIDER_VAL+MIN_SLIDER_VAL)/2, actual);
+  }
+
+  @Test
+  void testViewProfile() {
+    clickOn(myProfilePicButton);
+    FxAssert.verifyThat(window(0), WindowMatchers.isShowing());
+//    targetWindow(0);
+//    clickOn(lookup("#EditUsername").query());
+//    writeInputsToDialog("test");
+//    clickOn(lookup("#EditPassword").query());
+//    writeInputsToDialog("test");
   }
 
 }

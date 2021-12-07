@@ -53,7 +53,7 @@ public class UserInformationView {
     reset(controller.getUser());
   }
 
-  public Scene createStartupScene(User user) {
+  private Scene createStartupScene(User user) {
     GridPane root = new GridPane();
     root.getStyleClass().add("grid-pane");
     addProfileImage(root, user);
@@ -150,6 +150,7 @@ public class UserInformationView {
     Button button = new Button();
     button.setOnAction(handler);
     button.setText(label);
+    button.setId(label.replace(" ",""));
     return button;
   }
 }

@@ -2,18 +2,7 @@ package ooga.controller.IO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import ooga.model.GameBoard;
-import ooga.model.GameState;
-import ooga.model.VanillaGame;
-import ooga.model.interfaces.Agent;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import ooga.model.GameEngine;
 
 /**
  * @author Dania Fernandez
@@ -30,11 +19,11 @@ public class GameSaver {
 
 
   /**
-   * sets objectBuilder to be the JSONObject corresponding to the passed in VanillaGame
-   * @param vanillaGame, the current VanillaGame
+   * sets objectBuilder to be the JSONObject corresponding to the passed in GameEngine
+   * @param gameEngine, the current GameEngine
    */
-  public GameSaver(VanillaGame vanillaGame) {
-    objectBuilder = new JSONConfigObjectBuilder(vanillaGame);
+  public GameSaver(GameEngine gameEngine) {
+    objectBuilder = new JSONConfigObjectBuilder(gameEngine);
   }
 
 

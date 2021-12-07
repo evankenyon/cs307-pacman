@@ -3,16 +3,13 @@ package ooga.controller.IO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.GameData;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import ooga.model.GameState;
-import ooga.model.VanillaGame;
+import ooga.model.GameEngine;
 import ooga.model.interfaces.Agent;
-import ooga.model.interfaces.Game;
 import ooga.model.util.Position;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,7 +20,7 @@ import org.junit.jupiter.api.Test;
 public class SaveGameTest {
 
   private JSONConfigObjectBuilder builder;
-  private VanillaGame vanillaGame;
+  private GameEngine gameEngine;
   private JSONObject object;
   private GameSaver saver;
 
@@ -36,8 +33,8 @@ public class SaveGameTest {
         List.of(new Position(2, 0)));
     Map<String, Boolean> pelletInfo = Map.of("pellet", true);
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
-    vanillaGame = new VanillaGame(vanillaGameData);
-    saver = new GameSaver(vanillaGame);
+    gameEngine = new GameEngine(vanillaGameData);
+    saver = new GameSaver(gameEngine);
   }
 
   @Test

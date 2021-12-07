@@ -1,7 +1,6 @@
 package ooga.view.topView;
 
 import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
-import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
 import static ooga.view.bottomView.BottomView.ICON_SIZE;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
@@ -13,7 +12,6 @@ import java.util.ResourceBundle;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,7 +24,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import ooga.controller.Controller;
-import ooga.model.VanillaGame;
+import ooga.model.GameEngine;
 
 public class TopView {
 
@@ -40,7 +38,7 @@ public class TopView {
     private HBox scoreDisplay;
     private HBox lifeDisplay;
     private Label scoreNumber;
-    private VanillaGame myGame;
+    private GameEngine myGame;
     private Controller myController;
     private Consumer<Integer> scoreConsumer = score -> updateScoreDisplay(score);
     private Consumer<Integer> livesConsumer = lives -> updateLivesDisplay(lives);
@@ -56,7 +54,7 @@ public class TopView {
      */
 
     @Deprecated
-    public TopView (VanillaGame game, String language) {
+    public TopView (GameEngine game, String language) {
         myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
         myGame = game;
         myGame.getBoard().addScoreConsumer(scoreConsumer);
@@ -66,7 +64,7 @@ public class TopView {
         topGrid.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     }
 
-    public TopView (VanillaGame game, Controller controller, String language) {
+    public TopView (GameEngine game, Controller controller, String language) {
         myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
         myGame = game;
         myController = controller;

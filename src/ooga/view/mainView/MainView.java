@@ -7,7 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -19,12 +18,11 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
-import ooga.model.VanillaGame;
+import ooga.model.GameEngine;
 import ooga.model.util.GameStatus;
 import ooga.view.bottomView.BottomView;
 import ooga.view.center.BoardView;
 import ooga.view.popups.WinLossPopup;
-import ooga.view.startupView.GameStartupPanel;
 import ooga.view.topView.TopView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,7 +48,7 @@ public class MainView {
   private Controller myController;
   private Stage myStage;
   private Scene myScene;
-  private VanillaGame myGame;
+  private GameEngine myGame;
   private BorderPane root;
   private User myUser;
   private Consumer<GameStatus> gameEndConsumer = status -> gameEndAction(status);
@@ -62,11 +60,11 @@ public class MainView {
    * with each view object in the correct location.
    *
    * @param controller      is the Controller object used to communicate between the model and view
-   * @param game            is the VanillaGame object that is used in the model
+   * @param game            is the GameEngine object that is used in the model
    * @param stage           is the Stage where the scene from MainView is set
    * @param userPreferences is the UserPreferences object from the uploaded file
    */
-  public MainView(Controller controller, VanillaGame game, Stage stage, String selectedViewMode,
+  public MainView(Controller controller, GameEngine game, Stage stage, String selectedViewMode,
       UserPreferences userPreferences, User user) {
     this.STYLESHEET = "/ooga/view/resources/" + selectedViewMode + ".css";
     this.viewMode = selectedViewMode;

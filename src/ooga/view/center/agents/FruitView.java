@@ -19,7 +19,7 @@ public class FruitView extends StationaryView {
 
   public static final String FRUIT_IMAGE = "fruit.png";
 
-  //  private VanillaGame myGame;
+  //  private GameEngine myGame;
 //  private AgentInfo myInfo;
   private Agent myAgent; //TODO: change to correct agent subclass
   private ImageView myImage;

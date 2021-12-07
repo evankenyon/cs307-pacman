@@ -17,6 +17,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Purpose: This class's purpose is to do high level parsing of starting config files that are first
+ * converted into a JSONObject (either from a local file or from the database)
+ * Dependencies: java-json, Position, GameData, JSONObjectParser, Consumer, Set, ResourceBundle,
+ * Map, List, InputMismatchException, HashMap, ArrayList, IOException, File
+ * Example: Instantiate this class in a Controller to take in a JSONObject that represents starting
+ * config data (either from a local file or a database file) in order to instantiate a VanillaGame
+ * which represents the backend for a Pacman game
+ *
+ * @author Evan Kenyon
+ */
 public class JsonParser implements JsonParserInterface {
 
   private static final String DEFAULT_RESOURCE_PACKAGE =
@@ -40,6 +51,9 @@ public class JsonParser implements JsonParserInterface {
   private ResourceBundle exceptionMessages;
   private ResourceBundle magicValues;
 
+  /**
+   * Purpose: Instantiate a JsonParser class by instantiating data structures as needed
+   */
   public JsonParser() {
     reset();
     vanillaGameDataConsumers = new ArrayList<>();
@@ -51,13 +65,17 @@ public class JsonParser implements JsonParserInterface {
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
   }
 
-  private void reset() {
-    wallMap = new HashMap<>();
-    pelletInfo = new HashMap<>();
-  }
-
+  /**
+   * Purpose: Parse a JSONObject into a GameData object containing a wall map, a player, the number
+   * of lives, the starting score, the information about which pellets are required and which are
+   * not, the number of columns, and the number of rows. Updates the GameData consumers with
+   * created GameData object.
+   * @param json the JSONObject which represents a starting config file
+   * @throws InputMismatchException thrown if any keys or starting data in the starting config json
+   * are incorrect, with specific error messages based on the issue
+   */
   @Override
-  public void parseJSON(JSONObject json) throws InputMismatchException, JSONException {
+  public void parseJSON(JSONObject json) throws InputMismatchException {
     reset();
     checkForRequiredKeys(json.keySet());
     setupPlayer(json.getString(magicValues.getString("PlayerKey")));
@@ -87,15 +105,28 @@ public class JsonParser implements JsonParserInterface {
         new GameData(wallMap, player, playerScore, numLives, pelletInfo, mapCols, mapRows));
   }
 
+  /**
+   * Purpose: Add a consumer for the GameData object which is created by parseJSON
+   * @param consumer consumer for the GameData object
+   */
   @Override
   public void addVanillaGameDataConsumer(Consumer<GameData> consumer) {
     vanillaGameDataConsumers.add(consumer);
   }
 
+  /**
+   * Purpose: Get the number of rows in the starting config
+   * @return the number of rows in the starting config
+   */
   public int getRows() {
     return mapRows;
   }
 
+  /**
+   * Purpose: Get the number of columns in the starting config
+   * Assumptions: the number of columns in the starting config
+   * @return
+   */
   public int getCols() {
     return mapCols;
   }
@@ -192,4 +223,8 @@ public class JsonParser implements JsonParserInterface {
     }
   }
 
+  private void reset() {
+    wallMap = new HashMap<>();
+    pelletInfo = new HashMap<>();
+  }
 }

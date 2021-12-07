@@ -23,7 +23,6 @@ import ooga.model.VanillaGame;
 import ooga.model.util.GameStatus;
 import ooga.view.bottomView.BottomView;
 import ooga.view.center.BoardView;
-import ooga.view.popups.GameEndPopups;
 import ooga.view.popups.WinLossPopup;
 import ooga.view.startupView.GameStartupPanel;
 import ooga.view.topView.TopView;
@@ -54,16 +53,7 @@ public class MainView {
   private VanillaGame myGame;
   private BorderPane root;
   private User myUser;
-  private Consumer<GameStatus> gameEndConsumer = status -> {
-    if (status == GameStatus.WIN) {
-      myController.toggleAnimation();
-      new WinLossPopup(myStage, myController, status);
-    } else if (status == GameStatus.LOSS) {
-      myController.toggleAnimation();
-      new WinLossPopup(myStage, myController, status);
-    }
-  };
-  private GameStartupPanel gameStartupPanel;
+  private Consumer<GameStatus> gameEndConsumer = status -> gameEndAction(status);
   private String STYLESHEET;
 
   /**
@@ -121,5 +111,15 @@ public class MainView {
   private void setStyles() {
     root.getStyleClass().add("root");
     root.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+  }
+
+  private void gameEndAction(GameStatus status) {
+    if (status == GameStatus.WIN) {
+      myController.toggleAnimation();
+      new WinLossPopup(myStage, myController, status, myTopView.getCurrScore());
+    } else if (status == GameStatus.LOSS) {
+      myController.toggleAnimation();
+      new WinLossPopup(myStage, myController, status, myTopView.getCurrScore());
+    }
   }
 }

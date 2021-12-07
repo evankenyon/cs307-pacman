@@ -26,7 +26,9 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.User;
 import ooga.model.VanillaGame;
+import ooga.view.mainView.MainView;
 import ooga.view.popups.ErrorPopups;
+import ooga.view.topView.TopView;
 import ooga.view.userProfileView.UserInformationView;
 
 /**
@@ -216,8 +218,9 @@ public class BottomView {
     // TODO: Get the actual stats from the model
     statsPopup.setHeaderText(myResources.getString("Stats"));
     statsPopup.setContentText(String.format(myResources.getString("HighScore")
-        .concat(myResources.getString("PelletsEaten"))
-        .concat(myResources.getString("GhostsEaten")), 0,0,0));
+                    .concat(myResources.getString("Wins"))
+                    .concat(myResources.getString("Losses")),
+            myUser.highScore(), myUser.wins(), myUser.losses()));
     statsPopup.showAndWait();
     togglePlayPause();
   }

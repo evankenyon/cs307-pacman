@@ -103,14 +103,14 @@ public class JsonParser implements JsonParserInterface {
     List<String> requiredKeysList = List.of(requiredKeys.getString("RequiredKeys").split(magicValues.getString("Delimiter")));
     int keysRequired = requiredKeysList.size();
     int numKeys = keySet.size();
-    if (keysRequired != numKeys) {
-      throw new InputMismatchException(exceptionMessages.getString("NotEnoughKeys"));
-    }
     for (String key : keySet) {
       if (!requiredKeysList.contains(key)) {
         throw new InputMismatchException(
             String.format(exceptionMessages.getString("UnexpectedKey"), key));
       }
+    }
+    if (keysRequired != numKeys) {
+      throw new InputMismatchException(exceptionMessages.getString("NotEnoughKeys"));
     }
   }
 

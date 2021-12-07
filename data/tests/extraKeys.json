@@ -1,13 +1,10 @@
 {
-  "Title":"Test",
   "BadKey": "BadKey",
   "Player":"Pacman",
   "RequiredPellets":["Dot", "Super", "Energizer"],
   "OptionalPellets":["Fruit"],
-  "PowerUps":["Super", "Energizer"],
   "NumberOfLives":3,
-  "OpponentTypes":["Inky", "Pinky", "Clyde"],
-  "Difficulty-Level":2,
+  "PlayerScore":0,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall"],
     ["Wall","Pacman","Inky","Pinky", "Clyde", "Wall"],

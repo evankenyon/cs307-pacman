@@ -3,6 +3,7 @@
   "RequiredPellets":["Dot"],
   "OptionalPellets":[],
   "NumberOfLives":3,
+  "PlayerScore":0,
   "WallMap":[
     ["Wall", "Pacman", "Dot"]
   ]

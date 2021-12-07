@@ -9,6 +9,7 @@ import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.BFS;
 import ooga.model.movement.Controllable;
+import ooga.model.movement.greedyBFS;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +29,9 @@ public class GameState {
 
     myGameStateData = new GameStateData();
     myGameStateData.initialize(vanillaGameData);
-    for (Agent a : myGameStateData.getAgents()){
+    getPacman().setStrategy(new greedyBFS());
+
+    for (Agent a : getGhosts()) {
       a.setStrategy(new BFS());
     }
     myGameStateData.getMyPlayer().setStrategy(new Controllable());
@@ -149,7 +152,7 @@ public class GameState {
   public void updateHandlers() {
     getPacman().updateConsumer();
 //    for (Agent a : myOtherAgents) a.updateConsumer();
-//    for (Agent wall : myWalls) wall.updateConsumer();
+//    for (Agent Wall : myWalls) Wall.updateConsumer();
   }
 
   public boolean isFood(int x, int y) {

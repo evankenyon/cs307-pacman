@@ -1,6 +1,5 @@
 package ooga.controller.IO;
 
-import com.google.protobuf.DescriptorProtos.EnumDescriptorProto.EnumReservedRange;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,9 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.model.GameBoard;
+import ooga.model.GameEngine;
 import ooga.model.GameState;
-import ooga.model.VanillaGame;
-import ooga.model.agents.consumables.pellet;
 import ooga.model.interfaces.Agent;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,7 +21,7 @@ import org.json.JSONObject;
 public class JSONConfigObjectBuilder {
 
   private ResourceBundle agentNames;
-  private VanillaGame myVanillaGame;
+  private GameEngine myGameEngine;
   private GameBoard board;
   private GameState state;
   private List<Agent> agentArray = new ArrayList<>();
@@ -31,12 +29,12 @@ public class JSONConfigObjectBuilder {
 
   /**
    * Sets up agentNames resource bundle to be used to get Strings from agents
-   * @param vanillaGame, current VanillaGame from which to get board and state
+   * @param gameEngine, current GameEngine from which to get board and state
    */
-  public JSONConfigObjectBuilder(VanillaGame vanillaGame) {
+  public JSONConfigObjectBuilder(GameEngine gameEngine) {
     agentNames =  ResourceBundle.getBundle("ooga.controller.IO.resources.agentNamesForWallMap");
-    myVanillaGame = vanillaGame;
-    board = myVanillaGame.getBoard();
+    myGameEngine = gameEngine;
+    board = myGameEngine.getBoard();
     state = board.getGameState();
   }
 
@@ -63,11 +61,11 @@ public class JSONConfigObjectBuilder {
   }
 
   private JSONArray buildOptionalPelletArray() {
-    Map<String, Boolean> pelletMap = myVanillaGame.getPelletInfo();
+    Map<String, Boolean> pelletMap = myGameEngine.getPelletInfo();
 
     JSONArray pelletArray = new JSONArray();
     for (String key: pelletMap.keySet()) {
-      if (pelletMap.get(key)) {
+      if (!pelletMap.get(key)) {
         pelletArray.put(key);
       }
     }
@@ -75,11 +73,11 @@ public class JSONConfigObjectBuilder {
   }
 
   private JSONArray buildRequiredPelletArray() {
-    Map<String, Boolean> pelletMap = myVanillaGame.getPelletInfo();
+    Map<String, Boolean> pelletMap = myGameEngine.getPelletInfo();
 
     JSONArray pelletArray = new JSONArray();
     for (String key: pelletMap.keySet()) {
-      if (!pelletMap.get(key)) {
+      if (pelletMap.get(key)) {
         pelletArray.put(key);
       }
     }
@@ -111,9 +109,9 @@ public class JSONConfigObjectBuilder {
       JSONArray rowWallArray = new JSONArray();
       for (int j=0; j < numCols; j++) {
         Agent currentAgent = agentArray.get(arrayIndex);
-        //if (String.valueOf(currentAgent).contains("pellet")) {
-          //check pellet state
-          //pellet p = (pellet) currentAgent;
+        //if (String.valueOf(currentAgent).contains("Pellet")) {
+          //check Pellet state
+          //Pellet p = (Pellet) currentAgent;
           //if (p.getState() == 0) {
             //rowWallArray.put("Empty");
           //}

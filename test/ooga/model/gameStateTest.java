@@ -141,7 +141,7 @@ public class gameStateTest {
     Assertions.assertArrayEquals(expectedStepOne, state.getPacman().getPosition().getCoords());
     state.deleteFoods(List.of(new Position(expectedStepOne)));
 
-    //pacman doesn't portal because the other end is a wall (it will go to -1 because it's not in charge of that, board takes care of it)
+    //pacman doesn't portal because the other end is a Wall (it will go to -1 because it's not in charge of that, board takes care of it)
     state.getMyPlayer().setCoords(state.portal(state.getPacman().getNextMove(state)));
     int[] expectedStepTwo = {1, -1};
     Assertions.assertArrayEquals(expectedStepTwo, state.getPacman().getPosition().getCoords());

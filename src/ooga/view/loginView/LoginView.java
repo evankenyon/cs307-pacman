@@ -48,6 +48,7 @@ public class LoginView {
   public static final String SIGN_IN_ID = "signInButton";
   public static final String SIGN_UP_ID = "signUpButton";
   public static final String CHEAT_KEY_ID = "cheatKeyButton";
+  public static final String DEFAULT_VIEW_MODE = "Dark";
 
   private ResourceBundle myResources;
   private Stage myStage;
@@ -110,6 +111,7 @@ public class LoginView {
     cheatKeyInput.setHeaderText(myResources.getString("CheatKeyInputHeader"));
     cheatKeyInput.showAndWait();
     cheatKey = cheatKeyInput.getEditor().getText();
+    new CheatKeyProcessor(myStage, myController, cheatKey);
   }
 
   private void signUpAction() {
@@ -123,7 +125,7 @@ public class LoginView {
     try {
       myUser = myController.createUser(username, password, image);
       new GameStartupPanel(myStage, myUser, myController);
-    } catch (IOException | InterruptedException | IllegalArgumentException e) {
+    } catch (IOException | IllegalArgumentException e) {
       myError = new ErrorPopups(e, LANGUAGE, "SignUpError");
     }
   }

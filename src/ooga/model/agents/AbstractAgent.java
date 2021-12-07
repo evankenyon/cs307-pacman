@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.function.Consumer;
 import ooga.model.GameState;
 import ooga.model.interfaces.Agent;
-import ooga.model.interfaces.Game;
 import ooga.model.interfaces.Movable;
 import ooga.model.movement.MovementStrategyContext;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public abstract class AbstractAgent implements Agent  {
+public abstract class AbstractAgent implements Agent {
 
   /*** cell list of consumers*/
   protected List<Consumer<Agent>> stateConsumers;
@@ -53,7 +52,7 @@ public abstract class AbstractAgent implements Agent  {
     return myPosition;
   }
 
-  public Position getNextMove(GameState state){
+  public Position getNextMove(GameState state) {
     return myMover.move(state, getPosition());
   }
 
@@ -72,12 +71,16 @@ public abstract class AbstractAgent implements Agent  {
    *
    * @param runnable is the Runnable to be assigned to local Runnable variable
    */
-  public void addRunnable(Runnable runnable) { superPelletRun = runnable; }
-
-  public void setStrategy(Movable strategy){
-      myMover.setStrategy(strategy);
+  public void addRunnable(Runnable runnable) {
+    superPelletRun = runnable;
   }
 
-  protected Runnable getRunnable() { return superPelletRun; }
+  public void setStrategy(Movable strategy) {
+    myMover.setStrategy(strategy);
+  }
+
+  protected Runnable getRunnable() {
+    return superPelletRun;
+  }
 
 }

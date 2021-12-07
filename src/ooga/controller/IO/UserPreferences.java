@@ -7,11 +7,10 @@ import ooga.model.util.Position;
 // Used the following tutorial to learn about Records
 // http://tutorials.jenkov.com/java/record.html
 /**
- * Purpose:
- * Assumptions:
- * Dependencies:
- * Example:
- * Other details:
+ * Purpose: Represents UserPreferences packaged into an object
+ * Dependencies: List, Map, Position
+ * Example: This is returned to the frontend from Controller in order to set up the initial images
+ * and colors for the game
  *
  * @author Evan Kenyon
  */

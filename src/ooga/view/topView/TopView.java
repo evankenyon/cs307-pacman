@@ -112,9 +112,10 @@ public class TopView {
     private void makeLifeDisplay(int lifeCount) {
         lifeDisplay = new HBox();
         lifeDisplay.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
+        ImageView pacImg = makeIcon("data/images/PAC.png");
         ImageView livesLabel = makeIcon("data/images/livesLabel-" + myResources.getString("lives") + ".png");
         ImageView heartDisplay = makeIcon("data/images/hearts-" + Integer.valueOf(lifeCount) + ".png");
-        lifeDisplay.getChildren().addAll(livesLabel, heartDisplay);
+        lifeDisplay.getChildren().addAll(pacImg, livesLabel, heartDisplay);
         lifeDisplay.getStyleClass().add("lives");
         lifeDisplay.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     }

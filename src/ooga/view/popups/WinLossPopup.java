@@ -26,6 +26,7 @@ public class WinLossPopup {
   private Stage mainStage;
   private Stage winLossStage;
   private Controller myController;
+  private Text message;
 
   public WinLossPopup (Stage stage, Controller controller, GameStatus result) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
@@ -40,9 +41,9 @@ public class WinLossPopup {
     VBox root = new VBox();
     root.setAlignment(Pos.CENTER);
     root.setSpacing(WIN_LOSS_SPACING);
-    Text text = new Text(myResources.getString(result.name()));
+    message = new Text(myResources.getString(result.name()));
     Button playAgainButton = makeButton(myResources.getString(PLAY_AGAIN_BUTTON_KEY), e -> playAgainAction());
-    root.getChildren().addAll(text, playAgainButton);
+    root.getChildren().addAll(message, playAgainButton);
     return new Scene(root, WIN_LOSS_WIDTH, WIN_LOSS_HEIGHT);
   }
 
@@ -58,5 +59,9 @@ public class WinLossPopup {
     winLossStage.close();
     myController.restartGame(mainStage);
   }
+
+  // Used for testing
+  protected String getMessage() { return message.getText(); }
+  protected Stage getWinLossStage() { return winLossStage; }
 
 }

@@ -1,35 +1,29 @@
 package ooga.view.bottomView;
 
+import static ooga.view.center.agents.MovableView.IMAGE_PATH;
 import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
-import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH_WITH_LANGUAGE;
 import static ooga.view.mainView.MainView.BG_COLOR;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-import ooga.controller.IO.GameSaver;
 import ooga.controller.IO.User;
 import ooga.model.VanillaGame;
 import ooga.view.popups.ErrorPopups;
@@ -78,6 +72,7 @@ public class BottomView {
   private boolean isPaused;
   private User myUser;
   private ImageView playPauseButton;
+  private Runnable playPauseImageRun = () -> togglePlayPauseImage();
 
   /**
    * Constructor to create a BottomView, which makes simulation and game buttons on the bottom of
@@ -95,6 +90,7 @@ public class BottomView {
     myLanguage = language;
     myUser = user;
     isPaused = true;
+    myController.addPlayPauseRun(playPauseImageRun);
     bottomView = new HBox();
     bottomView.setAlignment(Pos.TOP_CENTER);
     bottomView.setPadding(new Insets(PADDING));
@@ -130,11 +126,14 @@ public class BottomView {
 
   private void togglePlayPause() {
     myController.pauseOrResume();
+  }
+
+  private void togglePlayPauseImage() {
     if (isPaused) {
-      playPauseButton = makeGraphicButton(PAUSE_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
+      playPauseButton.setImage(new Image(new File(String.format("%s%s", IMAGE_PATH, PAUSE_IMAGE)).toURI().toString()));
       isPaused = false;
     } else {
-      playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
+      playPauseButton.setImage(new Image(new File(String.format("%s%s", IMAGE_PATH, PLAY_IMAGE)).toURI().toString()));
       isPaused = true;
     }
   }
@@ -152,7 +151,7 @@ public class BottomView {
     graphicButtons.getStyleClass().add("graphic-buttons");
     graphicButtons.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
-    ImageView playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
+    playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
     ImageView stepButton = makeGraphicButton(STEP_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, STEP_BUTTON_ID);
     HBox buttonsPane = new HBox();
     buttonsPane.setAlignment(Pos.TOP_CENTER);
@@ -196,12 +195,12 @@ public class BottomView {
     try {
       myController.saveFile();
     } catch (IOException e) {
-      new ErrorPopups(myLanguage,"SaveError");
+      new ErrorPopups(e, myLanguage,"SaveError");
     }
   }
 
   private ImageView makeGraphicButton(String filename, EventHandler handler, int height, String id) {
-    String imagePath = "data/images/" + filename;
+    String imagePath = String.format("%s%s", IMAGE_PATH, filename);
     ImageView myImgView = new ImageView(new Image(new File(imagePath).toURI().toString()));
     myImgView.setPreserveRatio(true);
     myImgView.setFitHeight(height);

@@ -38,11 +38,16 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 /**
- * Purpose:
- * Assumptions:
- * Dependencies:
- * Example:
- * Other details:
+ * Purpose: This class is the intermediary between the frontend and model. Specifically, it takes in
+ * raw data from the frontend and transforms it into the necessary format for the model. It also
+ * starts the animation timeline.
+ * Dependencies: File, IOException, UnsupportedEncodingException, InvocationTargetException, Method,
+ * InputMismatchException, List, Map, ResourceBundle, Status, Set, KeyFrame, Timeline, KeyEvent,
+ * Stage, Duration, firebase4j, all classes in controller.IO, VanillaGame, GameStatus, Position,
+ * LoginView, MainView, ErrorPopups, log4j, json-java
+ * Example: Instantiate this class in a main method in order to start the game, and use this class
+ * on the frontend in order to let the model know that the user input something that should change
+ * the model
  *
  * @author Evan Kenyon
  */
@@ -77,11 +82,11 @@ public class Controller implements ControllerInterface {
   private final ResourceBundle magicValues;
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param language
-   * @param stage
-   * @param viewMode
+   * Purpose: Instantiates all the data structures in this class, the animation timeline, and a
+   * LoginView
+   * @param language the language to be displayed to the user
+   * @param stage the stage to begin the view on
+   * @param viewMode the initial style for the game
    */
   public Controller(String language, Stage stage, String viewMode) {
     magicValues = ResourceBundle.getBundle(
@@ -110,11 +115,11 @@ public class Controller implements ControllerInterface {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @return
-   * @throws FirebaseException
-   * @throws UnsupportedEncodingException
+   * Purpose: Get the firebase filenames
+   * @return the firebase filenames
+   * @throws FirebaseException thrown if there is a firebase error
+   * @throws UnsupportedEncodingException never thrown, firebase4j is just badly designed in that it
+   * throws an exception that is never actually thrown
    */
   public Set<String> getFirebaseFilenames()
       throws FirebaseException, UnsupportedEncodingException {
@@ -127,29 +132,26 @@ public class Controller implements ControllerInterface {
 //  }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param username
-   * @param password
-   * @param imageFile
-   * @return
-   * @throws IOException
-   * @throws InterruptedException
-   * @throws IllegalArgumentException
+   * Purpose: create a user through ProfileGenerator
+   * @param username username for new user
+   * @param password password for new user
+   * @param imageFile image file for new user
+   * @return the new user packaged into a User object
+   * @throws IOException thrown if path in ProfileGenerator is bad
+   * @throws IllegalArgumentException if login fails after user is created
    */
   public User createUser(String username, String password, File imageFile)
-      throws IOException, InterruptedException, IllegalArgumentException {
+      throws IOException, IllegalArgumentException {
     profileGenerator.createUser(username, password, imageFile);
     return login(username, password);
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param username
-   * @param password
-   * @return
-   * @throws IOException
+   * Purpose: Log in as a user through ProfileGenerator
+   * @param username username for user to log in as
+   * @param password password for user to log in as
+   * @return the user that was logged in as packaged into a User object
+   * @throws IOException thrown if path in ProfileGenerator is bad
    */
   public User login(String username, String password) throws IOException {
     currUser = profileGenerator.login(username, password);
@@ -158,19 +160,19 @@ public class Controller implements ControllerInterface {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @return
+   * Purpose: gets the current user that is maintained by this controller
+   * Assumptions: login is called before this method
+   * @return the current user that is maintained by this controller
    */
   public User getUser() {
     return currUser;
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param updatedUsername
-   * @throws IOException
+   * Purpose: update the current user's username
+   * Assumptions: login is called before this method
+   * @param updatedUsername the current user's new username
+   * @throws IOException thrown if path in ProfileGenerator is bad
    */
   public void updateUsername(String updatedUsername) throws IOException {
     profileGenerator.changeProfileUsername(currUser.username(), password, updatedUsername);
@@ -178,10 +180,10 @@ public class Controller implements ControllerInterface {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param updatedPassword
-   * @throws IOException
+   * Purpose: update the current user's password
+   * Assumptions: login is called before this method
+   * @param updatedPassword the current user's new password
+   * @throws IOException thrown if path in ProfileGenerator is bad
    */
   public void updatePassword(String updatedPassword) throws IOException {
     profileGenerator.changeProfilePassword(currUser.username(), password, updatedPassword);
@@ -189,10 +191,10 @@ public class Controller implements ControllerInterface {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param file
-   * @throws IOException
+   * Purpose: remove a file from the current user's favorite files list
+   * Assumptions: login is called before this method
+   * @param file the String representing the file to be removed from the user's favorite files list
+   * @throws IOException thrown if path in ProfileGenerator is bad
    */
   public void removeFile(String file) throws IOException {
     profileGenerator.removeFavoriteFile(currUser.username(), password, file);
@@ -216,14 +218,16 @@ public class Controller implements ControllerInterface {
 //  }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param file
-   * @param type
+   * Purpose: update a file (specifically add a favorite file or change a profile picture) for a
+   * user profile
+   * @param file file that will be part of the user profile update
+   * @param type determines the method to be called in the ProfileGenerator class (i.e. which
    * @throws IOException
-   * @throws NoSuchMethodException
-   * @throws InvocationTargetException
-   * @throws IllegalAccessException
+   * @throws NoSuchMethodException thrown if type argument results in trying to call a method that
+   * does not exist
+   * @throws InvocationTargetException thrown if underlying method for updating a user profile file
+   * throws an exception
+   * @throws IllegalAccessException thrown if the login information for the user is incorrect
    */
   public void updateFile(File file, String type)
       throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -234,17 +238,17 @@ public class Controller implements ControllerInterface {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param fileName
-   * @return
-   * @throws IOException
-   * @throws NoSuchMethodException
-   * @throws IllegalAccessException
-   * @throws FirebaseException
+   * Purpose: Create a new model based on a firebase file input
+   * @param fileName the name of the firebase file that the model will be based on
+   * @return user preferences to start the game with user preferred images, colors, and style
+   * @throws IOException thrown if file is invalid
+   * @throws NoSuchMethodException thrown if PreferencesParser throws this (see that class for more
+   * details)
+   * @throws FirebaseException thrown if FirebaseReader throws this (see that class for more
+   *    * details)
    */
   public UserPreferences uploadFirebaseFile(String fileName)
-      throws IOException, NoSuchMethodException, IllegalAccessException, FirebaseException {
+      throws IOException, NoSuchMethodException, FirebaseException, IllegalAccessException {
     setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));
     return myPreferences;
   }
@@ -259,14 +263,14 @@ public class Controller implements ControllerInterface {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param filename
-   * @return
-   * @throws IOException
-   * @throws InvocationTargetException
-   * @throws NoSuchMethodException
-   * @throws IllegalAccessException
+   * Purpose: Create a new model based on local file input
+   * @param filename String that represents a local json file (starting config or preferences)
+   * @return user preferences to start the game with user preferred images, colors, and style
+   * @throws IOException thrown if file is invalid
+   * @throws NoSuchMethodException thrown if PreferencesParser throws this (see that class for more
+   * details)
+   * @throws FirebaseException thrown if FirebaseReader throws this (see that class for more
+   *    * details)
    */
   public UserPreferences uploadFile(String filename)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -275,7 +279,7 @@ public class Controller implements ControllerInterface {
   }
 
   private void setupPreferencesAndVanillaGame(JSONObject json)
-      throws IOException, NoSuchMethodException, IllegalAccessException {
+      throws IOException, NoSuchMethodException {
     jsonParser.addVanillaGameDataConsumer(
         vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.wallMap());
     jsonParser.addVanillaGameDataConsumer(
@@ -306,9 +310,9 @@ public class Controller implements ControllerInterface {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param factor
+   * Purpose: Set the animation speed via a factor (ex. for factor = 1.2, animation will be 1.2
+   * times faster)
+   * @param factor the factor by which to increase the animation speed
    */
   @Override
   public void setAnimationSpeed(double factor) {
@@ -316,8 +320,7 @@ public class Controller implements ControllerInterface {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
+   * Purpose: pause or resume the animation
    */
   @Override
   public void pauseOrResume() {
@@ -326,9 +329,8 @@ public class Controller implements ControllerInterface {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @return
+   * Purpose: get the vanilla game object
+   * @return the vanilla game object
    */
   @Override
   public VanillaGame getVanillaGame() {
@@ -354,9 +356,8 @@ public class Controller implements ControllerInterface {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @param event
+   * Purpose: update the pressed key in order to change the player's direction
+   * @param event the KeyEvent which represents the most recently pressed key
    */
   @Override
   public void updatePressedKey(KeyEvent event) {
@@ -383,9 +384,8 @@ public class Controller implements ControllerInterface {
   }
 
   /**
-   * Purpose:
-   * Assumptions:
-   * @throws IOException
+   * Purpose: Saves the current model as a starting config
+   * @throws IOException thrown if GameSaver throws it (see GameSaver for more details)
    */
   public void saveFile() throws IOException {
     GameSaver saver = new GameSaver(vanillaGame);

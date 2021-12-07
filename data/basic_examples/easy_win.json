@@ -5,6 +5,8 @@
   "NumberOfLives":3,
   "PlayerScore":0,
   "WallMap":[
-    ["Wall", "Pacman", "Dot"]
+    ["Wall", "Wall", "Wall","Wall"],
+    ["Wall","Pacman","Dot","Wall"],
+    ["Wall","Wall","Wall","Wall"]
   ]
 }

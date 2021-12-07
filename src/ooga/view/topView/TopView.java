@@ -25,6 +25,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import ooga.controller.Controller;
 import ooga.model.VanillaGame;
 
 public class TopView {
@@ -40,15 +41,30 @@ public class TopView {
     private HBox lifeDisplay;
     private Label scoreNumber;
     private VanillaGame myGame;
+    private Controller myController;
     private Consumer<Integer> scoreConsumer = score -> updateScoreDisplay(score);
-    private Consumer<Boolean> livesConsumer = lost -> updateLivesDisplay(lost);
+    private Consumer<Integer> livesConsumer = lives -> updateLivesDisplay(lives);
     private ResourceBundle myResources;
     private VBox topFull;
+    private int currScore;
 
+    @Deprecated
     public TopView (VanillaGame game, String language) {
         myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
         myGame = game;
-        game.getBoard().addScoreConsumer(scoreConsumer);
+        myGame.getBoard().addScoreConsumer(scoreConsumer);
+        myGame.getBoard().addLivesConsumer(livesConsumer);
+        initiateTopView();
+        topGrid.getStyleClass().add("root");
+        topGrid.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    }
+
+    public TopView (VanillaGame game, Controller controller, String language) {
+        myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
+        myGame = game;
+        myController = controller;
+        myGame.getBoard().addScoreConsumer(scoreConsumer);
+        myGame.getBoard().addLivesConsumer(livesConsumer);
         initiateTopView();
         topGrid.getStyleClass().add("root");
         topGrid.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
@@ -86,19 +102,6 @@ public class TopView {
         updateScoreDisplay(0);
     }
 
-    private void loadGame() {
-//        FileChooser myFileChooser = new FileChooser();
-//        Stage fileStage = new Stage();
-//        File gameFile =  myFileChooser.showOpenDialog(fileStage);
-//        UserPreferences userPreferences = application.uploadFile(gameFile);
-//        MainView mainView = new MainView(application, application.getVanillaGame(), gameStage,
-//                userPreferences);
-    }
-
-    private void saveGame() {
-        // This is implemented in BottomView instead
-    }
-
     private void makeLifeDisplay(int lifeCount) {
         lifeDisplay = new HBox();
         lifeDisplay.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -116,18 +119,29 @@ public class TopView {
         return image;
     }
 
-    private void updateScoreDisplay(int i) {
-        scoreNumber.setText(String.format(String.valueOf(i)));
+    private void updateScoreDisplay(int score) {
+        currScore = score;
+        scoreNumber.setText(String.format(String.valueOf(score)));
     }
 
-    // TODO: implement lives consumer to change the hearts on the screen
-    private void updateLivesDisplay(boolean lost) {
-        if (lost) {
-            lifeDisplay.getChildren().remove(lifeDisplay.getChildren().size()-1);
-        }
+    private void updateLivesDisplay(int lives) {
+        myController.pauseOrResume();
+        lifeDisplay.getChildren().remove(1);
+        ImageView heartDisplay = makeIcon("data/images/hearts-" + Integer.valueOf(lives) + ".png");
+        lifeDisplay.getChildren().add(heartDisplay);
     }
 
     public VBox getTopViewGP() {
         return this.topFull;
+    }
+
+    /**
+     * Getter method to get the current score.
+     * Used in the MainView to display the score in the win/loss popups
+     *
+     * @return int currScore
+     */
+    public int getCurrScore() {
+        return currScore;
     }
 }

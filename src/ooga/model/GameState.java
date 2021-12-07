@@ -16,6 +16,7 @@ public class GameState {
   private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",
       GameBoard.class.getPackageName());
   private static final String TYPES_FILENAME = "types";
+  private static final int ALIVE_STATE = 1;
 
   private GameStateData myGameStateData;
   private final int DX = 1;
@@ -30,7 +31,7 @@ public class GameState {
 //    System.out.println(vanillaGameData.wallMap().toString());
 
     myGameStateData = new GameStateData();
-    myGameStateData.initialize(vanillaGameData.wallMap(), vanillaGameData.pelletInfo());
+    myGameStateData.initialize(vanillaGameData);
     implementRunnables();
 
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
@@ -226,5 +227,23 @@ public class GameState {
 
   public int getLives() {
     return myGameStateData.getPacmanLives();
+  }
+
+  public void decreaseLives() {
+    myGameStateData.decreaseLives();
+  }
+
+  public void resetGhosts() {
+    int i = 1;
+    for (Agent a : getGhosts()) {
+      a.setCoords(myGameStateData.getMyInitAgentPositions().get(i));
+      a.setState(ALIVE_STATE);
+      i++;
+    }
+  }
+
+  public void resetPacman() {
+    getPacman().setState(ALIVE_STATE);
+    getPacman().setCoords(myGameStateData.getMyInitAgentPositions().get(0));
   }
 }

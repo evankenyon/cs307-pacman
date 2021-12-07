@@ -49,7 +49,7 @@ public class PreferencesParser {
 
 
   public void parseJSON(JSONObject json)
-      throws NoSuchMethodException, IllegalAccessException, InputMismatchException{
+      throws NoSuchMethodException, InputMismatchException{
     preferencesJson = json;
     checkForExtraKeys(preferencesJson.keySet());
     for (String key : preferencesJson.keySet()) {
@@ -58,7 +58,7 @@ public class PreferencesParser {
       method.setAccessible(true);
       try {
         method.invoke(this, key);
-      } catch (InvocationTargetException e) {
+      } catch (InvocationTargetException | IllegalAccessException e) {
         throw (InputMismatchException) e.getCause();
       }
     }

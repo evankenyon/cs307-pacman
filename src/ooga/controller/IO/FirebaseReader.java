@@ -24,23 +24,30 @@ public class FirebaseReader {
   private FirebaseDatabase db;
   private Firebase firebase;
 
+  public FirebaseReader(String firebase_baseURL) throws FirebaseException {
+    firebase = new Firebase(firebase_baseURL);
+  }
   public FirebaseReader() throws FirebaseException {
     // Borrowed code for basic setup from
     // https://github.com/bane73/firebase4j
-    String firebase_baseUrl = "https://ooga-57bdb-default-rtdb.firebaseio.com/";
-    firebase = new Firebase(firebase_baseUrl);
+    this("https://ooga-57bdb-default-rtdb.firebaseio.com/");
   }
-  public Set<String> getFileNames()
-      throws FirebaseException, UnsupportedEncodingException {
+
+  public Set<String> getFileNames() throws FirebaseException, UnsupportedEncodingException {
     return firebase.get("").getBody().keySet();
   }
 
   public JSONObject getFile(String fileName) throws FirebaseException, UnsupportedEncodingException {
     if(!getFileNames().contains(fileName)) {
-      throw new IllegalArgumentException("Invalid file name");
+      throw new FirebaseException("Invalid file name");
     }
-    String rawBody = firebase.get(fileName).getRawBody();
-    return new JSONObject(rawBody);
+    try {
+      String rawBody = firebase.get(fileName).getRawBody();
+      System.out.println(rawBody);
+      return new JSONObject(rawBody);
+    } catch (FirebaseException | UnsupportedEncodingException e) {
+      throw new FirebaseException("Invalid file name");
+    }
   }
 
 }

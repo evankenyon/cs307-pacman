@@ -15,7 +15,6 @@ public class Pacman extends AbstractAgent {
   public final static int DEAD_STATE = 0;
   public final static int ALIVE_STATE = 1;
   public final static int SUPER_STATE = 2;
-  public int myLives;
 
   private int myState;
   private MovementStrategyContext myMover;
@@ -24,7 +23,6 @@ public class Pacman extends AbstractAgent {
   public Pacman(int x, int y) {
     super(x, y);
     myState = ALIVE_STATE;
-    myLives = 3;
     myMover = new MovementStrategyContext(new Controllable());
   }
 
@@ -61,18 +59,4 @@ public class Pacman extends AbstractAgent {
     }, 4000);
   }
 
-  public int getLives() {
-    return myLives;
-  }
-
-  public void loseOneLife() {
-    myLives--;
-  }
-
-
-//  public void loseLife(){
-//    if (myLives > 0){
-//      myLives--;
-//    }
-//  }
 }

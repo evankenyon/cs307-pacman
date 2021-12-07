@@ -1,10 +1,10 @@
 package ooga.model;
 
-import static ooga.model.agents.consumables.Ghost.AFRAID_STATE;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import ooga.factories.AgentFactory;
 import ooga.factories.ConsumableFactory;
 import ooga.model.interfaces.Agent;
@@ -14,8 +14,6 @@ import ooga.model.util.Position;
 
 public class GameStateData {
 
-  private boolean isWin;
-  private boolean isLose;
   private boolean isSuper;
   private int myPacScore;
   private int myGhostScore;
@@ -23,7 +21,7 @@ public class GameStateData {
   private final AgentFactory agentFactory = new AgentFactory();
   private final ConsumableFactory consumableFactory = new ConsumableFactory();
   private List<Agent> myAgentStates;
-  private List<Agent> myInitAgentStates;
+  private List<Position> myInitAgentPositions;
   private List<Consumable> myRequiredPelletStates;
   private List<Agent> myWallStates;
   private boolean[][] myWallMap;
@@ -31,8 +29,6 @@ public class GameStateData {
 
 
   public GameStateData() {
-    isLose = false;
-    isWin = false;
     myPacScore = 0;
     myGhostScore = 0;
     myAgentStates = new ArrayList<>();
@@ -40,35 +36,35 @@ public class GameStateData {
 
   }
 
-  public GameStateData(GameStateData previous) {
-    isWin = previous.isWin;
-    isLose = previous.isLose;
-    myPacScore = previous.myPacScore;
-    myGhostScore = previous.myGhostScore;
-    isSuper = previous.isSuper;
-    foodLeft = previous.foodLeft;
-    myAgentStates = previous.myAgentStates;
-    myRequiredPelletStates = previous.myRequiredPelletStates;
-    myWallMap = previous.myWallMap;
-    myWallStates = previous.myWallStates;
-  }
+//  public GameStateData(GameStateData previous) {
+//    myPacScore = previous.myPacScore;
+//    myGhostScore = previous.myGhostScore;
+//    isSuper = previous.isSuper;
+//    foodLeft = previous.foodLeft;
+//    myAgentStates = previous.myAgentStates;
+//    myRequiredPelletStates = previous.myRequiredPelletStates;
+//    myWallMap = previous.myWallMap;
+//    myWallStates = previous.myWallStates;
+//  }
 
-  public void initialize(Map<String, List<Position>> gameDict, Map<String, Boolean> pelletInfo) {
+  public void initialize(GameData data) {
+    Map<String, List<Position>> gameDict = data.wallMap();
+    Map<String, Boolean> pelletInfo = data.pelletInfo();
     int rows = calculateDimension(gameDict, 1) + 1;
     int cols = calculateDimension(gameDict, 0) + 1;
-    isWin = false;
-    isLose = false;
     isSuper = false;
     myPacScore = 0;
     myGhostScore = 0;
     myAgentStates = new ArrayList<>();
     myRequiredPelletStates = new ArrayList<>();
     myWallStates = new ArrayList<>();
+    myInitAgentPositions = new ArrayList<>();
     myWallMap = new boolean[cols][rows];
     createWallMap(gameDict, rows, cols);
     createAgentList(gameDict);
     createWallList(gameDict);
     createRequiredPelletList(gameDict, pelletInfo);
+    createEmptySpots(gameDict);
   }
 
   public int getFoodLeft() {
@@ -84,20 +80,24 @@ public class GameStateData {
     return myWallStates;
   }
 
-  public boolean isWin() {
-    return isWin;
-  }
-
   public boolean isSuper() {
     return isSuper;
   }
 
   public void setSuper() {
     isSuper = true;
+    attachSuperTimer();
+
   }
 
-  public boolean isLose() {
-    return isLose;
+  private void attachSuperTimer() {
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        isSuper = false;
+      }
+    }, 5000);
   }
 
   public int getMyPacScore() {
@@ -145,12 +145,6 @@ public class GameStateData {
     return potentialAgent;
   }
 
-  private void setSuperStates() {
-    for (Agent agent : myAgentStates) {
-      agent.setState(AFRAID_STATE);
-    }
-  }
-
   private void createRequiredPelletList(Map<String, List<Position>> gameDict,
       Map<String, Boolean> pelletInfo) {
     for (String key : pelletInfo.keySet()) {
@@ -170,6 +164,17 @@ public class GameStateData {
     foodLeft = myRequiredPelletStates.size();
   }
 
+  private void createEmptySpots(Map<String, List<Position>> gameDict) {
+    if (gameDict.get("Empty") != null) {
+      for (Position emptyPos : gameDict.get("Empty")) {
+        int x = emptyPos.getCoords()[0];
+        int y = emptyPos.getCoords()[1];
+        myInitAgentPositions.add(new Position(x, y));
+        myAgentStates.add(agentFactory.createAgent("Empty", x, y));
+      }
+    }
+  }
+
   public int getPacmanLives() {
     return pacmanLives;
   }
@@ -178,6 +183,7 @@ public class GameStateData {
     for (Position agentPos : gameDict.get("Pacman")) {
       int x = agentPos.getCoords()[0];
       int y = agentPos.getCoords()[1];
+      myInitAgentPositions.add(new Position(x, y));
       myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
       pacmanLives = 3;
     }
@@ -186,6 +192,7 @@ public class GameStateData {
       for (Position agentPos : gameDict.get("Ghost")) {
         int x = agentPos.getCoords()[0];
         int y = agentPos.getCoords()[1];
+        myInitAgentPositions.add(new Position(x, y));
         myAgentStates.add(agentFactory.createAgent("Ghost", x, y));
       }
     }
@@ -199,6 +206,14 @@ public class GameStateData {
         myWallStates.add(agentFactory.createAgent("Wall", x, y));
       }
     }
+  }
+
+  public void decreaseLives() {
+    pacmanLives--;
+  }
+
+  public List<Position> getMyInitAgentPositions() {
+    return myInitAgentPositions;
   }
 
   private void createWallMap(Map<String, List<Position>> gameDict, int rows, int cols) {

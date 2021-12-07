@@ -21,11 +21,10 @@ public class GameBoard {
   private int myPacScore;
   private int myGhostScore;
   private Consumer<Integer> myScoreConsumer;
+  private Consumer<Integer> myLivesConsumer;
   private Consumer<GameStatus> myGameStatusConsumer;
   private GameStatus currentGameStatus;
 
-
-  // TODO: handle exceptions
   public GameBoard(GameData vanillaGameData)
       throws
       InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -33,7 +32,6 @@ public class GameBoard {
     myPacScore = 0;
     myGhostScore = 0;
     currentGameStatus = GameStatus.RUNNING;
-//    updateGameStatusConsumer();
   }
 
   //move every agent in the board by one step
@@ -74,13 +72,14 @@ public class GameBoard {
         if (myState.isSuper() && ghost.getState() != 0) {
           Consumable g = (Consumable) ghost;
           myPacScore += g.getConsumed();
-          LOG.info("score is {}", myPacScore);
+          myState.resetGhosts();
           updateScoreConsumer();
         } else {
-          // lose life
-          // reset gameboard
+          myState.decreaseLives();
+          updateLivesConsumer();
+          System.out.println("pacman got grubbed");
+          resetBoard();
         }
-//        System.out.println("Ghost + Pac overlap!");
       }
     }
     List<Position> foodsToDelete = new ArrayList<>();
@@ -95,6 +94,11 @@ public class GameBoard {
     myState.deleteFoods(foodsToDelete);
   }
 
+  private void resetBoard() {
+    myState.resetGhosts();
+    myState.resetPacman();
+  }
+
   public void checkGameEnd() {
     checkWin();
     checkLoss();
@@ -104,6 +108,7 @@ public class GameBoard {
     if (myState.getRequiredPelletsLeft() == 0) {
       currentGameStatus = GameStatus.WIN;
       updateGameStatusConsumer();
+      System.out.println("Game won!");
     }
   }
 
@@ -111,6 +116,7 @@ public class GameBoard {
     if (myState.getLives() == 0) {
       currentGameStatus = GameStatus.LOSS;
       updateGameStatusConsumer();
+      System.out.println("Game lost!");
     }
   }
 
@@ -140,6 +146,14 @@ public class GameBoard {
 
   public void updateScoreConsumer() {
     myScoreConsumer.accept(myPacScore);
+  }
+
+  public void addLivesConsumer(Consumer<Integer> consumer) {
+    myLivesConsumer = consumer;
+  }
+
+  public void updateLivesConsumer() {
+    myLivesConsumer.accept(myState.getLives());
   }
 
   public void addGameStatusConsumer(Consumer<GameStatus> consumer) {

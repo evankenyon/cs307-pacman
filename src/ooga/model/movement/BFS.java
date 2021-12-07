@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
 import ooga.model.GameState;
 import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
@@ -18,6 +19,11 @@ import org.apache.logging.log4j.Logger;
 public class BFS implements Movable {
 
   private static final Logger LOG = LogManager.getLogger(BFS.class);
+  private int randomCounter;
+
+  public BFS() {
+    randomCounter = 0;
+  }
 
   @Override
   public Position move(GameState state, Position currentPos) {
@@ -55,18 +61,24 @@ public class BFS implements Movable {
       first = myPath.get(first);
     }
 
-//    myPath.forEach(
-//        (key, value) -> System.out.println(Arrays.toString(key.getCoords()) + ":" + Arrays.toString(
-//            value.getCoords())));
-//    optimalPath.forEach(s -> System.out.println(Arrays.toString(s.getCoords())));
-
     if (optimalPath.size() == 1) {
       //this should never happen unless literally stuck in a box
       return optimalPath.get(0);
     } else {
       //take second index which is next step from currentPos
-      return optimalPath.get(optimalPath.size() - 2);
+      Position correctPositionToReturn = optimalPath.get(optimalPath.size() - 2);
+      randomCounter++;
+      Random rand = new Random();
+      List<Position> potentialPositions = state.getPotentialMoveTargets(currentPos);
+      Position potentiallyWrongPosition = potentialPositions.get(
+          rand.nextInt(potentialPositions.size()));
+
+      if (randomCounter == 4) {
+        randomCounter = 0;
+        return potentiallyWrongPosition;
+      } else {
+        return correctPositionToReturn;
+      }
     }
   }
-
 }

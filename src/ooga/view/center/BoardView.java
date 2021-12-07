@@ -111,7 +111,7 @@ public class BoardView {
       Method m = Node.class.getDeclaredMethod(methodName, null);
       m.invoke(agentView.getImage(), null);
     } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-      new ErrorPopups(LANGUAGE, "reflectionError");
+      new ErrorPopups(e, LANGUAGE, "reflectionError");
     }
   }
 
@@ -148,7 +148,7 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, int.class, int.class)
           .newInstance(agent, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-      new ErrorPopups(myLanguage, "ReflectionError");
+      new ErrorPopups(e, myLanguage, "ReflectionError");
       return new EmptyView(new wall(position.getCoords()[0], position.getCoords()[1]), numRows,
           numCols);
     }

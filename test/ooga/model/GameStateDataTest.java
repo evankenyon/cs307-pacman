@@ -1,14 +1,10 @@
 package ooga.model;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import ooga.controller.IO.JsonParser;
-import ooga.model.agents.consumables.pellet;
-import ooga.model.agents.players.Pacman;
 import ooga.model.util.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +15,7 @@ public class GameStateDataTest {
   private GameStateData myData;
   private Map<String, List<Position>> myWallMap;
   private Map<String, Boolean> myPelletInfo;
+  private GameData gameData;
 
   @BeforeEach
   void setUp() throws IOException {
@@ -26,19 +23,20 @@ public class GameStateDataTest {
     myData = new GameStateData();
     myPelletInfo = new HashMap<>();
     myPelletInfo.put("Dot", Boolean.TRUE);
-    myData.initialize(myWallMap, myPelletInfo);
+    gameData = new GameData(myWallMap, "Pacman", 0, 3, myPelletInfo, 3, 3);
+    myData.initialize(gameData);
   }
 
   private Map<String, List<Position>> createWallMap() {
-    Map<String, List<Position>> temp  = new HashMap<>();
+    Map<String, List<Position>> temp = new HashMap<>();
 
     temp.put("Wall", new ArrayList<>());
-    for(int x = 0; x < 5; x++) {
+    for (int x = 0; x < 5; x++) {
       temp.get("Wall").add(new Position(x, 0));
       temp.get("Wall").add(new Position(x, 2));
     }
     temp.get("Wall").add(new Position(0, 1));
-    temp.get("Wall").add(new Position(4,  1));
+    temp.get("Wall").add(new Position(4, 1));
 
     temp.put("Pacman", new ArrayList<>());
     temp.get("Pacman").add(new Position(1, 1));
@@ -50,7 +48,6 @@ public class GameStateDataTest {
     temp.get("Ghost").add(new Position(3, 1));
     return temp;
   }
-
 
 //  {
 //    "Title":"Test",
@@ -72,8 +69,6 @@ public class GameStateDataTest {
   @Test
   void testInitialize() {
     Assertions.assertEquals(1, myData.getFoodLeft());
-    Assertions.assertEquals(false, myData.isWin());
-    Assertions.assertEquals(false, myData.isLose());
     Assertions.assertEquals(0, myData.getMyGhostScore());
     Assertions.assertEquals(0, myData.getMyPacScore());
     Assertions.assertEquals(1, myData.getAgents().get(0).getPosition().getCoords()[0]);
@@ -83,24 +78,24 @@ public class GameStateDataTest {
   }
 
   @Test
-  void testWallMap(){
+  void testWallMap() {
     System.out.println("HHH");
-    for (int i = 0; i < 3; i++){
-      for (int j = 0; j < 5; j++){
-        System.out.print(myData.isWall(j,i));
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 5; j++) {
+        System.out.print(myData.isWall(j, i));
       }
       System.out.println();
     }
-    for (int i=0 ; i < 5; i++){
+    for (int i = 0; i < 5; i++) {
       System.out.println(i);
-      Assertions.assertEquals(true, myData.isWall(i,0));
-      Assertions.assertEquals(true, myData.isWall(i,2));
+      Assertions.assertEquals(true, myData.isWall(i, 0));
+      Assertions.assertEquals(true, myData.isWall(i, 2));
     }
-    Assertions.assertEquals(true, myData.isWall(0,1));
-    Assertions.assertEquals(true, myData.isWall(4,1));
-    Assertions.assertEquals(false, myData.isWall(1,1));
-    Assertions.assertEquals(false, myData.isWall(2,1));
-    Assertions.assertEquals(false, myData.isWall(3,1));
+    Assertions.assertEquals(true, myData.isWall(0, 1));
+    Assertions.assertEquals(true, myData.isWall(4, 1));
+    Assertions.assertEquals(false, myData.isWall(1, 1));
+    Assertions.assertEquals(false, myData.isWall(2, 1));
+    Assertions.assertEquals(false, myData.isWall(3, 1));
 
   }
 }

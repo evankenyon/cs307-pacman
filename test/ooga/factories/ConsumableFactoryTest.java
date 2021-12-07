@@ -23,7 +23,7 @@ class ConsumableFactoryTest {
 
   @Test
   void createConsumableBad() {
-    Assertions.assertThrows(ClassNotFoundException.class,
+    Assertions.assertThrows(IllegalArgumentException.class,
         () -> consumableFactory.createConsumable("bad", 0, 0));
   }
 }

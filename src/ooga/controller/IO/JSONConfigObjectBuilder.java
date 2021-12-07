@@ -47,8 +47,8 @@ public class JSONConfigObjectBuilder {
     JSONObject configBuilder = new JSONObject();
     String playerString = makeStringFromAgent(state.getMyPlayer());
     configBuilder.put("Player", playerString);
-    configBuilder.put("RequiredPellets", buildPelletArray(true));
-    configBuilder.put("OptionalPellets", buildPelletArray(false));
+    configBuilder.put("RequiredPellets", buildRequiredPelletArray());
+    configBuilder.put("OptionalPellets", buildOptionalPelletArray());
     configBuilder.put("NumberOfLives", setNumberOfLives()); // TODO: add accurate num lives remaining
     configBuilder.put("PlayerScore", setPlayerScore(playerString));
     configBuilder.put("WallMap", buildWallMap());
@@ -60,12 +60,24 @@ public class JSONConfigObjectBuilder {
     return agentNames.getString(agentString.substring(0,agentString.indexOf("@")));
   }
 
-  private JSONArray buildPelletArray(Boolean isRequired) {
+  private JSONArray buildOptionalPelletArray() {
     Map<String, Boolean> pelletMap = myGameEngine.getPelletInfo();
 
     JSONArray pelletArray = new JSONArray();
     for (String key: pelletMap.keySet()) {
-      if (pelletMap.get(key) == isRequired) {
+      if (!pelletMap.get(key)) {
+        pelletArray.put(key);
+      }
+    }
+    return pelletArray;
+  }
+
+  private JSONArray buildRequiredPelletArray() {
+    Map<String, Boolean> pelletMap = myGameEngine.getPelletInfo();
+
+    JSONArray pelletArray = new JSONArray();
+    for (String key: pelletMap.keySet()) {
+      if (pelletMap.get(key)) {
         pelletArray.put(key);
       }
     }
@@ -88,6 +100,7 @@ public class JSONConfigObjectBuilder {
 
   private JSONArray buildWallMap() {
     sortAgentArray();
+    System.out.println(agentArray.size());
     JSONArray overallWallArray = new JSONArray();
     int numCols = agentArray.get(agentArray.size()-1).getPosition().getCoords()[0] + 1;
     int numRows = agentArray.get(agentArray.size()-1).getPosition().getCoords()[1] + 1;
@@ -114,6 +127,7 @@ public class JSONConfigObjectBuilder {
       }
       overallWallArray.put(rowWallArray);
     }
+    System.out.println(String.valueOf(overallWallArray));
     return overallWallArray;
 
   }
@@ -123,10 +137,9 @@ public class JSONConfigObjectBuilder {
     agentArray.addAll(state.getGhosts());
     agentArray.addAll(state.getFood());
     agentArray.add(state.getMyPlayer());
-
     Collections.sort(agentArray, new RowComparator()
         .thenComparing(new ColComparator()));
-
+    System.out.println(String.valueOf(agentArray));
   }
 
   class RowComparator implements Comparator<Agent> {

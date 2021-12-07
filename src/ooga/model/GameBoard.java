@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import ooga.model.agents.players.Pacman;
 import ooga.model.endConditions.EndConditionContext;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
@@ -178,7 +179,10 @@ public class GameBoard {
   }
 
   public void updateScoreConsumer() {
-    myScoreConsumer.accept(myPacScore);
+    if (myState.getMyPlayer().getClass().equals(Pacman.class)){
+      myScoreConsumer.accept(myPacScore);
+    }
+    else myScoreConsumer.accept(myGhostScore);
   }
 
   public void addLivesConsumer(Consumer<Integer> consumer) {

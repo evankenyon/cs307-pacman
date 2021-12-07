@@ -122,7 +122,7 @@ public class GameBoard {
     List<Position> foodsToDelete = new ArrayList<>();
     for (Consumable food : foods) {
       if (isOverlapping(food.getPosition(), pacman.getPosition())) {
-        // update score & change food state to eaten.
+        // update score & change food state to be eaten.
         myPacScore += food.getConsumed();
         foodsToDelete.add(food.getPosition());
         updateScoreConsumer();

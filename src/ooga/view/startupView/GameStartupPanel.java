@@ -312,6 +312,7 @@ public class GameStartupPanel {
       openInstructions(selectedLanguage, selectedViewMode);
       selectLanguage.setValue(null);
       selectViewMode.setValue(null);
+      displayFileName.setText(NO_FILE_TEXT);
     } else {
       if (selectedLanguage == null) {
         selectedLanguage = DEFAULT_LANGUAGE;

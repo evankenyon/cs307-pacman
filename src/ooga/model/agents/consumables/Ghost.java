@@ -22,14 +22,12 @@ public class Ghost extends AbstractAgent implements Consumable {
   private final static int GHOST_POINTS = 20;
 
   private int myState;
-  private final MovementStrategyContext myMover;
 
 
   public Ghost(int x, int y) {
     super(x, y);
     getPosition().setDirection("right");
     myState = ALIVE_STATE;
-    myMover = new MovementStrategyContext(new BFS());
   }
 
   public int getState() {
@@ -41,22 +39,18 @@ public class Ghost extends AbstractAgent implements Consumable {
     updateConsumer();
   }
 
-  public Position getNextMove(GameState state) {
-    return myMover.move(state, getPosition());
-  }
-
   @Override
   public void setState(int i) {
     myState = i;
     updateConsumer();
     if (i == AFRAID_STATE){
-      myMover.setStrategy(new Scatter());
+      setStrategy(new Scatter());
     }
     else if(i == DEAD_STATE){
-      myMover.setStrategy(new Static());
+      setStrategy(new Static());
     }
     else{
-      myMover.setStrategy(new BFS());
+      setStrategy(new BFS());
     }
     attachStateTimer();
   }
@@ -68,7 +62,7 @@ public class Ghost extends AbstractAgent implements Consumable {
       @Override
       public void run() {
         myState = ALIVE_STATE;
-        myMover.setStrategy(new BFS());
+        setStrategy(new BFS());
       }
     }, 5000);
   }
@@ -76,9 +70,7 @@ public class Ghost extends AbstractAgent implements Consumable {
   @Override
   public int getConsumed() {
     if (myState == AFRAID_STATE) {
-//      myState = DEAD_STATE;
-//      updateConsumer();
-      myMover.setStrategy(new BFS());
+      setStrategy(new BFS());
       return GHOST_POINTS;
     }
     if (myState == ALIVE_STATE) {
@@ -87,13 +79,4 @@ public class Ghost extends AbstractAgent implements Consumable {
     }
     return 0;
   }
-
-  @Override
-  public void applyEffects(Pacman pacman) {
-//    if (pacman.getState() != 2){
-//       pacman.loseLife();
-//       updateConsumer();
-//    }
-  }
-
 }

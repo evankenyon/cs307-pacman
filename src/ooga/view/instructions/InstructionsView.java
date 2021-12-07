@@ -21,6 +21,14 @@ import java.util.ResourceBundle;
 
 import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
 
+/**
+ * Class that creates the carousel of instructions in the front end, which is a window
+ * with a series of scenes explaining how to play the game, through which the user can
+ * browse using the back and next buttons, or close if they are already confident.
+ *
+ * @author Kat Cottrell
+ */
+
 public class InstructionsView {
     private static final int SCENE_WIDTH = 400;
     private static final int SCENE_HEIGHT = 400;

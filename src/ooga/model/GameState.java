@@ -7,6 +7,8 @@ import java.util.Map;
 import ooga.factories.AgentFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
+import ooga.model.movement.BFS;
+import ooga.model.movement.Controllable;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,10 +25,13 @@ public class GameState {
 
   public GameState(GameData vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-//    System.out.println(vanillaGameData.wallMap().toString());
 
     myGameStateData = new GameStateData();
     myGameStateData.initialize(vanillaGameData);
+    for (Agent a : myGameStateData.getAgents()){
+      a.setStrategy(new BFS());
+    }
+    myGameStateData.getMyPlayer().setStrategy(new Controllable());
     implementRunnables();
 
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
@@ -105,7 +110,7 @@ public class GameState {
   }
 
   public void setPlayerDirection(String direction) {
-    getPacman().setDirection(direction);
+    getMyPlayer().setDirection(direction);
   }
 
   public boolean isWall(int x, int y) {
@@ -138,7 +143,7 @@ public class GameState {
 //  }
 
   public Agent getMyPlayer() {
-    return getPacman();
+    return myGameStateData.getMyPlayer();
   }
 
   public void updateHandlers() {
@@ -163,6 +168,8 @@ public class GameState {
   public void deleteFoods(List<Position> positions) {
     myGameStateData.getMyRequiredPelletStates()
         .removeIf(food -> positions.contains(food.getPosition()));
+    myGameStateData.getMyOptionalPelletStates()
+        .removeIf(food -> positions.contains(food.getPosition()));
   }
 
   public int getRequiredPelletsLeft() {
@@ -182,7 +189,9 @@ public class GameState {
   }
 
   public List<Consumable> getFood() {
-    return myGameStateData.getMyRequiredPelletStates();
+    List<Consumable> allFoods = new ArrayList<>(myGameStateData.getMyRequiredPelletStates());
+    allFoods.addAll(myGameStateData.getMyOptionalPelletStates());
+    return allFoods;
   }
 
   public List<Agent> getWalls() {
@@ -204,6 +213,7 @@ public class GameState {
       a.setState(ALIVE_STATE);
       i++;
     }
+    getMyPlayer().setStrategy(new Controllable());
   }
 
   public void resetPacman() {

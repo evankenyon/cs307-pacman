@@ -6,8 +6,8 @@
   "PlayerScore":0,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall"],
-    ["Wall","Pacman", "pellet", "Wall", "Wall", "Wall"],
-    ["Wall","pellet","pellet","pellet","pellet","Wall"],
+    ["Wall","Pacman", "dot", "Wall", "Wall", "Wall"],
+    ["Wall","dot","dot","dot","dot","Wall"],
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
   ]
 }

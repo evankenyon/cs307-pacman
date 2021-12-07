@@ -12,10 +12,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -28,7 +24,6 @@ import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 import ooga.view.center.agents.AgentView;
 import ooga.view.center.agents.EmptyView;
-import ooga.view.center.agents.WallView;
 import ooga.view.popups.ErrorPopups;
 
 /**
@@ -150,6 +145,7 @@ public class BoardView {
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       e.printStackTrace();
       new ErrorPopups(e, myLanguage, "ReflectionError");
+      e.printStackTrace();
       return new EmptyView(new wall(position.getCoords()[0], position.getCoords()[1]), numRows,
           numCols);
     }

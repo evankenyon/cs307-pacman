@@ -1,7 +1,7 @@
 {
   "Player":"Pacman",
-  "RequiredPellets":["Dot", "Super"],
-  "OptionalPellets":[],
+  "RequiredPellets":["Super"],
+  "OptionalPellets":["Dot"],
   "NumberOfLives":4,
   "PlayerScore":0,
   "WallMap":[

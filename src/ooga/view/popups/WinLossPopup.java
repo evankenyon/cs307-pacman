@@ -46,6 +46,14 @@ public class WinLossPopup {
   private Text message;
   private String STYLESHEET;
 
+  /**
+   * Class that creates the automatic popups that declare whether a user has won or lost when
+   * the game is over.  Either way, the popup shows what the user has scored and offers them
+   * a functional 'play again' button.
+   *
+   * @author Dane Erickson, Kat Cottrell
+   */
+
   @Deprecated
   public WinLossPopup (Stage stage, Controller controller, GameStatus result) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);

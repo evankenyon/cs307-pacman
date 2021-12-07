@@ -21,6 +21,7 @@ import ooga.view.mainView.MainView;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
+
 public class BottomViewTest extends DukeApplicationTest {
 
   public static final String TEST_FILE = "data/basic_examples/test_implementation.json";

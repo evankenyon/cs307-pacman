@@ -243,6 +243,7 @@ public class GameStartupPanel {
       choices.add(myResources.getString(s));
     }
     ComboBox<String> comboBox = makeDropDown(category, choices.toArray(new String[0]));
+    comboBox.setId(category);
     vBox.getChildren().addAll(imageLabel, comboBox);
     vBox.setAlignment(Pos.TOP_CENTER);
     return comboBox;
@@ -345,7 +346,6 @@ public class GameStartupPanel {
       if (gameFile == null) {
         new ErrorPopups(e, selectedLanguage, "NoFile");
       } else {
-        e.printStackTrace();
         new ErrorPopups(e, selectedLanguage, "InvalidFile");
       }
     }

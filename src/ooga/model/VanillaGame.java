@@ -43,5 +43,6 @@ public class VanillaGame implements Game {
   public Agent findAgent(Position position) {
     return myBoard.getGameState().findAgent(position);
   }
+
 }
 

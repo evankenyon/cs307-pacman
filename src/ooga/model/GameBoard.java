@@ -3,9 +3,12 @@ package ooga.model;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import ooga.model.endConditions.EndConditionContext;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
+import ooga.model.interfaces.EndCondition;
 import ooga.model.util.GameStatus;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +18,9 @@ public class GameBoard {
 
   private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",
       GameBoard.class.getPackageName());
-  private static final String TYPES_FILENAME = "types";
+  private static final String END_CONDITIONS_PACKAGE = String.format("%s.endConditions.",
+      GameBoard.class.getPackageName());
+  private static final String ENDCONDITIONS_FILENAME = "endconditions";
   private static final Logger LOG = LogManager.getLogger(GameBoard.class);
   private final GameState myState;
   private int myPacScore;
@@ -24,14 +29,45 @@ public class GameBoard {
   private Consumer<Integer> myLivesConsumer;
   private Consumer<GameStatus> myGameStatusConsumer;
   private GameStatus currentGameStatus;
+  private final EndConditionContext endConditionWin;
+  private final EndConditionContext endConditionLoss;
 
   public GameBoard(GameData vanillaGameData)
       throws
-      InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+      InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException, InstantiationException {
     myState = new GameState(vanillaGameData);
     myPacScore = 0;
     myGhostScore = 0;
     currentGameStatus = GameStatus.RUNNING;
+    endConditionWin = new EndConditionContext();
+    endConditionLoss = new EndConditionContext();
+    setUpGameEndConditions(vanillaGameData.player());
+  }
+
+  private void setUpGameEndConditions(String player)
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    ResourceBundle endConditionKeys = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, ENDCONDITIONS_FILENAME));
+    String endConditionFileName = endConditionKeys.getString(player);
+
+    ResourceBundle endConditionReflectionKeys = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, endConditionFileName));
+    EndCondition winCondition = null;
+    winCondition = (EndCondition) Class.forName(
+            String.format("%s%s", END_CONDITIONS_PACKAGE,
+                endConditionReflectionKeys.getString("winConditionString")))
+        .getConstructor()
+        .newInstance();
+
+    EndCondition endCondition = null;
+    endCondition = (EndCondition) Class.forName(
+            String.format("%s%s", END_CONDITIONS_PACKAGE,
+                endConditionReflectionKeys.getString("loseConditionString")))
+        .getConstructor()
+        .newInstance();
+
+    endConditionWin.setStrategy(winCondition);
+    endConditionLoss.setStrategy(endCondition);
   }
 
   //move every agent in the board by one step
@@ -105,18 +141,16 @@ public class GameBoard {
   }
 
   public void checkWin() {
-    if (myState.getRequiredPelletsLeft() == 0) {
+    if (endConditionWin.checkEnd(myState)) {
       currentGameStatus = GameStatus.WIN;
       updateGameStatusConsumer();
-      System.out.println("Game won!");
     }
   }
 
   public void checkLoss() {
-    if (myState.getLives() == 0) {
+    if (endConditionLoss.checkEnd(myState)) {
       currentGameStatus = GameStatus.LOSS;
       updateGameStatusConsumer();
-      System.out.println("Game lost!");
     }
   }
 

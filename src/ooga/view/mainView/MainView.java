@@ -54,6 +54,7 @@ public class MainView {
   private Consumer<GameStatus> gameEndConsumer = status -> gameEndAction(status);
   private String STYLESHEET;
   private String viewMode;
+  private GameStatus myStatus;
 
   /**
    * Constructor to create a MainView object to make the scene based on the constructed BorderPane
@@ -114,6 +115,7 @@ public class MainView {
   }
 
   private void gameEndAction(GameStatus status) {
+    myStatus = status;
     if (status == GameStatus.WIN) {
       myController.toggleAnimation();
       new WinLossPopup(myStage, myController, status, myTopView.getCurrScore(), viewMode);
@@ -122,4 +124,6 @@ public class MainView {
       new WinLossPopup(myStage, myController, status, myTopView.getCurrScore(), viewMode);
     }
   }
+
+  protected GameStatus getGameStatus() { return myStatus; }
 }

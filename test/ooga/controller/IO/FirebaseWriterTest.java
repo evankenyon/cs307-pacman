@@ -33,7 +33,7 @@ public class FirebaseWriterTest {
     Map<String, Boolean> pelletInfo = Map.of("pellet", true);
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
     gameEngine = new GameEngine(vanillaGameData);
-    firebaseWriter = new FirebaseWriter();
+    firebaseWriter = new FirebaseWriter(gameEngine, "TEST-OBJECT");
   }
 
   @Test
@@ -46,10 +46,10 @@ public class FirebaseWriterTest {
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 1);
     myGame = new GameEngine(vanillaGameData);
     builder = new JSONConfigObjectBuilder(myGame);
-    firebaseWriter.saveObject(myGame);
+    firebaseWriter.saveObject();
 
     FirebaseReader firebaseReader = new FirebaseReader();
-    JSONObject savedObject = firebaseReader.getFile("user-file-0");
+    JSONObject savedObject = firebaseReader.getFile("TEST-OBJECT");
     Assertions.assertEquals("Pacman", savedObject.getString("Player"));
     Assertions.assertEquals(3, savedObject.getInt("NumberOfLives"));
     Assertions.assertEquals(0, savedObject.getInt("PlayerScore"));

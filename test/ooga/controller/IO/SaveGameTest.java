@@ -40,7 +40,6 @@ public class SaveGameTest {
   @Test
   void testGameSaver() throws IOException {
     saver.saveGame();
-    JsonParser parser = new JsonParser();
   }
 
 

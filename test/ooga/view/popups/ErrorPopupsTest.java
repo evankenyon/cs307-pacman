@@ -34,9 +34,7 @@ public class ErrorPopupsTest extends DukeApplicationTest {
   @Test
   void testFileErrorPopup() {
     String expected = "Please input a new file.";
-    checkPopupMessage(expected, "InvalidFile");
     checkPopupMessage(expected, "invalidfile");
-    checkPopupMessage(expected, "invalidFile");
     checkPopupMessage(expected, "Invalidfile");
   }
 

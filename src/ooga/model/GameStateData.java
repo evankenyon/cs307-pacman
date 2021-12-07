@@ -36,18 +36,20 @@ public class GameStateData {
 
   }
 
-  public GameStateData(GameStateData previous) {
-    myPacScore = previous.myPacScore;
-    myGhostScore = previous.myGhostScore;
-    isSuper = previous.isSuper;
-    foodLeft = previous.foodLeft;
-    myAgentStates = previous.myAgentStates;
-    myRequiredPelletStates = previous.myRequiredPelletStates;
-    myWallMap = previous.myWallMap;
-    myWallStates = previous.myWallStates;
-  }
+//  public GameStateData(GameStateData previous) {
+//    myPacScore = previous.myPacScore;
+//    myGhostScore = previous.myGhostScore;
+//    isSuper = previous.isSuper;
+//    foodLeft = previous.foodLeft;
+//    myAgentStates = previous.myAgentStates;
+//    myRequiredPelletStates = previous.myRequiredPelletStates;
+//    myWallMap = previous.myWallMap;
+//    myWallStates = previous.myWallStates;
+//  }
 
-  public void initialize(Map<String, List<Position>> gameDict, Map<String, Boolean> pelletInfo) {
+  public void initialize(GameData data) {
+    Map<String, List<Position>> gameDict = data.wallMap();
+    Map<String, Boolean> pelletInfo = data.pelletInfo();
     int rows = calculateDimension(gameDict, 1) + 1;
     int cols = calculateDimension(gameDict, 0) + 1;
     isSuper = false;

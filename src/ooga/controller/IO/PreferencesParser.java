@@ -19,12 +19,11 @@ import org.json.JSONObject;
 
 /**
  * Purpose: This class's purpose is to do high level parsing of a preferences file that is first
- * converted into a JSONObject
- * Dependencies: java-json, JSONObjectParser, Set, ResourceBundle, Map, List, InputMismatchException,
- * HashMap, ArrayList, BigDecimal, Method, InvocationTargetException, IOException, File
- * Example: Instantiate this class in Controller to parse a preferences file, and use the getters in
- * this class to instantiate a UserPreferences record to send to the frontend as well as to send
- * along the startingConfig to JsonParser to make the model
+ * converted into a JSONObject Dependencies: java-json, JSONObjectParser, Set, ResourceBundle, Map,
+ * List, InputMismatchException, HashMap, ArrayList, BigDecimal, Method, InvocationTargetException,
+ * IOException, File Example: Instantiate this class in Controller to parse a preferences file, and
+ * use the getters in this class to instantiate a UserPreferences record to send to the frontend as
+ * well as to send along the startingConfig to JsonParser to make the model
  *
  * @author Evan Kenyon
  */
@@ -53,9 +52,12 @@ public class PreferencesParser {
    * bundles
    */
   public PreferencesParser() {
-    possiblePreferences = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, POSSIBLE_PREFERENCES_FILENAME));
-    preferencesValues = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, PREFERENCES_VALUES_FILENAME));
-    exceptionMessages = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
+    possiblePreferences = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, POSSIBLE_PREFERENCES_FILENAME));
+    preferencesValues = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, PREFERENCES_VALUES_FILENAME));
+    exceptionMessages = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
     magicValues = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
     imagePaths = new HashMap<>();
@@ -65,19 +67,21 @@ public class PreferencesParser {
   /**
    * Purpose: Parse a JSONObject representing a preferences file into image paths, colors, a style,
    * and a startingConfig file
-   * @param json  a prefernces file already converted into a JSONObject
-   * @throws NoSuchMethodException should not ever be thrown since method names are correct in
-   * properties file that is used in this method
+   *
+   * @param json a prefernces file already converted into a JSONObject
+   * @throws NoSuchMethodException  should not ever be thrown since method names are correct in
+   *                                properties file that is used in this method
    * @throws InputMismatchException thrown if keys or values are incorrect (ex. invalid image path),
-   * with specific error message depending on issue
+   *                                with specific error message depending on issue
    */
   public void parseJSON(JSONObject json)
-      throws NoSuchMethodException, InputMismatchException{
+      throws NoSuchMethodException, InputMismatchException {
     preferencesJson = json;
     checkForExtraKeys(preferencesJson.keySet());
     for (String key : preferencesJson.keySet()) {
       Method method = this.getClass()
-          .getDeclaredMethod(String.format(magicValues.getString("addToMethod"), possiblePreferences.getString(key)), String.class);
+          .getDeclaredMethod(String.format(magicValues.getString("addToMethod"),
+              possiblePreferences.getString(key)), String.class);
       method.setAccessible(true);
       try {
         method.invoke(this, key);
@@ -89,12 +93,13 @@ public class PreferencesParser {
 
   @Deprecated
   public void uploadFile(File file)
-      throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InputMismatchException{
+      throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InputMismatchException {
     preferencesJson = JSONObjectParser.parseJSONObject(file);
     checkForExtraKeys(preferencesJson.keySet());
     for (String key : preferencesJson.keySet()) {
       Method method = this.getClass()
-          .getDeclaredMethod(String.format(magicValues.getString("addToMethod"), possiblePreferences.getString(key)), String.class);
+          .getDeclaredMethod(String.format(magicValues.getString("addToMethod"),
+              possiblePreferences.getString(key)), String.class);
       method.setAccessible(true);
       try {
         method.invoke(this, key);
@@ -106,8 +111,9 @@ public class PreferencesParser {
   }
 
   /**
-   * Purpose: Get the image paths that were parsed by parseJSON method call
-   * Assumptions: parseJSON method is called first
+   * Purpose: Get the image paths that were parsed by parseJSON method call Assumptions: parseJSON
+   * method is called first
+   *
    * @return the image paths that were parsed by parseJSON method call
    */
   public Map<String, String> getImagePaths() {
@@ -115,8 +121,9 @@ public class PreferencesParser {
   }
 
   /**
-   * Purpose: Get the colors that were parsed by parseJSON method call
-   * Assumptions: parseJSON method is called first
+   * Purpose: Get the colors that were parsed by parseJSON method call Assumptions: parseJSON method
+   * is called first
+   *
    * @return the colors that were parsed by parseJSON method call
    */
   public Map<String, List<Double>> getColors() {
@@ -124,8 +131,9 @@ public class PreferencesParser {
   }
 
   /**
-   * Purpose: Get the style that was parsed by parseJSON method call
-   * Assumptions: parseJSON method is called first
+   * Purpose: Get the style that was parsed by parseJSON method call Assumptions: parseJSON method
+   * is called first
+   *
    * @return the style that was parsed by parseJSON method call
    */
   public String getStyle() {
@@ -135,6 +143,7 @@ public class PreferencesParser {
   /**
    * Purpose: Get the starting config as a File that was parsed by parseJSON method call
    * Assumptions: parseJSON method is called first
+   *
    * @return the starting config as a File that was parsed by parseJSON method call
    */
   public File getStartingConfig() {
@@ -155,8 +164,11 @@ public class PreferencesParser {
   }
 
   private void addToImage(String key) {
-    if(!List.of(preferencesValues.getString("Image").split(magicValues.getString("Delimiter"))).contains(preferencesJson.getString(key))) {
-      throw new InputMismatchException(String.format(exceptionMessages.getString("InvalidImagePath"), preferencesJson.get(key), key));
+    if (!List.of(preferencesValues.getString("Image").split(magicValues.getString("Delimiter")))
+        .contains(preferencesJson.getString(key))) {
+      throw new InputMismatchException(
+          String.format(exceptionMessages.getString("InvalidImagePath"), preferencesJson.get(key),
+              key));
     }
     imagePaths.put(key, preferencesJson.getString(key));
   }
@@ -165,18 +177,22 @@ public class PreferencesParser {
     List<Double> rgb = new ArrayList<>();
     // Borrowed code for converting BigDecimal to double from
     // https://stackoverflow.com/questions/19650917/how-to-convert-bigdecimal-to-double-in-java
-    preferencesJson.getJSONArray(key).iterator().forEachRemaining(color -> rgb.add(((BigDecimal) color).doubleValue()));
+    preferencesJson.getJSONArray(key).iterator()
+        .forEachRemaining(color -> rgb.add(((BigDecimal) color).doubleValue()));
     for (Double color : rgb) {
-      if(color > 1 || color < 0) {
-        throw new InputMismatchException(String.format(exceptionMessages.getString("InvalidRGB"), color));
+      if (color > 1 || color < 0) {
+        throw new InputMismatchException(
+            String.format(exceptionMessages.getString("InvalidRGB"), color));
       }
     }
     colors.put(key, rgb);
   }
 
   private void addToStyle(String key) {
-    if(!List.of(preferencesValues.getString("Style").split(",")).contains(preferencesJson.getString(key))) {
-      throw new InputMismatchException(String.format(exceptionMessages.getString("InvalidStyle"), style));
+    if (!List.of(preferencesValues.getString("Style").split(","))
+        .contains(preferencesJson.getString(key))) {
+      throw new InputMismatchException(
+          String.format(exceptionMessages.getString("InvalidStyle"), style));
     }
     style = preferencesJson.getString(key);
   }

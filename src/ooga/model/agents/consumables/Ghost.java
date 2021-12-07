@@ -43,13 +43,11 @@ public class Ghost extends AbstractAgent implements Consumable {
   public void setState(int i) {
     myState = i;
     updateConsumer();
-    if (i == AFRAID_STATE){
+    if (i == AFRAID_STATE) {
       setStrategy(new Scatter());
-    }
-    else if(i == DEAD_STATE){
+    } else if (i == DEAD_STATE) {
       setStrategy(new Static());
-    }
-    else{
+    } else {
       setStrategy(new BFS());
     }
     attachStateTimer();

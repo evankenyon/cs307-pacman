@@ -12,9 +12,8 @@ import ooga.model.GameEngine;
 import org.json.JSONObject;
 
 /**
- * @author Dania Fernandez
- * dependencies: JSONObjectBuilder
- * Saves a JSONObject of the current game configuration to Firebase
+ * @author Dania Fernandez dependencies: JSONObjectBuilder Saves a JSONObject of the current game
+ * configuration to Firebase
  */
 public class FirebaseWriter {
 
@@ -29,6 +28,7 @@ public class FirebaseWriter {
 
   /**
    * Sets up firebase and response based on the ooga Firebase url
+   *
    * @throws FirebaseException
    * @throws UnsupportedEncodingException
    */
@@ -39,28 +39,29 @@ public class FirebaseWriter {
     firebase = new Firebase(firebase_baseUrl);
     response = firebase.get();
   }
-    // Borrowed code for basic setup from
-    // https://github.com/bane73/firebase4j
-    //FileInputStream fis = new FileInputStream("./data/ooga-57bdb-firebase-adminsdk-5d0am-78aa9ce61c.json");
+  // Borrowed code for basic setup from
+  // https://github.com/bane73/firebase4j
+  //FileInputStream fis = new FileInputStream("./data/ooga-57bdb-firebase-adminsdk-5d0am-78aa9ce61c.json");
 
-    //FirebaseOptions options = FirebaseOptions.builder()
-       // .setCredentials(GoogleCredentials.fromStream(fis))
-       // .setDatabaseUrl("https://ooga-57bdb-default-rtdb.firebaseio.com/")
-       // .build();
+  //FirebaseOptions options = FirebaseOptions.builder()
+  // .setCredentials(GoogleCredentials.fromStream(fis))
+  // .setDatabaseUrl("https://ooga-57bdb-default-rtdb.firebaseio.com/")
+  // .build();
 
-    //try {
-     // FirebaseApp.initializeApp(options);
-      //db = FirebaseDatabase.getInstance();
-    //} catch (IllegalStateException e) {
-     // db = FirebaseDatabase.getInstance();
-    //}
-    //configRef = db.getReference(); //no params
-    //System.out.println(String.valueOf(configRef));
+  //try {
+  // FirebaseApp.initializeApp(options);
+  //db = FirebaseDatabase.getInstance();
+  //} catch (IllegalStateException e) {
+  // db = FirebaseDatabase.getInstance();
+  //}
+  //configRef = db.getReference(); //no params
+  //System.out.println(String.valueOf(configRef));
   //}
   //TODO: have child name update based on # of existing user files
 
   /**
    * Saves the JSONObject of the current game configuration to Firebase
+   *
    * @param gameEngine, current gameEngine
    * @throws JacksonUtilityException
    * @throws FirebaseException
@@ -75,18 +76,16 @@ public class FirebaseWriter {
     System.out.println(counter);
     userObjectName = "user-file-" + String.valueOf(counter);
 
-
     Map<String, Object> objectMap = new HashMap<>();
 
     objectMap.put(userObjectName, object);
     firebase.put(userObjectName, object.toMap());
 
-
     //configRef.child("test0List").child("item1").setValueAsync(true);
     //configRef.push().setValue(object, (databaseError, databaseReference) -> {
-     // if (databaseError != null) {
-     //   System.out.println("SAVE FAILED :(");
-     // }
+    // if (databaseError != null) {
+    //   System.out.println("SAVE FAILED :(");
+    // }
     //});
 
   }

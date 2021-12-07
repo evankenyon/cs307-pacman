@@ -56,8 +56,8 @@ public class PelletView extends StationaryView {
   }
 
   /**
-   * Constructor to create the PelletView object using the inputted list of RGB values to
-   * determine an inputted color for the pellets from the user.
+   * Constructor to create the PelletView object using the inputted list of RGB values to determine
+   * an inputted color for the pellets from the user.
    *
    * @param pelletAgent is the Agent from the backend that corresponds to the front end Agent
    * @param rgb         is the list of Doubles that represent the red, green, and blue values to

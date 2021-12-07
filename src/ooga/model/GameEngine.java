@@ -12,7 +12,6 @@ public class GameEngine implements Game {
   private Map<String, Boolean> pelletInfoMap;
 
   /**
-   *
    * @param vanillaGameData
    * @throws ClassNotFoundException
    * @throws InvocationTargetException

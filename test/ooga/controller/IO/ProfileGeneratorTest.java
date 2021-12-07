@@ -56,7 +56,8 @@ class ProfileGeneratorTest {
       profileGenerator = new ProfileGenerator("bad");
       profileGenerator.createUser("test", "test", DEFAULT_IMAGE);
     } catch (Exception e) {
-      Assertions.assertEquals("Username already exists, please choose a different one", e.getMessage());
+      Assertions.assertEquals("Username already exists, please choose a different one",
+          e.getMessage());
     }
     profileGenerator = new ProfileGenerator("bad");
     Assertions.assertThrows(IllegalArgumentException.class,
@@ -77,7 +78,8 @@ class ProfileGeneratorTest {
       Assertions.assertThrows(IllegalArgumentException.class,
           () -> profileGenerator.createUser("evankenyon", "test1234", DEFAULT_IMAGE));
     } catch (Exception e) {
-      Assertions.assertEquals("Username already exists, please choose a different one", e.getMessage());
+      Assertions.assertEquals("Username already exists, please choose a different one",
+          e.getMessage());
     }
   }
 
@@ -201,8 +203,9 @@ class ProfileGeneratorTest {
     } catch (Exception e) {
       Assertions.assertEquals("Username or password incorrect", e.getMessage());
     }
-    Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.updateProfilePicture("evankenyon", "test123",
-        new File("./data/images/fruit.png")));
+    Assertions.assertThrows(IllegalArgumentException.class,
+        () -> profileGenerator.updateProfilePicture("evankenyon", "test123",
+            new File("./data/images/fruit.png")));
   }
 
   @Test
@@ -235,8 +238,9 @@ class ProfileGeneratorTest {
     } catch (Exception e) {
       Assertions.assertEquals("Username or password incorrect", e.getMessage());
     }
-    Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.changeProfileUsername("evankenyon", "test123",
-        "evankenyon1"));
+    Assertions.assertThrows(IllegalArgumentException.class,
+        () -> profileGenerator.changeProfileUsername("evankenyon", "test123",
+            "evankenyon1"));
   }
 
   @Test
@@ -269,8 +273,9 @@ class ProfileGeneratorTest {
     } catch (Exception e) {
       Assertions.assertEquals("Username or password incorrect", e.getMessage());
     }
-    Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.changeProfilePassword("evankenyon", "test123",
-        "test1234"));
+    Assertions.assertThrows(IllegalArgumentException.class,
+        () -> profileGenerator.changeProfilePassword("evankenyon", "test123",
+            "test1234"));
   }
 
   @Test
@@ -296,8 +301,9 @@ class ProfileGeneratorTest {
     } catch (Exception e) {
       Assertions.assertEquals("Username or password incorrect", e.getMessage());
     }
-    Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.addFavoriteFile("evankenyon", "test123",
-        new File("./data/basic_examples/big_board.json")));
+    Assertions.assertThrows(IllegalArgumentException.class,
+        () -> profileGenerator.addFavoriteFile("evankenyon", "test123",
+            new File("./data/basic_examples/big_board.json")));
   }
 
   @Test
@@ -308,8 +314,9 @@ class ProfileGeneratorTest {
     } catch (Exception e) {
       Assertions.assertEquals("Invalid file type, must be .json", e.getMessage());
     }
-    Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.addFavoriteFile("evankenyon", "test123",
-        new File("./data/images/blinky_up.gif")));
+    Assertions.assertThrows(IllegalArgumentException.class,
+        () -> profileGenerator.addFavoriteFile("evankenyon", "test123",
+            new File("./data/images/blinky_up.gif")));
   }
 
   private void addOneFavoriteFile() throws IOException {
@@ -353,8 +360,9 @@ class ProfileGeneratorTest {
     } catch (Exception e) {
       Assertions.assertEquals("Username or password incorrect", e.getMessage());
     }
-    Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.removeFavoriteFile("evankenyon", "test123",
-        "./data/basic_examples/big_board.json"));
+    Assertions.assertThrows(IllegalArgumentException.class,
+        () -> profileGenerator.removeFavoriteFile("evankenyon", "test123",
+            "./data/basic_examples/big_board.json"));
   }
 
   @Test
@@ -366,7 +374,8 @@ class ProfileGeneratorTest {
     } catch (Exception e) {
       Assertions.assertEquals("File does not exist", e.getMessage());
     }
-    Assertions.assertThrows(IllegalArgumentException.class, () -> profileGenerator.removeFavoriteFile("evankenyon", "test123",
-        "./data/basic_examples/big_board.json"));
+    Assertions.assertThrows(IllegalArgumentException.class,
+        () -> profileGenerator.removeFavoriteFile("evankenyon", "test123",
+            "./data/basic_examples/big_board.json"));
   }
 }

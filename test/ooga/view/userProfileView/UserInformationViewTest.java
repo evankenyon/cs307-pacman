@@ -32,13 +32,13 @@ public class UserInformationViewTest extends DukeApplicationTest {
   private UserInformationView profileView;
 
   @Override
-  public void start (Stage stage)
+  public void start(Stage stage)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myController = new Controller(LANGUAGE, stage, VIEW_MODE);
     try {
-      myController.createUser("test","test", new File(TEST_IMAGE));
+      myController.createUser("test", "test", new File(TEST_IMAGE));
     } catch (Exception e) {
-      myController.login("test","test");
+      myController.login("test", "test");
     }
     profileView = new UserInformationView(myController, stage, LANGUAGE);
     EditUsernameButton = lookup("#EditUsername").query();

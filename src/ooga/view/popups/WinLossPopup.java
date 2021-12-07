@@ -47,15 +47,15 @@ public class WinLossPopup {
   private String STYLESHEET;
 
   /**
-   * Class that creates the automatic popups that declare whether a user has won or lost when
-   * the game is over.  Either way, the popup shows what the user has scored and offers them
-   * a functional 'play again' button.
+   * Class that creates the automatic popups that declare whether a user has won or lost when the
+   * game is over.  Either way, the popup shows what the user has scored and offers them a
+   * functional 'play again' button.
    *
    * @author Dane Erickson, Kat Cottrell
    */
 
   @Deprecated
-  public WinLossPopup (Stage stage, Controller controller, GameStatus result) {
+  public WinLossPopup(Stage stage, Controller controller, GameStatus result) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
     mainStage = stage;
     myController = controller;
@@ -64,15 +64,24 @@ public class WinLossPopup {
     winLossStage.show();
   }
 
-  public WinLossPopup (Stage stage, Controller controller, GameStatus result,
-                       int score, String selectedViewMode) {
+  /**
+   * Constructor to create a WinLossPopup object to show results of game to user
+   *
+   * @param stage            is the stage
+   * @param controller       is the controller
+   * @param result           is the GameStatus enumerate value
+   * @param score            is the final score
+   * @param selectedViewMode is the view mode - dark, light, duke
+   */
+  public WinLossPopup(Stage stage, Controller controller, GameStatus result,
+      int score, String selectedViewMode) {
     this.STYLESHEET = "/ooga/view/resources/" + selectedViewMode + ".css";
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
     mainStage = stage;
     myController = controller;
     winLossStage = new Stage();
     Image favicon = new Image(
-            new File("data/images/pm_favicon.png").toURI().toString());
+        new File("data/images/pm_favicon.png").toURI().toString());
     winLossStage.getIcons().add(favicon);
     winLossStage.setScene(createWinLossScene(result, score));
     winLossStage.show();
@@ -108,7 +117,7 @@ public class WinLossPopup {
     lolGhosts.setFitWidth(LOSS_WIDTH - (2 * PADDING));
     Text awYouLost = new Text(myResources.getString("aw"));
     awYouLost.setFont(Font.font("Verdana", FontWeight.BOLD,
-            FontPosture.REGULAR, TEXT_HEIGHT));
+        FontPosture.REGULAR, TEXT_HEIGHT));
     awYouLost.setFill(Color.LIGHTGRAY);
     HBox scoreBox = makeScoreBox(score);
     HBox playAgainButton = makePlayAgainButton();
@@ -124,7 +133,7 @@ public class WinLossPopup {
     buttonFrame.setMaxWidth(BUTTON_WIDTH);
     buttonFrame.getChildren().add(playAgainImg);
     buttonFrame.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID,
-            new CornerRadii(BORDER_WIDTH), new BorderWidths(BORDER_WIDTH))));
+        new CornerRadii(BORDER_WIDTH), new BorderWidths(BORDER_WIDTH))));
     return buttonFrame;
   }
 
@@ -169,7 +178,12 @@ public class WinLossPopup {
   }
 
   // Used for testing
-  protected String getMessage() { return message.getText(); }
-  protected Stage getWinLossStage() { return winLossStage; }
+  protected String getMessage() {
+    return message.getText();
+  }
+
+  protected Stage getWinLossStage() {
+    return winLossStage;
+  }
 
 }

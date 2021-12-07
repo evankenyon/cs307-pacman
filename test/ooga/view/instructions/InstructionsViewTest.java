@@ -21,7 +21,7 @@ public class InstructionsViewTest extends DukeApplicationTest {
   private Stage myStage;
 
   @Override
-  public void start (Stage stage) {
+  public void start(Stage stage) {
     myStage = stage;
     instructions = new InstructionsView(stage, LANGUAGE, TEST_VIEW_MODE);
     nextButton = lookup("#next").query();

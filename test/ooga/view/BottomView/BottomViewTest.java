@@ -34,12 +34,13 @@ public class BottomViewTest extends DukeApplicationTest {
   private User myUser;
 
   @Override
-  public void start (Stage stage)
+  public void start(Stage stage)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myController = new Controller(LANGUAGE, stage, VIEW_MODE);
     UserPreferences prefs = myController.uploadFile(TEST_FILE);
-    myUser = new User("test", "test", TEST_IMAGE, 0,0,0, null);
-    myMainView = new MainView(myController, myController.getVanillaGame(), stage, VIEW_MODE, prefs, myUser);
+    myUser = new User("test", "test", TEST_IMAGE, 0, 0, 0, null);
+    myMainView = new MainView(myController, myController.getVanillaGame(), stage, VIEW_MODE, prefs,
+        myUser);
     myPlayPauseButton = lookup("#playPauseButton").query();
     mySpeedSlider = lookup("#speedSlider").query();
     myProfilePicButton = lookup("#profilePic").query();
@@ -73,9 +74,9 @@ public class BottomViewTest extends DukeApplicationTest {
   @Test
   void testSpeedSlider() {
     clickOn(myPlayPauseButton);
-    setValue(mySpeedSlider, (MAX_SLIDER_VAL+MIN_SLIDER_VAL)/2);
+    setValue(mySpeedSlider, (MAX_SLIDER_VAL + MIN_SLIDER_VAL) / 2);
     double actual = myController.getAnimationSpeed();
-    assertEquals((MAX_SLIDER_VAL+MIN_SLIDER_VAL)/2, actual);
+    assertEquals((MAX_SLIDER_VAL + MIN_SLIDER_VAL) / 2, actual);
   }
 
 }

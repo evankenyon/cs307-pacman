@@ -13,8 +13,9 @@ public abstract class StationaryView extends AgentView {
   public static final String STATIONARY_ORDER = "Back";
 
   /**
-   * Constructor to create the StationaryView Object, which is the super class for stationary objects.
-   * The constructor sets this AgentView object's order to the correct location (Back or Front).
+   * Constructor to create the StationaryView Object, which is the super class for stationary
+   * objects. The constructor sets this AgentView object's order to the correct location (Back or
+   * Front).
    */
   public StationaryView() {
     setOrder(STATIONARY_ORDER);

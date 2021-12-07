@@ -14,7 +14,9 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -24,8 +26,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
+import ooga.controller.IO.GameSaver;
 import ooga.controller.IO.User;
 import ooga.model.GameEngine;
+import ooga.model.util.GameStatus;
 import ooga.view.popups.ErrorPopups;
 import ooga.view.userProfileView.UserInformationView;
 
@@ -82,7 +86,8 @@ public class BottomView {
    * @param game       is the model object that runs the game
    * @param language   is a String for the language being used in the game
    */
-  public BottomView(Controller controller, GameEngine game, Stage stage, String language, User user) {
+  public BottomView(Controller controller, GameEngine game, Stage stage, String language,
+      User user) {
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
     myController = controller;
     myGame = game;
@@ -95,7 +100,8 @@ public class BottomView {
     bottomView.setAlignment(Pos.TOP_CENTER);
     bottomView.setPadding(new Insets(PADDING));
     bottomView.setSpacing(X_SPACING);
-    bottomView.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
+    bottomView.setBackground(
+        new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     bottomView.getStyleClass().add("root");
     bottomView.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     initiateBottomView(bottomView);
@@ -130,10 +136,12 @@ public class BottomView {
 
   private void togglePlayPauseImage() {
     if (isPaused) {
-      playPauseButton.setImage(new Image(new File(String.format("%s%s", IMAGE_PATH, PAUSE_IMAGE)).toURI().toString()));
+      playPauseButton.setImage(
+          new Image(new File(String.format("%s%s", IMAGE_PATH, PAUSE_IMAGE)).toURI().toString()));
       isPaused = false;
     } else {
-      playPauseButton.setImage(new Image(new File(String.format("%s%s", IMAGE_PATH, PLAY_IMAGE)).toURI().toString()));
+      playPauseButton.setImage(
+          new Image(new File(String.format("%s%s", IMAGE_PATH, PLAY_IMAGE)).toURI().toString()));
       isPaused = true;
     }
   }
@@ -141,22 +149,27 @@ public class BottomView {
   private void initiateBottomView(HBox root) {
     VBox leftSide = makeProfileInfo();
     ImageView saveButton = makeGraphicButton("saveButton-" + myResources.getString("save") + ".png",
-            e -> saveGame(), GRAPHIC_BUTTON_HEIGHT, SAVE_BUTTON_ID);
-    ImageView statsButton = makeGraphicButton("statsButton-" + myResources.getString("stats") + ".png",
-            e -> showStats(), GRAPHIC_BUTTON_HEIGHT, STATS_BUTTON_ID);
-    ImageView restartButton = makeGraphicButton("restartButton-" + myResources.getString("restart") + ".png",
-            e -> restartGame(), GRAPHIC_BUTTON_HEIGHT, NEW_GAME_BUTTON_ID);
+        e -> saveGame(), GRAPHIC_BUTTON_HEIGHT, SAVE_BUTTON_ID);
+    ImageView statsButton = makeGraphicButton(
+        "statsButton-" + myResources.getString("stats") + ".png",
+        e -> showStats(), GRAPHIC_BUTTON_HEIGHT, STATS_BUTTON_ID);
+    ImageView restartButton = makeGraphicButton(
+        "restartButton-" + myResources.getString("restart") + ".png",
+        e -> restartGame(), GRAPHIC_BUTTON_HEIGHT, NEW_GAME_BUTTON_ID);
     VBox graphicButtons = new VBox();
     graphicButtons.setSpacing(Y_SPACING);
     graphicButtons.getStyleClass().add("graphic-buttons");
     graphicButtons.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     graphicButtons.getChildren().addAll(saveButton, statsButton, restartButton);
-    playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, PLAY_PAUSE_BUTTON_ID);
-    ImageView stepButton = makeGraphicButton(STEP_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE, STEP_BUTTON_ID);
+    playPauseButton = makeGraphicButton(PLAY_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE,
+        PLAY_PAUSE_BUTTON_ID);
+    ImageView stepButton = makeGraphicButton(STEP_IMAGE, e -> togglePlayPause(), SIM_BUTTON_SIZE,
+        STEP_BUTTON_ID);
     HBox buttonsPane = new HBox();
     buttonsPane.setAlignment(Pos.TOP_CENTER);
     buttonsPane.setSpacing(X_SPACING);
-    buttonsPane.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
+    buttonsPane.setBackground(
+        new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     buttonsPane.getStyleClass().add("root");
     buttonsPane.getChildren().addAll(graphicButtons, playPauseButton, stepButton);
     HBox slider = makeSpeedSlider();
@@ -164,8 +177,9 @@ public class BottomView {
     rightSide.setAlignment(Pos.TOP_CENTER);
     rightSide.setSpacing(10);
     rightSide.getChildren().addAll(buttonsPane, slider);
-    rightSide.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
-    root.getChildren().addAll(leftSide,rightSide);
+    rightSide.setBackground(
+        new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
+    root.getChildren().addAll(leftSide, rightSide);
   }
 
   private VBox makeProfileInfo() {
@@ -173,7 +187,8 @@ public class BottomView {
     profileInfo.setSpacing(4);
     profileInfo.setAlignment(Pos.TOP_CENTER);
     HBox pfpBorder = new HBox();
-    ImageView profilePic = new ImageView(new Image(new File(myUser.imagePath()).toURI().toString()));
+    ImageView profilePic = new ImageView(
+        new Image(new File(myUser.imagePath()).toURI().toString()));
     double sideLen = Math.min(profilePic.getFitWidth(), profilePic.getFitHeight());
     profilePic.setId("profilePic");
     profilePic.setViewport(new Rectangle2D(0, 0, sideLen, sideLen));
@@ -184,7 +199,7 @@ public class BottomView {
     pfpBorder.getChildren().add(profilePic);
     pfpBorder.setMaxWidth(SIM_BUTTON_SIZE - (2 * PFP_BORDER_WIDTH));
     pfpBorder.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID,
-            new CornerRadii(PFP_BORDER_WIDTH), new BorderWidths(PFP_BORDER_WIDTH))));
+        new CornerRadii(PFP_BORDER_WIDTH), new BorderWidths(PFP_BORDER_WIDTH))));
     Text username = new Text(myUser.username().toUpperCase(Locale.ROOT));
     username.setFill(Color.LIGHTGRAY);
     username.setFont(Font.font("Verdana", FontWeight.BLACK, 30));
@@ -193,14 +208,22 @@ public class BottomView {
   }
 
   private void saveGame() {
+    String locations[] = {myResources.getString("SaveLocally"),
+        myResources.getString("SaveFirebase")};
+    ChoiceDialog saveLocation = new ChoiceDialog(myResources.getString("SaveLocation"), locations);
+    saveLocation.setTitle(myResources.getString("SaveLocation"));
+    saveLocation.showAndWait();
+    String location = (String) saveLocation.getSelectedItem();
+    GameSaver saveLocally = new GameSaver(myGame);
     try {
       myController.saveFile();
     } catch (IOException e) {
-      new ErrorPopups(e, myLanguage,"SaveError");
+      new ErrorPopups(e, myLanguage, "SaveError");
     }
   }
 
-  private ImageView makeGraphicButton(String filename, EventHandler handler, int height, String id) {
+  private ImageView makeGraphicButton(String filename, EventHandler handler, int height,
+      String id) {
     String imagePath = String.format("%s%s", IMAGE_PATH, filename);
     ImageView myImgView = new ImageView(new Image(new File(imagePath).toURI().toString()));
     myImgView.setPreserveRatio(true);
@@ -216,9 +239,9 @@ public class BottomView {
     // TODO: Get the actual stats from the model
     statsPopup.setHeaderText(myResources.getString("Stats"));
     statsPopup.setContentText(String.format(myResources.getString("HighScore")
-                    .concat(myResources.getString("Wins"))
-                    .concat(myResources.getString("Losses")),
-            myUser.highScore(), myUser.wins(), myUser.losses()));
+            .concat(myResources.getString("Wins"))
+            .concat(myResources.getString("Losses")),
+        myUser.highScore(), myUser.wins(), myUser.losses()));
     statsPopup.showAndWait();
     togglePlayPause();
   }

@@ -19,12 +19,12 @@ import org.json.JSONObject;
 
 /**
  * Purpose: This class's purpose is to do high level parsing of starting config files that are first
- * converted into a JSONObject (either from a local file or from the database)
- * Dependencies: java-json, Position, GameData, JSONObjectParser, Consumer, Set, ResourceBundle,
- * Map, List, InputMismatchException, HashMap, ArrayList, IOException, File
- * Example: Instantiate this class in a Controller to take in a JSONObject that represents starting
- * config data (either from a local file or a database file) in order to instantiate a GameEngine
- * which represents the backend for a Pacman game
+ * converted into a JSONObject (either from a local file or from the database) Dependencies:
+ * java-json, Position, GameData, JSONObjectParser, Consumer, Set, ResourceBundle, Map, List,
+ * InputMismatchException, HashMap, ArrayList, IOException, File Example: Instantiate this class in
+ * a Controller to take in a JSONObject that represents starting config data (either from a local
+ * file or a database file) in order to instantiate a GameEngine which represents the backend for a
+ * Pacman game
  *
  * @author Evan Kenyon
  */
@@ -68,11 +68,12 @@ public class JsonParser implements JsonParserInterface {
   /**
    * Purpose: Parse a JSONObject into a GameData object containing a Wall map, a player, the number
    * of lives, the starting score, the information about which pellets are required and which are
-   * not, the number of columns, and the number of rows. Updates the GameData consumers with
-   * created GameData object.
+   * not, the number of columns, and the number of rows. Updates the GameData consumers with created
+   * GameData object.
+   *
    * @param json the JSONObject which represents a starting config file
    * @throws InputMismatchException thrown if any keys or starting data in the starting config json
-   * are incorrect, with specific error messages based on the issue
+   *                                are incorrect, with specific error messages based on the issue
    */
   @Override
   public void parseJSON(JSONObject json) throws InputMismatchException {
@@ -107,6 +108,7 @@ public class JsonParser implements JsonParserInterface {
 
   /**
    * Purpose: Add a consumer for the GameData object which is created by parseJSON
+   *
    * @param consumer consumer for the GameData object
    */
   @Override
@@ -116,6 +118,7 @@ public class JsonParser implements JsonParserInterface {
 
   /**
    * Purpose: Get the number of rows in the starting config
+   *
    * @return the number of rows in the starting config
    */
   public int getRows() {
@@ -123,8 +126,9 @@ public class JsonParser implements JsonParserInterface {
   }
 
   /**
-   * Purpose: Get the number of columns in the starting config
-   * Assumptions: the number of columns in the starting config
+   * Purpose: Get the number of columns in the starting config Assumptions: the number of columns in
+   * the starting config
+   *
    * @return
    */
   public int getCols() {

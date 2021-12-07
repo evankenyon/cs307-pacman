@@ -14,10 +14,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class FirebaseReaderTest {
+
   private FirebaseReader firebaseReader;
 
   @BeforeEach
-
   void setUp() throws FirebaseException {
     firebaseReader = new FirebaseReader();
   }
@@ -49,8 +49,10 @@ class FirebaseReaderTest {
   @Test
   void getFileNamesAsArray()
       throws FirebaseException, UnsupportedEncodingException {
-    Assertions.assertTrue(List.of(firebaseReader.getFileNames().toArray(new String[0])).contains("test1"));
-    Assertions.assertTrue(List.of(firebaseReader.getFileNames().toArray(new String[0])).contains("bad"));
+    Assertions.assertTrue(
+        List.of(firebaseReader.getFileNames().toArray(new String[0])).contains("test1"));
+    Assertions.assertTrue(
+        List.of(firebaseReader.getFileNames().toArray(new String[0])).contains("bad"));
   }
 
   @Test

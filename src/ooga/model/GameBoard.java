@@ -27,7 +27,7 @@ public class GameBoard {
   private int myGhostScore;
   private Consumer<Integer> myScoreConsumer;
   private Consumer<Integer> myLivesConsumer;
-  private Consumer<GameStatus> myGameStatusConsumer;
+  private List<Consumer<GameStatus>> myGameStatusConsumer;
   private GameStatus currentGameStatus;
   private final EndConditionContext endConditionWin;
   private final EndConditionContext endConditionLoss;
@@ -38,6 +38,7 @@ public class GameBoard {
     myState = new GameState(vanillaGameData);
     myPacScore = 0;
     myGhostScore = 0;
+    myGameStatusConsumer = new ArrayList<>();
     currentGameStatus = GameStatus.RUNNING;
     endConditionWin = new EndConditionContext();
     endConditionLoss = new EndConditionContext();
@@ -191,11 +192,11 @@ public class GameBoard {
   }
 
   public void addGameStatusConsumer(Consumer<GameStatus> consumer) {
-    myGameStatusConsumer = consumer;
+    myGameStatusConsumer.add(consumer);
   }
 
   public void updateGameStatusConsumer() {
-    myGameStatusConsumer.accept(currentGameStatus);
+    myGameStatusConsumer.forEach(consumer -> consumer.accept(currentGameStatus));
   }
 
   public int getMyPacScore() {

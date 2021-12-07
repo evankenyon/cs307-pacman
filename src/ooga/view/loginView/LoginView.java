@@ -42,12 +42,14 @@ public class LoginView {
   public static final String SIGN_UP_KEY = "SignUp";
   public static final String SIGN_IN_ID = "signInButton";
   public static final String SIGN_UP_ID = "signUpButton";
+  public static final String CHEAT_KEY_ID = "cheatKeyButton";
 
   private ResourceBundle myResources;
   private Stage myStage;
   private Controller myController;
   private User myUser;
   private ErrorPopups myError;
+  private String cheatKey;
 
   public LoginView (Stage stage, Controller controller) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
@@ -76,8 +78,17 @@ public class LoginView {
     buttonBox.setAlignment(Pos.CENTER);
     buttonBox.setSpacing(BUTTON_SPACING);
     buttonBox.getChildren().addAll(signInButton, signUpButton);
-    root.getChildren().addAll(welcome, buttonBox);
+    ImageView cheatKeyButton = makeButton("signIn", e -> cheatKeyDialog(), CHEAT_KEY_ID);
+    root.getChildren().addAll(welcome, buttonBox, cheatKeyButton);
     return new Scene(root, LOGIN_WIDTH, LOGIN_HEIGHT);
+  }
+
+  private void cheatKeyDialog() {
+    TextInputDialog cheatKeyInput = new TextInputDialog();
+    cheatKeyInput.setTitle(myResources.getString("CheatKeyInputTitle"));
+    cheatKeyInput.setHeaderText(myResources.getString("CheatKeyInputHeader"));
+    cheatKeyInput.showAndWait();
+    cheatKey = cheatKeyInput.getEditor().getText();
   }
 
   private void signUpAction() {

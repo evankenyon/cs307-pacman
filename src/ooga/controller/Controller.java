@@ -28,6 +28,7 @@ import ooga.controller.IO.UserPreferences;
 import ooga.controller.IO.keyTracker;
 import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.VanillaGame;
+import ooga.model.util.GameStatus;
 import ooga.model.util.Position;
 import ooga.view.loginView.LoginView;
 import ooga.view.mainView.MainView;
@@ -161,7 +162,6 @@ public class Controller implements ControllerInterface {
   }
 
 
-
   public UserPreferences uploadFirebaseFile(String fileName)
       throws IOException, NoSuchMethodException, IllegalAccessException, FirebaseException {
     setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));
@@ -191,7 +191,9 @@ public class Controller implements ControllerInterface {
         vanillaGameDataInterface -> {
           try {
             vanillaGame = new VanillaGame(vanillaGameDataInterface);
+            vanillaGame.getBoard().addGameStatusConsumer(gameStatus -> updateUserStats(gameStatus));
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
             new ErrorPopups(e, myLanguage, "reflectionError");
             ResourceBundle exceptionMessages = ResourceBundle.getBundle(
                 String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, EXCEPTION_MESSAGES_FILENAME));
@@ -231,6 +233,18 @@ public class Controller implements ControllerInterface {
   private void step(double elapsedTime) {
     if (vanillaGame != null && !isPaused) {
       vanillaGame.step();
+    }
+  }
+
+  private void updateUserStats(GameStatus gameStatus) {
+    System.out.println("test");
+    if(gameStatus == GameStatus.LOSS || gameStatus == GameStatus.WIN) {
+      try {
+        profileGenerator.updateUserStats(currUser.username(), password, vanillaGame.getBoard().getMyPacScore(), gameStatus == GameStatus.WIN);
+      } catch (Exception e) {
+        //TODO: fix
+        e.printStackTrace();
+      }
     }
   }
 

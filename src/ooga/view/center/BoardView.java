@@ -148,6 +148,7 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, int.class, int.class)
           .newInstance(agent, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+      e.printStackTrace();
       new ErrorPopups(e, myLanguage, "ReflectionError");
       return new EmptyView(new wall(position.getCoords()[0], position.getCoords()[1]), numRows,
           numCols);
@@ -165,19 +166,5 @@ public class BoardView {
   public Node getBoardPane() {
     return myBoardPane;
   }
-
-//  /**
-//   * Setter method to add 1 to the ghost count to know which image to make the new ghost
-//   */
-//  public void incrementGhostCount() {
-//    ghostCount++;
-//  }
-//
-//  /**
-//   * Getter method to get the ghost count to know what image to make the ghost
-//   *
-//   * @return int ghostCount
-//   */
-//  public int getGhostCount() { return ghostCount; }
 
 }

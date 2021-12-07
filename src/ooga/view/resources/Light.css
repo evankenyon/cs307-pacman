@@ -6,6 +6,10 @@
     -fx-fill: BLACK;
 }
 
+.label {
+    -fx-text-fill: LIGHTGRAY;
+}
+
 #myBackgroundColor {
     -fx-fill: WHITESMOKE;
 }

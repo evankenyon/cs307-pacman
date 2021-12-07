@@ -6,7 +6,7 @@
   "PlayerScore":0,
   "WallMap":[
     ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall", "Wall", "Wall", "Wall","Wall"  ,"Wall","Wall" , "Wall", "Wall","Wall" , "Wall","Wall" ,"Wall", "Wall","Wall" , "Wall", "Wall", "Wall" , "Wall"],
-    ["Wall", "Dot" , "Dot" ,"Dot" ,"Dot" ,"Dot" , "Dot" , "Dot" ,"Dot" , "Dot" , "Dot" , "Dot" , "Dot" ,"Wall"  ,"Wall", "Pacman" , "Dot" , "Dot" ,"Dot"  , "Dot" , "Dot" , "Dot", "Dot" , "Dot" , "Dot" , "Dot" , "Dot"  , "Wall"],
+    ["Wall", "Dot" , "Dot" ,"Dot" ,"Dot" ,"Dot" , "Dot" , "Dot" ,"Dot" , "Dot" , "Dot" , "Dot" , "Dot" ,"Wall"  ,"Wall", "Dot" , "Dot" , "Dot" ,"Dot"  , "Dot" , "Dot" , "Dot", "Dot" , "Dot" , "Dot" , "Dot" , "Dot"  , "Wall"],
     ["Wall", "Dot" , "Wall","Wall","Wall","Wall", "Dot" , "Wall","Wall", "Wall", "Wall", "Wall", "Dot" ,"Wall"  ,"Wall", "Dot" , "Wall","Wall" , "Wall", "Wall", "Wall", "Dot", "Wall","Wall" , "Wall", "Wall", "Dot"  , "Wall"],
     ["Wall","Super", "Wall","Wall","Wall","Wall", "Dot" ,"Wall" ,"Wall", "Wall", "Wall", "Wall", "Dot" ,"Wall"  ,"Wall", "Dot" , "Wall","Wall" , "Wall", "Wall", "Wall", "Dot", "Wall","Wall" , "Wall", "Wall", "Super", "Wall"],
     ["Wall", "Dot" , "Wall","Wall","Wall","Wall", "Dot" , "Wall","Wall", "Wall", "Wall", "Wall", "Dot" ,"Wall"  ,"Wall", "Dot" , "Wall","Wall" , "Wall", "Wall", "Wall", "Dot", "Wall","Wall" , "Wall", "Wall", "Dot"  , "Wall"],
@@ -26,7 +26,7 @@
     ["Wall", "Dot" , "Dot" ,"Dot" ,"Dot" ,"Dot" , "Dot" , "Dot" ,"Dot" , "Dot" , "Dot" , "Dot" , "Dot" ,"Wall"  ,"Wall", "Dot" , "Dot" , "Dot" ,"Dot"  , "Dot" , "Dot" , "Dot", "Dot" , "Dot" , "Dot" , "Dot" , "Dot"  , "Wall"],
     ["Wall", "Dot" , "Wall","Wall","Wall","Wall", "Dot" , "Wall","Wall", "Wall", "Wall", "Wall", "Dot" ,"Wall"  ,"Wall", "Dot" , "Wall","Wall" , "Wall", "Wall", "Wall", "Dot", "Wall","Wall" , "Wall", "Wall", "Dot"  , "Wall"],
     ["Wall","Super", "Wall","Wall","Wall","Wall", "Dot" ,"Wall" ,"Wall", "Wall", "Wall", "Wall", "Dot" ,"Wall"  ,"Wall", "Dot" , "Wall","Wall" , "Wall", "Wall", "Wall", "Dot", "Wall","Wall" , "Wall", "Wall", "Super", "Wall"],
-    ["Wall", "Dot" , "Dot" ,"Dot" ,"Wall","Wall", "Dot" , "Dot" ,"Dot" , "Dot" , "Dot" , "Dot" , "Dot" ,"Dot"   ,"Dot" , "Dot" , "Dot" , "Dot" ,"Dot"  , "Dot" , "Dot" , "Dot", "Wall", "Wall", "Dot" , "Dot" , "Dot"  , "Wall"],
+    ["Wall", "Dot" , "Dot" ,"Dot" ,"Wall","Wall", "Dot" , "Dot" ,"Dot" , "Dot" , "Dot" , "Dot" , "Dot" ,"Pacman","Dot" , "Dot" , "Dot" , "Dot" ,"Dot"  , "Dot" , "Dot" , "Dot", "Wall", "Wall", "Dot" , "Dot" , "Dot"  , "Wall"],
     ["Wall", "Wall", "Wall","Dot" ,"Wall","Wall", "Dot" , "Wall","Wall", "Dot" , "Wall", "Wall", "Wall","Wall"  ,"Wall", "Wall", "Wall", "Wall","Dot"  , "Wall", "Wall", "Dot", "Wall", "Wall", "Dot" , "Wall", "Wall" , "Wall"],
     ["Wall", "Wall", "Wall","Dot" ,"Wall","Wall", "Dot" , "Wall","Wall", "Dot" , "Wall", "Wall", "Wall","Wall"  ,"Wall", "Wall", "Wall", "Wall","Dot"  , "Wall", "Wall", "Dot", "Wall", "Wall", "Dot" , "Wall", "Wall" , "Wall"],
     ["Wall", "Dot" , "Dot" ,"Dot" ,"Dot" ,"Dot" , "Dot" , "Wall","Wall", "Dot" , "Dot" , "Dot" , "Dot" ,"Wall"  ,"Wall", "Dot" , "Dot" ,"Dot"  , "Dot" , "Wall", "Wall", "Dot", "Dot" ,"Dot"  , "Dot" , "Dot" , "Dot"  , "Wall"],

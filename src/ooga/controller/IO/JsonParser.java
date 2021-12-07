@@ -67,7 +67,7 @@ public class JsonParser implements JsonParserInterface {
     setupNumLives(json.getInt(magicValues.getString("NumberOfLivesKey")));
     setupWallMap(json.getJSONArray(magicValues.getString("WallMapKey")));
     checkWallMapForRequirements();
-    updateConsumers(new GameData(wallMap, player, numLives, playerScore, pelletInfo, mapCols, mapRows));
+    updateConsumers(new GameData(wallMap, player, playerScore, numLives, pelletInfo, mapCols, mapRows));
   }
 
   @Deprecated
@@ -82,7 +82,7 @@ public class JsonParser implements JsonParserInterface {
     setupPlayerScore(json.getInt(magicValues.getString("PlayerScoreKey")));
     setupWallMap(json.getJSONArray(magicValues.getString("WallMapKey")));
     checkWallMapForRequirements();
-    updateConsumers(new GameData(wallMap, player, numLives, playerScore, pelletInfo, mapCols, mapRows));
+    updateConsumers(new GameData(wallMap, player, playerScore, numLives, pelletInfo, mapCols, mapRows));
   }
 
   @Override

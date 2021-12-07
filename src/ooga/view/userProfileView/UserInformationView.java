@@ -21,6 +21,13 @@ import ooga.controller.Controller;
 import ooga.controller.IO.User;
 import ooga.view.popups.ErrorPopups;
 
+/**
+ * Class that creates the window that shows the user profile, including all user information,
+ * and allows them to edit fields and add or remove a favorite game file.
+ *
+ * @author Dane Erickson
+ */
+
 public class UserInformationView {
   private static final int SCREEN_WIDTH = 400;
   private static final int SCREEN_HEIGHT = 425;

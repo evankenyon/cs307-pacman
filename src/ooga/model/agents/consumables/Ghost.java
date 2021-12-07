@@ -26,6 +26,7 @@ public class Ghost extends AbstractAgent implements Consumable {
 
   public Ghost(int x, int y) {
     super(x, y);
+    getPosition().setDirection("right");
     myState = ALIVE_STATE;
   }
 

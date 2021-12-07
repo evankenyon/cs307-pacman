@@ -93,6 +93,15 @@ public class GameStartupPanel {
   private Controller myController;
   private String runMethodName;
 
+  /**
+   * Class that creates the startup panel, which welcomes the user with their profile
+   * picture and name; allows them to view their profile; allows the user to select a
+   * game file from their local, firebase, or their favorites; allows the user to
+   * select a language; allows the user to select a view mode; and when they have
+   * selected all options, lets them hit PLAY! to play the game with those specifications.
+   *
+   * @author Kat Cottrell, Dane Erickson
+   */
 
   @Deprecated
   public GameStartupPanel(Stage stage) {

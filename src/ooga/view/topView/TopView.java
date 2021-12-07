@@ -48,6 +48,13 @@ public class TopView {
     private VBox topFull;
     private int currScore;
 
+    /**
+     * Class that creates the top view of the main game view, including the title image, a life
+     * counter, and a scoreboard.
+     *
+     * @author Kat Cottrell, Dane Erickson
+     */
+
     @Deprecated
     public TopView (VanillaGame game, String language) {
         myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));

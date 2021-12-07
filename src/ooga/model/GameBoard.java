@@ -54,22 +54,22 @@ public class GameBoard {
     ResourceBundle endConditionReflectionKeys = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, endConditionFileName));
     EndCondition winCondition = null;
-    System.out.println(endConditionFileName);
     winCondition = (EndCondition) Class.forName(
             String.format("%s%s", END_CONDITIONS_PACKAGE,
-                endConditionReflectionKeys.getString("winCondition")))
+                endConditionReflectionKeys.getString("winConditionString")))
         .getConstructor()
         .newInstance();
 
     EndCondition endCondition = null;
     endCondition = (EndCondition) Class.forName(
             String.format("%s%s", END_CONDITIONS_PACKAGE,
-                endConditionReflectionKeys.getString("loseCondition")))
+                endConditionReflectionKeys.getString("loseConditionString")))
         .getConstructor()
         .newInstance();
 
     endConditionWin.setStrategy(winCondition);
     endConditionLoss.setStrategy(endCondition);
+
   }
 
   //move every agent in the board by one step

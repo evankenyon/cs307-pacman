@@ -14,6 +14,10 @@ import ooga.model.util.Position;
 
 public class GameStateData {
 
+
+  private Agent myPlayer;
+  private boolean isWin;
+  private boolean isLose;
   private boolean isSuper;
   private int myPacScore;
   private int myGhostScore;
@@ -52,7 +56,7 @@ public class GameStateData {
     myWallMap = new boolean[cols][rows];
     pacmanLives = data.numLives();
     createWallMap(gameDict, rows, cols);
-    createAgentList(gameDict);
+    createAgentList(gameDict, data.player());
     createWallList(gameDict);
     createPelletLists(gameDict, pelletInfo);
     createEmptySpots(gameDict);
@@ -90,6 +94,8 @@ public class GameStateData {
       }
     }, 5000);
   }
+
+  public Agent getMyPlayer(){ return myPlayer;}
 
   public int getMyPacScore() {
     return myPacScore;
@@ -173,20 +179,28 @@ public class GameStateData {
     return pacmanLives;
   }
 
-  private void createAgentList(Map<String, List<Position>> gameDict) {
+  private void createAgentList(Map<String, List<Position>> gameDict, String player) {
     for (Position agentPos : gameDict.get("Pacman")) {
       int x = agentPos.getCoords()[0];
       int y = agentPos.getCoords()[1];
       myInitAgentPositions.add(new Position(x, y));
       myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
+      //TODO - convert to properties
+      if (player.equals("Pacman")){
+        myPlayer = myAgentStates.get(0);
+      }
+      pacmanLives = 3;
     }
-
     if (gameDict.get("Ghost") != null) {
       for (Position agentPos : gameDict.get("Ghost")) {
         int x = agentPos.getCoords()[0];
         int y = agentPos.getCoords()[1];
         myInitAgentPositions.add(new Position(x, y));
+        myInitAgentPositions.add(new Position(x,y));
         myAgentStates.add(agentFactory.createAgent("Ghost", x, y));
+        if (player.equals("Ghost")){
+          myPlayer = myAgentStates.get(1);
+        }
       }
     }
   }

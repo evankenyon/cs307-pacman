@@ -33,11 +33,19 @@ import ooga.model.util.Position;
 import ooga.view.loginView.LoginView;
 import ooga.view.mainView.MainView;
 import ooga.view.popups.ErrorPopups;
-import ooga.view.startupView.GameStartupPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
+/**
+ * Purpose:
+ * Assumptions:
+ * Dependencies:
+ * Example:
+ * Other details:
+ *
+ * @author Evan Kenyon
+ */
 public class Controller implements ControllerInterface {
 
   private static final String DEFAULT_RESOURCE_PACKAGE =
@@ -51,19 +59,15 @@ public class Controller implements ControllerInterface {
   private VanillaGame vanillaGame;
   private final Timeline myAnimation;
   private final PreferencesParser preferencesParser;
-  private GameStartupPanel panel;
   private Map<String, List<Position>> wallMap;
   private boolean isPaused;
   private final String myLanguage;
   private final String myViewMode;
-  private int rows;
-  private int cols;
   private FirebaseReader firebaseReader;
   private JSONObject originalStartingConfigJson;
   private final Stage myStage;
   private UserPreferences myPreferences;
   private ProfileGenerator profileGenerator;
-  private GameStartupPanel gameStartupPanel;
   private User currUser;
   private String password;
   private Runnable playPauseRun;
@@ -71,6 +75,13 @@ public class Controller implements ControllerInterface {
 
   private final ResourceBundle magicValues;
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param language
+   * @param stage
+   * @param viewMode
+   */
   public Controller(String language, Stage stage, String viewMode) {
     magicValues = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
@@ -97,6 +108,13 @@ public class Controller implements ControllerInterface {
     isPaused = true;
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @return
+   * @throws FirebaseException
+   * @throws UnsupportedEncodingException
+   */
   public Set<String> getFirebaseFilenames()
       throws FirebaseException, UnsupportedEncodingException {
     return firebaseReader.getFileNames();
@@ -107,36 +125,79 @@ public class Controller implements ControllerInterface {
 //    profileGenerator.createUser(username, password, imageFile);
 //  }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param username
+   * @param password
+   * @param imageFile
+   * @return
+   * @throws IOException
+   * @throws InterruptedException
+   * @throws IllegalArgumentException
+   */
   public User createUser(String username, String password, File imageFile)
       throws IOException, InterruptedException, IllegalArgumentException {
     profileGenerator.createUser(username, password, imageFile);
     return login(username, password);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param username
+   * @param password
+   * @return
+   * @throws IOException
+   */
   public User login(String username, String password) throws IOException {
     currUser = profileGenerator.login(username, password);
     this.password = password;
     return profileGenerator.login(username, password);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @return
+   */
   public User getUser() {
     return currUser;
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param updatedUsername
+   * @throws IOException
+   */
   public void updateUsername(String updatedUsername) throws IOException {
     profileGenerator.changeProfileUsername(currUser.username(), password, updatedUsername);
     currUser = login(updatedUsername, password);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param updatedPassword
+   * @throws IOException
+   */
   public void updatePassword(String updatedPassword) throws IOException {
     profileGenerator.changeProfilePassword(currUser.username(), password, updatedPassword);
     password = updatedPassword;
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param file
+   * @throws IOException
+   */
   public void removeFile(String file) throws IOException {
     profileGenerator.removeFavoriteFile(currUser.username(), password, file);
     currUser = login(currUser.username(), password);
   }
+
 
   @Deprecated
   public void updateImage(File updatedImageFile) throws IOException {
@@ -153,6 +214,16 @@ public class Controller implements ControllerInterface {
 //    System.out.println(currUser.username());
 //  }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param file
+   * @param type
+   * @throws IOException
+   * @throws NoSuchMethodException
+   * @throws InvocationTargetException
+   * @throws IllegalAccessException
+   */
   public void updateFile(File file, String type)
       throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     ResourceBundle methodMappings = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, METHOD_MAPPINGS_FILENAME));
@@ -161,7 +232,16 @@ public class Controller implements ControllerInterface {
     currUser = login(currUser.username(), password);
   }
 
-
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param fileName
+   * @return
+   * @throws IOException
+   * @throws NoSuchMethodException
+   * @throws IllegalAccessException
+   * @throws FirebaseException
+   */
   public UserPreferences uploadFirebaseFile(String fileName)
       throws IOException, NoSuchMethodException, IllegalAccessException, FirebaseException {
     setupPreferencesAndVanillaGame(firebaseReader.getFile(fileName));
@@ -177,6 +257,16 @@ public class Controller implements ControllerInterface {
     return myPreferences;
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param filename
+   * @return
+   * @throws IOException
+   * @throws InvocationTargetException
+   * @throws NoSuchMethodException
+   * @throws IllegalAccessException
+   */
   public UserPreferences uploadFile(String filename)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     setupPreferencesAndVanillaGame(JSONObjectParser.parseJSONObject(new File(filename)));
@@ -214,17 +304,31 @@ public class Controller implements ControllerInterface {
         preferencesParser.getStyle(), myLanguage);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param factor
+   */
   @Override
   public void setAnimationSpeed(double factor) {
     myAnimation.setRate(factor);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   */
   @Override
   public void pauseOrResume() {
     isPaused = !isPaused;
     playPauseRun.run();
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @return
+   */
   @Override
   public VanillaGame getVanillaGame() {
     return vanillaGame;
@@ -248,6 +352,11 @@ public class Controller implements ControllerInterface {
     }
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param event
+   */
   @Override
   public void updatePressedKey(KeyEvent event) {
 //    LOG.info("updating pressed key to {}", event.getCode());
@@ -272,7 +381,11 @@ public class Controller implements ControllerInterface {
     return myAnimation.getRate();
   }
 
-
+  /**
+   * Purpose:
+   * Assumptions:
+   * @throws IOException
+   */
   public void saveFile() throws IOException {
     GameSaver saver = new GameSaver(vanillaGame);
     saver.saveGame();

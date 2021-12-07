@@ -16,7 +16,8 @@ public class Empty extends AbstractAgent {
   public Empty(int x, int y) {
     super(x, y);
     myState = EMPTY;
-    myMover = new MovementStrategyContext(new Static());
+    myMover = new MovementStrategyContext();
+    setStrategy(new Static());
   }
 
   @Override

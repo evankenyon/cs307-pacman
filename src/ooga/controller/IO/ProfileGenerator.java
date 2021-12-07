@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import ooga.controller.IO.utils.JSONObjectParser;
 import org.json.JSONArray;
@@ -83,7 +84,7 @@ public class ProfileGenerator {
 
   public void addFavoriteFile(String username, String password, File filePath)
       throws IOException {
-    if(filePath.getName().endsWith(".json")) {
+    if(!filePath.getName().endsWith(".json")) {
       throw new IllegalArgumentException("Invalid file type, must be .json");
     }
     updateUserAttribute(username, password,
@@ -92,15 +93,19 @@ public class ProfileGenerator {
 
   public void removeFavoriteFile(String username, String password, String filePath)
       throws IOException {
+    AtomicBoolean doesFileExist = new AtomicBoolean(false);
     updateUserAttribute(username, password, userInfo -> {
       for (int index = 0; index < userInfo.getJSONArray("favorite-files").length(); index++) {
         if (userInfo.getJSONArray("favorite-files").getString(index).equals(filePath)) {
           userInfo.getJSONArray("favorite-files").remove(index);
+          doesFileExist.set(true);
           return;
         }
       }
-      throw new IllegalArgumentException("File does not exist");
     });
+    if (!doesFileExist.get()) {
+      throw new IllegalArgumentException("File does not exist");
+    }
   }
 
   public void changeProfileUsername(String oldUsername, String password, String newUsername)

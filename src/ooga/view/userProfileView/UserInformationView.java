@@ -118,6 +118,7 @@ public class UserInformationView {
 
   private void addTextInfo(GridPane root, String key, String value, int columnIndex, int rowIndex) {
     Text textInfo = new Text(String.format("%s: %s", key, value));
+    textInfo.setId(key);
     root.add(textInfo, columnIndex, rowIndex);
   }
 

@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ooga.controller.IO.User;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import javafx.scene.Node;
@@ -20,15 +19,11 @@ import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
 import ooga.view.mainView.MainView;
 import org.junit.jupiter.api.Test;
-import org.testfx.api.FxAssert;
-import org.testfx.api.FxRobot;
-import org.testfx.matcher.base.WindowMatchers;
 import util.DukeApplicationTest;
 
 
 public class BottomViewTest extends DukeApplicationTest {
 
-  public static final long DELAY = 1000;
   public static final String TEST_FILE = "data/basic_examples/test_implementation.json";
 
   private Controller myController;
@@ -42,7 +37,7 @@ public class BottomViewTest extends DukeApplicationTest {
   public void start (Stage stage)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myController = new Controller(LANGUAGE, stage, VIEW_MODE);
-    UserPreferences prefs = myController.uploadFile(new File(TEST_FILE));
+    UserPreferences prefs = myController.uploadFile(TEST_FILE);
     myUser = new User("test", "test", TEST_IMAGE, 0,0,0, null);
     myMainView = new MainView(myController, myController.getVanillaGame(), stage, VIEW_MODE, prefs, myUser);
     myPlayPauseButton = lookup("#playPauseButton").query();
@@ -81,17 +76,6 @@ public class BottomViewTest extends DukeApplicationTest {
     setValue(mySpeedSlider, (MAX_SLIDER_VAL+MIN_SLIDER_VAL)/2);
     double actual = myController.getAnimationSpeed();
     assertEquals((MAX_SLIDER_VAL+MIN_SLIDER_VAL)/2, actual);
-  }
-
-  @Test
-  void testViewProfile() {
-    clickOn(myProfilePicButton);
-    FxAssert.verifyThat(window(0), WindowMatchers.isShowing());
-//    targetWindow(0);
-//    clickOn(lookup("#EditUsername").query());
-//    writeInputsToDialog("test");
-//    clickOn(lookup("#EditPassword").query());
-//    writeInputsToDialog("test");
   }
 
 }

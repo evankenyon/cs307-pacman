@@ -6,6 +6,10 @@
     -fx-fill: LIGHTGRAY;
 }
 
+.label {
+    -fx-text-fill: LIGHTGRAY;
+}
+
 #myBackgroundColor {
     -fx-fill: DARKBLUE;
 }

@@ -27,25 +27,12 @@ public class GameStateData {
   private boolean[][] myWallMap;
   private int pacmanLives;
 
-
   public GameStateData() {
     myPacScore = 0;
     myGhostScore = 0;
     myAgentStates = new ArrayList<>();
     myRequiredPelletStates = new ArrayList<>();
-
   }
-
-//  public GameStateData(GameStateData previous) {
-//    myPacScore = previous.myPacScore;
-//    myGhostScore = previous.myGhostScore;
-//    isSuper = previous.isSuper;
-//    foodLeft = previous.foodLeft;
-//    myAgentStates = previous.myAgentStates;
-//    myRequiredPelletStates = previous.myRequiredPelletStates;
-//    myWallMap = previous.myWallMap;
-//    myWallStates = previous.myWallStates;
-//  }
 
   public void initialize(GameData data) {
     Map<String, List<Position>> gameDict = data.wallMap();
@@ -60,6 +47,8 @@ public class GameStateData {
     myWallStates = new ArrayList<>();
     myInitAgentPositions = new ArrayList<>();
     myWallMap = new boolean[cols][rows];
+    pacmanLives = data.numLives();
+//    System.out.println(pacmanLives);
     createWallMap(gameDict, rows, cols);
     createAgentList(gameDict);
     createWallList(gameDict);
@@ -185,7 +174,6 @@ public class GameStateData {
       int y = agentPos.getCoords()[1];
       myInitAgentPositions.add(new Position(x, y));
       myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
-      pacmanLives = 3;
     }
 
     if (gameDict.get("Ghost") != null) {

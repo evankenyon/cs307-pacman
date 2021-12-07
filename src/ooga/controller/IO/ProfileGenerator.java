@@ -26,7 +26,7 @@ public class ProfileGenerator {
   }
 
   public ProfileGenerator(String path) {
-    if(!new File(path).exists()) {
+    if (!new File(path).exists()) {
       this.path = "./data/profiles.json";
     } else {
       this.path = path;
@@ -83,6 +83,9 @@ public class ProfileGenerator {
 
   public void addFavoriteFile(String username, String password, File filePath)
       throws IOException {
+    if(filePath.getName().endsWith(".json")) {
+      throw new IllegalArgumentException("Invalid file type, must be .json");
+    }
     updateUserAttribute(username, password,
         userInfo -> userInfo.getJSONArray("favorite-files").put(getRelativePath(filePath)));
   }
@@ -93,9 +96,10 @@ public class ProfileGenerator {
       for (int index = 0; index < userInfo.getJSONArray("favorite-files").length(); index++) {
         if (userInfo.getJSONArray("favorite-files").getString(index).equals(filePath)) {
           userInfo.getJSONArray("favorite-files").remove(index);
-          break;
+          return;
         }
       }
+      throw new IllegalArgumentException("File does not exist");
     });
   }
 

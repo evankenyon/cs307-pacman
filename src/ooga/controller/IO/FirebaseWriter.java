@@ -28,6 +28,12 @@ import ooga.model.VanillaGame;
 import org.apache.commons.logging.Log;
 import org.json.JSONObject;
 
+/**
+ * @author Dania Fernandez
+ * @author Evan Kenyon
+ * dependencies: JSONObjectBuilder
+ * Saves a JSONObject of the current game configuration to Firebase
+ */
 public class FirebaseWriter {
 
   private JSONConfigObjectBuilder builder;
@@ -39,6 +45,11 @@ public class FirebaseWriter {
   private String userObjectName;
   private int counter = 0;
 
+  /**
+   * Sets up firebase and response based on the ooga Firebase url
+   * @throws FirebaseException
+   * @throws UnsupportedEncodingException
+   */
   public FirebaseWriter() throws FirebaseException, UnsupportedEncodingException {
     // Borrowed code for basic setup from
     // https://github.com/bane73/firebase4j
@@ -66,6 +77,13 @@ public class FirebaseWriter {
   //}
   //TODO: have child name update based on # of existing user files
 
+  /**
+   * Saves the JSONObject of the current game configuration to Firebase
+   * @param vanillaGame, current vanillaGame
+   * @throws JacksonUtilityException
+   * @throws FirebaseException
+   * @throws UnsupportedEncodingException
+   */
   public void saveObject(VanillaGame vanillaGame)
       throws JacksonUtilityException, FirebaseException, UnsupportedEncodingException {
     myVanillaGame = vanillaGame;

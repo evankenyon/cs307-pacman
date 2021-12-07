@@ -22,7 +22,7 @@ public class SuperPelletView extends StationaryView {
 
   public static final double LARGE_PELLET_SIZE = 0.25; // large pellets radii are 50% of grid square
 
-  //  private VanillaGame myGame;
+  //  private GameEngine myGame;
 //  private Position myInfo;
   private Agent myAgent; //TODO: change to correct agent subclass
   private Circle myCircle;
@@ -36,7 +36,7 @@ public class SuperPelletView extends StationaryView {
   private double pelletBufferY;
 
   /**
-   * Constructor to create the SuperPelletView object using the default pellet color for the Circles
+   * Constructor to create the SuperPelletView object using the default Pellet color for the Circles
    * in SuperPelletView
    *
    * @param pelletAgent is the Agent from the backend that corresponds to the front end Agent
@@ -59,7 +59,7 @@ public class SuperPelletView extends StationaryView {
    *
    * @param pelletAgent is the Agent from the backend that corresponds to the front end Agent
    * @param rgb         is the list of Doubles that represent the red, green, and blue values to
-   *                    determine the super pellet's color
+   *                    determine the super Pellet's color
    * @param gridRows    is the row position of the Agent
    * @param gridCols    is the column position of the Agent
    */

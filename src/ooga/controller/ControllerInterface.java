@@ -3,12 +3,9 @@ package ooga.controller;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Map;
 import javafx.scene.input.KeyEvent;
 import ooga.controller.IO.UserPreferences;
-import ooga.model.VanillaGame;
-import ooga.model.util.Position;
+import ooga.model.GameEngine;
 
 public interface ControllerInterface {
 
@@ -26,5 +23,5 @@ public interface ControllerInterface {
 
   public void pauseOrResume();
 
-  public VanillaGame getVanillaGame();
+  public GameEngine getVanillaGame();
 }

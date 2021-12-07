@@ -29,12 +29,11 @@ public class GameState {
 
     myGameStateData = new GameStateData();
     myGameStateData.initialize(vanillaGameData);
-    myGameStateData.getAgents().get(0).setStrategy(new greedyBFS());
+    getPacman().setStrategy(new greedyBFS());
 
-    for (Agent a : myGameStateData.getAgents().subList(1, myGameStateData.getAgents().size())) {
+    for (Agent a : getGhosts()) {
       a.setStrategy(new BFS());
     }
-
     myGameStateData.getMyPlayer().setStrategy(new Controllable());
     implementRunnables();
 
@@ -153,7 +152,7 @@ public class GameState {
   public void updateHandlers() {
     getPacman().updateConsumer();
 //    for (Agent a : myOtherAgents) a.updateConsumer();
-//    for (Agent wall : myWalls) wall.updateConsumer();
+//    for (Agent Wall : myWalls) Wall.updateConsumer();
   }
 
   public boolean isFood(int x, int y) {

@@ -1,7 +1,7 @@
 package ooga.factories;
 
-import ooga.model.agents.consumables.pellet;
-import ooga.model.agents.wall;
+import ooga.model.agents.consumables.Pellet;
+import ooga.model.agents.Wall;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ class AgentFactoryTest {
 
   @Test
   void createAgentConsumable() {
-    Assertions.assertTrue(agentFactory.createAgent("pellet", 0, 0) instanceof pellet);
+    Assertions.assertTrue(agentFactory.createAgent("pellet", 0, 0) instanceof Pellet);
   }
 
   // TODO: uncomment when we implement ghostPlayer
@@ -28,7 +28,7 @@ class AgentFactoryTest {
 
   @Test
   void createAgentWall() {
-    Assertions.assertTrue(agentFactory.createAgent("wall", 0, 0) instanceof wall);
+    Assertions.assertTrue(agentFactory.createAgent("wall", 0, 0) instanceof Wall);
   }
 
   @Test

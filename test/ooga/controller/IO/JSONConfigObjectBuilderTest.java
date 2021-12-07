@@ -3,10 +3,8 @@ package ooga.controller.IO;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import ooga.model.GameData;
-import ooga.model.GameState;
-import ooga.model.VanillaGame;
+import ooga.model.GameEngine;
 import ooga.model.util.Position;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,7 +15,7 @@ import org.junit.jupiter.api.Test;
 public class JSONConfigObjectBuilderTest {
 
   private JSONConfigObjectBuilder builder;
-  private VanillaGame vanillaGame;
+  private GameEngine gameEngine;
   private JSONObject object;
 
 
@@ -31,8 +29,8 @@ public class JSONConfigObjectBuilderTest {
         List.of(new Position(2, 0)));
     Map<String, Boolean> pelletInfo = Map.of("pellet", true);
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
-    vanillaGame = new VanillaGame(vanillaGameData);
-    builder = new JSONConfigObjectBuilder(vanillaGame);
+    gameEngine = new GameEngine(vanillaGameData);
+    builder = new JSONConfigObjectBuilder(gameEngine);
     object = builder.setConfig();
   }
 

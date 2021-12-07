@@ -1,6 +1,6 @@
 package ooga.view.center.agents;
 
-import static ooga.model.agents.wall.UNPASSABLE;
+import static ooga.model.agents.Wall.UNPASSABLE;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 
@@ -31,7 +31,7 @@ public class EmptyView extends StationaryView {
   private double imageBuffer;
 
   /**
-   * Constructor to create the WallView object using the default wall color for the Rectangles in
+   * Constructor to create the WallView object using the default Wall color for the Rectangles in
    * WallView
    *
    * @param empty    is the Agent from the backend that corresponds to the front end Agent

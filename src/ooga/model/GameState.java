@@ -28,7 +28,6 @@ public class GameState {
 
   public GameState(GameData vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-//    System.out.println(vanillaGameData.wallMap().toString());
 
     myGameStateData = new GameStateData();
     myGameStateData.initialize(vanillaGameData);
@@ -141,7 +140,7 @@ public class GameState {
   }
 
   public void setPlayerDirection(String direction) {
-    getPacman().setDirection(direction);
+    getMyPlayer().setDirection(direction);
   }
 
   public boolean isWall(int x, int y) {
@@ -174,7 +173,7 @@ public class GameState {
 //  }
 
   public Agent getMyPlayer() {
-    return getPacman();
+    return getMyPlayer();
   }
 
   public void updateHandlers() {

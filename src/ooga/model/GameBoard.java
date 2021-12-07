@@ -30,7 +30,7 @@ public class GameBoard {
       InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     myState = new GameState(vanillaGameData);
     myPacScore = 0;
-    myGhostScore = 0;
+    myGhostScore = myState.getFood().size() * 20;
     currentGameStatus = GameStatus.RUNNING;
   }
 
@@ -72,12 +72,12 @@ public class GameBoard {
         if (myState.isSuper() && ghost.getState() != 0) {
           Consumable g = (Consumable) ghost;
           myPacScore += g.getConsumed();
+          myGhostScore -= g.getConsumed();
           myState.resetGhosts();
           updateScoreConsumer();
         } else {
           myState.decreaseLives();
           updateLivesConsumer();
-          System.out.println("pacman got grubbed");
           resetBoard();
         }
       }
@@ -85,8 +85,8 @@ public class GameBoard {
     List<Position> foodsToDelete = new ArrayList<>();
     for (Consumable food : foods) {
       if (isOverlapping(food.getPosition(), pacman.getPosition())) {
-        // update score & change food state to eaten.
         myPacScore += food.getConsumed();
+        myGhostScore -= food.getConsumed();
         foodsToDelete.add(food.getPosition());
         updateScoreConsumer();
       }
@@ -108,7 +108,6 @@ public class GameBoard {
     if (myState.getRequiredPelletsLeft() == 0) {
       currentGameStatus = GameStatus.WIN;
       updateGameStatusConsumer();
-      System.out.println("Game won!");
     }
   }
 
@@ -116,7 +115,6 @@ public class GameBoard {
     if (myState.getLives() == 0) {
       currentGameStatus = GameStatus.LOSS;
       updateGameStatusConsumer();
-      System.out.println("Game lost!");
     }
   }
 
@@ -133,7 +131,6 @@ public class GameBoard {
   public GameState getGameState() {
     return myState;
   }
-
 
   private boolean isOverlapping(Position aPos, Position bPos) {
     return (aPos.getCoords()[0] == bPos.getCoords()[0]

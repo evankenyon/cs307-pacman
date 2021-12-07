@@ -5,7 +5,6 @@ import ooga.model.agents.AbstractAgent;
 import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.MovementStrategyContext;
-import ooga.model.movement.Static;
 import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +18,6 @@ public class pellet extends AbstractAgent implements Consumable {
   private static final Logger LOG = LogManager.getLogger(pellet.class);
 
   private int myState;
-  private MovementStrategyContext myMover;
 
   /**
    * abstract constructor for cell
@@ -30,17 +28,11 @@ public class pellet extends AbstractAgent implements Consumable {
   public pellet(int x, int y) {
     super(x, y);
     myState = UNEATEN_STATE;
-    myMover = new MovementStrategyContext(new Static());
   }
 
   @Override
   public int getState() {
     return myState;
-  }
-
-  @Override
-  public Position getNextMove(GameState state) {
-    return myMover.move(state, getPosition());
   }
 
   @Override
@@ -59,9 +51,5 @@ public class pellet extends AbstractAgent implements Consumable {
     myState = EATEN_STATE;
     updateConsumer();
     return PELLET_POINT;
-  }
-
-  @Override
-  public void applyEffects(Pacman pacman) {
   }
 }

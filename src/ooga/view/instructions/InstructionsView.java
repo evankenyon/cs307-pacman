@@ -43,6 +43,7 @@ public class InstructionsView {
     private Stage instructionsStage;
     private ResourceBundle myResources;
     private VBox[] tops;
+    private int currentIndex;
 
     public InstructionsView(Stage instructionsStage, String selectedLanguage, String selectedViewMode) {
         this.STYLESHEET = "/ooga/view/resources/" + selectedViewMode + ".css";
@@ -164,12 +165,14 @@ public class InstructionsView {
 
         ImageView back = makeImgButton("back");
         back.setOnMouseReleased(e -> {
+            currentIndex = backIdx;
             instructionScene(backIdx);
         });
         back.setVisible(backVisible);
 
         ImageView next = makeImgButton("next");
         next.setOnMouseReleased(e -> {
+            currentIndex = nextIdx;
             instructionScene(nextIdx);
         });
         next.setVisible(nextVisible);
@@ -191,6 +194,7 @@ public class InstructionsView {
         ImageView img = new ImageView(new Image(new File(imgPath).toURI().toString()));
         img.setPreserveRatio(true);
         img.setFitWidth(BUTTON_WIDTH);
+        img.setId(label);
         return img;
     }
 
@@ -206,5 +210,8 @@ public class InstructionsView {
         }
         return img;
     }
+
+    // Used for testing
+    protected int getCurrentIndex() { return currentIndex; }
 
 }

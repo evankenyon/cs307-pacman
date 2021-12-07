@@ -22,12 +22,14 @@ import ooga.controller.IO.User;
 import ooga.view.popups.ErrorPopups;
 
 /**
- * Class that creates the window that shows the user profile, including all user information,
- * and allows them to edit fields and add or remove a favorite game file.
+ * Purpose:
+ * Assumptions:
+ * Dependencies:
+ * Example:
+ * Other details:
  *
- * @author Dane Erickson
+ * @author Evan Kenyon
  */
-
 public class UserInformationView {
   private static final int SCREEN_WIDTH = 400;
   private static final int SCREEN_HEIGHT = 425;
@@ -47,6 +49,13 @@ public class UserInformationView {
     reset(user);
   }
 
+  /**
+   * Purpose:
+   * Assumptions:
+   * @param controller
+   * @param stage
+   * @param language
+   */
   public UserInformationView(Controller controller, Stage stage, String language) {
     this.stage = stage;
     this.controller = controller;

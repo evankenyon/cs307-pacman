@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public class VanillaGameTest {
 
 
-  private VanillaGame myGame;
+  private GameEngine myGame;
 
   @Test
   void moveAllPacmanTest()
@@ -21,7 +21,7 @@ public class VanillaGameTest {
         List.of(new Position(1, 0)));
     Map<String, Boolean> pelletInfo = Map.of("Dot", true);
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 1);
-    myGame = new VanillaGame(vanillaGameData);
+    myGame = new GameEngine(vanillaGameData);
     myGame.getBoard().addScoreConsumer(System.out::println);
     myGame.getBoard().addGameStatusConsumer(System.out::println);
     myGame.getBoard().setPlayerDirection("right");

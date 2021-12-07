@@ -1,6 +1,6 @@
 package ooga.view.center.agents;
 
-import static ooga.model.agents.wall.UNPASSABLE;
+import static ooga.model.agents.Wall.UNPASSABLE;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
 import static ooga.view.center.BoardView.BOARD_WIDTH;
 
@@ -33,7 +33,7 @@ public class WallView extends StationaryView {
   private double imageBuffer;
 
   /**
-   * Constructor to create the WallView object using the default wall color for the Rectangles in
+   * Constructor to create the WallView object using the default Wall color for the Rectangles in
    * WallView
    *
    * @param w        is the Agent from the backend that corresponds to the front end Agent
@@ -55,7 +55,7 @@ public class WallView extends StationaryView {
    *
    * @param w        is the Agent from the backend that corresponds to the front end Agent
    * @param rgb      is the list of Doubles that represent the red, green, and blue values to
-   *                 determine the wall's color
+   *                 determine the Wall's color
    * @param gridRows is the row position of the Agent
    * @param gridCols is the column position of the Agent
    */

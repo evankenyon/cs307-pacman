@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import ooga.model.agents.consumables.pellet;
+import ooga.model.agents.consumables.Pellet;
 import ooga.model.agents.players.Pacman;
 import ooga.model.util.Position;
 import org.junit.jupiter.api.Assertions;
@@ -13,12 +13,12 @@ import org.junit.jupiter.api.Test;
 
 public class pelletTest {
 
-  private pellet myPellet;
+  private Pellet myPellet;
   private Pacman myPacman;
 
   @BeforeEach
   void setUp() {
-    myPellet = new pellet(1, 2);
+    myPellet = new Pellet(1, 2);
     myPacman = new Pacman(1, 1);
   }
 

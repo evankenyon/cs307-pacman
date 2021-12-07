@@ -25,10 +25,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.IO.User;
-import ooga.model.VanillaGame;
-import ooga.view.mainView.MainView;
+import ooga.model.GameEngine;
 import ooga.view.popups.ErrorPopups;
-import ooga.view.topView.TopView;
 import ooga.view.userProfileView.UserInformationView;
 
 /**
@@ -69,7 +67,7 @@ public class BottomView {
   private HBox bottomView;
   private Controller myController;
   private ResourceBundle myResources;
-  private VanillaGame myGame;
+  private GameEngine myGame;
   private String myLanguage;
   private boolean isPaused;
   private User myUser;
@@ -84,7 +82,7 @@ public class BottomView {
    * @param game       is the model object that runs the game
    * @param language   is a String for the language being used in the game
    */
-  public BottomView(Controller controller, VanillaGame game, Stage stage, String language, User user) {
+  public BottomView(Controller controller, GameEngine game, Stage stage, String language, User user) {
     myResources = ResourceBundle.getBundle(String.format("%s%s", RESOURCES_PATH, language));
     myController = controller;
     myGame = game;

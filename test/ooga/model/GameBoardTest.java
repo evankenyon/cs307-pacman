@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import ooga.model.agents.consumables.pellet;
+import ooga.model.agents.Wall;
+import ooga.model.agents.consumables.Pellet;
 import ooga.model.agents.players.Pacman;
-import ooga.model.agents.wall;
 import ooga.model.util.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,7 +55,7 @@ class GameBoardTest {
     GameData vanillaGame = new GameData(initialStates, "Pacman", 0, 3, pelletInfo, 1, 1);
 
     gameBoard = new GameBoard(vanillaGame);
-    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof pellet);
+    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof Pellet);
   }
 
   @Test
@@ -77,7 +77,7 @@ class GameBoardTest {
     GameData vanillaGame = new GameData(initialStates, "Pacman", 0, 3, pelletInfo, 1, 1);
 
     gameBoard = new GameBoard(vanillaGame);
-    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof wall);
+    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof Wall);
   }
 
   @Test
@@ -98,7 +98,7 @@ class GameBoardTest {
     GameData vanillaGame = new GameData(initialStates, "Pacman", 0, 3, pelletInfo, 1, 1);
 
     gameBoard = new GameBoard(vanillaGame);
-    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof wall);
-    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 2)) instanceof pellet);
+    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof Wall);
+    Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 2)) instanceof Pellet);
   }
 }

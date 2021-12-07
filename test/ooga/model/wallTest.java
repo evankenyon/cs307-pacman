@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import ooga.model.agents.wall;
+import ooga.model.agents.Wall;
 import ooga.model.util.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +13,11 @@ import org.junit.jupiter.api.Test;
 
 public class wallTest {
 
-  private wall myWall;
+  private Wall myWall;
 
   @BeforeEach
   void setUp() {
-    myWall = new wall(1, 2);
+    myWall = new Wall(1, 2);
   }
 
   @Test

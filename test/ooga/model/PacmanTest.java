@@ -7,8 +7,9 @@ import java.util.Map;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import ooga.controller.IO.keyTracker;
-import ooga.model.agents.consumables.pellet;
+import ooga.model.agents.consumables.Pellet;
 import ooga.model.agents.players.Pacman;
+import ooga.model.movement.Controllable;
 import ooga.model.util.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +28,7 @@ public class PacmanTest {
   @BeforeEach
   void setUp() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     pacman = new Pacman(1, 2);
+    pacman.setStrategy(new Controllable());
     Map<String, List<Position>> wallMap = new HashMap<>();
     wallMap.put("Pacman", List.of(new Position(0, 0)));
     Map<String, Boolean> pelletInfo = new HashMap<>();
@@ -92,8 +94,8 @@ public class PacmanTest {
 
   @Test
   void consumeTestPellet() {
-    //create pellet at 2,2 and pacman at 1,2 then move pacman towards pellet
-    pellet myPellet = new pellet(2, 2);
+    //create Pellet at 2,2 and pacman at 1,2 then move pacman towards Pellet
+    Pellet myPellet = new Pellet(2, 2);
     pacman.getPosition().setDirection("right");
     int pointsGained = myPellet.getConsumed();
 

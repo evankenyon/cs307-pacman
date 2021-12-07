@@ -152,7 +152,7 @@ public class GameState {
   public void updateHandlers() {
     getPacman().updateConsumer();
 //    for (Agent a : myOtherAgents) a.updateConsumer();
-//    for (Agent wall : myWalls) wall.updateConsumer();
+//    for (Agent Wall : myWalls) Wall.updateConsumer();
   }
 
   public boolean isFood(int x, int y) {

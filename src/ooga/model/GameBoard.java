@@ -2,6 +2,7 @@ package ooga.model;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -28,7 +29,7 @@ public class GameBoard {
   private int myGhostScore;
   private Consumer<Integer> myScoreConsumer;
   private Consumer<Integer> myLivesConsumer;
-  private List<Consumer<GameStatus>> myGameStatusConsumer;
+  private final List<Consumer<GameStatus>> myGameStatusConsumer;
   private GameStatus currentGameStatus;
   private final EndConditionContext endConditionWin;
   private final EndConditionContext endConditionLoss;
@@ -97,17 +98,19 @@ public class GameBoard {
 
   public void checkCollisions() {
     Agent pacman = myState.getPacman();
-    Position pacPos = pacman.getPosition();
     List<Consumable> foods = myState.getFood();
     List<Agent> ghosts = myState.getGhosts();
-    //movers.add(myState.getMyPlayer());
-    //movers.addAll(myState.getMyWalls());
-    //movers.addAll(myState.getMyOtherAgents());
     for (Agent ghost : ghosts) {
       if (isOverlapping(ghost.getPosition(), pacman.getPosition())) {
         System.out.println(ghost.getPosition());
         System.out.println(pacman.getPosition());
         if (myState.isSuper() && ghost.getState() != 0) {
+          System.out.println("ghost and pacman overlapping");
+          System.out.print("coords are for ghost and pac: ");
+          System.out.print(Arrays.toString(ghost.getPosition().getCoords()));
+          System.out.print(" ");
+          System.out.print(Arrays.toString(pacman.getPosition().getCoords()));
+
           Consumable g = (Consumable) ghost;
           myPacScore += g.getConsumed();
           myGhostScore -= g.getConsumed();

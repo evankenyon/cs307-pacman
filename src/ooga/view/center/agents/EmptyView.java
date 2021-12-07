@@ -43,7 +43,7 @@ public class EmptyView extends StationaryView {
     numCols = gridCols;
     numRows = gridRows;
     makeLayoutSettings();
-    wallViewSetup(EMPTY_COLOR);
+    emptyViewSetup(EMPTY_COLOR);
   }
 
   /**
@@ -61,7 +61,7 @@ public class EmptyView extends StationaryView {
     numCols = gridCols;
     numRows = gridRows;
     makeLayoutSettings();
-    wallViewSetup(EMPTY_COLOR);
+    emptyViewSetup(EMPTY_COLOR);
   }
 
   private void makeLayoutSettings() {
@@ -70,7 +70,7 @@ public class EmptyView extends StationaryView {
     imageBuffer = IMAGE_BUFFER_FACTOR * Math.min(gridWidth, gridHeight);
   }
 
-  private void wallViewSetup(Paint color) {
+  private void emptyViewSetup(Paint color) {
     myEmptyShape = new Rectangle(gridWidth, gridHeight, color);
     setImage(myEmptyShape);
     myEmptyShape.setX(gridWidth * myAgent.getPosition().getCoords()[0]);

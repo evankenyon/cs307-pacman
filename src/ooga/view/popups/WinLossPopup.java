@@ -52,7 +52,7 @@ public class WinLossPopup {
     root.setAlignment(Pos.CENTER);
     root.setSpacing(WIN_LOSS_SPACING);
     message = new Text(myResources.getString(result.name()));
-    Text scoreText = new Text(String.format("%s: %d", myResources.getString("Score"), score));
+    Text scoreText = new Text(String.format("%s %d", myResources.getString("Score"), score));
     Button playAgainButton = makeButton(myResources.getString(PLAY_AGAIN_BUTTON_KEY), e -> playAgainAction());
     root.getChildren().addAll(message, scoreText, playAgainButton);
     return new Scene(root, WIN_LOSS_WIDTH, WIN_LOSS_HEIGHT);

@@ -222,12 +222,12 @@ public class BottomView {
   }
 
   private void makeProfileView() {
+    myController.pauseOrResume();
     Stage newStage = new Stage();
-    new UserInformationView(myController, myUser, newStage, myLanguage);
+    new UserInformationView(myController, newStage, myLanguage);
   }
 
   private void restartGame() {
-    // TODO: implement resetGame function here
     myController.restartGame(myStage);
   }
 

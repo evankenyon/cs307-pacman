@@ -38,11 +38,19 @@ public class UserInformationView {
   private Controller controller;
   private String myLanguage;
 
+  @Deprecated
   public UserInformationView(Controller controller, User user, Stage stage, String language) {
     this.stage = stage;
     this.controller = controller;
     myLanguage = language;
     reset(user);
+  }
+
+  public UserInformationView(Controller controller, Stage stage, String language) {
+    this.stage = stage;
+    this.controller = controller;
+    myLanguage = language;
+    reset(controller.getUser());
   }
 
   public Scene createStartupScene(User user) {

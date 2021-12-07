@@ -22,6 +22,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
@@ -38,6 +42,7 @@ public class LoginView {
   public static final int PADDING = 18;
   public static final int SPACING = 14;
   public static final int BUTTON_SPACING = 8;
+  public static final int SMALL_TEXT = 12;
   public static final String SIGN_IN_KEY = "SignIn";
   public static final String SIGN_UP_KEY = "SignUp";
   public static final String SIGN_IN_ID = "signInButton";
@@ -78,9 +83,17 @@ public class LoginView {
     buttonBox.setAlignment(Pos.CENTER);
     buttonBox.setSpacing(BUTTON_SPACING);
     buttonBox.getChildren().addAll(signInButton, signUpButton);
-    ImageView cheatKeyButton = makeButton("signIn", e -> cheatKeyDialog(), CHEAT_KEY_ID);
+    Text cheatKeyButton = makeCheatButton();
     root.getChildren().addAll(welcome, buttonBox, cheatKeyButton);
     return new Scene(root, LOGIN_WIDTH, LOGIN_HEIGHT);
+  }
+
+  private Text makeCheatButton() {
+    Text cheatButton = new Text(myResources.getString("ClickToCheat"));
+    cheatButton.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, SMALL_TEXT));
+    cheatButton.setFill(Color.LIGHTGRAY);
+    cheatButton.setOnMouseReleased(e -> cheatKeyDialog());
+    return cheatButton;
   }
 
   private void cheatKeyDialog() {

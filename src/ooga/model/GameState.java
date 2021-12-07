@@ -213,6 +213,7 @@ public class GameState {
       a.setState(ALIVE_STATE);
       i++;
     }
+    getMyPlayer().setStrategy(new Controllable());
   }
 
   public void resetPacman() {

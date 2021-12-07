@@ -1,7 +1,5 @@
 package ooga.controller.IO;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -9,7 +7,7 @@ import java.util.Map;
 import net.thegreshams.firebase4j.error.FirebaseException;
 import net.thegreshams.firebase4j.error.JacksonUtilityException;
 import ooga.model.GameData;
-import ooga.model.VanillaGame;
+import ooga.model.GameEngine;
 import ooga.model.util.Position;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,10 +17,10 @@ import org.junit.jupiter.api.Test;
 
 public class FirebaseWriterTest {
 
-  private VanillaGame myGame;
+  private GameEngine myGame;
   private JSONConfigObjectBuilder builder;
   private FirebaseWriter firebaseWriter;
-  private VanillaGame vanillaGame;
+  private GameEngine gameEngine;
 
 
   @BeforeEach
@@ -34,7 +32,7 @@ public class FirebaseWriterTest {
         List.of(new Position(2, 0)));
     Map<String, Boolean> pelletInfo = Map.of("pellet", true);
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
-    vanillaGame = new VanillaGame(vanillaGameData);
+    gameEngine = new GameEngine(vanillaGameData);
     firebaseWriter = new FirebaseWriter();
   }
 
@@ -46,7 +44,7 @@ public class FirebaseWriterTest {
         List.of(new Position(1, 0)));
     Map<String, Boolean> pelletInfo = Map.of("Dot", true, "Super", false);
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 1);
-    myGame = new VanillaGame(vanillaGameData);
+    myGame = new GameEngine(vanillaGameData);
     builder = new JSONConfigObjectBuilder(myGame);
     firebaseWriter.saveObject(myGame);
 

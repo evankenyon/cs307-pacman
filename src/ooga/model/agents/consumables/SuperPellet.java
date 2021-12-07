@@ -3,12 +3,9 @@ package ooga.model.agents.consumables;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import ooga.model.GameState;
 import ooga.model.agents.AbstractAgent;
-import ooga.model.agents.players.Pacman;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
-import ooga.model.movement.MovementStrategyContext;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
 

@@ -46,7 +46,7 @@ public class BottomViewTest extends DukeApplicationTest {
   }
 
   @Test
-  void testPlayPause() throws InterruptedException {
+  void testPlayPause() {
     clickOn(myPlayPauseButton);
     assertEquals(false, myController.getPlayPause());
     press(KeyCode.D);

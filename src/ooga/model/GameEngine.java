@@ -6,12 +6,21 @@ import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Game;
 import ooga.model.util.Position;
 
-public class VanillaGame implements Game {
+public class GameEngine implements Game {
 
   private GameBoard myBoard;
   private Map<String, Boolean> pelletInfoMap;
 
-  public VanillaGame(GameData vanillaGameData)
+  /**
+   *
+   * @param vanillaGameData
+   * @throws ClassNotFoundException
+   * @throws InvocationTargetException
+   * @throws NoSuchMethodException
+   * @throws InstantiationException
+   * @throws IllegalAccessException
+   */
+  public GameEngine(GameData vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     myBoard = new GameBoard(vanillaGameData);
     pelletInfoMap = vanillaGameData.pelletInfo();

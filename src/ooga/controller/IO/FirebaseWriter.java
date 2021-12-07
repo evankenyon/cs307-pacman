@@ -1,31 +1,14 @@
 package ooga.controller.IO;
 
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.DatabaseReference.CompletionListener;
-import com.google.firebase.database.FirebaseDatabase;
-import java.io.FileInputStream;
-import com.google.firebase.database.ValueEventListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import javax.annotation.processing.Completion;
-import javax.naming.Reference;
 import net.thegreshams.firebase4j.error.FirebaseException;
 import net.thegreshams.firebase4j.error.JacksonUtilityException;
 import net.thegreshams.firebase4j.model.FirebaseResponse;
 import net.thegreshams.firebase4j.service.Firebase;
-import net.thegreshams.firebase4j.service.Firebase.FirebaseRestMethod;
-import netscape.javascript.JSObject;
-import ooga.model.VanillaGame;
-import org.apache.commons.logging.Log;
+import ooga.model.GameEngine;
 import org.json.JSONObject;
 
 /**
@@ -36,7 +19,7 @@ import org.json.JSONObject;
 public class FirebaseWriter {
 
   private JSONConfigObjectBuilder builder;
-  private VanillaGame myVanillaGame;
+  private GameEngine myGameEngine;
   private Firebase firebase;
   private FirebaseResponse response;
   private DatabaseReference configRef;
@@ -78,15 +61,15 @@ public class FirebaseWriter {
 
   /**
    * Saves the JSONObject of the current game configuration to Firebase
-   * @param vanillaGame, current vanillaGame
+   * @param gameEngine, current gameEngine
    * @throws JacksonUtilityException
    * @throws FirebaseException
    * @throws UnsupportedEncodingException
    */
-  public void saveObject(VanillaGame vanillaGame)
+  public void saveObject(GameEngine gameEngine)
       throws JacksonUtilityException, FirebaseException, UnsupportedEncodingException {
-    myVanillaGame = vanillaGame;
-    builder = new JSONConfigObjectBuilder(myVanillaGame);
+    myGameEngine = gameEngine;
+    builder = new JSONConfigObjectBuilder(myGameEngine);
     object = builder.setConfig();
 
     System.out.println(counter);

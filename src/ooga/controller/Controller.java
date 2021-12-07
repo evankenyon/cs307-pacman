@@ -27,7 +27,7 @@ import ooga.controller.IO.User;
 import ooga.controller.IO.UserPreferences;
 import ooga.controller.IO.keyTracker;
 import ooga.controller.IO.utils.JSONObjectParser;
-import ooga.model.VanillaGame;
+import ooga.model.GameEngine;
 import ooga.model.util.GameStatus;
 import ooga.model.util.Position;
 import ooga.view.loginView.LoginView;
@@ -43,7 +43,7 @@ import org.json.JSONObject;
  * starts the animation timeline.
  * Dependencies: File, IOException, UnsupportedEncodingException, InvocationTargetException, Method,
  * InputMismatchException, List, Map, ResourceBundle, Status, Set, KeyFrame, Timeline, KeyEvent,
- * Stage, Duration, firebase4j, all classes in controller.IO, VanillaGame, GameStatus, Position,
+ * Stage, Duration, firebase4j, all classes in controller.IO, GameEngine, GameStatus, Position,
  * LoginView, MainView, ErrorPopups, log4j, json-java
  * Example: Instantiate this class in a main method in order to start the game, and use this class
  * on the frontend in order to let the model know that the user input something that should change
@@ -61,7 +61,7 @@ public class Controller implements ControllerInterface {
 
   private final JsonParserInterface jsonParser;
   private final keyTracker keyTracker;
-  private VanillaGame vanillaGame;
+  private GameEngine gameEngine;
   private final Timeline myAnimation;
   private final PreferencesParser preferencesParser;
   private Map<String, List<Position>> wallMap;
@@ -285,8 +285,8 @@ public class Controller implements ControllerInterface {
     jsonParser.addVanillaGameDataConsumer(
         vanillaGameDataInterface -> {
           try {
-            vanillaGame = new VanillaGame(vanillaGameDataInterface);
-            vanillaGame.getBoard().addGameStatusConsumer(gameStatus -> updateUserStats(gameStatus));
+            gameEngine = new GameEngine(vanillaGameDataInterface);
+            gameEngine.getBoard().addGameStatusConsumer(gameStatus -> updateUserStats(gameStatus));
           } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
             new ErrorPopups(e, myLanguage, "reflectionError");
@@ -333,13 +333,13 @@ public class Controller implements ControllerInterface {
    * @return the vanilla game object
    */
   @Override
-  public VanillaGame getVanillaGame() {
-    return vanillaGame;
+  public GameEngine getVanillaGame() {
+    return gameEngine;
   }
 
   private void step(double elapsedTime) {
-    if (vanillaGame != null && !isPaused) {
-      vanillaGame.step();
+    if (gameEngine != null && !isPaused) {
+      gameEngine.step();
     }
   }
 
@@ -347,7 +347,7 @@ public class Controller implements ControllerInterface {
     System.out.println("test");
     if(gameStatus == GameStatus.LOSS || gameStatus == GameStatus.WIN) {
       try {
-        profileGenerator.updateUserStats(currUser.username(), password, vanillaGame.getBoard().getMyPacScore(), gameStatus == GameStatus.WIN);
+        profileGenerator.updateUserStats(currUser.username(), password, gameEngine.getBoard().getMyPacScore(), gameStatus == GameStatus.WIN);
       } catch (Exception e) {
         //TODO: fix
         e.printStackTrace();
@@ -362,7 +362,7 @@ public class Controller implements ControllerInterface {
   @Override
   public void updatePressedKey(KeyEvent event) {
 //    LOG.info("updating pressed key to {}", event.getCode());
-    vanillaGame.setPlayerDirection(keyTracker.getPressedKey(event));
+    gameEngine.setPlayerDirection(keyTracker.getPressedKey(event));
   }
 
   /**
@@ -388,7 +388,7 @@ public class Controller implements ControllerInterface {
    * @throws IOException thrown if GameSaver throws it (see GameSaver for more details)
    */
   public void saveFile() throws IOException {
-    GameSaver saver = new GameSaver(vanillaGame);
+    GameSaver saver = new GameSaver(gameEngine);
     saver.saveGame();
   }
 

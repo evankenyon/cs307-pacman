@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import ooga.model.agents.consumables.Ghost;
-import ooga.model.interfaces.Game;
 import ooga.model.movement.BFS;
 import ooga.model.util.Position;
 import org.junit.jupiter.api.Assertions;
@@ -34,6 +33,7 @@ public class BFSTest {
     Ghost myGhost = new Ghost(0, 2);
     GameState state = new GameState(vanillaGameData);
     int[] expected = {0, 1};
+    myGhost.setStrategy(new BFS());
     myGhost.setCoords(myGhost.getNextMove(state));
     Assertions.assertArrayEquals(expected,
         myGhost.getPosition().getCoords());

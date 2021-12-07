@@ -16,8 +16,6 @@ public class GameStateData {
 
 
   private Agent myPlayer;
-  private boolean isWin;
-  private boolean isLose;
   private boolean isSuper;
   private int myPacScore;
   private int myGhostScore;
@@ -96,7 +94,9 @@ public class GameStateData {
     }, 5000);
   }
 
-  public Agent getMyPlayer(){ return myPlayer;}
+  public Agent getMyPlayer() {
+    return myPlayer;
+  }
 
   public int getMyPacScore() {
     return myPacScore;
@@ -219,19 +219,18 @@ public class GameStateData {
       myInitAgentPositions.add(new Position(x, y));
       myAgentStates.add(agentFactory.createAgent("Pacman", x, y));
       //TODO - convert to properties
-      if (player.equals("Pacman")){
+      if (player.equals("Pacman")) {
         myPlayer = myAgentStates.get(0);
       }
-      pacmanLives = 3;
     }
     if (gameDict.get("Ghost") != null) {
       for (Position agentPos : gameDict.get("Ghost")) {
         int x = agentPos.getCoords()[0];
         int y = agentPos.getCoords()[1];
         myInitAgentPositions.add(new Position(x, y));
-        myInitAgentPositions.add(new Position(x,y));
+        myInitAgentPositions.add(new Position(x, y));
         myAgentStates.add(agentFactory.createAgent("Ghost", x, y));
-        if (player.equals("Ghost")){
+        if (player.equals("Ghost")) {
           myPlayer = myAgentStates.get(1);
         }
       }
@@ -245,12 +244,14 @@ public class GameStateData {
         int y = wallPos.getCoords()[1];
         myWallStates.add(agentFactory.createAgent("Wall", x, y));
       }
-      for (Position wallPos : gameDict.get("Door")) {
-        int x = wallPos.getCoords()[0];
-        int y = wallPos.getCoords()[1];
-        Agent door = agentFactory.createAgent("Wall", x, y);
-        myDoorStates.add(door);
-        myWallStates.add(door);
+      if (gameDict.containsKey("Door")) {
+        for (Position wallPos : gameDict.get("Door")) {
+          int x = wallPos.getCoords()[0];
+          int y = wallPos.getCoords()[1];
+          Agent door = agentFactory.createAgent("Wall", x, y);
+          myDoorStates.add(door);
+          myWallStates.add(door);
+        }
       }
     }
   }
@@ -291,6 +292,5 @@ public class GameStateData {
     }
     return maxCol;
   }
-
 
 }

@@ -20,7 +20,6 @@ public class SuperPellet extends AbstractAgent implements Consumable {
   private final static int UNEATEN_STATE = 1;
 
   private int myState;
-  private MovementStrategyContext myMover;
   protected List<Consumer<Agent>> stateConsumers;
   private Runnable superPelletRun;
 
@@ -33,19 +32,13 @@ public class SuperPellet extends AbstractAgent implements Consumable {
   public SuperPellet(int x, int y) {
     super(x, y);
     myState = UNEATEN_STATE;
-    myMover = new MovementStrategyContext(new Static());
     stateConsumers = new ArrayList<>();
+    setStrategy(new Static());
   }
 
   @Override
   public int getState() {
     return myState;
-  }
-
-  @Override
-  public Position getNextMove(GameState state) {
-    return myMover.move(state,
-        new Position(getPosition().getCoords()[0], getPosition().getCoords()[1]));
   }
 
   @Override
@@ -79,10 +72,5 @@ public class SuperPellet extends AbstractAgent implements Consumable {
     } else {
       return 0;
     }
-  }
-
-  @Override
-  public void applyEffects(Pacman pacman) {
-    pacman.setState(2);
   }
 }

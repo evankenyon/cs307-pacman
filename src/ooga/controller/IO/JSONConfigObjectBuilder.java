@@ -1,5 +1,6 @@
 package ooga.controller.IO;
 
+import com.google.protobuf.DescriptorProtos.EnumDescriptorProto.EnumReservedRange;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -76,17 +77,19 @@ public class JSONConfigObjectBuilder {
     sortAgentArray();
     JSONArray overallWallArray = new JSONArray();
     int numCols = agentArray.get(agentArray.size()-1).getPosition().getCoords()[0] + 1;
+    //System.out.println(numCols);
     int numRows = agentArray.get(agentArray.size()-1).getPosition().getCoords()[1] + 1;
+    //System.out.println(numRows);
     int arrayIndex = 0;
     for (int i=0; i < numRows; i++) {
       JSONArray rowWallArray = new JSONArray();
       for (int j=0; j < numCols; j++) {
-        rowWallArray.put(makeStringFromAgent(agentArray.get(arrayIndex)));
+        Agent currentAgent = agentArray.get(arrayIndex);
+        rowWallArray.put(makeStringFromAgent(currentAgent));
         arrayIndex ++;
       }
       overallWallArray.put(rowWallArray);
     }
-    //System.out.println(overallWallArray);
     return overallWallArray;
 
   }

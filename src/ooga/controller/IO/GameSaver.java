@@ -44,7 +44,7 @@ public class GameSaver {
     try {
       FileWriter fileToSave = new FileWriter(jsonFile);
       fileToSave.write(String.valueOf(objectBuilder.setConfig()));
-
+      System.out.println(String.valueOf(objectBuilder.setConfig()));
       fileToSave.close();
     } catch (IOException e) {
       System.out.println("Unable to save game.");

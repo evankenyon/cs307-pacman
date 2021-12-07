@@ -73,27 +73,12 @@ void testGameSaver()
   StringBuilder wallMapJsonKey = new StringBuilder();
   wallMapJsonKey.append("[\n");
 
-  int j = 0;
-  for (int i=0; i < mapRows; i++) {
-    wallMapJsonKey.append("[");
-    for (int k=0; k < mapCols; k++) {
-      wallMapJsonKey.append("[");
-      if (agentArray.get(j).toString().contains("Wall")) {
-        wallMapJsonKey.append("Wall"+", ");
-      }
-      j ++;
-    }
 
   }
 
 
-  String reduced = player.toString().replace("ooga.model.agents.players.", "");
-  int atIndex = reduced.indexOf("@");
-  System.out.println(reduced.substring(0,atIndex));
 
 
-
-}
 
 @Test
 void testJSonFile() throws IOException {

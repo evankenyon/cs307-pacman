@@ -46,6 +46,7 @@ public class TopView {
     private Consumer<Integer> livesConsumer = lives -> updateLivesDisplay(lives);
     private ResourceBundle myResources;
     private VBox topFull;
+    private int currScore;
 
     @Deprecated
     public TopView (VanillaGame game, String language) {
@@ -101,19 +102,6 @@ public class TopView {
         updateScoreDisplay(0);
     }
 
-    private void loadGame() {
-//        FileChooser myFileChooser = new FileChooser();
-//        Stage fileStage = new Stage();
-//        File gameFile =  myFileChooser.showOpenDialog(fileStage);
-//        UserPreferences userPreferences = application.uploadFile(gameFile);
-//        MainView mainView = new MainView(application, application.getVanillaGame(), gameStage,
-//                userPreferences);
-    }
-
-    private void saveGame() {
-        // This is implemented in BottomView instead
-    }
-
     private void makeLifeDisplay(int lifeCount) {
         lifeDisplay = new HBox();
         lifeDisplay.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -131,11 +119,11 @@ public class TopView {
         return image;
     }
 
-    private void updateScoreDisplay(int i) {
-        scoreNumber.setText(String.format(String.valueOf(i)));
+    private void updateScoreDisplay(int score) {
+        currScore = score;
+        scoreNumber.setText(String.format(String.valueOf(score)));
     }
 
-    // TODO: implement lives consumer to change the hearts on the screen
     private void updateLivesDisplay(int lives) {
         myController.pauseOrResume();
         lifeDisplay.getChildren().remove(1);
@@ -145,5 +133,15 @@ public class TopView {
 
     public VBox getTopViewGP() {
         return this.topFull;
+    }
+
+    /**
+     * Getter method to get the current score.
+     * Used in the MainView to display the score in the win/loss popups
+     *
+     * @return int currScore
+     */
+    public int getCurrScore() {
+        return currScore;
     }
 }

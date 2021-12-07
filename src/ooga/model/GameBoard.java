@@ -40,6 +40,7 @@ public class GameBoard {
     myPacScore = 0;
     myGhostScore = myState.getFood().size() * 20;
     currentGameStatus = GameStatus.RUNNING;
+    myGameStatusConsumer = new ArrayList<>();
     endConditionWin = new EndConditionContext();
     endConditionLoss = new EndConditionContext();
     setUpGameEndConditions(vanillaGameData.player());
@@ -69,6 +70,7 @@ public class GameBoard {
 
     endConditionWin.setStrategy(winCondition);
     endConditionLoss.setStrategy(endCondition);
+
   }
 
   //move every agent in the board by one step

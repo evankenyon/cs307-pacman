@@ -1,5 +1,6 @@
 package ooga.view.topView;
 
+import static ooga.view.loginView.LoginView.SMALL_TEXT;
 import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
 import static ooga.view.bottomView.BottomView.ICON_SIZE;
 import static ooga.view.center.BoardView.BOARD_HEIGHT;
@@ -23,6 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import ooga.controller.Controller;
 import ooga.model.GameEngine;
 
@@ -39,6 +41,7 @@ public class TopView {
       TOPVIEW_PACKAGE.replace(".", "/"));
   public static final double TOP_SPACING = (SCENE_HEIGHT - BOARD_HEIGHT) / 3;
   public static final String PM307 = "data/images/pac_man_307_header.png";
+  public static final int MAX_HEARTS = 5;
 
   private BorderPane topGrid;
   private HBox scoreDisplay;
@@ -92,7 +95,7 @@ public class TopView {
     topGrid.setBackground(
         new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     topGrid.setMaxWidth(BOARD_WIDTH);
-    makeLifeDisplay(3);
+    makeLifeDisplay();
     topGrid.setLeft(lifeDisplay);
     makeScoreDisplay();
     topGrid.setRight(scoreDisplay);
@@ -121,15 +124,14 @@ public class TopView {
     updateScoreDisplay(0);
   }
 
-  private void makeLifeDisplay(int lifeCount) {
+  private void makeLifeDisplay() {
     lifeDisplay = new HBox();
+    lifeDisplay.setAlignment(Pos.CENTER);
     lifeDisplay.setBackground(
         new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
-    ImageView pacImg = makeIcon("data/images/PAC.png");
-    ImageView livesLabel = makeIcon(
-        "data/images/livesLabel-" + myResources.getString("lives") + ".png");
-    ImageView heartDisplay = makeIcon("data/images/hearts-" + Integer.valueOf(lifeCount) + ".png");
-    lifeDisplay.getChildren().addAll(pacImg, livesLabel, heartDisplay);
+    myController.pauseOrResume();
+    int startLives = myGame.getBoard().getGameState().getLives();
+    updateLivesDisplay(startLives);
     lifeDisplay.getStyleClass().add("lives");
     lifeDisplay.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
   }
@@ -148,10 +150,21 @@ public class TopView {
 
   private void updateLivesDisplay(int lives) {
     myController.pauseOrResume();
-    System.out.println(lives);
-    lifeDisplay.getChildren().remove(1);
-    ImageView heartDisplay = makeIcon("data/images/hearts-" + Integer.valueOf(lives) + ".png");
-    lifeDisplay.getChildren().add(heartDisplay);
+    lifeDisplay.getChildren().clear();
+    ImageView pacImg = makeIcon("data/images/PAC.png");
+    ImageView livesLabel = makeIcon(
+        "data/images/livesLabel-" + myResources.getString("lives") + ".png");
+    lifeDisplay.getChildren().addAll(pacImg, livesLabel);
+    for (int i=0; i<lives; i++) {
+      if (i>MAX_HEARTS) {
+        Text t = new Text("+");
+        t.setFont(Font.font("Verdana", FontWeight.BOLD, ICON_SIZE));
+        t.setFill(Color.LIGHTGRAY);
+        lifeDisplay.getChildren().add(t);
+        break;
+      }
+      lifeDisplay.getChildren().add(makeIcon("data/images/heart.png"));
+    }
   }
 
   /**

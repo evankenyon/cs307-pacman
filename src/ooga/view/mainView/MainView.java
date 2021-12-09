@@ -129,4 +129,12 @@ public class MainView {
   protected GameStatus getGameStatus() {
     return myStatus;
   }
+
+  /**
+   * Getter method to get the TopView in the BorderPane.
+   * Used for testing to access elements in the top.
+   *
+   * @return TopView myTopView
+   */
+  public TopView getTopView() { return myTopView; }
 }

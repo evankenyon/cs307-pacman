@@ -148,6 +148,7 @@ public class TopView {
 
   private void updateLivesDisplay(int lives) {
     myController.pauseOrResume();
+    System.out.println(lives);
     lifeDisplay.getChildren().remove(1);
     ImageView heartDisplay = makeIcon("data/images/hearts-" + Integer.valueOf(lives) + ".png");
     lifeDisplay.getChildren().add(heartDisplay);
@@ -171,4 +172,7 @@ public class TopView {
   public int getCurrScore() {
     return currScore;
   }
+
+  // Used for testing
+  protected HBox getLifeDisplay() { return lifeDisplay; }
 }

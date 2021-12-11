@@ -52,8 +52,6 @@ public class GameStateDataTest {
   @Test
   void testInitialize() {
     Assertions.assertEquals(1, myData.getFoodLeft());
-    Assertions.assertEquals(0, myData.getMyGhostScore());
-    Assertions.assertEquals(0, myData.getMyPacScore());
     Assertions.assertEquals(1, myData.getAgents().get(0).getPosition().getCoords()[0]);
     Assertions.assertEquals(1, myData.getAgents().get(0).getPosition().getCoords()[1]);
     Assertions.assertEquals(3, myData.getAgents().get(1).getPosition().getCoords()[0]);
@@ -80,10 +78,5 @@ public class GameStateDataTest {
     Assertions.assertEquals(false, myData.isWall(2, 1));
     Assertions.assertEquals(false, myData.isWall(3, 1));
 
-  }
-
-  @Test
-  void scoreInputTest() {
-    Assertions.assertEquals(5, myData.getMyPacScore());
   }
 }

@@ -104,7 +104,6 @@ class JsonParserTest {
         JSONObjectParser.parseJSONObject(new File("data/tests/extraKeys.json"))));
   }
 
-  //TODO: move to a test class for JSONObjectParser
   @Test
   void uploadBadFile() {
     Assertions.assertThrows(IOException.class,
@@ -238,5 +237,16 @@ class JsonParserTest {
         JSONObjectParser.parseJSONObject(new File("data/tests/basicWallMap.json")));
     return expected;
   }
+
+  @Test
+  void setInitialPlayerScoreTest() throws IOException {
+    int expected = 1000000;
+    jsonParser.addVanillaGameDataConsumer(
+        vanillaGameDataInterface -> Assertions.assertEquals(expected,
+            vanillaGameDataInterface.playerScore()));
+    jsonParser.parseJSON(
+        JSONObjectParser.parseJSONObject(new File("data/basic_examples/high_score.json")));
+  }
+
 
 }

@@ -447,4 +447,7 @@ public class Controller implements ControllerInterface {
   public void addPlayPauseRun(Runnable runnable) {
     playPauseRun = runnable;
   }
+
+  // Used in test to show the bug in the animation status
+  protected Status getAnimationStatus() { return myAnimation.getStatus(); }
 }

@@ -1,17 +1,20 @@
-
+```
 interface Controller {
 	public Map<String, List<AgentInfo>> uploadFile(File file)
 	public void getInput(ArrowKey move)
 }
+```
 
 
+```
 interface playerController {
 //Currently working on
 public Move getInput()
 public void executeMove(Move move)
 }
+```
 
-
+```
 interface engineAssembler {
 
  /**
@@ -22,8 +25,9 @@ interface engineAssembler {
   */
  public ModelData startGame()
 }
+```
 
-
+```
 interface jsonParser {
 
  /**
@@ -42,8 +46,9 @@ interface jsonParser {
  public void addWallMapConsumer(Consumer<Map<String, List<Position>>> consumer);
  public void addPelletsConsumer(Consumer<Map<String, Boolean>> consumer);
 }
+```
 
-
+```
 // Will be worked on after test deadline
 interface jsonGenerator {
 
@@ -59,5 +64,5 @@ interface jsonGenerator {
  public void getNumLivesConsumer(Consumer<Integer> consumer)
  public void getPlayerConsumer(Consumer<String> consumer)
 }
-
+```
 

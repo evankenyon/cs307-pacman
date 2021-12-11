@@ -17,8 +17,8 @@ public abstract class MovableView extends AgentView {
   public static final String MOVABLE_ORDER = "Front";
 
   /**
-   * Constructor to create the MovableView Object, which is the super class for movable objects.
-   * The constructor sets this AgentView object's order to the correct location (Back or Front).
+   * Constructor to create the MovableView Object, which is the super class for movable objects. The
+   * constructor sets this AgentView object's order to the correct location (Back or Front).
    */
   public MovableView() {
     setOrder(MOVABLE_ORDER);

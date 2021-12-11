@@ -1,5 +1,7 @@
 package ooga.model;
 
+import static ooga.model.agents.consumables.Ghost.AFRAID_STATE;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +30,13 @@ public class GameStateData {
 
   private List<Consumable> myOptionalPelletStates;
   private List<Agent> myWallStates;
+  private List<Agent> myDoorStates;
   private boolean[][] myWallMap;
   private int pacmanLives;
 
+  /**
+   * Constructor for GameStateData, object holding useful data structures
+   */
   public GameStateData() {
     myPacScore = 0;
     myGhostScore = 0;
@@ -39,6 +45,11 @@ public class GameStateData {
     myOptionalPelletStates = new ArrayList<>();
   }
 
+  /**
+   * Initializes a GameStateData object
+   *
+   * @param data from controller
+   */
   public void initialize(GameData data) {
     Map<String, List<Position>> gameDict = data.wallMap();
     Map<String, Boolean> pelletInfo = data.pelletInfo();
@@ -48,6 +59,7 @@ public class GameStateData {
     myPacScore = 0;
     myGhostScore = 0;
     myAgentStates = new ArrayList<>();
+    myDoorStates = new ArrayList<>();
     myRequiredPelletStates = new ArrayList<>();
     myWallStates = new ArrayList<>();
     myInitAgentPositions = new ArrayList<>();
@@ -60,27 +72,41 @@ public class GameStateData {
     createEmptySpots(gameDict);
   }
 
+  /**
+   * @return the number of food left to win
+   */
   public int getFoodLeft() {
     foodLeft = myRequiredPelletStates.size();
     return foodLeft;
   }
 
+  /**
+   * @return list of consumables that are required
+   */
   public List<Consumable> getMyRequiredPelletStates() {
     return myRequiredPelletStates;
   }
 
+  /**
+   * @return list of walls
+   */
   public List<Agent> getMyWallStates() {
     return myWallStates;
   }
 
+  /**
+   * @return whether game is super
+   */
   public boolean isSuper() {
     return isSuper;
   }
 
+  /**
+   * set game state to super
+   */
   public void setSuper() {
     isSuper = true;
     attachSuperTimer();
-
   }
 
   private void attachSuperTimer() {
@@ -93,18 +119,34 @@ public class GameStateData {
     }, 5000);
   }
 
+  /**
+   * @return controllable player
+   */
   public Agent getMyPlayer() {
     return myPlayer;
   }
 
+  /**
+   * @return pacman score
+   */
   public int getMyPacScore() {
     return myPacScore;
   }
 
+  /**
+   * @return ghost score
+   */
   public int getMyGhostScore() {
     return myGhostScore;
   }
 
+  /**
+   * if given x,y is a wall
+   *
+   * @param x
+   * @param y
+   * @return whether it's a wall
+   */
   public boolean isWall(int x, int y) {
     try {
       return myWallMap[x][y];
@@ -113,14 +155,26 @@ public class GameStateData {
     }
   }
 
+  /**
+   * @return list of optional consumables
+   */
   public List<Consumable> getMyOptionalPelletStates() {
     return myOptionalPelletStates;
   }
 
+  /**
+   * @return list of moving agents
+   */
   public List<Agent> getAgents() {
     return myAgentStates;
   }
 
+  /**
+   * Finds agent with position
+   *
+   * @param pos
+   * @return agent object
+   */
   public Agent findAgent(Position pos) {
     Agent potentialAgent = null;
     List<Agent> allAgents = new ArrayList<>(myAgentStates);
@@ -145,7 +199,14 @@ public class GameStateData {
           for (Position dot : tempPellets) {
             int x = dot.getCoords()[0];
             int y = dot.getCoords()[1];
-            myRequiredPelletStates.add(consumableFactory.createConsumable(key, x, y));
+            Consumable consumable = consumableFactory.createConsumable(key, x, y);
+
+            if (key.equals("Super")) {
+              consumable.addRunnable(this::setSuperState);
+            } else if (key.equals("Key")) {
+              consumable.addRunnable(this::openDoors);
+            }
+            myRequiredPelletStates.add(consumable);
           }
         } else {
           throw new IllegalArgumentException("We can't win without required pellets!");
@@ -164,17 +225,45 @@ public class GameStateData {
     foodLeft = myRequiredPelletStates.size();
   }
 
+  private void setSuperState() {
+    this.setSuper();
+    for (Agent ghost : getGhosts()) {
+      ghost.setState(AFRAID_STATE);
+    }
+  }
+
+  private void openDoors() {
+    int count = 0;
+    for (Agent door : myDoorStates) {
+      if(door.getState() == 0) {
+        door.setState(1);
+        count++;
+      }
+      if (count == 2) {
+        break;
+      }
+    }
+  }
+
+  private List<Agent> getGhosts() {
+    System.out.println(this.getAgents().subList(1, this.getAgents().size()).size());
+    return this.getAgents().subList(1, this.getAgents().size());
+  }
+
   private void createEmptySpots(Map<String, List<Position>> gameDict) {
     if (gameDict.get("Empty") != null) {
       for (Position emptyPos : gameDict.get("Empty")) {
         int x = emptyPos.getCoords()[0];
         int y = emptyPos.getCoords()[1];
         myInitAgentPositions.add(new Position(x, y));
-        myAgentStates.add(agentFactory.createAgent("Empty", x, y));
+        myWallStates.add(agentFactory.createAgent("Empty", x, y));
       }
     }
   }
 
+  /**
+   * @return number of pacman lives
+   */
   public int getPacmanLives() {
     return pacmanLives;
   }
@@ -205,19 +294,34 @@ public class GameStateData {
   }
 
   private void createWallList(Map<String, List<Position>> gameDict) {
-    if (gameDict.get("Wall") != null) {
+    if (gameDict.get("Wall") != null || gameDict.get("Door") != null) {
       for (Position wallPos : gameDict.get("Wall")) {
         int x = wallPos.getCoords()[0];
         int y = wallPos.getCoords()[1];
         myWallStates.add(agentFactory.createAgent("Wall", x, y));
       }
+      if (gameDict.containsKey("Door")) {
+        for (Position wallPos : gameDict.get("Door")) {
+          int x = wallPos.getCoords()[0];
+          int y = wallPos.getCoords()[1];
+          Agent door = agentFactory.createAgent("Wall", x, y);
+          myDoorStates.add(door);
+          myWallStates.add(door);
+        }
+      }
     }
   }
 
+  /**
+   * decrease pacman lives
+   */
   public void decreaseLives() {
     pacmanLives--;
   }
 
+  /**
+   * @return List of initial agent positions
+   */
   public List<Position> getMyInitAgentPositions() {
     return myInitAgentPositions;
   }
@@ -229,6 +333,10 @@ public class GameStateData {
       }
     }
     List<Position> walls = gameDict.get("Wall");
+    if(gameDict.containsKey("Door")) {
+      walls.addAll(gameDict.get("Door"));
+    }
+
 
     if (walls != null) {
       for (Position wall : walls) {

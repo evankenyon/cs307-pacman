@@ -1,13 +1,13 @@
 package ooga.controller.IO;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import ooga.model.GameEngine;
 
 /**
- * @author Dania Fernandez
- * dependencies: JSONObjectBuilder
- * Used to save a game configuration file locally
+ * @author Dania Fernandez dependencies: JSONObjectBuilder Used to save a game configuration file
+ * locally
  */
 
 public class GameSaver {
@@ -20,6 +20,7 @@ public class GameSaver {
 
   /**
    * sets objectBuilder to be the JSONObject corresponding to the passed in GameEngine
+   *
    * @param gameEngine, the current GameEngine
    */
   public GameSaver(GameEngine gameEngine, String userInput) {
@@ -30,6 +31,7 @@ public class GameSaver {
 
   /**
    * Saves current game configuration file locally to the data/user_files package
+   *
    * @throws IOException
    */
   public void saveGame() throws IOException {
@@ -52,17 +54,6 @@ public class GameSaver {
   private void clearBuilders() {
     path = new StringBuilder();
   }
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

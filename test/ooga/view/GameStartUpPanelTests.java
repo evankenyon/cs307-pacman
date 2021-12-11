@@ -30,9 +30,9 @@ public class GameStartUpPanelTests extends DukeApplicationTest {
   private User myUser;
 
   @Override
-  public void start (Stage stage)   {
+  public void start(Stage stage) {
     myController = new Controller(LANGUAGE, stage, VIEW_MODE);
-    myUser = new User("test", "test", TEST_IMAGE, 0,0,0, null);
+    myUser = new User("test", "test", TEST_IMAGE, 0, 0, 0, null);
     myStartupPanel = new GameStartupPanel(stage, myUser, myController);
     selectGameType = lookup("#GameFile").queryComboBox();
     selectLanguage = lookup("#Language").queryComboBox();

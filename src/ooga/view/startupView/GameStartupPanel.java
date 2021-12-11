@@ -51,6 +51,15 @@ import ooga.view.mainView.MainView;
 import ooga.view.popups.ErrorPopups;
 import ooga.view.userProfileView.UserInformationView;
 
+/**
+ * Class that creates the startup panel, which welcomes the user with their profile picture and
+ * name; allows them to view their profile; allows the user to select a game file from their local,
+ * firebase, or their favorites; allows the user to select a language; allows the user to select a
+ * view mode; and when they have selected all options, lets them hit PLAY! to play the game with
+ * those specifications.
+ *
+ * @author Kat Cottrell, Dane Erickson
+ */
 public class GameStartupPanel {
 
   public static final String NO_FILE_TEXT = "No file selected";
@@ -94,15 +103,10 @@ public class GameStartupPanel {
   private String runMethodName;
 
   /**
-   * Class that creates the startup panel, which welcomes the user with their profile
-   * picture and name; allows them to view their profile; allows the user to select a
-   * game file from their local, firebase, or their favorites; allows the user to
-   * select a language; allows the user to select a view mode; and when they have
-   * selected all options, lets them hit PLAY! to play the game with those specifications.
+   * Constructor to create a GameStartupPanel object that gives user options and loads the file
    *
-   * @author Kat Cottrell, Dane Erickson
+   * @param stage is the stage
    */
-
   @Deprecated
   public GameStartupPanel(Stage stage) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
@@ -114,6 +118,11 @@ public class GameStartupPanel {
     startupStage.show();
   }
 
+  /**
+   * Constructor to create a GameStartupPanel object that gives user options and loads the file
+   *
+   * @param stage is the stage
+   */
   public GameStartupPanel(Stage stage, User user, Controller controller) {
     myResources = ResourceBundle.getBundle(RESOURCES_PATH_WITH_LANGUAGE);
     startupStage = stage;

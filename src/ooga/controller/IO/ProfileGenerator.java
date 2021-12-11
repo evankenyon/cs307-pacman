@@ -12,17 +12,16 @@ import org.json.JSONObject;
 
 /**
  * Purpose: This class is used for all things related to profiles, such as logging in, creating, and
- * updating
- * Dependencies: json-java, JSONObjectParser, Consumer, AtomicBoolean, ResourceBundle, PrintWriter,
- * IOException, File
- * Example: Instantiate this class in a controller in order to mediate the flow of information
- * regarding users between the data side of the project and frontend side of the project.
- * Specifically, a controller could parse raw input data into the data that the methods in this
- * class need in order to create a user, login as a user, or update a user.
+ * updating Dependencies: json-java, JSONObjectParser, Consumer, AtomicBoolean, ResourceBundle,
+ * PrintWriter, IOException, File Example: Instantiate this class in a controller in order to
+ * mediate the flow of information regarding users between the data side of the project and frontend
+ * side of the project. Specifically, a controller could parse raw input data into the data that the
+ * methods in this class need in order to create a user, login as a user, or update a user.
  *
  * @author Evan Kenyon
  */
 public class ProfileGenerator {
+
   private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",
       ProfileGenerator.class.getPackageName());
   private static final String USER_STATS_REFLECTION_FILENAME = "UpdateUserStatsReflection";
@@ -43,6 +42,7 @@ public class ProfileGenerator {
   /**
    * Purpose: Instantiate this class with a given path representing the path to a profiles json file
    * Assumptions: If path is bad, then default profiles json file will be used
+   *
    * @param path
    */
   public ProfileGenerator(String path) {
@@ -56,11 +56,12 @@ public class ProfileGenerator {
   /**
    * Purpose: Create a user in the profiles.json file that can hold number of wins, number of losses
    * , favorite files, a username, a password, and a profile picture
-   * @param username user's username
-   * @param password user's password
+   *
+   * @param username  user's username
+   * @param password  user's password
    * @param imageFile user's profile pictures
-   * @throws IOException thrown if file path is bad
-   * @throws NullPointerException thrown if any of the input arguments are null
+   * @throws IOException              thrown if file path is bad
+   * @throws NullPointerException     thrown if any of the input arguments are null
    * @throws IllegalArgumentException thrown if username already exists
    */
   public void createUser(String username, String password, File imageFile)
@@ -88,6 +89,7 @@ public class ProfileGenerator {
 
   /**
    * Purpose: Login as a user
+   *
    * @param username username for the user to be logged in
    * @param password password for the user to be logged in
    * @return a User record containing all info about the logged in user
@@ -110,10 +112,10 @@ public class ProfileGenerator {
   }
 
   /**
-   * Purpose: Update the user's profile picture
-   * Assumptions: image chosen is a picture filetype
-   * @param username username for the user whose profile picture will be changed
-   * @param password password for the user whose profile picture will be changed
+   * Purpose: Update the user's profile picture Assumptions: image chosen is a picture filetype
+   *
+   * @param username  username for the user whose profile picture will be changed
+   * @param password  password for the user whose profile picture will be changed
    * @param imageFile new profile picture for the user
    * @throws IOException thrown if imageFile is null
    */
@@ -128,6 +130,7 @@ public class ProfileGenerator {
 
   /**
    * Purpose: Add a favorite file for the user
+   *
    * @param username username for the user whose favorite file list will be expanded
    * @param password password for the user whose favorite file list will be expanded
    * @param filePath additional favorite file for the user
@@ -135,7 +138,7 @@ public class ProfileGenerator {
    */
   public void addFavoriteFile(String username, String password, File filePath)
       throws IOException {
-    if(!filePath.getName().endsWith(".json")) {
+    if (!filePath.getName().endsWith(".json")) {
       throw new IllegalArgumentException("Invalid file type, must be .json");
     }
     updateUserAttribute(username, password,
@@ -144,6 +147,7 @@ public class ProfileGenerator {
 
   /**
    * Purpose: Remove a favorite file for the user
+   *
    * @param username username for the user whose favorite file list will be contracted
    * @param password password for the user whose favorite file list will be contracted
    * @param filePath user's favorite file to remove
@@ -168,8 +172,9 @@ public class ProfileGenerator {
 
   /**
    * Purpose: Change a user's username
+   *
    * @param oldUsername username for the user whose username will change
-   * @param password password for the user whose username will change
+   * @param password    password for the user whose username will change
    * @param newUsername new username for the user
    * @throws IOException thrown if path instance variable is bad
    */
@@ -183,8 +188,9 @@ public class ProfileGenerator {
 
   /**
    * Purpose: Change a user's password
-   * @param username username for the user whose password will change
-   * @param password password for the user whose password will change
+   *
+   * @param username    username for the user whose password will change
+   * @param password    password for the user whose password will change
    * @param newPassword new password for the user
    * @throws IOException thrown if path instance variable is bad
    */
@@ -194,12 +200,12 @@ public class ProfileGenerator {
   }
 
   /**
-   * Purpose: Update a user's stats
-   * Assumptions: only called at the end of a game
+   * Purpose: Update a user's stats Assumptions: only called at the end of a game
+   *
    * @param username username for the user whose stats will be updated
    * @param password password for the user whose stats will be updated
-   * @param score score from most recent game
-   * @param won if the user won the most recent game
+   * @param score    score from most recent game
+   * @param won      if the user won the most recent game
    * @throws IOException thrown if path instance variable is bad
    */
   public void updateUserStats(String username, String password, int score, boolean won)

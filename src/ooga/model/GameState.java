@@ -21,9 +21,16 @@ public class GameState {
   private final GameStateData myGameStateData;
   private final int myRows;
   private final int myCols;
-  private final AgentFactory agentFactory;
   private static final Logger LOG = LogManager.getLogger(GameState.class);
 
+  /**
+   * Constructor for GameState holding useful methods to interact with GameStateData
+   *
+   * @param vanillaGameData from Controller's parsed file
+   * @throws InvocationTargetException
+   * @throws NoSuchMethodException
+   * @throws IllegalAccessException
+   */
   public GameState(GameData vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
 
@@ -35,24 +42,35 @@ public class GameState {
       a.setStrategy(new BFS());
     }
     myGameStateData.getMyPlayer().setStrategy(new Controllable());
-    implementRunnables();
 
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.wallMap(), 0) + 1;
 
-    agentFactory = new AgentFactory();
+    AgentFactory agentFactory = new AgentFactory();
 
   }
 
+  /**
+   * Checks if a given x,y coordinate is in bounds of the board.
+   *
+   * @param x
+   * @param y
+   * @return boolean for bounds
+   */
   public boolean isInBounds(int x, int y) {
     if (x > myRows || y > myCols) {
       return false;
-    } else if (x < 0 || y < 0) {
-      return false;
+    } else {
+      return x >= 0 && y >= 0;
     }
-    return true;
   }
 
+  /**
+   * Calculates portalling positions between two different portals.
+   *
+   * @param oldPosition of agent moving
+   * @return new position across the map
+   */
   public Position portal(Position oldPosition) {
     if (atXEdge(oldPosition) && !isWall(0, oldPosition.getCoords()[1])) {
       return new Position(0, oldPosition.getCoords()[1]);
@@ -75,7 +93,6 @@ public class GameState {
     return position.getCoords()[1] == -1;
   }
 
-
   private boolean atXEdge(Position position) {
     return position.getCoords()[0] == myCols;
   }
@@ -94,32 +111,43 @@ public class GameState {
     return maxCol;
   }
 
-  private void implementRunnables() {
-    for (Agent a : getFood()) {
-      Runnable r = this::setSuperState;
-      a.addRunnable(r);
-    }
-  }
 
-  private void setSuperState() {
-    myGameStateData.setSuper();
-    for (Agent ghost : getGhosts()) {
-      ghost.setState(2);
-    }
-  }
 
+  /**
+   * Finds agent with position.
+   *
+   * @param pos
+   * @return agent object.
+   */
   public Agent findAgent(Position pos) {
     return myGameStateData.findAgent(pos);
   }
 
+
+  /**
+   * Sets player direction.
+   *
+   * @param direction string
+   */
   public void setPlayerDirection(String direction) {
     getMyPlayer().setDirection(direction);
   }
 
+  /**
+   * Checks if given x,y coordinate is a wall.
+   *
+   * @param x
+   * @param y
+   * @return boolean for whether it's a wall
+   */
   public boolean isWall(int x, int y) {
     return myGameStateData.isWall(x, y);
   }
 
+  /**
+   * @param pos current position to search around
+   * @return list of available move targets
+   */
   public List<Position> getPotentialMoveTargets(Position pos) {
     List<Position> potentialSpots = new ArrayList<>();
     if (isInBounds(pos.getCoords()[0] + 1,
@@ -141,18 +169,20 @@ public class GameState {
     return potentialSpots;
   }
 
-//  public List<Agent> getMyOtherAgents() {
-//    return myOtherAgents;
-//  }
-
+  /**
+   * @return controllable player.
+   */
   public Agent getMyPlayer() {
     return myGameStateData.getMyPlayer();
   }
 
+  /**
+   * Updates view consumers for pacman.
+   */
   public void updateHandlers() {
     getPacman().updateConsumer();
 //    for (Agent a : myOtherAgents) a.updateConsumer();
-//    for (Agent Wall : myWalls) Wall.updateConsumer();
+    for (Agent wall : myGameStateData.getMyWallStates()) wall.updateConsumer();
   }
 
   public boolean isFood(int x, int y) {
@@ -168,6 +198,11 @@ public class GameState {
     return false;
   }
 
+  /**
+   * Deletes foods from the GameStateData object
+   *
+   * @param positions food positions
+   */
   public void deleteFoods(List<Position> positions) {
     myGameStateData.getMyRequiredPelletStates()
         .removeIf(food -> positions.contains(food.getPosition()));
@@ -175,40 +210,67 @@ public class GameState {
         .removeIf(food -> positions.contains(food.getPosition()));
   }
 
+  /**
+   * @return number of required pellets left
+   */
   public int getRequiredPelletsLeft() {
     return myGameStateData.getFoodLeft();
   }
 
+  /**
+   * @return whether game is in super state
+   */
   public boolean isSuper() {
     return myGameStateData.isSuper();
   }
 
+  /**
+   * @return pacman
+   */
   public Agent getPacman() {
     return myGameStateData.getAgents().get(0);
   }
 
+  /**
+   * @return list of ghosts
+   */
   public List<Agent> getGhosts() {
     return myGameStateData.getAgents().subList(1, myGameStateData.getAgents().size());
   }
 
+  /**
+   * @return list of consumables
+   */
   public List<Consumable> getFood() {
     List<Consumable> allFoods = new ArrayList<>(myGameStateData.getMyRequiredPelletStates());
     allFoods.addAll(myGameStateData.getMyOptionalPelletStates());
     return allFoods;
   }
 
+  /**
+   * @return list of walls
+   */
   public List<Agent> getWalls() {
     return myGameStateData.getMyWallStates();
   }
 
+  /**
+   * @return number of pacman lives
+   */
   public int getLives() {
     return myGameStateData.getPacmanLives();
   }
 
+  /**
+   * decreases number of pacman lives
+   */
   public void decreaseLives() {
     myGameStateData.decreaseLives();
   }
 
+  /**
+   * resets ghost position to initial states
+   */
   public void resetGhosts() {
     int i = 1;
     for (Agent a : getGhosts()) {
@@ -219,6 +281,9 @@ public class GameState {
     getMyPlayer().setStrategy(new Controllable());
   }
 
+  /**
+   * resets pacman to intitial states
+   */
   public void resetPacman() {
     getPacman().setState(ALIVE_STATE);
     getPacman().setCoords(myGameStateData.getMyInitAgentPositions().get(0));

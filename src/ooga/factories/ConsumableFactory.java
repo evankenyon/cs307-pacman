@@ -14,12 +14,13 @@ public class ConsumableFactory {
   private static final String CLASS_NAMES_FILENAME = "classNames";
 
   public Consumable createConsumable(String consumable, int x, int y)
-      throws IllegalArgumentException{
+      throws IllegalArgumentException {
     Consumable createdConsumable = null;
     int numNot = 0;
     ResourceBundle packages = ResourceBundle.getBundle(
         String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, PACKAGES_FILENAME));
-    ResourceBundle classNames = ResourceBundle.getBundle(String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, CLASS_NAMES_FILENAME));
+    ResourceBundle classNames = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, CLASS_NAMES_FILENAME));
     String actualConsumable = "";
     try {
       actualConsumable = classNames.getString(consumable);
@@ -30,7 +31,8 @@ public class ConsumableFactory {
     for (String aPackage : packages.keySet()) {
       try {
         createdConsumable = (Consumable) Class.forName(
-                String.format("%s%s", packages.getString(aPackage), actualConsumable)).getConstructor(int.class, int.class)
+                String.format("%s%s", packages.getString(aPackage), actualConsumable))
+            .getConstructor(int.class, int.class)
             .newInstance(x, y);
       } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
         numNot++;

@@ -19,12 +19,11 @@ public class JSONConfigObjectBuilderTest {
   private JSONObject object;
 
 
-
   @BeforeEach
   void setUp()
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     //map of only pacman and dot to its right
-    Map<String, List<Position>> wallMap = Map.of( "pellet", List.of(new Position(0, 0)),
+    Map<String, List<Position>> wallMap = Map.of("pellet", List.of(new Position(0, 0)),
         "Pacman", List.of(new Position(1, 0)), "Wall",
         List.of(new Position(2, 0)));
     Map<String, Boolean> pelletInfo = Map.of("pellet", true);
@@ -38,10 +37,12 @@ public class JSONConfigObjectBuilderTest {
   void JSONConfigObjectBuilderTest() {
     Assertions.assertEquals("Pacman", object.getString("Player"));
     JSONArray optionalPelletsArray = new JSONArray();
-    Assertions.assertEquals(String.valueOf(optionalPelletsArray), String.valueOf(object.getJSONArray("OptionalPellets")));
+    Assertions.assertEquals(String.valueOf(optionalPelletsArray),
+        String.valueOf(object.getJSONArray("OptionalPellets")));
     JSONArray requiredPelletsArray = new JSONArray();
     requiredPelletsArray.put("pellet");
-    Assertions.assertEquals(String.valueOf(requiredPelletsArray), String.valueOf(object.getJSONArray("RequiredPellets")));
+    Assertions.assertEquals(String.valueOf(requiredPelletsArray),
+        String.valueOf(object.getJSONArray("RequiredPellets")));
     Assertions.assertEquals(3, object.getInt("NumberOfLives"));
     Assertions.assertEquals(0, object.getInt("PlayerScore"));
     JSONArray wallMap = new JSONArray();
@@ -50,7 +51,8 @@ public class JSONConfigObjectBuilderTest {
     rowArray.put("Pacman");
     rowArray.put("wall");
     wallMap.put(rowArray);
-    Assertions.assertEquals(String.valueOf(wallMap), String.valueOf(object.getJSONArray("WallMap")));
+    Assertions.assertEquals(String.valueOf(wallMap),
+        String.valueOf(object.getJSONArray("WallMap")));
   }
 
 

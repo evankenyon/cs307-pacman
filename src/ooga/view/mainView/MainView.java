@@ -75,7 +75,8 @@ public class MainView {
     myGame.getBoard().addGameStatusConsumer(gameEndConsumer);
     myStage = stage;
     myUser = user;
-    myBottomView = new BottomView(myController, myGame, myStage, userPreferences.language(), myUser);
+    myBottomView = new BottomView(myController, myGame, myStage, userPreferences.language(),
+        myUser);
 //    gameStartupPanel = new GameStartupPanel(myStage);
     myStage.setTitle("PACMAN");
     Image favicon = new Image(new File("data/images/pm_favicon.png").toURI().toString());
@@ -125,5 +126,15 @@ public class MainView {
     }
   }
 
-  protected GameStatus getGameStatus() { return myStatus; }
+  protected GameStatus getGameStatus() {
+    return myStatus;
+  }
+
+  /**
+   * Getter method to get the TopView in the BorderPane.
+   * Used for testing to access elements in the top.
+   *
+   * @return TopView myTopView
+   */
+  public TopView getTopView() { return myTopView; }
 }

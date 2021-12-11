@@ -42,14 +42,17 @@ public abstract class AgentView implements AgentViewInterface {
   }
 
   /**
-   * Getter method to get the order of the AgentView for the BoardView.
-   * StationaryView Objects (pellets and fruit) are in the back.
-   * MovableView Objects (Pacman and Ghosts) are in the front.
+   * Getter method to get the order of the AgentView for the BoardView. StationaryView Objects
+   * (pellets and fruit) are in the back. MovableView Objects (Pacman and Ghosts) are in the front.
    *
    * @return myOrder is a String of it's position
    */
-  public String getOrder() { return myOrder; }
+  public String getOrder() {
+    return myOrder;
+  }
 
-  protected void setOrder(String order) { myOrder = order; }
+  protected void setOrder(String order) {
+    myOrder = order;
+  }
 
 }

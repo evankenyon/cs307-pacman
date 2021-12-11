@@ -9,8 +9,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.animation.Animation.Status;
 import java.util.Set;
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
@@ -109,7 +109,6 @@ public class Controller implements ControllerInterface {
     } catch (FirebaseException e) {
       new ErrorPopups(e, myLanguage, "FirebaseError");
     }
-
     new LoginView(myStage, this);
     isPaused = true;
   }
@@ -335,6 +334,7 @@ public class Controller implements ControllerInterface {
    */
   @Override
   public void pauseOrResume() {
+    if (myAnimation.getStatus() == Status.PAUSED) myAnimation.play();
     isPaused = !isPaused;
     playPauseRun.run();
   }
@@ -346,6 +346,7 @@ public class Controller implements ControllerInterface {
    */
   @Override
   public GameEngine getVanillaGame() {
+    LOG.info("succesfully returning gameEngine object {}", gameEngine);
     return gameEngine;
   }
 
@@ -447,4 +448,7 @@ public class Controller implements ControllerInterface {
   public void addPlayPauseRun(Runnable runnable) {
     playPauseRun = runnable;
   }
+
+  // Used in test to show the bug in the animation status
+  protected Status getAnimationStatus() { return myAnimation.getStatus(); }
 }

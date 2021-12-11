@@ -83,6 +83,7 @@ public class JsonParser implements JsonParserInterface {
     setupPelletInfo(json.getJSONArray(magicValues.getString("RequiredPelletsKey")),
         json.getJSONArray(magicValues.getString("OptionalPelletsKey")));
     setupNumLives(json.getInt(magicValues.getString("NumberOfLivesKey")));
+    setupPlayerScore(json.getInt(magicValues.getString("PlayerScoreKey")));
     setupWallMap(json.getJSONArray(magicValues.getString("WallMapKey")));
     checkWallMapForRequirements();
     updateConsumers(

@@ -334,6 +334,7 @@ public class Controller implements ControllerInterface {
    */
   @Override
   public void pauseOrResume() {
+    if (myAnimation.getStatus() == Status.PAUSED) myAnimation.play();
     isPaused = !isPaused;
     playPauseRun.run();
   }

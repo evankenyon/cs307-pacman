@@ -404,8 +404,8 @@ public class Controller implements ControllerInterface {
    * @throws IOException thrown if GameSaver throws it (see GameSaver for more details)
    */
   public void saveFile() throws IOException {
-    GameSaver saver = new GameSaver(gameEngine);
-    saver.saveGame();
+    //GameSaver saver = new GameSaver(gameEngine);
+    //saver.saveGame();
   }
 
 //  /**

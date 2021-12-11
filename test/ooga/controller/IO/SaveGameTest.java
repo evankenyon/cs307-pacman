@@ -34,16 +34,13 @@ public class SaveGameTest {
     Map<String, Boolean> pelletInfo = Map.of("pellet", true);
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
     gameEngine = new GameEngine(vanillaGameData);
-    saver = new GameSaver(gameEngine);
+    saver = new GameSaver(gameEngine, "TEST-FILE");
   }
 
   @Test
   void testGameSaver() throws IOException {
     saver.saveGame();
   }
-
-
-
 
 
 @Test

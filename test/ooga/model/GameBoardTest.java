@@ -101,4 +101,21 @@ class GameBoardTest {
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof Wall);
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 2)) instanceof Pellet);
   }
+
+  @Test
+  void scoreInputTest()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
+    Map<String, List<Position>> initialStates = new HashMap<>();
+    initialStates.put("Pacman", new ArrayList<>());
+    initialStates.get("Pacman").add(new Position(0, 0));
+    initialStates.put("pellet", new ArrayList<>());
+    initialStates.get("Pacman").add(new Position(0, 1));
+    Map<String, Boolean> pelletInfo = new HashMap<>();
+    pelletInfo.put("pellet", Boolean.TRUE);
+
+    GameData vanillaGame = new GameData(initialStates, "Pacman", 5, 3, pelletInfo, 1, 1);
+
+    gameBoard = new GameBoard(vanillaGame);
+    Assertions.assertEquals(5, gameBoard.getMyPacScore());
+  }
 }

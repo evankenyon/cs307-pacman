@@ -23,7 +23,7 @@ public class GameStateDataTest {
     myData = new GameStateData();
     myPelletInfo = new HashMap<>();
     myPelletInfo.put("Dot", Boolean.TRUE);
-    gameData = new GameData(myWallMap, "Pacman", 0, 3, myPelletInfo, 3, 3);
+    gameData = new GameData(myWallMap, "Pacman", 5, 3, myPelletInfo, 3, 3);
     myData.initialize(gameData);
   }
 
@@ -49,28 +49,9 @@ public class GameStateDataTest {
     return temp;
   }
 
-//  {
-//    "Title":"Test",
-//      "Player":"Pacman",
-//      "RequiredPellets":["Dot"],
-//    "OptionalPellets":["Fruit"],
-//    "PowerUps":[],
-//    "NumberOfLives":3,
-//      "OpponentTypes":["Inky", "Pinky", "Clyde"],
-//    "Difficulty-Level":2,
-//      "WallMap":[
-//    ["Wall", "Wall", "Wall","Wall", "Wall"],
-//    ["Wall","Pacman","Dot","Ghost", "Wall"],
-//    ["Wall","Wall","Wall","Wall","Wall"]
-//  ]
-//  }
-
-
   @Test
   void testInitialize() {
     Assertions.assertEquals(1, myData.getFoodLeft());
-    Assertions.assertEquals(0, myData.getMyGhostScore());
-    Assertions.assertEquals(0, myData.getMyPacScore());
     Assertions.assertEquals(1, myData.getAgents().get(0).getPosition().getCoords()[0]);
     Assertions.assertEquals(1, myData.getAgents().get(0).getPosition().getCoords()[1]);
     Assertions.assertEquals(3, myData.getAgents().get(1).getPosition().getCoords()[0]);

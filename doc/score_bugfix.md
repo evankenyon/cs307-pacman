@@ -18,9 +18,9 @@ Score automatically starts at zero.
 
 ## Failure Logs
 
-Failing test scoreInputTest in GameBoardTest.
+Failing test scoreInputTest in GameBoardTest, as well as failing test .
 
 ## Hypothesis for Fixing the Bug
 
-This issue should be fixed by adding setting myPacScore as the value from the data file instead of 0
-in the constructor for GameBoard.
+This issue should be fixed by adding the setupPlayerScore() method into the parseJSON() method
+inside JsonParser, as well as setting myPacScore in GameBoard to the score value from data.

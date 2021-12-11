@@ -3,6 +3,9 @@ package ooga.model.endConditions;
 import ooga.model.GameState;
 import ooga.model.interfaces.EndCondition;
 
+/**
+ * End Condition where game ends when Pacman Dies.
+ */
 public class PacmanDies implements EndCondition {
 
   @Override

@@ -62,6 +62,7 @@ public class greedyBFS extends BFS implements Movable {
     }
   }
 
+  // to set the correct direction for pacman view.
   private void handleDirection(GameState state, Position currentPos, Position targetPosition) {
     if (currentPos.getCoords()[0] == targetPosition.getCoords()[0]
         && currentPos.getCoords()[1] < targetPosition.getCoords()[1]) {

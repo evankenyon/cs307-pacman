@@ -21,6 +21,9 @@ public class BFS implements Movable {
   private static final Logger LOG = LogManager.getLogger(BFS.class);
   private int randomCounter;
 
+  /**
+   * Constructor for BFS movement strategy.
+   */
   public BFS() {
     randomCounter = 0;
   }

@@ -11,8 +11,8 @@ public interface Movable {
   /**
    * return movement of object for one step of the game
    *
-   * @param state
-   * @param currentPosition
+   * @param state current game state
+   * @param currentPosition current object position
    */
   Position move(GameState state, Position currentPosition);
 }

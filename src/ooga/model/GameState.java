@@ -151,19 +151,19 @@ public class GameState {
   public List<Position> getPotentialMoveTargets(Position pos) {
     List<Position> potentialSpots = new ArrayList<>();
     if (isInBounds(pos.getCoords()[0] + 1,
-        pos.getCoords()[1]) && !isWall(pos.getCoords()[0] + 1, pos.getCoords()[1])) {
+        pos.getCoords()[1]) && (!isWall(pos.getCoords()[0] + 1, pos.getCoords()[1]) || isWall(pos.getCoords()[0] + 1, pos.getCoords()[1]) && findAgent(new Position(pos.getCoords()[0] + 1, pos.getCoords()[1])).getState() == 1)) {
       potentialSpots.add(new Position(pos.getCoords()[0] + 1, pos.getCoords()[1]));
     }
     if (isInBounds(pos.getCoords()[0] - 1,
-        pos.getCoords()[1]) && !isWall(pos.getCoords()[0] - 1, pos.getCoords()[1])) {
+        pos.getCoords()[1]) && (!isWall(pos.getCoords()[0] - 1, pos.getCoords()[1]) || isWall(pos.getCoords()[0] - 1, pos.getCoords()[1]) && findAgent(new Position(pos.getCoords()[0] - 1, pos.getCoords()[1])).getState() == 1)) {
       potentialSpots.add(new Position(pos.getCoords()[0] - 1, pos.getCoords()[1]));
     }
     if (isInBounds(pos.getCoords()[0],
-        pos.getCoords()[1] + 1) && !isWall(pos.getCoords()[0], pos.getCoords()[1] + 1)) {
+        pos.getCoords()[1] + 1) && (!isWall(pos.getCoords()[0], pos.getCoords()[1] + 1) || isWall(pos.getCoords()[0], pos.getCoords()[1] + 1) && findAgent(new Position(pos.getCoords()[0], pos.getCoords()[1] + 1)).getState() == 1)) {
       potentialSpots.add(new Position(pos.getCoords()[0], pos.getCoords()[1] + 1));
     }
     if (isInBounds(pos.getCoords()[0],
-        pos.getCoords()[1] - 1) && !isWall(pos.getCoords()[0], pos.getCoords()[1] - 1)) {
+        pos.getCoords()[1] - 1) && (!isWall(pos.getCoords()[0], pos.getCoords()[1] - 1) || isWall(pos.getCoords()[0], pos.getCoords()[1] - 1) && findAgent(new Position(pos.getCoords()[0], pos.getCoords()[1] - 1)).getState() == 1)) {
       potentialSpots.add(new Position(pos.getCoords()[0], pos.getCoords()[1] - 1));
     }
     return potentialSpots;

@@ -23,7 +23,7 @@ public class GameStateDataTest {
     myData = new GameStateData();
     myPelletInfo = new HashMap<>();
     myPelletInfo.put("Dot", Boolean.TRUE);
-    gameData = new GameData(myWallMap, "Pacman", 0, 3, myPelletInfo, 3, 3);
+    gameData = new GameData(myWallMap, "Pacman", 5, 3, myPelletInfo, 3, 3);
     myData.initialize(gameData);
   }
 
@@ -48,23 +48,6 @@ public class GameStateDataTest {
     temp.get("Ghost").add(new Position(3, 1));
     return temp;
   }
-
-//  {
-//    "Title":"Test",
-//      "Player":"Pacman",
-//      "RequiredPellets":["Dot"],
-//    "OptionalPellets":["Fruit"],
-//    "PowerUps":[],
-//    "NumberOfLives":3,
-//      "OpponentTypes":["Inky", "Pinky", "Clyde"],
-//    "Difficulty-Level":2,
-//      "WallMap":[
-//    ["Wall", "Wall", "Wall","Wall", "Wall"],
-//    ["Wall","Pacman","Dot","Ghost", "Wall"],
-//    ["Wall","Wall","Wall","Wall","Wall"]
-//  ]
-//  }
-
 
   @Test
   void testInitialize() {
@@ -97,5 +80,10 @@ public class GameStateDataTest {
     Assertions.assertEquals(false, myData.isWall(2, 1));
     Assertions.assertEquals(false, myData.isWall(3, 1));
 
+  }
+
+  @Test
+  void scoreInputTest() {
+    Assertions.assertEquals(5, myData.getMyPacScore());
   }
 }

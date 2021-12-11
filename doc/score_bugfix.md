@@ -18,9 +18,9 @@ Score automatically starts at zero.
 
 ## Failure Logs
 
-Failing test scoreInputTest in GameStateDataTest.
+Failing test scoreInputTest in GameBoardTest.
 
 ## Hypothesis for Fixing the Bug
 
 This issue should be fixed by adding setting myPacScore as the value from the data file instead of 0
-in the constructor for GameStateData.
+in the constructor for GameBoard.

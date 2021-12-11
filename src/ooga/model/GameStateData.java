@@ -19,8 +19,6 @@ public class GameStateData {
 
   private Agent myPlayer;
   private boolean isSuper;
-  private int myPacScore;
-  private int myGhostScore;
   private int foodLeft;
   private final AgentFactory agentFactory = new AgentFactory();
   private final ConsumableFactory consumableFactory = new ConsumableFactory();
@@ -38,8 +36,6 @@ public class GameStateData {
    * Constructor for GameStateData, object holding useful data structures
    */
   public GameStateData() {
-    myPacScore = 0;
-    myGhostScore = 0;
     myAgentStates = new ArrayList<>();
     myRequiredPelletStates = new ArrayList<>();
     myOptionalPelletStates = new ArrayList<>();
@@ -56,8 +52,6 @@ public class GameStateData {
     int rows = calculateDimension(gameDict, 1) + 1;
     int cols = calculateDimension(gameDict, 0) + 1;
     isSuper = false;
-    myPacScore = 0;
-    myGhostScore = 0;
     myAgentStates = new ArrayList<>();
     myDoorStates = new ArrayList<>();
     myRequiredPelletStates = new ArrayList<>();
@@ -124,20 +118,6 @@ public class GameStateData {
    */
   public Agent getMyPlayer() {
     return myPlayer;
-  }
-
-  /**
-   * @return pacman score
-   */
-  public int getMyPacScore() {
-    return myPacScore;
-  }
-
-  /**
-   * @return ghost score
-   */
-  public int getMyGhostScore() {
-    return myGhostScore;
   }
 
   /**

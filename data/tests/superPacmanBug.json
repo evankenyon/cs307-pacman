@@ -1,0 +1,14 @@
+{
+  "Player":"Pacman",
+  "RequiredPellets":["Dot", "Key"],
+  "OptionalPellets":[],
+  "NumberOfLives":3,
+  "PlayerScore":0,
+  "WallMap":[
+    ["Wall","Wall","Wall","Wall", "Wall", "Wall", "Wall", "Wall"],
+    ["Wall","Empty","Empty","Empty", "Empty", "Empty", "Empty", "Wall"],
+    ["Wall","Pacman","Key","Door", "Dot", "Door", "Empty", "Wall"],
+    ["Wall","Empty","Empty","Empty", "Empty", "Empty", "Empty", "Wall"],
+    ["Wall","Wall","Wall","Wall", "Wall", "Wall", "Wall", "Wall"]
+  ]
+}

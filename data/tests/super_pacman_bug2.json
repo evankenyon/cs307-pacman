@@ -1,0 +1,20 @@
+{
+  "Player":"Pacman",
+  "RequiredPellets":["Dot", "Super", "Key"],
+  "OptionalPellets":[],
+  "NumberOfLives":4,
+  "PlayerScore":0,
+  "WallMap":[
+    ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall"],
+    ["Wall","Super","Empty","Empty", "Empty","Empty", "Empty","Empty", "Empty","Super", "Wall"],
+    ["Wall","Empty","Empty","Empty", "Empty","Empty", "Empty","Wall", "Empty","Empty", "Wall"],
+    ["Wall","Empty","Pacman","Key", "Empty","Empty", "Door","Dot", "Door","Empty", "Wall"],
+    ["Wall","Empty","Empty","Empty", "Empty","Empty", "Empty","Wall", "Empty","Empty", "Wall"],
+    ["Empty","Empty","Empty","Empty", "Empty","Empty", "Empty","Empty", "Empty","Empty", "Empty"],
+    ["Wall","Empty","Empty","Empty", "Empty","Empty", "Empty","Empty", "Empty","Empty", "Wall"],
+    ["Wall","Empty","Empty","Empty", "Empty","Empty", "Empty","Empty", "Empty","Empty", "Wall"],
+    ["Wall","Ghost","Empty","Empty", "Empty","Empty", "Empty","Empty", "Empty","Empty", "Wall"],
+    ["Wall","Super","Empty","Empty", "Empty","Empty", "Empty","Empty", "Empty","Super", "Wall"],
+    ["Wall", "Wall", "Wall","Wall","Wall","Wall", "Wall", "Wall","Wall", "Wall","Wall"]
+  ]
+}

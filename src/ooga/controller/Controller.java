@@ -334,6 +334,7 @@ public class Controller implements ControllerInterface {
    */
   @Override
   public void pauseOrResume() {
+    if (myAnimation.getStatus() == Status.PAUSED) myAnimation.play();
     isPaused = !isPaused;
     playPauseRun.run();
   }
@@ -403,8 +404,8 @@ public class Controller implements ControllerInterface {
    * @throws IOException thrown if GameSaver throws it (see GameSaver for more details)
    */
   public void saveFile() throws IOException {
-    GameSaver saver = new GameSaver(gameEngine);
-    saver.saveGame();
+    //GameSaver saver = new GameSaver(gameEngine);
+    //saver.saveGame();
   }
 
 //  /**
@@ -447,4 +448,7 @@ public class Controller implements ControllerInterface {
   public void addPlayPauseRun(Runnable runnable) {
     playPauseRun = runnable;
   }
+
+  // Used in test to show the bug in the animation status
+  protected Status getAnimationStatus() { return myAnimation.getStatus(); }
 }

@@ -2,7 +2,6 @@ package ooga.model;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -48,7 +47,7 @@ public class GameBoard {
       throws
       InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException, InstantiationException {
     myState = new GameState(vanillaGameData);
-    myPacScore = 0;
+    myPacScore = vanillaGameData.playerScore();
     myGhostScore = myState.getFood().size() * 20;
     currentGameStatus = GameStatus.RUNNING;
     myGameStatusConsumer = new ArrayList<>();
@@ -117,15 +116,7 @@ public class GameBoard {
     List<Agent> ghosts = myState.getGhosts();
     for (Agent ghost : ghosts) {
       if (isOverlapping(ghost.getPosition(), pacman.getPosition())) {
-        System.out.println(ghost.getPosition());
-        System.out.println(pacman.getPosition());
         if (myState.isSuper() && ghost.getState() != 0) {
-          System.out.println("ghost and pacman overlapping");
-          System.out.print("coords are for ghost and pac: ");
-          System.out.print(Arrays.toString(ghost.getPosition().getCoords()));
-          System.out.print(" ");
-          System.out.print(Arrays.toString(pacman.getPosition().getCoords()));
-
           Consumable g = (Consumable) ghost;
           myPacScore += g.getConsumed();
           myGhostScore -= g.getConsumed();

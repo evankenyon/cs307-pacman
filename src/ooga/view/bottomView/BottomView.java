@@ -214,7 +214,7 @@ public class BottomView {
     saveLocation.setTitle(myResources.getString("SaveLocation"));
     saveLocation.showAndWait();
     String location = (String) saveLocation.getSelectedItem();
-    GameSaver saveLocally = new GameSaver(myGame);
+    GameSaver saveLocally = new GameSaver(myGame, "test-file-title");
     try {
       myController.saveFile();
     } catch (IOException e) {

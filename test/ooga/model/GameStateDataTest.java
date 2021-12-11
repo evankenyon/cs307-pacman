@@ -1,10 +1,13 @@
 package ooga.model;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import ooga.controller.IO.JsonParser;
+import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.util.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

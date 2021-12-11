@@ -1,10 +1,14 @@
 package ooga.model;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import ooga.controller.IO.JsonParser;
+import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.agents.Wall;
 import ooga.model.agents.consumables.Pellet;
 import ooga.model.agents.players.Pacman;
@@ -100,5 +104,35 @@ class GameBoardTest {
     gameBoard = new GameBoard(vanillaGame);
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 1)) instanceof Wall);
     Assertions.assertTrue(gameBoard.getGameState().findAgent(new Position(0, 2)) instanceof Pellet);
+  }
+
+  @Test
+  void superPacmanDyingGhost() throws IOException {
+    JsonParser jsonParser = new JsonParser();
+    jsonParser.addVanillaGameDataConsumer(vanillaGameData -> {
+      try {
+        gameBoard = new GameBoard(vanillaGameData);
+      } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | ClassNotFoundException | InstantiationException e) {
+        e.printStackTrace();
+      }
+    });
+    jsonParser.parseJSON(JSONObjectParser.parseJSONObject(
+        new File("./data/tests/super_pacman_bug2.json")));
+    gameBoard.addScoreConsumer(stuff -> {});
+    gameBoard.addLivesConsumer(stuff -> {});
+    gameBoard.addGameStatusConsumer(stuff -> {});
+    gameBoard.setPlayerDirection("right");
+    gameBoard.movePawns();
+    gameBoard.checkCollisions();
+    Assertions.assertEquals(4, gameBoard.getGameState().getLives());
+    gameBoard.movePawns();
+    gameBoard.checkCollisions();
+    Assertions.assertEquals(4, gameBoard.getGameState().getLives());
+    gameBoard.movePawns();
+    gameBoard.checkCollisions();
+    Assertions.assertEquals(4, gameBoard.getGameState().getLives());
+    gameBoard.movePawns();
+    gameBoard.checkCollisions();
+    Assertions.assertEquals(4, gameBoard.getGameState().getLives());
   }
 }

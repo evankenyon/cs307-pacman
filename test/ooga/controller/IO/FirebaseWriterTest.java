@@ -17,8 +17,6 @@ import org.junit.jupiter.api.Test;
 
 public class FirebaseWriterTest {
 
-  private GameEngine myGame;
-  private JSONConfigObjectBuilder builder;
   private FirebaseWriter firebaseWriter;
   private GameEngine gameEngine;
 
@@ -30,7 +28,7 @@ public class FirebaseWriterTest {
     Map<String, List<Position>> wallMap = Map.of("Dot", List.of(new Position(0, 0)),
         "Pacman", List.of(new Position(1, 0)), "Wall",
         List.of(new Position(2, 0)));
-    Map<String, Boolean> pelletInfo = Map.of("Dot", true);
+    Map<String, Boolean> pelletInfo = Map.of("Dot", true, "Super", false);
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
     gameEngine = new GameEngine(vanillaGameData);
     firebaseWriter = new FirebaseWriter(gameEngine, "TEST-OBJECT");
@@ -40,14 +38,7 @@ public class FirebaseWriterTest {
   void testSaveObject()
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, JacksonUtilityException, FirebaseException, UnsupportedEncodingException {
     //map of only pacman and dot to its right
-    Map<String, List<Position>> wallMap = Map.of("Pacman", List.of(new Position(0, 0)), "Dot",
-        List.of(new Position(1, 0)));
-    Map<String, Boolean> pelletInfo = Map.of("Dot", true, "Super", false);
-    GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 1);
-    myGame = new GameEngine(vanillaGameData);
-    builder = new JSONConfigObjectBuilder(myGame);
     firebaseWriter.saveObject();
-
     FirebaseReader firebaseReader = new FirebaseReader();
     JSONObject savedObject = firebaseReader.getFile("TEST-OBJECT");
     Assertions.assertEquals("Pacman", savedObject.getString("Player"));

@@ -49,7 +49,9 @@ public class JSONConfigObjectBuilder {
     String playerString = makeStringFromAgent(state.getMyPlayer());
     configBuilder.put("Player", playerString);
     configBuilder.put("RequiredPellets", buildRequiredPelletArray());
+    //System.out.println(configBuilder.get("RequiredPellets"));
     configBuilder.put("OptionalPellets", buildOptionalPelletArray());
+    //System.out.println(configBuilder.get("OptionalPellets"));
     configBuilder.put("NumberOfLives", setNumberOfLives()); // TODO: add accurate num lives remaining
     configBuilder.put("PlayerScore", setPlayerScore(playerString));
     configBuilder.put("WallMap", buildWallMap());
@@ -63,7 +65,6 @@ public class JSONConfigObjectBuilder {
 
   private JSONArray buildOptionalPelletArray() {
     Map<String, Boolean> pelletMap = myGameEngine.getPelletInfo();
-
     JSONArray pelletArray = new JSONArray();
     for (String key: pelletMap.keySet()) {
       if (!pelletMap.get(key)) {
@@ -100,7 +101,7 @@ public class JSONConfigObjectBuilder {
 
   private JSONArray buildWallMap() {
     sortAgentArray();
-    System.out.println(agentArray.size());
+    //System.out.println(agentArray.size());
     JSONArray overallWallArray = new JSONArray();
     int numCols = agentArray.get(agentArray.size() - 1).getPosition().getCoords()[0] + 1;
     int numRows = agentArray.get(agentArray.size() - 1).getPosition().getCoords()[1] + 1;
@@ -127,7 +128,7 @@ public class JSONConfigObjectBuilder {
       }
       overallWallArray.put(rowWallArray);
     }
-    System.out.println(String.valueOf(overallWallArray));
+    //System.out.println(String.valueOf(overallWallArray));
     return overallWallArray;
 
   }
@@ -139,7 +140,7 @@ public class JSONConfigObjectBuilder {
     agentArray.add(state.getMyPlayer());
     Collections.sort(agentArray, new RowComparator()
         .thenComparing(new ColComparator()));
-    System.out.println(String.valueOf(agentArray));
+    //System.out.println(String.valueOf(agentArray));
   }
 
   class RowComparator implements Comparator<Agent> {

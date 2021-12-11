@@ -34,7 +34,7 @@ public class SaveGameTest {
     Map<String, Boolean> pelletInfo = Map.of("pellet", true);
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
     gameEngine = new GameEngine(vanillaGameData);
-    saver = new GameSaver(gameEngine);
+    saver = new GameSaver(gameEngine, "TEST-FILE");
   }
 
   @Test
@@ -42,8 +42,7 @@ public class SaveGameTest {
     saver.saveGame();
   }
 
-
-  @Test
+@Test
   void testJSonFile() throws IOException {
     String path = "data/user_files/TESTSAVEFILE.json";
     File jsonFile = new File(String.valueOf(path));

@@ -27,10 +27,10 @@ public class FirebaseWriterTest {
   void setUp()
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, FirebaseException, UnsupportedEncodingException {
     //map of only pacman and dot to its right
-    Map<String, List<Position>> wallMap = Map.of("pellet", List.of(new Position(0, 0)),
+    Map<String, List<Position>> wallMap = Map.of("Dot", List.of(new Position(0, 0)),
         "Pacman", List.of(new Position(1, 0)), "Wall",
         List.of(new Position(2, 0)));
-    Map<String, Boolean> pelletInfo = Map.of("pellet", true);
+    Map<String, Boolean> pelletInfo = Map.of("Dot", true);
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
     gameEngine = new GameEngine(vanillaGameData);
     firebaseWriter = new FirebaseWriter(gameEngine, "TEST-OBJECT");

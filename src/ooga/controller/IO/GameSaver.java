@@ -22,8 +22,9 @@ public class GameSaver {
    * sets objectBuilder to be the JSONObject corresponding to the passed in GameEngine
    * @param gameEngine, the current GameEngine
    */
-  public GameSaver(GameEngine gameEngine) {
+  public GameSaver(GameEngine gameEngine, String userInput) {
     objectBuilder = new JSONConfigObjectBuilder(gameEngine);
+    userFileName = userInput;
   }
 
 
@@ -33,8 +34,8 @@ public class GameSaver {
    */
   public void saveGame() throws IOException {
     clearBuilders();
-    path.append("data/user_files/user_file");
-    path.append("_"+ userFileName);
+    path.append("data/user_files/");
+    path.append(userFileName);
     path.append(".json");
 
     File jsonFile = new File(String.valueOf(path));

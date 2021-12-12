@@ -12,11 +12,9 @@ import ooga.model.util.Utility;
  */
 public class RandomMovement implements Movable {
 
-  private List<String> myDirections;
-
   @Override
   public Position move(GameState state, Position pos) {
-    myDirections = new ArrayList<>();
+    List<String> myDirections = new ArrayList<>();
     myDirections.add("left");
     myDirections.add("right");
     myDirections.add("up");

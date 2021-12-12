@@ -9,6 +9,9 @@ import ooga.model.interfaces.Consumable;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
+/**
+ * SuperPellet class for Pacman.
+ */
 public class SuperPellet extends AbstractAgent implements Consumable {
 
   private final static int PELLET_POINT = 10;
@@ -18,10 +21,9 @@ public class SuperPellet extends AbstractAgent implements Consumable {
 
   private int myState;
   protected List<Consumer<Agent>> stateConsumers;
-  private Runnable superPelletRun;
 
   /**
-   * abstract constructor for cell
+   * abstract constructor for super pellet
    *
    * @param x int x position
    * @param y int y position
@@ -49,10 +51,18 @@ public class SuperPellet extends AbstractAgent implements Consumable {
     updateConsumer();
   }
 
+  /**
+   * Add superpellet consumers
+   *
+   * @param consumer
+   */
   public void addConsumer(Consumer<Agent> consumer) {
     stateConsumers.add(consumer);
   }
 
+  /**
+   * update superpellet consumers
+   */
   public void updateConsumer() {
     for (Consumer<Agent> consumer : stateConsumers) {
       consumer.accept(this);

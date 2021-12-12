@@ -48,10 +48,10 @@ public class JSONConfigObjectBuilder {
     JSONObject configBuilder = new JSONObject();
     String playerString = makeStringFromAgent(state.getMyPlayer());
     configBuilder.put("Player", playerString);
-    configBuilder.put("RequiredPellets", buildRequiredPelletArray());
-    //System.out.println(configBuilder.get("RequiredPellets"));
-    configBuilder.put("OptionalPellets", buildOptionalPelletArray());
-    //System.out.println(configBuilder.get("OptionalPellets"));
+    //configBuilder.put("RequiredPellets", buildRequiredPelletArray());
+    //configBuilder.put("OptionalPellets", buildOptionalPelletArray());
+    configBuilder.put("RequiredPellets", buildPelletArray(true));
+    configBuilder.put("OptionalPellets", buildPelletArray(false));
     configBuilder.put("NumberOfLives", setNumberOfLives()); // TODO: add accurate num lives remaining
     configBuilder.put("PlayerScore", setPlayerScore(playerString));
     configBuilder.put("WallMap", buildWallMap());
@@ -63,30 +63,20 @@ public class JSONConfigObjectBuilder {
     return agentNames.getString(agentString.substring(0, agentString.indexOf("@")));
   }
 
-  private JSONArray buildOptionalPelletArray() {
+  private JSONArray buildPelletArray(boolean isRequired) {
     Map<String, Boolean> pelletMap = myGameEngine.getPelletInfo();
     JSONArray pelletArray = new JSONArray();
     for (String key: pelletMap.keySet()) {
-      if (!pelletMap.get(key)) {
+      if (pelletMap.get(key) == isRequired) {
         pelletArray.put(key);
       }
+    }
+    if (pelletArray.isEmpty()) {
+      pelletArray.put("empty");
     }
     return pelletArray;
   }
 
-  private JSONArray buildRequiredPelletArray() {
-    Map<String, Boolean> pelletMap = myGameEngine.getPelletInfo();
-
-    JSONArray pelletArray = new JSONArray();
-    for (String key: pelletMap.keySet()) {
-      if (pelletMap.get(key)) {
-        pelletArray.put(key);
-      }
-    }
-    return pelletArray;
-  }
-
-  //TODO: account for when ghost is player
   private int setNumberOfLives() {
     return state.getLives();
   }

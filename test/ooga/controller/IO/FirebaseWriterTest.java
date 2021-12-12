@@ -2,6 +2,7 @@ package ooga.controller.IO;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.thegreshams.firebase4j.error.FirebaseException;
@@ -28,7 +29,9 @@ public class FirebaseWriterTest {
     Map<String, List<Position>> wallMap = Map.of("Dot", List.of(new Position(0, 0)),
         "Pacman", List.of(new Position(1, 0)), "Wall",
         List.of(new Position(2, 0)));
-    Map<String, Boolean> pelletInfo = Map.of("Dot", true, "Super", false);
+    //Map<String, Boolean> pelletInfo = Map.of("Dot", true, "Super", false);
+    Map<String, Boolean> pelletInfo = Map.of("Dot", true);
+    Map<String, Boolean> emptyPelletInfo = new HashMap<>();
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
     gameEngine = new GameEngine(vanillaGameData);
     firebaseWriter = new FirebaseWriter(gameEngine, "TEST-OBJECT");
@@ -49,10 +52,9 @@ public class FirebaseWriterTest {
     Assertions.assertEquals(String.valueOf(expectedRequiredPellets),
         String.valueOf(savedObject.getJSONArray("RequiredPellets")));
     JSONArray expectedOptionalPellets = new JSONArray();
-    expectedOptionalPellets.put("Super");
+    expectedOptionalPellets.put("empty");
     Assertions.assertEquals(String.valueOf(expectedOptionalPellets),
         String.valueOf(savedObject.getJSONArray("OptionalPellets")));
   }
-
 }
 

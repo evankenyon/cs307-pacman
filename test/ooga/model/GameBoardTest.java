@@ -136,6 +136,7 @@ class GameBoardTest {
     Assertions.assertEquals(4, gameBoard.getGameState().getLives());
   }
 
+  @Test
   void scoreInputTest()
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
     Map<String, List<Position>> initialStates = new HashMap<>();

@@ -48,8 +48,6 @@ public class greedyBFS extends BFS implements Movable {
         first = myPath.get(first);
       }
 
-      System.out.println(optimalPath.size());
-
       if (optimalPath.size() == 1) {
         //this should never happen unless literally stuck in a box
         return optimalPath.get(0);

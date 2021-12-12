@@ -22,11 +22,12 @@ public class GameStateData {
   private int foodLeft;
   private final AgentFactory agentFactory = new AgentFactory();
   private final ConsumableFactory consumableFactory = new ConsumableFactory();
+  private final List<Consumable> myOptionalPelletStates;
+
   private List<Agent> myAgentStates;
   private List<Position> myInitAgentPositions;
   private List<Consumable> myRequiredPelletStates;
 
-  private List<Consumable> myOptionalPelletStates;
   private List<Agent> myWallStates;
   private List<Agent> myDoorStates;
   private boolean[][] myWallMap;
@@ -215,7 +216,7 @@ public class GameStateData {
   private void openDoors() {
     int count = 0;
     for (Agent door : myDoorStates) {
-      if(door.getState() == 0) {
+      if (door.getState() == 0) {
         door.setState(1);
         count++;
       }
@@ -313,10 +314,9 @@ public class GameStateData {
       }
     }
     List<Position> walls = gameDict.get("Wall");
-    if(gameDict.containsKey("Door")) {
+    if (gameDict.containsKey("Door")) {
       walls.addAll(gameDict.get("Door"));
     }
-
 
     if (walls != null) {
       for (Position wall : walls) {

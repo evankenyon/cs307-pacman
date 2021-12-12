@@ -101,6 +101,7 @@ public class GameStartupPanel {
   private User myUser;
   private Controller myController;
   private String runMethodName;
+  private UserPreferences myPreferences;
 
   /**
    * Constructor to create a GameStartupPanel object that gives user options and loads the file
@@ -355,12 +356,12 @@ public class GameStartupPanel {
     String methodName = uploadMethods.getString(locationKey);
     try {
       Method m = Controller.class.getDeclaredMethod(methodName, String.class);
-      userPreferences = (UserPreferences) m.invoke(myController, fileString);
+      myPreferences = (UserPreferences) m.invoke(myController, fileString);
       if (!myController.getPlayPause()) {
         myController.pauseOrResume();
       }
       new MainView(myController, myController.getVanillaGame(), new Stage(), selectedViewMode,
-          userPreferences, myUser);
+          myPreferences, myUser);
     } catch (Exception e) {
       if (gameFile == null) {
         new ErrorPopups(e, selectedLanguage, "NoFile");
@@ -371,6 +372,8 @@ public class GameStartupPanel {
     }
   }
 
+  // Used for testing to show but that new language is not updated
+  protected String getNewLanguage() { return myPreferences.language(); }
 
   private ComboBox makeDropDown(String category, String[] options) {
     ComboBox<String> newComboBox = new ComboBox<>();

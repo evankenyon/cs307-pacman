@@ -59,7 +59,6 @@ public class FirebaseWriter {
   //configRef = db.getReference(); //no params
   //System.out.println(String.valueOf(configRef));
   //}
-  //TODO: have child name update based on # of existing user files
 
   /**
    * Saves the JSONObject of the current game configuration to Firebase

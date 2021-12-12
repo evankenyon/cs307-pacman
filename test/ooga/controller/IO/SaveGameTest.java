@@ -3,6 +3,12 @@ package ooga.controller.IO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.ResourceBundle;
+import java.util.function.Consumer;
+import net.thegreshams.firebase4j.error.FirebaseException;
+import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.GameData;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -13,68 +19,56 @@ import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
 public class SaveGameTest {
 
-  private JSONConfigObjectBuilder builder;
   private GameEngine gameEngine;
-  private JSONObject object;
   private GameSaver saver;
+  private JSONObject object;
+  private static final String MAGIC_VALUES_FILENAME = "JsonParserMagicValues";
+  private ResourceBundle magicValues;
+  private static final String DEFAULT_RESOURCE_PACKAGE =
+      JsonParser.class.getPackageName() + ".resources.";
+
+
 
   @BeforeEach
   void setUp()
-      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, FirebaseException, UnsupportedEncodingException {
     //map of only pacman and dot to its right
-    Map<String, List<Position>> wallMap = Map.of("pellet", List.of(new Position(0, 0)),
+    Map<String, List<Position>> wallMap = Map.of("Dot", List.of(new Position(0, 0)),
         "Pacman", List.of(new Position(1, 0)), "Wall",
         List.of(new Position(2, 0)));
-    Map<String, Boolean> pelletInfo = Map.of("pellet", true);
+    Map<String, Boolean> pelletInfo = Map.of("Dot", true, "Super", false);
+    //Map<String, Boolean> pelletInfo = Map.of("Dot", true);
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
     gameEngine = new GameEngine(vanillaGameData);
     saver = new GameSaver(gameEngine, "TEST-FILE");
+    magicValues = ResourceBundle.getBundle(
+        String.format("%s%s", DEFAULT_RESOURCE_PACKAGE, MAGIC_VALUES_FILENAME));
   }
 
   @Test
   void testGameSaver() throws IOException {
+    //actual
     saver.saveGame();
-  }
+    object = JSONObjectParser.parseJSONObject(new File("data/user_files/TEST-FILE.json"));
+    Assertions.assertEquals("Pacman", object.getString(magicValues.getString("PlayerKey")));
+    Assertions.assertEquals(3, object.getInt(magicValues.getString("NumberOfLivesKey")));
+    Assertions.assertEquals(0, object.getInt(magicValues.getString("PlayerScoreKey")));
+    JSONArray expectedRequiredPellets = new JSONArray();
+    expectedRequiredPellets.put("Dot");
+    Assertions.assertEquals(String.valueOf(expectedRequiredPellets),
+        String.valueOf(object.getJSONArray(magicValues.getString("RequiredPelletsKey"))));
+    JSONArray expectedOptionalPellets = new JSONArray();
+    expectedOptionalPellets.put("Super");
+    Assertions.assertEquals(String.valueOf(expectedOptionalPellets),
+        String.valueOf(object.getJSONArray(magicValues.getString("OptionalPelletsKey"))));
 
-@Test
-  void testJSonFile() throws IOException {
-    String path = "data/user_files/TESTSAVEFILE.json";
-    File jsonFile = new File(String.valueOf(path));
-    FileWriter fileToSave = new FileWriter(jsonFile);
-    JSONObject configObject = new JSONObject();
-    JSONArray jsonArray = new JSONArray();
-    jsonArray.put("Super");
-    jsonArray.put("Energizer");
-    configObject.put("PowerUps", jsonArray);
-    fileToSave.write(configObject.toString());
-    fileToSave.close();
-
-  }
-
-  @Test
-  void testAgentToString()
-      throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    //map of only pacman and dot to its right
-    Map<String, List<Position>> wallMap = Map.of("Ghost", List.of(new Position(1, 0)),
-        "Pacman", List.of(new Position(1, 1)), "Wall",
-        List.of(new Position(2, 0)));
-    Map<String, Boolean> pelletInfo = Map.of("Dot", true);
-    GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);
-    GameState currentState = new GameState(vanillaGameData);
-    Agent agent = currentState.getGhosts().get(0);
-    String agentString = agent.toString();
-    String cutAgentString = agentString.substring(0, agentString.indexOf("@"));
-    if (cutAgentString.contains("consumables")) {
-      System.out.println(cutAgentString.replace("ooga.model.agents.consumables.", "").strip());
-    } else {
-      System.out.println(cutAgentString.replace("ooga.model.agents.players.", "").strip());
-    }
   }
 
 

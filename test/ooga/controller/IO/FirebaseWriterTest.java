@@ -29,7 +29,6 @@ public class FirebaseWriterTest {
     Map<String, List<Position>> wallMap = Map.of("Dot", List.of(new Position(0, 0)),
         "Pacman", List.of(new Position(1, 0)), "Wall",
         List.of(new Position(2, 0)));
-    //Map<String, Boolean> pelletInfo = Map.of("Dot", true, "Super", false);
     Map<String, Boolean> pelletInfo = Map.of("Dot", true);
     Map<String, Boolean> emptyPelletInfo = new HashMap<>();
     GameData vanillaGameData = new GameData(wallMap, "Pacman", 0, 3, pelletInfo, 1, 2);

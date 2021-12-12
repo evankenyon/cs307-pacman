@@ -312,7 +312,7 @@ public class GameStateData {
         myWallMap[j][i] = false;
       }
     }
-    List<Position> walls = gameDict.get("Wall");
+    List<Position> walls = new ArrayList<>(gameDict.get("Wall"));
     if(gameDict.containsKey("Door")) {
       walls.addAll(gameDict.get("Door"));
     }

@@ -290,7 +290,8 @@ public class Controller implements ControllerInterface {
   private void setupPreferencesAndVanillaGame(JSONObject json)
       throws IOException, NoSuchMethodException {
     jsonParser.addVanillaGameDataConsumer(
-        vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.wallMap());
+        vanillaGameDataInterface ->
+          wallMap = vanillaGameDataInterface.wallMap());
     jsonParser.addVanillaGameDataConsumer(
         vanillaGameDataInterface -> {
           try {

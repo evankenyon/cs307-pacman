@@ -245,7 +245,7 @@ class JsonParserTest {
         vanillaGameDataInterface -> Assertions.assertEquals(expected,
             vanillaGameDataInterface.playerScore()));
     jsonParser.parseJSON(
-        JSONObjectParser.parseJSONObject(new File("data/basic_examples/high_score.json")));
+        JSONObjectParser.parseJSONObject(new File("data/basic_examples/cheat_high_score.json")));
   }
 
 

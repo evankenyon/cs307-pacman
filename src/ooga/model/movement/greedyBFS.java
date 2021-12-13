@@ -3,6 +3,7 @@ package ooga.model.movement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import ooga.model.GameState;
 import ooga.model.interfaces.Consumable;
 import ooga.model.interfaces.Movable;
@@ -48,6 +49,8 @@ public class greedyBFS extends BFS implements Movable {
         first = myPath.get(first);
       }
 
+      optimalPath = getNewPathFromNewFood(state, currentPos, optimalPath);
+
       if (optimalPath.size() == 1) {
         //this should never happen unless literally stuck in a box
         return optimalPath.get(0);
@@ -58,6 +61,30 @@ public class greedyBFS extends BFS implements Movable {
         return positionToGo;
       }
     }
+  }
+
+  private List<Position> getNewPathFromNewFood(GameState state, Position currentPos,
+      List<Position> optimalPath) {
+    List<Consumable> foodsList;
+    Map<Position, Position> myPath;
+    Consumable foodToChase;
+    Position first;
+    while (optimalPath.size() <= 1) {
+      foodsList = state.getFood();
+      if (foodsList.isEmpty()) {
+        break;
+      }
+      foodToChase = foodsList.get(new Random().nextInt(foodsList.size()));
+      optimalPath = new ArrayList<>();
+      myPath = doBFS(foodToChase.getPosition(), currentPos, state);
+
+      first = foodToChase.getPosition();
+      while (first != null) {
+        optimalPath.add(first);
+        first = myPath.get(first);
+      }
+    }
+    return optimalPath;
   }
 
   // to set the correct direction for pacman view.

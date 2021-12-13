@@ -174,6 +174,7 @@ public class GameStateData {
   private void createPelletLists(Map<String, List<Position>> gameDict,
       Map<String, Boolean> pelletInfo) {
     for (String key : pelletInfo.keySet()) {
+      System.out.println(pelletInfo.keySet());
       if (pelletInfo.get(key)) {
         List<Position> tempPellets = gameDict.get(key);
         if (tempPellets != null) {

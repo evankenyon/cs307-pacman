@@ -24,7 +24,7 @@ import util.DukeApplicationTest;
 
 public class ControllerTest extends DukeApplicationTest {
 
-  public static final String WIN_TEST_FILE = "data/basic_examples/easy_win.json";
+  public static final String WIN_TEST_FILE = "data/basic_examples/cheat_easy_win.json";
 
   private Controller myController;
   private Node myPlayPauseButton;

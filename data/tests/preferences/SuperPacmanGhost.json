@@ -1,0 +1,6 @@
+{
+  "Dot": [1.0, 0.0, 0.0],
+  "Door": [0.588, 0.294, 0.0],
+  "Key": [1.0, 0.843, 0.0],
+  "startingConfig": "data/tests/super_pacman_ghost.json"
+}

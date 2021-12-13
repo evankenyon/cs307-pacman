@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
@@ -290,7 +291,8 @@ public class Controller implements ControllerInterface {
   private void setupPreferencesAndVanillaGame(JSONObject json)
       throws IOException, NoSuchMethodException {
     jsonParser.addVanillaGameDataConsumer(
-        vanillaGameDataInterface -> wallMap = vanillaGameDataInterface.wallMap());
+        vanillaGameDataInterface ->
+          wallMap = vanillaGameDataInterface.wallMap());
     jsonParser.addVanillaGameDataConsumer(
         vanillaGameDataInterface -> {
           try {

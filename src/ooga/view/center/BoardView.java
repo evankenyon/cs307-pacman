@@ -16,6 +16,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import ooga.controller.Controller;
 import ooga.controller.IO.UserPreferences;
 import ooga.model.GameEngine;
@@ -143,9 +144,7 @@ public class BoardView {
       return (AgentView) clazz.getDeclaredConstructor(Agent.class, int.class, int.class)
           .newInstance(agent, numRows, numCols);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-      e.printStackTrace();
       new ErrorPopups(e, myLanguage, "ReflectionError");
-      e.printStackTrace();
       return new EmptyView(new Wall(position.getCoords()[0], position.getCoords()[1]), numRows,
           numCols);
     }

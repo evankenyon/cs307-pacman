@@ -1,5 +1,5 @@
 {
-  "Pacman": "images/fruit.png",
+  "Pacman": "data/images/fruit.png",
   "Dot": [0.0, 1.0, 0.5],
   "Super": [1.0, 0.5, 0.0],
   "Wall": [0.25, 0.5, 0.75],

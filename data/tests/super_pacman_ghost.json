@@ -1,5 +1,5 @@
 {
-  "Player":"Pacman",
+  "Player":"Ghost",
   "RequiredPellets":["Dot", "Key"],
   "OptionalPellets":[],
   "NumberOfLives":4,

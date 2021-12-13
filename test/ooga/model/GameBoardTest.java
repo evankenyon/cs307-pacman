@@ -12,6 +12,7 @@ import ooga.controller.IO.utils.JSONObjectParser;
 import ooga.model.agents.Wall;
 import ooga.model.agents.consumables.Pellet;
 import ooga.model.agents.players.Pacman;
+import ooga.model.interfaces.Agent;
 import ooga.model.util.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -151,5 +152,33 @@ class GameBoardTest {
 
     gameBoard = new GameBoard(vanillaGame);
     Assertions.assertEquals(5, gameBoard.getMyPacScore());
+  }
+
+  @Test
+  void ghostSuperPacmanTeleporting() throws IOException {
+    JsonParser jsonParser = new JsonParser();
+    jsonParser.addVanillaGameDataConsumer(vanillaGameData -> {
+      try {
+        gameBoard = new GameBoard(vanillaGameData);
+      } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | ClassNotFoundException | InstantiationException e) {
+        e.printStackTrace();
+      }
+    });
+    jsonParser.parseJSON(JSONObjectParser.parseJSONObject(
+        new File("./data/tests/super_pacman_ghost.json")));
+    gameBoard.addScoreConsumer(stuff -> {});
+    gameBoard.addLivesConsumer(stuff -> {});
+    gameBoard.addGameStatusConsumer(stuff -> {});
+    Agent pac = gameBoard.getGameState().findAgent(new Position(5, 9));
+    gameBoard.setPlayerDirection("right");
+    gameBoard.movePawns();
+    gameBoard.checkCollisions();
+    List<Position> possiblePositions = new ArrayList<>();
+    possiblePositions.add(new Position(5, 10));
+    possiblePositions.add(new Position(5, 8));
+    possiblePositions.add(new Position(5, 9));
+    possiblePositions.add(new Position(6, 9));
+    possiblePositions.add(new Position(4, 9));
+    Assertions.assertTrue(possiblePositions.contains(pac.getPosition()));
   }
 }

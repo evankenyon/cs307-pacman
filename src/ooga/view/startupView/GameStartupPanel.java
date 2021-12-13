@@ -348,19 +348,19 @@ public class GameStartupPanel {
   }
 
   private void runFile() {
-//    Controller application = new Controller(selectedLanguage, mainStage, selectedViewMode);
-    UserPreferences userPreferences;
+    Controller application = new Controller(selectedLanguage, new Stage(), selectedViewMode);
     String locationKey = findMethodKey(selectFileComboBox.getValue());
     ResourceBundle uploadMethods = ResourceBundle.getBundle(
         String.format("%s%s", STARTUP_RESOURCES, "uploadMethods"));
     String methodName = uploadMethods.getString(locationKey);
     try {
+      application.login(myUser.username(), myUser.password());
       Method m = Controller.class.getDeclaredMethod(methodName, String.class);
-      myPreferences = (UserPreferences) m.invoke(myController, fileString);
-      if (!myController.getPlayPause()) {
-        myController.pauseOrResume();
+      myPreferences = (UserPreferences) m.invoke(application, fileString);
+      if (!application.getPlayPause()) {
+        application.pauseOrResume();
       }
-      new MainView(myController, myController.getVanillaGame(), new Stage(), selectedViewMode,
+      new MainView(application, application.getVanillaGame(), new Stage(), selectedViewMode,
           myPreferences, myUser);
     } catch (Exception e) {
       if (gameFile == null) {
@@ -373,7 +373,9 @@ public class GameStartupPanel {
   }
 
   // Used for testing to show but that new language is not updated
-  protected String getNewLanguage() { return myPreferences.language(); }
+  protected String getNewLanguage() {
+    return myPreferences.language();
+  }
 
   private ComboBox makeDropDown(String category, String[] options) {
     ComboBox<String> newComboBox = new ComboBox<>();

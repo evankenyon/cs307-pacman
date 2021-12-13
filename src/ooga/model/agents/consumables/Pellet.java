@@ -4,21 +4,19 @@ import ooga.model.agents.AbstractAgent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
+/**
+ * Pellet class for Pacman.
+ */
 public class Pellet extends AbstractAgent implements Consumable {
 
   private final static int PELLET_POINT = 2;
-
   private final static int EATEN_STATE = 0;
   private final static int UNEATEN_STATE = 1;
-  private static final Logger LOG = LogManager.getLogger(Pellet.class);
-
   private int myState;
 
   /**
-   * abstract constructor for cell
+   * pellet constructor
    *
    * @param x int x position
    * @param y int y position
@@ -43,7 +41,6 @@ public class Pellet extends AbstractAgent implements Consumable {
   public void setState(int i) {
     myState = i;
   }
-
 
   @Override
   public int getConsumed() {

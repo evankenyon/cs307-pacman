@@ -2,6 +2,13 @@ package ooga.model.util;
 
 public class Utility {
 
+  /**
+   * translates string to coordinates
+   *
+   * @param coordinates      int[]
+   * @param currentDirection string (right, left, up, down)
+   * @return new position object.
+   */
   public static Position translateDirectionToPosition(int[] coordinates, String currentDirection) {
     return switch (currentDirection) {
       case "left" -> new Position((coordinates[0] - 1), coordinates[1]);

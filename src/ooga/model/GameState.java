@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import ooga.factories.AgentFactory;
 import ooga.model.interfaces.Agent;
 import ooga.model.interfaces.Consumable;
 import ooga.model.movement.BFS;
@@ -27,9 +26,6 @@ public class GameState {
    * Constructor for GameState holding useful methods to interact with GameStateData
    *
    * @param vanillaGameData from Controller's parsed file
-   * @throws InvocationTargetException
-   * @throws NoSuchMethodException
-   * @throws IllegalAccessException
    */
   public GameState(GameData vanillaGameData)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -45,8 +41,6 @@ public class GameState {
 
     myRows = calculateDimension(vanillaGameData.wallMap(), 1) + 1;
     myCols = calculateDimension(vanillaGameData.wallMap(), 0) + 1;
-
-    AgentFactory agentFactory = new AgentFactory();
 
   }
 
@@ -110,7 +104,6 @@ public class GameState {
     }
     return maxCol;
   }
-
 
 
   /**
@@ -182,7 +175,9 @@ public class GameState {
   public void updateHandlers() {
     getPacman().updateConsumer();
 //    for (Agent a : myOtherAgents) a.updateConsumer();
-    for (Agent wall : myGameStateData.getMyWallStates()) wall.updateConsumer();
+    for (Agent wall : myGameStateData.getMyWallStates()) {
+      wall.updateConsumer();
+    }
   }
 
   public boolean isFood(int x, int y) {

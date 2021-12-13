@@ -17,6 +17,7 @@ public class Controllable implements Movable {
     return handleMovement(coords, currentDirection);
   }
 
+  // translates direction string (right, left, up, down) to coordinates
   private Position handleMovement(int[] coordinates, String currentDirection) {
     return Utility.translateDirectionToPosition(coordinates, currentDirection);
   }

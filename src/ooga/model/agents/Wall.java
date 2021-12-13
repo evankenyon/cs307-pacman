@@ -4,6 +4,9 @@ package ooga.model.agents;
 import ooga.model.movement.Static;
 import ooga.model.util.Position;
 
+/**
+ * Wall class for Pacman.
+ */
 public class Wall extends AbstractAgent {
 
   public static final int UNPASSABLE = 0;
@@ -11,6 +14,12 @@ public class Wall extends AbstractAgent {
 
   private int myState;
 
+  /**
+   * Wall object constructor
+   *
+   * @param x position
+   * @param y position
+   */
   public Wall(int x, int y) {
     super(x, y);
     myState = UNPASSABLE;

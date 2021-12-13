@@ -5,7 +5,7 @@
 * Dane Erickson (dte12)
 * Michelle Zhang (xmz)
 * Kat Cottrell
-* Asher Early
+* Asher Early (abe15)
 
 ### Each person's role in developing the project:
 
@@ -37,6 +37,8 @@
       as helped ideate and implement general API design for the Game, the Board, and the State.
       Helped debug general engine/movement related issues, as well as connecting information coming
       from the Controller from the JSON file.
+* **Asher Early**
+  * I primarily worked on the Engine with Michelle. I implemented the game logic flow at the board level, ensuring collisions between different agents had the appropriate corresponding effects. I also did a lot of high-level API decision making with Michelle, coming up with the inheritance hierarchy and partitioning responsibility among classes. Finally, helped with testing and debugging of the engine and connecting the engine to the frontend.
 
 ### What are the project's design goals, specifically what kinds of new features did you want to make easy to add:
 

@@ -15,6 +15,9 @@ import ooga.model.util.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Class for GameBoard.
+ */
 public class GameBoard {
 
   private static final String DEFAULT_RESOURCE_PACKAGE = String.format("%s.resources.",
@@ -180,7 +183,8 @@ public class GameBoard {
   private boolean checkMoveValidity(Position newPosition) {
     int x = newPosition.getCoords()[0];
     int y = newPosition.getCoords()[1];
-    return !myState.isWall(x, y) || (myState.isWall(x, y) && myState.findAgent(newPosition).getState() == 1);
+    return !myState.isWall(x, y) || (myState.isWall(x, y)
+        && myState.findAgent(newPosition).getState() == 1);
   }
 
   /**
@@ -196,19 +200,18 @@ public class GameBoard {
   }
 
   /**
-   * Attaches consumer for score for View
-   *
-   * @param consumer from View
+   * Series of consumers and consumer updaters.
    */
   public void addScoreConsumer(Consumer<Integer> consumer) {
     myScoreConsumer = consumer;
   }
 
   public void updateScoreConsumer() {
-    if (myState.getMyPlayer().getClass().equals(Pacman.class)){
+    if (myState.getMyPlayer().getClass().equals(Pacman.class)) {
       myScoreConsumer.accept(myPacScore);
+    } else {
+      myScoreConsumer.accept(myGhostScore);
     }
-    else myScoreConsumer.accept(myGhostScore);
   }
 
   public void addLivesConsumer(Consumer<Integer> consumer) {

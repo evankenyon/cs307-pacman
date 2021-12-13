@@ -8,18 +8,13 @@ import ooga.model.util.Position;
 
 public class GameEngine implements Game {
 
-  private GameBoard myBoard;
-  private Map<String, Boolean> pelletInfoMap;
+  private final GameBoard myBoard;
+  private final Map<String, Boolean> pelletInfoMap;
 
   /**
    * Constructor for main GameEngine
    *
    * @param vanillaGameData GameData from controller
-   * @throws ClassNotFoundException
-   * @throws InvocationTargetException
-   * @throws NoSuchMethodException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
    */
   public GameEngine(GameData vanillaGameData)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

@@ -7,7 +7,7 @@ import ooga.model.interfaces.Movable;
 import ooga.model.util.Position;
 
 /**
- * Implements one type of automatic movement for agent.
+ * Implements scattering movement for an agent.
  */
 public class Scatter implements Movable {
 

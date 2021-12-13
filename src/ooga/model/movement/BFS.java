@@ -21,6 +21,9 @@ public class BFS implements Movable {
   private static final Logger LOG = LogManager.getLogger(BFS.class);
   private int randomCounter;
 
+  /**
+   * Constructor for BFS movement strategy.
+   */
   public BFS() {
     randomCounter = 0;
   }
@@ -39,7 +42,7 @@ public class BFS implements Movable {
 
     if (optimalPath.size() == 1) {
       //this should never happen unless literally stuck in a box
-      return optimalPath.get(0);
+      return currentPos;
     } else {
       //take second index which is next step from currentPos
       Position correctPositionToReturn = optimalPath.get(optimalPath.size() - 2);

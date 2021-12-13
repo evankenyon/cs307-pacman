@@ -37,6 +37,7 @@ public class JSONConfigObjectBuilderTest {
   void JSONConfigObjectBuilderTest() {
     Assertions.assertEquals("Pacman", object.getString("Player"));
     JSONArray optionalPelletsArray = new JSONArray();
+    optionalPelletsArray.put("empty");
     Assertions.assertEquals(String.valueOf(optionalPelletsArray),
         String.valueOf(object.getJSONArray("OptionalPellets")));
     JSONArray requiredPelletsArray = new JSONArray();

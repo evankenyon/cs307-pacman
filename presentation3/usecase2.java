@@ -12,6 +12,8 @@ public class usecase2 {
     // JsonParser to parse the necessary information to generate a UserPreferences record
     UserPreferences userPreferences = controller.uploadFirebaseFile(files.get(0));
     BoardView boardView = new BoardView(controller.getVanillaGame(), controller, userPreferences);
+    GameSaver saver = new GameSaver();
+    saver.saveGame(Controller.getVanillaGame(), "test_user_file")
 //    public BoardView(GameEngine game, Controller controller, UserPreferences userPreferences) {
   }
 }

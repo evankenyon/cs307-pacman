@@ -1,0 +1,6 @@
+{
+  "Pacman": "data/images/jerr-removebg-preview.png",
+  "Ghost": "data/images/tom-removebg-preview.png",
+  "Wall": [255, 255, 51],
+  "startingConfig": "data/basic_examples/original_pacman.json"
+}

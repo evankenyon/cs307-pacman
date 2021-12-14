@@ -1,6 +1,0 @@
-{
-  "Pacman": "data/images/bee.png",
-  "Ghost": "data/images/dane.png",
-  "Wall": [1.0, 0.753, 0.796],
-  "startingConfig": "data/basic_examples/super_pacman_real.json"
-}

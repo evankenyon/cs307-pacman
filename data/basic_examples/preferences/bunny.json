@@ -1,0 +1,7 @@
+{
+  "Pacman": "data/images/rabbit.png",
+  "Wall": [0.01, 0.6, 0.10],
+  "Door": [0.01, 0.4, 0.10],
+  "Key": [1.0, 0.843, 0.0],
+  "startingConfig": "data/basic_examples/rabbit_gets_fed.json"
+}

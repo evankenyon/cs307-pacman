@@ -2,8 +2,6 @@ package ooga.view.popups;
 
 import static ooga.view.startupView.GameStartupPanel.RESOURCES_PATH;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;

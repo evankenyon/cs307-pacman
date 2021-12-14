@@ -16,7 +16,6 @@ public interface ControllerInterface {
   public UserPreferences uploadFile(String fileName)
       throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException;
 
-
   public void updatePressedKey(KeyEvent event);
 
   public void setAnimationSpeed(double factor);

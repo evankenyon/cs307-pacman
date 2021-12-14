@@ -174,7 +174,6 @@ public class GameState {
    */
   public void updateHandlers() {
     getPacman().updateConsumer();
-//    for (Agent a : myOtherAgents) a.updateConsumer();
     for (Agent wall : myGameStateData.getMyWallStates()) {
       wall.updateConsumer();
     }

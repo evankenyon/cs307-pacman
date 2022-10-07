@@ -35,17 +35,17 @@ Data files needed: Any files in packages titled resources
 
 Features implemented: 
 
-Classic Pacman, Pacman but you play as the ghost, Ms. Pacman, Super Pacman
+Classic Pac-Man, Pac-Man but you play as the ghost, Ms. Pac-Man, Super Pac-Man
 
 
 
 ### Notes/Assumptions
 
-Assumptions or Simplifications: made Pacman movement discrete on a grid, Pacman and ghost are the only things that ever move
+Assumptions or Simplifications: made Pac-Man movement discrete on a grid, Pac-Man and ghost are the only things that ever move
 
 Interesting data files: big_board.json
 
-Known Bugs: Pacman can phase through ghost sometimes and vice versa
+Known Bugs: Pac-Man can phase through ghost sometimes and vice versa
 
 Challenge Features: Firebase read and write
 
